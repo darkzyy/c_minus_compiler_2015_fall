@@ -983,7 +983,7 @@ YY_RULE_SETUP
 #line 51 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,SEMI);
 	return SEMI;
 }
 	YY_BREAK
@@ -992,7 +992,7 @@ YY_RULE_SETUP
 #line 56 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,COMMA);
 	return COMMA;
 }
 	YY_BREAK
@@ -1001,7 +1001,7 @@ YY_RULE_SETUP
 #line 61 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,PLUS);
 	return PLUS;
 }
 	YY_BREAK
@@ -1010,7 +1010,7 @@ YY_RULE_SETUP
 #line 66 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,MINUS);
 	return MINUS;
 }
 	YY_BREAK
@@ -1019,7 +1019,7 @@ YY_RULE_SETUP
 #line 71 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,STAR);
 	return STAR;
 }
 	YY_BREAK
@@ -1028,7 +1028,7 @@ YY_RULE_SETUP
 #line 76 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,DIV);
 	return DIV;
 }
 	YY_BREAK
@@ -1037,7 +1037,7 @@ YY_RULE_SETUP
 #line 81 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,AND);
 	return AND;
 }
 	YY_BREAK
@@ -1046,7 +1046,7 @@ YY_RULE_SETUP
 #line 86 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,OR);
 	return OR;
 }
 	YY_BREAK
@@ -1055,7 +1055,7 @@ YY_RULE_SETUP
 #line 91 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,DOT);
 	return DOT;
 }
 	YY_BREAK
@@ -1064,7 +1064,7 @@ YY_RULE_SETUP
 #line 96 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,NOT);
 	return NOT;
 }
 	YY_BREAK
@@ -1073,7 +1073,7 @@ YY_RULE_SETUP
 #line 101 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,LP);
 	return LP;
 }
 	YY_BREAK
@@ -1082,7 +1082,7 @@ YY_RULE_SETUP
 #line 106 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,RP);
 	return RP;
 }
 	YY_BREAK
@@ -1091,7 +1091,7 @@ YY_RULE_SETUP
 #line 111 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,LB);
 	return LB;
 }
 	YY_BREAK
@@ -1100,7 +1100,7 @@ YY_RULE_SETUP
 #line 116 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,RB);
 	return RB;
 }
 	YY_BREAK
@@ -1109,7 +1109,7 @@ YY_RULE_SETUP
 #line 121 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,LC);
 	return LC;
 }
 	YY_BREAK
@@ -1118,7 +1118,7 @@ YY_RULE_SETUP
 #line 126 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,RC);
 	return RC;
 }
 	YY_BREAK
@@ -1127,7 +1127,7 @@ YY_RULE_SETUP
 #line 131 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,STRUCT);
 	return STRUCT;
 }
 	YY_BREAK
@@ -1136,7 +1136,7 @@ YY_RULE_SETUP
 #line 136 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,RETURN);
 	return RETURN;
 }
 	YY_BREAK
@@ -1145,7 +1145,7 @@ YY_RULE_SETUP
 #line 141 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,IF);
 	return IF;
 }
 	YY_BREAK
@@ -1154,7 +1154,7 @@ YY_RULE_SETUP
 #line 146 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,ELSE);
 	return ELSE;
 }
 	YY_BREAK
@@ -1163,7 +1163,7 @@ YY_RULE_SETUP
 #line 151 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,WHILE);
 	return WHILE;
 }
 	YY_BREAK
@@ -1172,7 +1172,7 @@ YY_RULE_SETUP
 #line 156 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TYPE);
 	return TYPE;
 }
 	YY_BREAK
@@ -1182,8 +1182,8 @@ case 31:
 YY_RULE_SETUP
 #line 165 "lexical.l"
 {
-	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	//char* str = strdup(yytext);
+	//yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return ERROR;
 }
 	YY_BREAK
@@ -1191,8 +1191,8 @@ case 32:
 YY_RULE_SETUP
 #line 170 "lexical.l"
 {
-	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	//char* str = strdup(yytext);
+	//yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return ERROR;
 }
 	YY_BREAK
@@ -1200,8 +1200,8 @@ case 33:
 YY_RULE_SETUP
 #line 175 "lexical.l"
 {
-	printf("Error type A at Line %d : value of numebr is too large\'%s\'\n",
-	yylineno,yytext);
+	//printf("Error type A at Line %d : value of numebr is too large\'%s\'\n",
+	//yylineno,yytext);
 	return ERROR;
 }
 	YY_BREAK
@@ -1240,7 +1240,7 @@ YY_RULE_SETUP
 #line 199 "lexical.l"
 {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,ID);
 	return ID;
 }
 	YY_BREAK

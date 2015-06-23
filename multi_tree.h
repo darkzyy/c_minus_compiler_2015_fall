@@ -10,7 +10,7 @@ typedef struct MTnode{
 	int children_amount;
 	char* str;
 	YYLTYPE location;
- 	struct MTnode** children_list;
+	struct MTnode** children_list;
 }MTnode;
 
 MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type);

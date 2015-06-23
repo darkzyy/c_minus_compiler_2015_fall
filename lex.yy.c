@@ -8,7 +8,7 @@
 #define FLEX_SCANNER
 #define YY_FLEX_MAJOR_VERSION 2
 #define YY_FLEX_MINOR_VERSION 5
-#define YY_FLEX_SUBMINOR_VERSION 35
+#define YY_FLEX_SUBMINOR_VERSION 39
 #if YY_FLEX_SUBMINOR_VERSION > 0
 #define FLEX_BETA
 #endif
@@ -161,7 +161,12 @@ typedef unsigned int flex_uint32_t;
 typedef struct yy_buffer_state *YY_BUFFER_STATE;
 #endif
 
-extern int yyleng;
+#ifndef YY_TYPEDEF_YY_SIZE_T
+#define YY_TYPEDEF_YY_SIZE_T
+typedef size_t yy_size_t;
+#endif
+
+extern yy_size_t yyleng;
 
 extern FILE *yyin, *yyout;
 
@@ -183,6 +188,13 @@ extern FILE *yyin, *yyout;
                     if ( yytext[yyl] == '\n' )\
                         --yylineno;\
             }while(0)
+    #define YY_LINENO_REWIND_TO(dst) \
+            do {\
+                const char *p;\
+                for ( p = yy_cp-1; p >= (dst); --p)\
+                    if ( *p == '\n' )\
+                        --yylineno;\
+            }while(0)
     
 /* Return all but the first "n" matched characters back to the input stream. */
 #define yyless(n) \
@@ -199,11 +211,6 @@ extern FILE *yyin, *yyout;
 	while ( 0 )
 
 #define unput(c) yyunput( c, (yytext_ptr)  )
-
-#ifndef YY_TYPEDEF_YY_SIZE_T
-#define YY_TYPEDEF_YY_SIZE_T
-typedef size_t yy_size_t;
-#endif
 
 #ifndef YY_STRUCT_YY_BUFFER_STATE
 #define YY_STRUCT_YY_BUFFER_STATE
@@ -222,7 +229,7 @@ struct yy_buffer_state
 	/* Number of characters read into yy_ch_buf, not including EOB
 	 * characters.
 	 */
-	int yy_n_chars;
+	yy_size_t yy_n_chars;
 
 	/* Whether we "own" the buffer - i.e., we know we created it,
 	 * and can realloc() it to grow it, and should free() it to
@@ -292,8 +299,8 @@ static YY_BUFFER_STATE * yy_buffer_stack = 0; /**< Stack as an array. */
 
 /* yy_hold_char holds the character lost when yytext is formed. */
 static char yy_hold_char;
-static int yy_n_chars;		/* number of characters read into yy_ch_buf */
-int yyleng;
+static yy_size_t yy_n_chars;		/* number of characters read into yy_ch_buf */
+yy_size_t yyleng;
 
 /* Points to current character in buffer. */
 static char *yy_c_buf_p = (char *) 0;
@@ -321,7 +328,7 @@ static void yy_init_buffer (YY_BUFFER_STATE b,FILE *file  );
 
 YY_BUFFER_STATE yy_scan_buffer (char *base,yy_size_t size  );
 YY_BUFFER_STATE yy_scan_string (yyconst char *yy_str  );
-YY_BUFFER_STATE yy_scan_bytes (yyconst char *bytes,int len  );
+YY_BUFFER_STATE yy_scan_bytes (yyconst char *bytes,yy_size_t len  );
 
 void *yyalloc (yy_size_t  );
 void *yyrealloc (void *,yy_size_t  );
@@ -621,7 +628,7 @@ char *yytext;
 	yycolumn += yyleng;
 
 
-#line 625 "lex.yy.c"
+#line 632 "lex.yy.c"
 
 #define INITIAL 0
 #define COMMENTS 1
@@ -662,7 +669,7 @@ FILE *yyget_out (void );
 
 void yyset_out  (FILE * out_str  );
 
-int yyget_leng (void );
+yy_size_t yyget_leng (void );
 
 char *yyget_text (void );
 
@@ -810,13 +817,6 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 20 "lexical.l"
-
-
- /*comments
-  */
-#line 819 "lex.yy.c"
-
 	if ( !(yy_init) )
 		{
 		(yy_init) = 1;
@@ -843,6 +843,14 @@ YY_DECL
 		yy_load_buffer_state( );
 		}
 
+	{
+#line 20 "lexical.l"
+
+
+ /*comments
+  */
+#line 853 "lex.yy.c"
+
 	while ( 1 )		/* loops until end-of-file is reached */
 		{
 		yy_cp = (yy_c_buf_p);
@@ -859,7 +867,7 @@ YY_DECL
 yy_match:
 		do
 			{
-			register YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)];
+			register YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;
 			if ( yy_accept[yy_current_state] )
 				{
 				(yy_last_accepting_state) = yy_current_state;
@@ -889,7 +897,7 @@ yy_find_action:
 
 		if ( yy_act != YY_END_OF_BUFFER && yy_rule_can_match_eol[yy_act] )
 			{
-			int yyl;
+			yy_size_t yyl;
 			for ( yyl = 0; yyl < yyleng; ++yyl )
 				if ( yytext[yyl] == '\n' )
 					   
@@ -956,8 +964,8 @@ case 7:
 YY_RULE_SETUP
 #line 41 "lexical.l"
 {
-	//yylval.strval = strdup(yytext);
-	//printf("relationship operators %s\n",yytext);
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	return RELOP;
 }
 	YY_BREAK
@@ -965,181 +973,227 @@ case 8:
 YY_RULE_SETUP
 #line 46 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	return ASSIGNOP;
 }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 49 "lexical.l"
+#line 51 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("SEMI\n");
 	return SEMI;
 }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 53 "lexical.l"
+#line 57 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("COMMA\n");
 	return COMMA;
 }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 57 "lexical.l"
+#line 63 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("PLUS\n");
 	return PLUS;
 }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 61 "lexical.l"
+#line 69 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("MINUS\n");
 	return MINUS;
 }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 65 "lexical.l"
+#line 75 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("STAR\n");
 	return STAR;
 }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 69 "lexical.l"
+#line 81 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("DIV\n");
 	return DIV;
 }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 73 "lexical.l"
+#line 87 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("AND\n");
 	return AND;
 }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 77 "lexical.l"
+#line 93 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("OR\n");
 	return OR;
 }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 81 "lexical.l"
+#line 99 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("DOT\n");
 	return DOT;
 }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 85 "lexical.l"
+#line 105 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("NOT\n");
 	return NOT;
 }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 89 "lexical.l"
+#line 111 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("LP\n");
 	return LP;
 }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 93 "lexical.l"
+#line 117 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("RP\n");
 	return RP;
 }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 97 "lexical.l"
+#line 123 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("LB\n");
 	return LB;
 }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 101 "lexical.l"
+#line 129 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("RB\n");
 	return RB;
 }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 105 "lexical.l"
+#line 135 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("LC\n");
 	return LC;
 }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 109 "lexical.l"
+#line 141 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("RC\n");
 	return RC;
 }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 113 "lexical.l"
+#line 147 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("STRUCT\n");
 	return STRUCT;
 }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 117 "lexical.l"
+#line 153 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("RETURN\n");
 	return RETURN;
 }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 121 "lexical.l"
+#line 159 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("IF\n");
 	return IF;
 }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 125 "lexical.l"
+#line 165 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("ELSE\n");
 	return ELSE;
 }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 129 "lexical.l"
+#line 171 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("WHILE\n");
 	return WHILE;
 }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 133 "lexical.l"
+#line 177 "lexical.l"
 {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//yylval.strval = strdup(yytext);
 	return TYPE;
 }
@@ -1148,25 +1202,25 @@ YY_RULE_SETUP
  */
 case 31:
 YY_RULE_SETUP
-#line 141 "lexical.l"
+#line 187 "lexical.l"
 {
-	//printf("float: %s\n",yytext);
-	//yylval.strval = strdup(yytext);
-	return FLOAT;
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
+	return ERROR;
 }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 146 "lexical.l"
+#line 192 "lexical.l"
 {
-	//printf("float: %s\n",yytext);
-	//yylval.strval = strdup(yytext);
-	return FLOAT;
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
+	return ERROR;
 }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 151 "lexical.l"
+#line 197 "lexical.l"
 {
 	printf("Error type A at Line %d : value of numebr is too large\'%s\'\n",
 	yylineno,yytext);
@@ -1174,42 +1228,40 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 155 "lexical.l"
+#line 201 "lexical.l"
 {
 	if(atoll(yytext)>0xffffffff){
 		printf("Error type A at Line %d : value of numebr is too large\'%s\'\n",
 		yylineno,yytext);
+		return ERROR;
 	}
 	else{
-		//printf("Int value: %d\n",atoi(yytext));
-		//yylval.intval = atoi(yytext);
+		char* str = strdup(yytext);
+		yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 		return INT;
 	}
 }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 166 "lexical.l"
-{
-	//printf("Hex: %s\n",yytext);
-	//yylval.strval = strdup(yytext);
-	return INT;
+#line 213 "lexical.l"
+{//hex
+	return ERROR;
 }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 171 "lexical.l"
-{
-	//printf("Oct: %s\n",yytext);
-	//yylval.strval = strdup(yytext);
-	return INT;
+#line 216 "lexical.l"
+{ //oct
+	return ERROR;
 }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 177 "lexical.l"
+#line 220 "lexical.l"
 {
-	//printf("identification : %s\n",yytext);
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	return ID;
 }
 	YY_BREAK
@@ -1218,7 +1270,7 @@ YY_RULE_SETUP
  */
 case 38:
 YY_RULE_SETUP
-#line 184 "lexical.l"
+#line 228 "lexical.l"
 {
 	printf("Error type at Line %d : mysterious token: '%s'\n",
 	yylineno,yytext);
@@ -1226,10 +1278,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 189 "lexical.l"
+#line 233 "lexical.l"
 ECHO;
 	YY_BREAK
-#line 1233 "lex.yy.c"
+#line 1285 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(STRING):
 	yyterminate();
@@ -1361,6 +1413,7 @@ case YY_STATE_EOF(STRING):
 			"fatal flex scanner internal error--no action found" );
 	} /* end of action switch */
 		} /* end of scanning one token */
+	} /* end of user's declarations */
 } /* end of yylex */
 
 /* yy_get_next_buffer - try to read in a new buffer
@@ -1416,21 +1469,21 @@ static int yy_get_next_buffer (void)
 
 	else
 		{
-			int num_to_read =
+			yy_size_t num_to_read =
 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
 
 		while ( num_to_read <= 0 )
 			{ /* Not enough room in the buffer - grow it. */
 
 			/* just a shorter name for the current buffer */
-			YY_BUFFER_STATE b = YY_CURRENT_BUFFER;
+			YY_BUFFER_STATE b = YY_CURRENT_BUFFER_LVALUE;
 
 			int yy_c_buf_p_offset =
 				(int) ((yy_c_buf_p) - b->yy_ch_buf);
 
 			if ( b->yy_is_our_buffer )
 				{
-				int new_size = b->yy_buf_size * 2;
+				yy_size_t new_size = b->yy_buf_size * 2;
 
 				if ( new_size <= 0 )
 					b->yy_buf_size += b->yy_buf_size / 8;
@@ -1461,7 +1514,7 @@ static int yy_get_next_buffer (void)
 
 		/* Read in more data. */
 		YY_INPUT( (&YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move]),
-			(yy_n_chars), (size_t) num_to_read );
+			(yy_n_chars), num_to_read );
 
 		YY_CURRENT_BUFFER_LVALUE->yy_n_chars = (yy_n_chars);
 		}
@@ -1556,7 +1609,7 @@ static int yy_get_next_buffer (void)
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 	yy_is_jam = (yy_current_state == 133);
 
-	return yy_is_jam ? 0 : yy_current_state;
+		return yy_is_jam ? 0 : yy_current_state;
 }
 
     static void yyunput (int c, register char * yy_bp )
@@ -1571,7 +1624,7 @@ static int yy_get_next_buffer (void)
 	if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
 		{ /* need to shift things up to make room */
 		/* +2 for EOB chars. */
-		register int number_to_move = (yy_n_chars) + 2;
+		register yy_size_t number_to_move = (yy_n_chars) + 2;
 		register char *dest = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[
 					YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
 		register char *source =
@@ -1624,7 +1677,7 @@ static int yy_get_next_buffer (void)
 
 		else
 			{ /* need more input */
-			int offset = (yy_c_buf_p) - (yytext_ptr);
+			yy_size_t offset = (yy_c_buf_p) - (yytext_ptr);
 			++(yy_c_buf_p);
 
 			switch ( yy_get_next_buffer(  ) )
@@ -1789,10 +1842,6 @@ static void yy_load_buffer_state  (void)
 	yyfree((void *) b  );
 }
 
-#ifndef __cplusplus
-extern int isatty (int );
-#endif /* __cplusplus */
-    
 /* Initializes or reinitializes a buffer.
  * This function is sometimes called more than once on the same buffer,
  * such as during a yyrestart() or at EOF.
@@ -1905,7 +1954,7 @@ void yypop_buffer_state (void)
  */
 static void yyensure_buffer_stack (void)
 {
-	int num_to_alloc;
+	yy_size_t num_to_alloc;
     
 	if (!(yy_buffer_stack)) {
 
@@ -2002,12 +2051,12 @@ YY_BUFFER_STATE yy_scan_string (yyconst char * yystr )
  * 
  * @return the newly allocated buffer state object.
  */
-YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, int  _yybytes_len )
+YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, yy_size_t  _yybytes_len )
 {
 	YY_BUFFER_STATE b;
 	char *buf;
 	yy_size_t n;
-	int i;
+	yy_size_t i;
     
 	/* Get memory for full buffer, including space for trailing EOB's. */
 	n = _yybytes_len + 2;
@@ -2089,7 +2138,7 @@ FILE *yyget_out  (void)
 /** Get the length of the current token.
  * 
  */
-int yyget_leng  (void)
+yy_size_t yyget_leng  (void)
 {
         return yyleng;
 }
@@ -2240,7 +2289,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 189 "lexical.l"
+#line 232 "lexical.l"
 
 
 

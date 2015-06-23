@@ -1,26 +1,23 @@
  %{
- #include"lex.yy.c"
+#include"lex.yy.c"
  %}
 
 %locations
 %define parse.error verbose
 
 %union {
-int intval;
-float floatval;
-char* strval;
-MTnode* mtnode;
+struct MTnode* mtnode;
 }
 
  /*declare tokens
  */
-%token <intval> INT
-%token <floatval> FLOAT
-%token <strval> ID
+%token INT
+%token FLOAT
+%token ID
 %token SEMI
 %token COMMA
 %token ASSIGNOP
-%token <strval> RELOP
+%token RELOP
 %token PLUS
 %token MINUS
 %token STAR
@@ -41,6 +38,7 @@ MTnode* mtnode;
 %token IF
 %token ELSE
 %token WHILE
+%token ERROR
 
 %right	ASSIGNOP
 %left	OR

@@ -72,7 +72,8 @@ extern int yydebug;
     IF = 282,
     ELSE = 283,
     WHILE = 284,
-    LOWER_THAN_ELSE = 285
+    ERROR = 285,
+    LOWER_THAN_ELSE = 286
   };
 #endif
 
@@ -83,12 +84,9 @@ union YYSTYPE
 {
 #line 8 "syntax.y" /* yacc.c:1909  */
 
-int intval;
-float floatval;
-char* strval;
-MTnode* mtnode;
+struct MTnode* mtnode;
 
-#line 92 "syntax.tab.h" /* yacc.c:1909  */
+#line 90 "syntax.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

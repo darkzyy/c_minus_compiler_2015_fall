@@ -2,9 +2,10 @@
 #include<stdlib.h>
 #include "./multi_tree.h"
 
-MTnode* create_node(MTnode* node_list[],int list_len,int type){
+MTnode* create_node(MTnode* node_list[],int list_len,char* str,int type){
 	MTnode* new_node = malloc(sizeof(MTnode));
 	new_node->children_amount = list_len;
+	new_node->str = str;
 	new_node->type = type;
 	new_node->children_list = node_list;
 	return new_node;

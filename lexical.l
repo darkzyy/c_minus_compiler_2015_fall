@@ -39,98 +39,144 @@ alpha_	[a-zA-Z_]
  /*relops
  */
 <INITIAL>">="|"<="|"=="|"!="|">"|"<" {
-	//yylval.strval = strdup(yytext);
-	//printf("relationship operators %s\n",yytext);
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	return RELOP;
 }
 <INITIAL>"=" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	return ASSIGNOP;
 }
 <INITIAL>";" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("SEMI\n");
 	return SEMI;
 }
 <INITIAL>"," {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("COMMA\n");
 	return COMMA;
 }
 <INITIAL>"+" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("PLUS\n");
 	return PLUS;
 }
 <INITIAL>"-" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("MINUS\n");
 	return MINUS;
 }
 <INITIAL>"*" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("STAR\n");
 	return STAR;
 }
 <INITIAL>"/" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("DIV\n");
 	return DIV;
 }
 <INITIAL>"&&" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("AND\n");
 	return AND;
 }
 <INITIAL>"||" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("OR\n");
 	return OR;
 }
 <INITIAL>"." {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("DOT\n");
 	return DOT;
 }
 <INITIAL>"!" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("NOT\n");
 	return NOT;
 }
 <INITIAL>"(" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("LP\n");
 	return LP;
 }
 <INITIAL>")" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("RP\n");
 	return RP;
 }
 <INITIAL>"[" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("LB\n");
 	return LB;
 }
 <INITIAL>"]" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("RB\n");
 	return RB;
 }
 <INITIAL>"{" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("LC\n");
 	return LC;
 }
 <INITIAL>"}" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("RC\n");
 	return RC;
 }
 <INITIAL>"struct" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("STRUCT\n");
 	return STRUCT;
 }
 <INITIAL>"return" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("RETURN\n");
 	return RETURN;
 }
 <INITIAL>"if" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("IF\n");
 	return IF;
 }
 <INITIAL>"else" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("ELSE\n");
 	return ELSE;
 }
 <INITIAL>"while" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//printf("WHILE\n");
 	return WHILE;
 }
 <INITIAL>"int"|"float" {
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	//yylval.strval = strdup(yytext);
 	return TYPE;
 }
@@ -139,14 +185,14 @@ alpha_	[a-zA-Z_]
  /*build-in types
  */
 <INITIAL>{digit}*"."{digit}*[Ee][+-]?{digit}+ {
-	//printf("float: %s\n",yytext);
-	//yylval.strval = strdup(yytext);
-	return FLOAT;
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
+	return ERROR;
 }
 <INITIAL>{digit}+"."{digit}+ {
-	//printf("float: %s\n",yytext);
-	//yylval.strval = strdup(yytext);
-	return FLOAT;
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
+	return ERROR;
 }
 <INITIAL>{digit}{10}{digit}+ {
 	printf("Error type A at Line %d : value of numebr is too large\'%s\'\n",
@@ -156,26 +202,24 @@ alpha_	[a-zA-Z_]
 	if(atoll(yytext)>0xffffffff){
 		printf("Error type A at Line %d : value of numebr is too large\'%s\'\n",
 		yylineno,yytext);
+		return ERROR;
 	}
 	else{
-		//printf("Int value: %d\n",atoi(yytext));
-		//yylval.intval = atoi(yytext);
+		char* str = strdup(yytext);
+		yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 		return INT;
 	}
 }
-<INITIAL>"0x"[0-9a-f]{1,8}|"0X"[0-9A-F]{1,8} {
-	//printf("Hex: %s\n",yytext);
-	//yylval.strval = strdup(yytext);
-	return INT;
+<INITIAL>"0x"[0-9a-f]{1,8}|"0X"[0-9A-F]{1,8} {//hex
+	return ERROR;
 }
-<INITIAL>"0"[0-7]{1,16} {
-	//printf("Oct: %s\n",yytext);
-	//yylval.strval = strdup(yytext);
-	return INT;
+<INITIAL>"0"[0-7]{1,16} { //oct
+	return ERROR;
 }
 
 <INITIAL>{alpha_}({alpha_}|{digit})* {
-	//printf("identification : %s\n",yytext);
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
 	return ID;
 }
  /*

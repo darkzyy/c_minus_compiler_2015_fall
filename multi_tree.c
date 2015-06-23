@@ -15,12 +15,18 @@ MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int 
 	return new_node;
 }
 
-void pre_tranverse(MTnode* root){
-	int i;
-	printf("type:%d \n",root->type);
-	for(i=0;i<root->children_amount;++i){
-		pre_tranverse(root->children_list[i]);
+void pre_tranverse2(MTnode* root,int indent){
+	int i=0;
+	while(i++<indent){
+		printf("  ");
 	}
+	printf("%s\n",root->str);
+	for(i=0;i<root->children_amount;++i){
+		pre_tranverse2(root->children_list[i],indent+1);
+	}
+}
+void pre_tranverse(MTnode* root){
+	pre_tranverse2(root,0);
 }
 
 void add_node(MTnode* par,MTnode* child){

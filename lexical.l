@@ -40,12 +40,12 @@ alpha_	[a-zA-Z_]
  */
 <INITIAL>">="|"<="|"=="|"!="|">"|"<" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,RELOP);
 	return RELOP;
 }
 <INITIAL>"=" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,ASSIGNOP);
 	return ASSIGNOP;
 }
 <INITIAL>";" {
@@ -185,7 +185,7 @@ alpha_	[a-zA-Z_]
 	}
 	else{
 		char* str = strdup(yytext);
-		yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
+		yylval.mtnode = create_node(NULL,0,str,&yylloc,INT);
 		return INT;
 	}
 }

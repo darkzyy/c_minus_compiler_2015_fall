@@ -163,22 +163,28 @@ alpha_	[a-zA-Z_]
  /*build-in types
  */
 <INITIAL>{digit}*"."{digit}*[Ee][+-]?{digit}+ {
-	//char* str = strdup(yytext);
+	char* str = strdup(yytext);
+	yylval.error_node->error_token = str;
+	yylval.error_node->error_type = "scientific notation(unsupported)";
 	return ERROR;
 }
 <INITIAL>{digit}+"."{digit}+ {
-	//char* str = strdup(yytext);
+	char* str = strdup(yytext);
+	yylval.error_node->error_token = str;
+	yylval.error_node->error_type = "float(unsupported)";
 	return ERROR;
 }
 <INITIAL>{digit}{10}{digit}+ {
-	//printf("Error type A at Line %d : value of numebr is too large\'%s\'\n",
-	//yylineno,yytext);
+	char* str = strdup(yytext);
+	yylval.error_node->error_token = str;
+	yylval.error_node->error_type = "too large number";
 	return ERROR;
 }
 <INITIAL>{digit_0}{digit}{0,9}|"0" {
 	if(atoll(yytext)>0xffffffff){
-		printf("Error type A at Line %d : value of numebr is too large\'%s\'\n",
-		yylineno,yytext);
+		char* str = strdup(yytext);
+		yylval.error_node->error_token = str;
+		yylval.error_node->error_type = "too large number";
 		return ERROR;
 	}
 	else{
@@ -188,9 +194,15 @@ alpha_	[a-zA-Z_]
 	}
 }
 <INITIAL>"0x"[0-9a-f]{1,8}|"0X"[0-9A-F]{1,8} {//hex
+	char* str = strdup(yytext);
+	yylval.error_node->error_token = str;
+	yylval.error_node->error_type = "hex (unsupported)";
 	return ERROR;
 }
 <INITIAL>"0"[0-7]{1,16} { //oct
+	char* str = strdup(yytext);
+	yylval.error_node->error_token = str;
+	yylval.error_node->error_type = "oct (unsupported)";
 	return ERROR;
 }
 
@@ -203,10 +215,9 @@ alpha_	[a-zA-Z_]
  *error
  */
 <INITIAL>. {
-	//printf("Error type at Line %d : mysterious token: '%2s'\n",
-	//yylineno,yytext);
 	char* str = strdup(yytext);
-	yylval.error_msg->error_token = str;
+	yylval.error_node->error_token = str;
+	yylval.error_node->error_type = "mysterious token";
 	return ERROR;
 }
 

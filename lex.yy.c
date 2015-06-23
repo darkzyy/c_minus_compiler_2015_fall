@@ -1180,34 +1180,40 @@ case 31:
 YY_RULE_SETUP
 #line 165 "lexical.l"
 {
-	//char* str = strdup(yytext);
+	char* str = strdup(yytext);
+	yylval.error_node->error_token = str;
+	yylval.error_node->error_type = "scientific notation(unsupported)";
 	return ERROR;
 }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 169 "lexical.l"
+#line 171 "lexical.l"
 {
-	//char* str = strdup(yytext);
+	char* str = strdup(yytext);
+	yylval.error_node->error_token = str;
+	yylval.error_node->error_type = "float(unsupported)";
 	return ERROR;
 }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 173 "lexical.l"
+#line 177 "lexical.l"
 {
-	//printf("Error type A at Line %d : value of numebr is too large\'%s\'\n",
-	//yylineno,yytext);
+	char* str = strdup(yytext);
+	yylval.error_node->error_token = str;
+	yylval.error_node->error_type = "too large number";
 	return ERROR;
 }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 178 "lexical.l"
+#line 183 "lexical.l"
 {
 	if(atoll(yytext)>0xffffffff){
-		printf("Error type A at Line %d : value of numebr is too large\'%s\'\n",
-		yylineno,yytext);
+		char* str = strdup(yytext);
+		yylval.error_node->error_token = str;
+		yylval.error_node->error_type = "too large number";
 		return ERROR;
 	}
 	else{
@@ -1219,21 +1225,27 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 190 "lexical.l"
+#line 196 "lexical.l"
 {//hex
+	char* str = strdup(yytext);
+	yylval.error_node->error_token = str;
+	yylval.error_node->error_type = "hex (unsupported)";
 	return ERROR;
 }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 193 "lexical.l"
+#line 202 "lexical.l"
 { //oct
+	char* str = strdup(yytext);
+	yylval.error_node->error_token = str;
+	yylval.error_node->error_type = "oct (unsupported)";
 	return ERROR;
 }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 197 "lexical.l"
+#line 209 "lexical.l"
 {
 	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,str,&yylloc,ID);
@@ -1245,21 +1257,20 @@ YY_RULE_SETUP
  */
 case 38:
 YY_RULE_SETUP
-#line 205 "lexical.l"
+#line 217 "lexical.l"
 {
-	//printf("Error type at Line %d : mysterious token: '%2s'\n",
-	//yylineno,yytext);
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,ERROR);
+	yylval.error_node->error_token = str;
+	yylval.error_node->error_type = "mysterious token";
 	return ERROR;
 }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 213 "lexical.l"
+#line 224 "lexical.l"
 ECHO;
 	YY_BREAK
-#line 1263 "lex.yy.c"
+#line 1274 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(STRING):
 	yyterminate();
@@ -2267,7 +2278,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 212 "lexical.l"
+#line 223 "lexical.l"
 
 
 

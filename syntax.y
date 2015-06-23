@@ -104,8 +104,7 @@ ExtDef : Specifier ExtDecList SEMI {
        $$ = create_node(list,3,"ExtDef",&@1,ExtDef);
        }
 	   |error SEMI{
-	   error_detected = 1;
-	   //yyerror();
+	   yyerror(2);
 	   }
 ExtDecList : VarDec {
            MTnode** list=malloc(sizeof(void*)*1);
@@ -266,8 +265,7 @@ Stmt : Exp SEMI {
      $$ = create_node(list,5,"Stmt",&@1,Stmt);
      }
 	 |error SEMI{
-	 error_detected = 1;
-	 //yyerror();
+	 yyerror(2);
 	 }
 DefList : Def DefList {
         MTnode** list=malloc(sizeof(void*)*2);
@@ -448,9 +446,14 @@ Args : Exp COMMA Args {
 #define __MY_YYERROR__
 #ifdef __MY_YYERROR__
 yyerror(int error_type,char* msg){
+	error_detected = 1;
 	if(error_type==1){
-		fprintf(stderr,"Error type A at %d: mysterious token:%s\n",
-			yylloc.first_line,msg,yytext);
+		fprintf(stderr,"Error type A at %d: %s '%s'\n",
+			yylloc.first_line,yylval.error_node->error_type,yylval.error_node->error_token);
+	}
+	else{
+		fprintf(stderr,"Error type B at %d: Unexpected %s\n",
+			yylloc.first_line,yylval.mtnode->str);
 	}
 }
 #endif

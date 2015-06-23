@@ -22,7 +22,28 @@ void add_node(MTnode* par,MTnode* child);
 
 enum{
 	TERMINALS=300,
-	NONTERM
+	Program=301,
+    ExtDefList=302,
+    ExtDef=303,
+    ExtDecList=304,
+    Specifier=305,
+    StructSpecifier=306,
+    OptTag=307,
+    Tag=308,
+    VarDec=309,
+    FunDec=310,
+    VarList=311,
+    ParamDec=312,
+    CompSt=313,
+    StmtList=314,
+    Stmt=315,
+    DefList=316,
+    Def=317,
+    DecList=318,
+    Dec=319,
+    Exp=320,
+    Args=321,
+	EMPTY=322
 };
 
 #endif

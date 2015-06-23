@@ -164,12 +164,10 @@ alpha_	[a-zA-Z_]
  */
 <INITIAL>{digit}*"."{digit}*[Ee][+-]?{digit}+ {
 	//char* str = strdup(yytext);
-	//yylval.mtnode = create_node(NULL,0,"TERMINALS",&yylloc,TERMINALS);
 	return ERROR;
 }
 <INITIAL>{digit}+"."{digit}+ {
 	//char* str = strdup(yytext);
-	//yylval.mtnode = create_node(NULL,0,"TERMINALS",&yylloc,TERMINALS);
 	return ERROR;
 }
 <INITIAL>{digit}{10}{digit}+ {
@@ -205,8 +203,10 @@ alpha_	[a-zA-Z_]
  *error
  */
 <INITIAL>. {
-	printf("Error type at Line %d : mysterious token: '%s'\n",
-	yylineno,yytext);
+	//printf("Error type at Line %d : mysterious token: '%2s'\n",
+	//yylineno,yytext);
+	char* str = strdup(yytext);
+	yylval.error_msg->error_token = str;
 	return ERROR;
 }
 

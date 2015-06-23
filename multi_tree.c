@@ -19,7 +19,8 @@ MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int 
 
 void pre_tranverse2(MTnode* root,int indent){
 	int i=0;
-	if(strlen(root->str)>0){
+	//if(strlen(root->str)>0){
+	if(root->type!=EMPTY){
 		while(i++<indent){
 			printf("  ");
 		}
@@ -35,7 +36,7 @@ void pre_tranverse2(MTnode* root,int indent){
 		else if(root->type==ID){
 			printf("ID: %s\n",root->str);
 		}
-		else if(root->type==NONTERM){
+		else if(root->type>TERMINALS){
 			printf("%s (%d)\n",root->str,root->location.first_line);
 		}
 		else{

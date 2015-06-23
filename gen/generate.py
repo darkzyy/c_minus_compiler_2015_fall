@@ -21,5 +21,5 @@ with open("syntax.y") as f:
         print indent,"MTnode** list=malloc(sizeof(void*)*%d);"%prod_amount
         for i in range(0,prod_amount):
             print indent,"list[%d]=$%d;"%(i,i+1)
-        print indent,"$$ = create_node(list,%d,\"%s\",&@1,NONTERM);"%(prod_amount,prod_name)
+        print indent,"$$ = create_node(list,%d,\"%s\",&@1,%s);"%(prod_amount,prod_name,prod_name)
         print indent,'}'

@@ -82,11 +82,15 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 8 "syntax.y" /* yacc.c:1909  */
+#line 9 "syntax.y" /* yacc.c:1909  */
 
 struct MTnode* mtnode;
+struct error_msg{
+	char* error_token;
+	char* error_type;
+} *error_node;
 
-#line 90 "syntax.tab.h" /* yacc.c:1909  */
+#line 94 "syntax.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

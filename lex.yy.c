@@ -1181,22 +1181,20 @@ YY_RULE_SETUP
 #line 165 "lexical.l"
 {
 	//char* str = strdup(yytext);
-	//yylval.mtnode = create_node(NULL,0,"TERMINALS",&yylloc,TERMINALS);
 	return ERROR;
 }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 170 "lexical.l"
+#line 169 "lexical.l"
 {
 	//char* str = strdup(yytext);
-	//yylval.mtnode = create_node(NULL,0,"TERMINALS",&yylloc,TERMINALS);
 	return ERROR;
 }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 175 "lexical.l"
+#line 173 "lexical.l"
 {
 	//printf("Error type A at Line %d : value of numebr is too large\'%s\'\n",
 	//yylineno,yytext);
@@ -1205,7 +1203,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 180 "lexical.l"
+#line 178 "lexical.l"
 {
 	if(atoll(yytext)>0xffffffff){
 		printf("Error type A at Line %d : value of numebr is too large\'%s\'\n",
@@ -1221,21 +1219,21 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 192 "lexical.l"
+#line 190 "lexical.l"
 {//hex
 	return ERROR;
 }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 195 "lexical.l"
+#line 193 "lexical.l"
 { //oct
 	return ERROR;
 }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 199 "lexical.l"
+#line 197 "lexical.l"
 {
 	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,str,&yylloc,ID);
@@ -1247,10 +1245,12 @@ YY_RULE_SETUP
  */
 case 38:
 YY_RULE_SETUP
-#line 207 "lexical.l"
+#line 205 "lexical.l"
 {
-	printf("Error type at Line %d : mysterious token: '%s'\n",
-	yylineno,yytext);
+	//printf("Error type at Line %d : mysterious token: '%2s'\n",
+	//yylineno,yytext);
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,ERROR);
 	return ERROR;
 }
 	YY_BREAK

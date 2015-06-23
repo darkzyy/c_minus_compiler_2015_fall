@@ -1,6 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include "./multi_tree.h"
+#include<string.h>
+#include"multi_tree.h"
+#include"syntax.tab.h"
 
 MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type){
 	MTnode* new_node = malloc(sizeof(MTnode));
@@ -17,10 +19,29 @@ MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int 
 
 void pre_tranverse2(MTnode* root,int indent){
 	int i=0;
-	while(i++<indent){
-		printf("  ");
+	if(strlen(root->str)>0){
+		while(i++<indent){
+			printf("  ");
+		}
+		if(root->type==RELOP){
+			printf("RELOP: %s\n",root->str);
+		}
+		else if(root->type==TYPE){
+			printf("TYPE: %s\n",root->str);
+		}
+		else if(root->type==INT){
+			printf("INT: %s\n",root->str);
+		}
+		else if(root->type==ID){
+			printf("ID: %s\n",root->str);
+		}
+		else if(root->type==NONTERM){
+			printf("%s (%d)\n",root->str,root->location.first_line);
+		}
+		else{
+			printf("%s\n",root->str);
+		}
 	}
-	printf("%s\n",root->str);
 	for(i=0;i<root->children_amount;++i){
 		pre_tranverse2(root->children_list[i],indent+1);
 	}

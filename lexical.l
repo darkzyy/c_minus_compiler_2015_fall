@@ -24,7 +24,7 @@ alpha_	[a-zA-Z_]
 <INITIAL>\/\/.*	{;}
 <INITIAL>"/*"	{BEGIN COMMENTS;}
 <COMMENTS>"*/"	{BEGIN INITIAL;}
-<COMMENTS>(.|\n)*		{;}
+<COMMENTS>(.|\n)		{;}
 <COMMENTS><<EOF>>	{
 	BEGIN INITIAL;
 	printf("Error type  at Line %d : comments met EOF\'%s\'\n",
@@ -40,7 +40,7 @@ alpha_	[a-zA-Z_]
  */
 <INITIAL>">="|"<="|"=="|"!="|">"|"<" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,"RELOP",&yylloc,RELOP);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,RELOP);
 	return RELOP;
 }
 <INITIAL>"=" {
@@ -155,7 +155,7 @@ alpha_	[a-zA-Z_]
 }
 <INITIAL>"int"|"float" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,"TYPE",&yylloc,TYPE);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TYPE);
 	return TYPE;
 }
 
@@ -185,7 +185,7 @@ alpha_	[a-zA-Z_]
 	}
 	else{
 		char* str = strdup(yytext);
-		yylval.mtnode = create_node(NULL,0,"INT",&yylloc,INT);
+		yylval.mtnode = create_node(NULL,0,str,&yylloc,INT);
 		return INT;
 	}
 }
@@ -198,7 +198,7 @@ alpha_	[a-zA-Z_]
 
 <INITIAL>{alpha_}({alpha_}|{digit})* {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,"ID",&yylloc,ID);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,ID);
 	return ID;
 }
  /*

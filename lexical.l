@@ -40,144 +40,122 @@ alpha_	[a-zA-Z_]
  */
 <INITIAL>">="|"<="|"=="|"!="|">"|"<" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return RELOP;
 }
 <INITIAL>"=" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return ASSIGNOP;
 }
 <INITIAL>";" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("SEMI\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return SEMI;
 }
 <INITIAL>"," {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("COMMA\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return COMMA;
 }
 <INITIAL>"+" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("PLUS\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return PLUS;
 }
 <INITIAL>"-" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("MINUS\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return MINUS;
 }
 <INITIAL>"*" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("STAR\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return STAR;
 }
 <INITIAL>"/" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("DIV\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return DIV;
 }
 <INITIAL>"&&" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("AND\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return AND;
 }
 <INITIAL>"||" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("OR\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return OR;
 }
 <INITIAL>"." {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("DOT\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return DOT;
 }
 <INITIAL>"!" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("NOT\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return NOT;
 }
 <INITIAL>"(" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("LP\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return LP;
 }
 <INITIAL>")" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("RP\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return RP;
 }
 <INITIAL>"[" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("LB\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return LB;
 }
 <INITIAL>"]" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("RB\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return RB;
 }
 <INITIAL>"{" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("LC\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return LC;
 }
 <INITIAL>"}" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("RC\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return RC;
 }
 <INITIAL>"struct" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("STRUCT\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return STRUCT;
 }
 <INITIAL>"return" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("RETURN\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return RETURN;
 }
 <INITIAL>"if" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("IF\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return IF;
 }
 <INITIAL>"else" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("ELSE\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return ELSE;
 }
 <INITIAL>"while" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//printf("WHILE\n");
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return WHILE;
 }
 <INITIAL>"int"|"float" {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
-	//yylval.strval = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return TYPE;
 }
 
@@ -186,17 +164,18 @@ alpha_	[a-zA-Z_]
  */
 <INITIAL>{digit}*"."{digit}*[Ee][+-]?{digit}+ {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return ERROR;
 }
 <INITIAL>{digit}+"."{digit}+ {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return ERROR;
 }
 <INITIAL>{digit}{10}{digit}+ {
 	printf("Error type A at Line %d : value of numebr is too large\'%s\'\n",
 	yylineno,yytext);
+	return ERROR;
 }
 <INITIAL>{digit_0}{digit}{0,9}|"0" {
 	if(atoll(yytext)>0xffffffff){
@@ -206,7 +185,7 @@ alpha_	[a-zA-Z_]
 	}
 	else{
 		char* str = strdup(yytext);
-		yylval.mtnode = create_node(NULL,0,str,TERMINALS);
+		yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 		return INT;
 	}
 }
@@ -219,7 +198,7 @@ alpha_	[a-zA-Z_]
 
 <INITIAL>{alpha_}({alpha_}|{digit})* {
 	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,TERMINALS);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,TERMINALS);
 	return ID;
 }
  /*
@@ -228,6 +207,7 @@ alpha_	[a-zA-Z_]
 <INITIAL>. {
 	printf("Error type at Line %d : mysterious token: '%s'\n",
 	yylineno,yytext);
+	return ERROR;
 }
 
 %%

@@ -474,12 +474,12 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    57,    57,    58,    59,    60,    61,    62,    63,    64,
-      66,    67,    68,    69,    70,    71,    72,    74,    75,    76,
-      77,    78,    79,    80,    82,    83,    84,    85,    86,    87,
-      88,    89,    90,    92,    93,    94,    95,    96,    97,    98,
-     101,   102,   103,   104,   105,   106,   107,   108,   109,   110,
-     111,   112,   113,   114,   115,   116,   117,   118,   120,   121
+       0,    63,    63,    64,    65,    66,    67,    68,    69,    70,
+      72,    73,    74,    75,    76,    77,    78,    80,    81,    82,
+      83,    84,    85,    86,    88,    89,    90,    91,    92,    93,
+      94,    95,    96,    98,    99,   100,   101,   102,   103,   104,
+     107,   108,   109,   110,   111,   112,   113,   114,   115,   116,
+     117,   118,   119,   120,   121,   127,   128,   129,   131,   132
 };
 #endif
 
@@ -1434,8 +1434,67 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-      
-#line 1439 "syntax.tab.c" /* yacc.c:1646  */
+        case 4:
+#line 65 "syntax.y" /* yacc.c:1646  */
+    {(yyval.mtnode) = create_node(NULL,0,"",&(yyloc),NONTERM);}
+#line 1441 "syntax.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 15:
+#line 77 "syntax.y" /* yacc.c:1646  */
+    {(yyval.mtnode) = create_node(NULL,0,"",&(yyloc),NONTERM);}
+#line 1447 "syntax.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 26:
+#line 90 "syntax.y" /* yacc.c:1646  */
+    {(yyval.mtnode) = create_node(NULL,0,"",&(yyloc),NONTERM);}
+#line 1453 "syntax.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 34:
+#line 99 "syntax.y" /* yacc.c:1646  */
+    {(yyval.mtnode) = create_node(NULL,0,"",&(yyloc),NONTERM);}
+#line 1459 "syntax.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 54:
+#line 121 "syntax.y" /* yacc.c:1646  */
+    {MTnode** list=malloc(sizeof(void*)*3);
+	list[0]=(yyvsp[-2].mtnode);
+	list[1]=(yyvsp[-1].mtnode);
+	list[2]=(yyvsp[0].mtnode);
+	(yyval.mtnode) = create_node(list,3,"EXPR",&(yylsp[-2]),NONTERM);
+	}
+#line 1470 "syntax.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 55:
+#line 127 "syntax.y" /* yacc.c:1646  */
+    {(yyval.mtnode) = create_node(&(yyvsp[0].mtnode),1,"EXPR",&(yylsp[0]),NONTERM);}
+#line 1476 "syntax.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 56:
+#line 128 "syntax.y" /* yacc.c:1646  */
+    {(yyval.mtnode) = create_node(&(yyvsp[0].mtnode),1,"EXPR",&(yylsp[0]),NONTERM);}
+#line 1482 "syntax.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 57:
+#line 129 "syntax.y" /* yacc.c:1646  */
+    {(yyval.mtnode) = create_node(&(yyvsp[0].mtnode),1,"EXPR",&(yylsp[0]),NONTERM);}
+#line 1488 "syntax.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 59:
+#line 132 "syntax.y" /* yacc.c:1646  */
+    {(yyval.mtnode) = create_node(&(yyvsp[0].mtnode),1,"",&(yylsp[0]),NONTERM);}
+#line 1494 "syntax.tab.c" /* yacc.c:1646  */
+    break;
+
+
+#line 1498 "syntax.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1670,6 +1729,6 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 123 "syntax.y" /* yacc.c:1906  */
+#line 134 "syntax.y" /* yacc.c:1906  */
 
 

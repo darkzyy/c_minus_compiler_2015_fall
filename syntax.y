@@ -11,34 +11,34 @@ struct MTnode* mtnode;
 
  /*declare tokens
  */
-%token INT
-%token FLOAT
-%token ID
-%token SEMI
-%token COMMA
-%token ASSIGNOP
-%token RELOP
-%token PLUS
-%token MINUS
-%token STAR
-%token DIV
-%token AND
-%token OR
-%token DOT
-%token NOT
-%token TYPE
-%token LP
-%token RP
-%token LB
-%token RB
-%token LC
-%token RC
-%token STRUCT
-%token RETURN
-%token IF
-%token ELSE
-%token WHILE
-%token ERROR
+%token <mtnode>INT
+%token <mtnode>FLOAT
+%token <mtnode>ID
+%token <mtnode>SEMI
+%token <mtnode>COMMA
+%token <mtnode>ASSIGNOP
+%token <mtnode>RELOP
+%token <mtnode>PLUS
+%token <mtnode>MINUS
+%token <mtnode>STAR
+%token <mtnode>DIV
+%token <mtnode>AND
+%token <mtnode>OR
+%token <mtnode>DOT
+%token <mtnode>NOT
+%token <mtnode>TYPE
+%token <mtnode>LP
+%token <mtnode>RP
+%token <mtnode>LB
+%token <mtnode>RB
+%token <mtnode>LC
+%token <mtnode>RC
+%token <mtnode>STRUCT
+%token <mtnode>RETURN
+%token <mtnode>IF
+%token <mtnode>ELSE
+%token <mtnode>WHILE
+%token <mtnode>ERROR
 
 %right	ASSIGNOP
 %left	OR
@@ -52,11 +52,17 @@ struct MTnode* mtnode;
 %nonassoc LOWER_THAN_ELSE
 %nonassoc ELSE
 
+ /* declared non-terminals */
+%type <mtnode> Exp Args Dec DecList Def DefList 
+%type <mtnode> Stmt StmtList CompSt VarDec FunDec VarList ParamDec
+%type <mtnode> Tag OptTag StructSpecifier Specifier
+%type <mtnode> ExtDecList ExtDef ExtDefList Program
+
 %%
 
 Program : ExtDefList 
 ExtDefList : ExtDef ExtDefList 
-		   | %empty
+		   | %empty				{$$ = create_node(NULL,0,"",&@$,NONTERM);}
 ExtDef : Specifier ExtDecList SEMI 
 	   | Specifier SEMI 
 	   | Specifier FunDec CompSt 
@@ -68,7 +74,7 @@ Specifier : TYPE
 StructSpecifier : STRUCT OptTag LC DefList RC 
 				| STRUCT Tag
 OptTag : ID
-	   | %empty
+	   | %empty				{$$ = create_node(NULL,0,"",&@$,NONTERM);}
 Tag : ID
 
 VarDec : ID 
@@ -81,7 +87,7 @@ ParamDec : Specifier VarDec
 
 CompSt : LC DefList StmtList RC 
 StmtList : Stmt StmtList 
-		 | %empty 
+		 | %empty 				{$$ = create_node(NULL,0,"",&@$,NONTERM);}
 Stmt : Exp SEMI 
 	 | CompSt 
 	 | RETURN Exp SEMI 
@@ -90,7 +96,7 @@ Stmt : Exp SEMI
 	 | WHILE LP Exp RP Stmt
 
 DefList : Def DefList 
-		| %empty
+		| %empty				{$$ = create_node(NULL,0,"",&@$,NONTERM);}
 Def : Specifier DecList SEMI 
 DecList : Dec 
 		| Dec COMMA DecList 
@@ -98,7 +104,7 @@ Dec : VarDec
 	| VarDec ASSIGNOP Exp
 
 
-Exp : Exp ASSIGNOP Exp
+Exp : Exp ASSIGNOP Exp 
 	| Exp AND Exp
 	| Exp OR Exp 
 	| Exp RELOP Exp 
@@ -112,13 +118,18 @@ Exp : Exp ASSIGNOP Exp
 	| ID LP Args RP 
 	| ID LP RP 
 	| Exp LB Exp RB 
-	| Exp DOT ID 
-	| ID	
-	| INT 
-	| FLOAT
+	| Exp DOT ID {MTnode** list=malloc(sizeof(void*)*3);
+	list[0]=$1;
+	list[1]=$2;
+	list[2]=$3;
+	$$ = create_node(list,3,"EXPR",&@1,NONTERM);
+	}
+	| ID 				{$$ = create_node(&$1,1,"EXPR",&@1,NONTERM);}	
+	| INT 				{$$ = create_node(&$1,1,"EXPR",&@1,NONTERM);}
+	| FLOAT				{$$ = create_node(&$1,1,"EXPR",&@1,NONTERM);}
 
 Args : Exp COMMA Args 
-	| Exp
+	| Exp 				{$$ = create_node(&$1,1,"",&@1,NONTERM);}
 
 %%
 

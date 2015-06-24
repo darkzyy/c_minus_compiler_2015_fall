@@ -149,6 +149,7 @@ OptTag : ID {
        $$ = create_node(list,1,"OptTag",&@1,OptTag);
        }
 	   | %empty				{$$ = create_node(NULL,0,"",&@$,EMPTY);}
+	
 
 Tag : ID {
     MTnode** list=malloc(sizeof(void*)*1);
@@ -264,9 +265,11 @@ Stmt : Exp SEMI {
      list[4]=$5;
      $$ = create_node(list,5,"Stmt",&@1,Stmt);
      }
+	 /*
 	 |error SEMI{
 	 yyerror(2);
 	 }
+	 */
 DefList : Def DefList {
         MTnode** list=malloc(sizeof(void*)*2);
         list[0]=$1;
@@ -426,9 +429,11 @@ Exp : Exp ASSIGNOP Exp {
     list[0]=$1;
     $$ = create_node(list,1,"Exp",&@1,Exp);
     }
+	/*
 	| ERROR {
 	yyerror(1);
 	}
+	*/
 Args : Exp COMMA Args {
      MTnode** list=malloc(sizeof(void*)*3);
      list[0]=$1;
@@ -445,15 +450,15 @@ Args : Exp COMMA Args {
 
 #define __MY_YYERROR__
 #ifdef __MY_YYERROR__
-yyerror(int error_type,char* msg){
+yyerror(int error_type,char* msg,char* msg2){
 	error_detected = 1;
 	if(error_type==1){
 		fprintf(stderr,"Error type A at %d: %s '%s'\n",
 			yylloc.first_line,yylval.error_node->error_type,yylval.error_node->error_token);
 	}
 	else{
-		fprintf(stderr,"Error type B at %d: Unexpected %s\n",
-			yylloc.first_line,yylval.mtnode->str);
+		fprintf(stderr,"Error type B at %d\n",
+			yylloc.first_line);
 	}
 }
 #endif

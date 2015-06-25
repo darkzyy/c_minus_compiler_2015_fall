@@ -95,9 +95,9 @@ ExtDefList : ExtDef ExtDefList {
            $$ = create_node(list,2,"ExtDefList",&@1,ExtDefList);
            }
            | %empty                {$$ = create_node(NULL,0,"",&@$,EMPTY);}
+           | Specifier {myyyerror(2,"';' might be missed BEFORE this line");} ExtDefList
+           | Specifier ExtDecList{myyyerror(2,"';' might be missed BEFORE this line");} ExtDefList
            /*
-           | Specifier {myyyerror(2,"';' is expected");} ExtDefList
-           | Specifier ExtDecList {myyyerror(2,"';' is expected");} ExtDefList
            */
             /*solve missing ';'*/
            
@@ -230,6 +230,9 @@ CompSt : LC DefList StmtList RC {
        list[3]=$4;
        $$ = create_node(list,4,"CompSt",&@1,CompSt);
        }
+       /*
+       | LC DefList error{myyyerror(3,"Something wrong between { and }");} RC
+       */
 StmtList : Stmt StmtList {
          MTnode** list=malloc(sizeof(void*)*2);
          list[0]=$1;
@@ -310,6 +313,7 @@ Def : Specifier DecList SEMI {
     list[2]=$3;
     $$ = create_node(list,3,"Def",&@1,Def);
     }
+    |Specifier error{myyyerror(3,"U");}SEMI;
 DecList : Dec {
         MTnode** list=malloc(sizeof(void*)*1);
         list[0]=$1;

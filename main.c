@@ -4,7 +4,11 @@
 //#define __LEXER_DEBUG__
 #define __PARSER_DEBUG__
 
+
 extern FILE* yyin;
+extern void error_report();
+extern void yyrestart(FILE* f);
+extern int lineno_init();
 #ifdef __LEXER_DEBUG__
 int main(int argc,char** argv){
 	if(argc>0){
@@ -30,7 +34,9 @@ int main(int argc,char** argv){
 #if YYDEBUG
 	yydebug = 1;
 #endif
+	lineno_init();
 	yyparse(); 
+	error_report();
 	return 0; 
 }
 #endif

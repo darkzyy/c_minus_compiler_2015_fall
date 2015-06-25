@@ -1,24 +1,15 @@
 %{
+#include<assert.h>
 #include"lex.yy.c"
+#include"error.h"
+//int yyerror(char* m);
 int error_detected = 0;
-enum {lexical_error = 1，
-	syntax_error_known = 2,
-	syntax_error_unknown = 3};
-struct error_list{
-	int error_type;
-	int lineno;
-	struct {
-		char* error_token;
-		char* error_type;
-	} *error_node;//for lexical error	
-	char* error_msg; //for known syntax error
-	error_list* next;
-}
-error_list* head;
-error_list* tail;
-head = malloc(sizeof(error_list));
-tail = head;
-head->lineno = -1;
+
+error_list head_;
+error_list* head = &head_;
+error_list* tail = &head_;
+int myyyerror(int error_type,char* msg);
+int yyerror(char* msg);
  %}
 
 %locations
@@ -27,10 +18,7 @@ head->lineno = -1;
 
 %union {
 struct MTnode* mtnode;
-struct error_msg{
-	char* error_token;
-	char* error_type;
-} *error_node;
+struct lex_error_msg *error_node;
 }
 
 /*declare tokens
@@ -122,11 +110,9 @@ ExtDef : Specifier ExtDecList SEMI {
        list[2]=$3;
        $$ = create_node(list,3,"ExtDef",&@1,ExtDef);
        }
-	   /*
-	   |error SEMI {
-	   yyerror(2,"Broken External Definition");
-	   }
-	   */
+	   | Specifier {myyyerror(2,"';' is expected");} ExtDef
+	   | Specifier ExtDecList {myyyerror(2,"';' is expected");} ExtDef
+	   /*solve missing ';'*/
 ExtDecList : VarDec {
            MTnode** list=malloc(sizeof(void*)*1);
            list[0]=$1;
@@ -170,7 +156,7 @@ OptTag : ID {
        $$ = create_node(list,1,"OptTag",&@1,OptTag);
        }
 	   | error '\n' {
-	   yyerror(2,"broken struct specify");
+	   myyyerror(2,"broken struct specify");
 	   }
 	   | %empty				{$$ = create_node(NULL,0,"",&@$,EMPTY);}
 	
@@ -235,7 +221,7 @@ CompSt : LC DefList StmtList RC {
        $$ = create_node(list,4,"CompSt",&@1,CompSt);
        }
 	   |LC DefList error RC {
-	   yyerror(2,"Statement Error Between { and }");
+	   myyyerror(2,"Statement Error Between { and }");
 	   }
 StmtList : Stmt StmtList {
          MTnode** list=malloc(sizeof(void*)*2);
@@ -244,6 +230,8 @@ StmtList : Stmt StmtList {
          $$ = create_node(list,2,"StmtList",&@1,StmtList);
          }
 		 | %empty 				{$$ = create_node(NULL,0,"",&@$,EMPTY);}
+		 | Exp error{myyyerror(2,"';' is expected");}StmtList
+	      /*solve missing ';'*/
 
 Stmt : Exp SEMI {
      MTnode** list=malloc(sizeof(void*)*2);
@@ -292,7 +280,7 @@ Stmt : Exp SEMI {
      list[4]=$5;
      $$ = create_node(list,5,"Stmt",&@1,Stmt);
      }
-   	 |error{yyerrok;} ERROR {yyerror(1);} error SEMI {yyerrok;}
+   	 |error{} ERROR {myyyerror(1,"A");} error SEMI {}
 DefList : Def DefList {
         MTnode** list=malloc(sizeof(void*)*2);
         list[0]=$1;
@@ -309,7 +297,7 @@ Def : Specifier DecList SEMI {
     $$ = create_node(list,3,"Def",&@1,Def);
     }
 	|Specifier error SEMI{
-	yyerror(2,"broken Declaration");
+	myyyerror(2,"broken Declaration");
 	}
 DecList : Dec {
         MTnode** list=malloc(sizeof(void*)*1);
@@ -472,35 +460,73 @@ Args : Exp COMMA Args {
 #define __MY_YYERROR__
 #ifdef __MY_YYERROR__
 
-yyerror(int error_type,char* msg){
-	error_detected = 1;
-	if(error_type==1){
-		fprintf(stderr,"Error type A at Line %d: %s '%s'\n",
-			yylloc.first_line,yylval.error_node->error_type,yylval.error_node->error_token);
-	}
-	else if(error_type==2){
-		fprintf(stderr,"Error type B at Line %d: %s\n",
-			yylloc.first_line,msg);
-	}
-	else if(error_type==3){
-	}
-	else {
-		fprintf(stderr,"Default call Error type B at Line %d: Unknown Error\n",
-			yylloc.first_line);
-	}
-		
+void lineno_init(){
+	head_.lineno = -1;
 }
-/*
-myyyerr(int error_type,char* msg){
-	error_detected = 1;
-	if(error_type==1){
-		fprintf(stderr,"Error type A at %d: %s '%s'\n",
-			yylloc.first_line,yylval.error_node->error_type,yylval.error_node->error_token);
+
+int yyerror(char* msg){
+	error_detected=1;
+	if(yylloc.first_line == tail->lineno){//error been detected in this line
+		return 0;
 	}
 	else{
-		fprintf(stderr,"Error type B at %d: %s\n",
-			yylloc.first_line,msg);
+		tail->next = malloc(sizeof(error_list));
+		tail = tail->next;
+		tail->lineno = yylloc.first_line;
+		tail->error_type = syntax_error_unknown;
+		tail->error_msg = "Unknown Syntax Error";
+		return 0;
 	}
 }
-*/
+
+int myyyerror(int error_type,char* msg){
+	error_detected=1;
+	if(yylloc.first_line == tail->lineno){//error been detected in this line
+		//only lexical error can overwrite syntax error;
+		if(tail->error_type != lexical_error && 
+			error_type == lexical_error){
+			tail->error_type = lexical_error;
+			tail->error_node = yylval.error_node;
+		}
+	}
+	else{
+		tail->next = malloc(sizeof(error_list));
+		tail = tail->next;
+		tail->lineno = yylloc.first_line;
+		if(error_type == lexical_error){
+			tail->error_type = lexical_error;
+			tail->error_node = yylval.error_node;
+		}
+		else if(error_type == syntax_error_known){
+			tail->error_type = syntax_error_known;
+			tail->error_msg = msg;
+		}
+		else{
+			tail->error_type = syntax_error_unknown;
+			tail->error_msg = "Unknown Syntax Error";
+		}
+	}
+	return 0;
+}
+
+void error_print(error_list* p){
+	if(p->error_type == lexical_error){
+		printf("Error type A at Line %d: %s %s\n",
+			p->lineno,p->error_node->error_type,p->error_node->error_token);
+	}
+	else if(p->error_type == syntax_error_known){
+		printf("Error type B at Line %d: %s\n",p->lineno,p->error_msg);
+	}
+	else{
+		printf("Error type B at Line %d: Unknown Error\n",p->lineno);
+	}
+}
+		
+void error_report(){
+	error_list* p = head;
+	while(p!=tail){
+		p = p->next;
+		error_print(p);
+	}
+}
 #endif

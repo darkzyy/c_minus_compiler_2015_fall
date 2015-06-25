@@ -618,6 +618,7 @@ char *yytext;
 #line 2 "lexical.l"
   #include "syntax.tab.h"
   #include "multi_tree.h"
+  #include "error.h"
   int yycolumn = 1;
   #define YY_USER_ACTION \
 	yylloc.first_line = yylloc.last_line = yylineno; \
@@ -626,7 +627,7 @@ char *yytext;
 	yycolumn += yyleng;
 
 
-#line 630 "lex.yy.c"
+#line 631 "lex.yy.c"
 
 #define INITIAL 0
 #define COMMENTS 1
@@ -842,12 +843,12 @@ YY_DECL
 		}
 
 	{
-#line 20 "lexical.l"
+#line 21 "lexical.l"
 
 
  /*comments
   */
-#line 851 "lex.yy.c"
+#line 852 "lex.yy.c"
 
 	while ( 1 )		/* loops until end-of-file is reached */
 		{
@@ -916,27 +917,27 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 24 "lexical.l"
+#line 25 "lexical.l"
 {;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 25 "lexical.l"
+#line 26 "lexical.l"
 {BEGIN COMMENTS;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 26 "lexical.l"
+#line 27 "lexical.l"
 {BEGIN INITIAL;}
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 27 "lexical.l"
+#line 28 "lexical.l"
 {;}
 	YY_BREAK
 case YY_STATE_EOF(COMMENTS):
-#line 28 "lexical.l"
+#line 29 "lexical.l"
 {
 	BEGIN INITIAL;
 	printf("Error type  at Line %d : comments met EOF\'%s\'\n",
@@ -947,20 +948,20 @@ case YY_STATE_EOF(COMMENTS):
  */
 case 5:
 YY_RULE_SETUP
-#line 36 "lexical.l"
+#line 37 "lexical.l"
 {;}
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 37 "lexical.l"
+#line 38 "lexical.l"
 { yycolumn = 1;}
 	YY_BREAK
 /*relops
  */
 case 7:
 YY_RULE_SETUP
-#line 41 "lexical.l"
+#line 42 "lexical.l"
 {
 	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,str,&yylloc,RELOP);
@@ -969,9 +970,8 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 46 "lexical.l"
+#line 47 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"ASSIGNOP",&yylloc,ASSIGNOP);
 	return ASSIGNOP;
 }
@@ -980,194 +980,173 @@ case 9:
 YY_RULE_SETUP
 #line 51 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"SEMI",&yylloc,SEMI);
 	return SEMI;
 }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 56 "lexical.l"
+#line 55 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"COMMA",&yylloc,COMMA);
 	return COMMA;
 }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 61 "lexical.l"
+#line 59 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"PLUS",&yylloc,PLUS);
 	return PLUS;
 }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 66 "lexical.l"
+#line 63 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"MINUS",&yylloc,MINUS);
 	return MINUS;
 }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 71 "lexical.l"
+#line 67 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"STAR",&yylloc,STAR);
 	return STAR;
 }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 76 "lexical.l"
+#line 71 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"DIV",&yylloc,DIV);
 	return DIV;
 }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 81 "lexical.l"
+#line 75 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"AND",&yylloc,AND);
 	return AND;
 }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 86 "lexical.l"
+#line 79 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"OR",&yylloc,OR);
 	return OR;
 }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 91 "lexical.l"
+#line 83 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"DOT",&yylloc,DOT);
 	return DOT;
 }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 96 "lexical.l"
+#line 87 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"NOT",&yylloc,NOT);
 	return NOT;
 }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 101 "lexical.l"
+#line 91 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"LP",&yylloc,LP);
 	return LP;
 }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 106 "lexical.l"
+#line 95 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"RP",&yylloc,RP);
 	return RP;
 }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 111 "lexical.l"
+#line 99 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"LB",&yylloc,LB);
 	return LB;
 }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 116 "lexical.l"
+#line 103 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"RB",&yylloc,RB);
 	return RB;
 }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 121 "lexical.l"
+#line 107 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"LC",&yylloc,LC);
 	return LC;
 }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 126 "lexical.l"
+#line 111 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"RC",&yylloc,RC);
 	return RC;
 }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 131 "lexical.l"
+#line 115 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"STRUCT",&yylloc,STRUCT);
 	return STRUCT;
 }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 136 "lexical.l"
+#line 119 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"RETURN",&yylloc,RETURN);
 	return RETURN;
 }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 141 "lexical.l"
+#line 123 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"IF",&yylloc,IF);
 	return IF;
 }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 146 "lexical.l"
+#line 127 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"ELSE",&yylloc,ELSE);
 	return ELSE;
 }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 151 "lexical.l"
+#line 131 "lexical.l"
 {
-	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,"WHILE",&yylloc,WHILE);
 	return WHILE;
 }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 156 "lexical.l"
+#line 135 "lexical.l"
 {
 	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,str,&yylloc,TYPE);
@@ -1178,7 +1157,7 @@ YY_RULE_SETUP
  */
 case 31:
 YY_RULE_SETUP
-#line 165 "lexical.l"
+#line 144 "lexical.l"
 {
 	char* str = strdup(yytext);
 	yylval.error_node->error_token = str;
@@ -1188,7 +1167,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 171 "lexical.l"
+#line 150 "lexical.l"
 {
 	char* str = strdup(yytext);
 	yylval.error_node->error_token = str;
@@ -1198,7 +1177,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 177 "lexical.l"
+#line 156 "lexical.l"
 {
 	char* str = strdup(yytext);
 	yylval.error_node->error_token = str;
@@ -1208,7 +1187,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 183 "lexical.l"
+#line 162 "lexical.l"
 {
 	if(atoll(yytext)>0xffffffff){
 		char* str = strdup(yytext);
@@ -1225,7 +1204,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 196 "lexical.l"
+#line 175 "lexical.l"
 {//hex
 	char* str = strdup(yytext);
 	yylval.error_node->error_token = str;
@@ -1235,7 +1214,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 202 "lexical.l"
+#line 181 "lexical.l"
 { //oct
 	char* str = strdup(yytext);
 	yylval.error_node->error_token = str;
@@ -1245,7 +1224,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 209 "lexical.l"
+#line 188 "lexical.l"
 {
 	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,str,&yylloc,ID);
@@ -1257,7 +1236,7 @@ YY_RULE_SETUP
  */
 case 38:
 YY_RULE_SETUP
-#line 217 "lexical.l"
+#line 196 "lexical.l"
 {
 	char* str = strdup(yytext);
 	yylval.error_node->error_token = str;
@@ -1267,10 +1246,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 224 "lexical.l"
+#line 203 "lexical.l"
 ECHO;
 	YY_BREAK
-#line 1274 "lex.yy.c"
+#line 1253 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(STRING):
 	yyterminate();
@@ -2278,7 +2257,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 223 "lexical.l"
+#line 202 "lexical.l"
 
 
 

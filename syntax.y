@@ -1,10 +1,29 @@
 %{
 #include"lex.yy.c"
 int error_detected = 0;
+enum {lexical_error = 1，
+	syntax_error_known = 2,
+	syntax_error_unknown = 3};
+struct error_list{
+	int error_type;
+	int lineno;
+	struct {
+		char* error_token;
+		char* error_type;
+	} *error_node;//for lexical error	
+	char* error_msg; //for known syntax error
+	error_list* next;
+}
+error_list* head;
+error_list* tail;
+head = malloc(sizeof(error_list));
+tail = head;
+head->lineno = -1;
  %}
 
 %locations
-%define parse.error verbose
+/*%define parse.error verbose
+*/
 
 %union {
 struct MTnode* mtnode;
@@ -103,9 +122,11 @@ ExtDef : Specifier ExtDecList SEMI {
        list[2]=$3;
        $$ = create_node(list,3,"ExtDef",&@1,ExtDef);
        }
-	   |error SEMI{
-	   yyerror(2);
+	   /*
+	   |error SEMI {
+	   yyerror(2,"Broken External Definition");
 	   }
+	   */
 ExtDecList : VarDec {
            MTnode** list=malloc(sizeof(void*)*1);
            list[0]=$1;
@@ -148,6 +169,9 @@ OptTag : ID {
        list[0]=$1;
        $$ = create_node(list,1,"OptTag",&@1,OptTag);
        }
+	   | error '\n' {
+	   yyerror(2,"broken struct specify");
+	   }
 	   | %empty				{$$ = create_node(NULL,0,"",&@$,EMPTY);}
 	
 
@@ -210,6 +234,9 @@ CompSt : LC DefList StmtList RC {
        list[3]=$4;
        $$ = create_node(list,4,"CompSt",&@1,CompSt);
        }
+	   |LC DefList error RC {
+	   yyerror(2,"Statement Error Between { and }");
+	   }
 StmtList : Stmt StmtList {
          MTnode** list=malloc(sizeof(void*)*2);
          list[0]=$1;
@@ -265,11 +292,7 @@ Stmt : Exp SEMI {
      list[4]=$5;
      $$ = create_node(list,5,"Stmt",&@1,Stmt);
      }
-	 /*
-	 |error SEMI{
-	 yyerror(2);
-	 }
-	 */
+   	 |error{yyerrok;} ERROR {yyerror(1);} error SEMI {yyerrok;}
 DefList : Def DefList {
         MTnode** list=malloc(sizeof(void*)*2);
         list[0]=$1;
@@ -285,6 +308,9 @@ Def : Specifier DecList SEMI {
     list[2]=$3;
     $$ = create_node(list,3,"Def",&@1,Def);
     }
+	|Specifier error SEMI{
+	yyerror(2,"broken Declaration");
+	}
 DecList : Dec {
         MTnode** list=malloc(sizeof(void*)*1);
         list[0]=$1;
@@ -429,11 +455,6 @@ Exp : Exp ASSIGNOP Exp {
     list[0]=$1;
     $$ = create_node(list,1,"Exp",&@1,Exp);
     }
-	/*
-	| ERROR {
-	yyerror(1);
-	}
-	*/
 Args : Exp COMMA Args {
      MTnode** list=malloc(sizeof(void*)*3);
      list[0]=$1;
@@ -450,15 +471,36 @@ Args : Exp COMMA Args {
 
 #define __MY_YYERROR__
 #ifdef __MY_YYERROR__
-yyerror(int error_type,char* msg,char* msg2){
+
+yyerror(int error_type,char* msg){
+	error_detected = 1;
+	if(error_type==1){
+		fprintf(stderr,"Error type A at Line %d: %s '%s'\n",
+			yylloc.first_line,yylval.error_node->error_type,yylval.error_node->error_token);
+	}
+	else if(error_type==2){
+		fprintf(stderr,"Error type B at Line %d: %s\n",
+			yylloc.first_line,msg);
+	}
+	else if(error_type==3){
+	}
+	else {
+		fprintf(stderr,"Default call Error type B at Line %d: Unknown Error\n",
+			yylloc.first_line);
+	}
+		
+}
+/*
+myyyerr(int error_type,char* msg){
 	error_detected = 1;
 	if(error_type==1){
 		fprintf(stderr,"Error type A at %d: %s '%s'\n",
 			yylloc.first_line,yylval.error_node->error_type,yylval.error_node->error_token);
 	}
 	else{
-		fprintf(stderr,"Error type B at %d\n",
-			yylloc.first_line);
+		fprintf(stderr,"Error type B at %d: %s\n",
+			yylloc.first_line,msg);
 	}
 }
+*/
 #endif

@@ -73,7 +73,12 @@ extern int yydebug;
     ELSE = 283,
     WHILE = 284,
     ERROR = 285,
-    LOWER_THAN_ELSE = 286
+    MISSING_SEMI_4 = 286,
+    MISSING_SEMI_3 = 287,
+    MISSING_SEMI_2 = 288,
+    MISSING_SEMI_1 = 289,
+    HIGHER_THAN_LP = 290,
+    LOWER_THAN_ELSE = 291
   };
 #endif
 
@@ -87,7 +92,7 @@ union YYSTYPE
 struct MTnode* mtnode;
 struct lex_error_msg *error_node;
 
-#line 91 "syntax.tab.h" /* yacc.c:1909  */
+#line 96 "syntax.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

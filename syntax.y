@@ -52,14 +52,20 @@ struct lex_error_msg *error_node;
 %token <mtnode>WHILE
 %token <mtnode>ERROR
 
-%right	ASSIGNOP
-%left	OR
-%left	AND
-%left	RELOP
-%left	PLUS MINUS
-%left	STAR DIV
-%right	NOT
-%left	DOT LP RP LB RB
+%nonassoc MISSING_SEMI_4
+%nonassoc MISSING_SEMI_3
+%nonassoc MISSING_SEMI_2
+%nonassoc MISSING_SEMI_1
+
+%right    ASSIGNOP
+%left    OR
+%left    AND
+%left    RELOP
+%left    PLUS MINUS
+%left    STAR DIV
+%right    NOT
+%left    DOT LP RP LB RB
+%left  HIGHER_THAN_LP
 
 %nonassoc LOWER_THAN_ELSE
 %nonassoc ELSE
@@ -78,9 +84,9 @@ Program : ExtDefList {
         MTnode** list=malloc(sizeof(void*)*1);
         list[0]=$1;
         $$ = create_node(list,1,"Program",&@1,Program);
-		if(error_detected == 0){
-			pre_tranverse($$);
-		}
+        if(error_detected == 0){
+            pre_tranverse($$);
+        }
         }
 ExtDefList : ExtDef ExtDefList {
            MTnode** list=malloc(sizeof(void*)*2);
@@ -88,7 +94,13 @@ ExtDefList : ExtDef ExtDefList {
            list[1]=$2;
            $$ = create_node(list,2,"ExtDefList",&@1,ExtDefList);
            }
-		   | %empty				{$$ = create_node(NULL,0,"",&@$,EMPTY);}
+           | %empty                {$$ = create_node(NULL,0,"",&@$,EMPTY);}
+           /*
+           | Specifier {myyyerror(2,"';' is expected");} ExtDefList
+           | Specifier ExtDecList {myyyerror(2,"';' is expected");} ExtDefList
+           */
+            /*solve missing ';'*/
+           
 
 ExtDef : Specifier ExtDecList SEMI {
        MTnode** list=malloc(sizeof(void*)*3);
@@ -97,28 +109,29 @@ ExtDef : Specifier ExtDecList SEMI {
        list[2]=$3;
        $$ = create_node(list,3,"ExtDef",&@1,ExtDef);
        }
-	   | Specifier SEMI {
+       
+       | Specifier SEMI {
        MTnode** list=malloc(sizeof(void*)*2);
        list[0]=$1;
        list[1]=$2;
        $$ = create_node(list,2,"ExtDef",&@1,ExtDef);
        }
-	   | Specifier FunDec CompSt {
+       | Specifier FunDec CompSt {
        MTnode** list=malloc(sizeof(void*)*3);
        list[0]=$1;
        list[1]=$2;
        list[2]=$3;
        $$ = create_node(list,3,"ExtDef",&@1,ExtDef);
        }
-	   | Specifier {myyyerror(2,"';' is expected");} ExtDef
-	   | Specifier ExtDecList {myyyerror(2,"';' is expected");} ExtDef
-	   /*solve missing ';'*/
+       |error SEMI {
+       myyyerror(3,"U");
+       }
 ExtDecList : VarDec {
            MTnode** list=malloc(sizeof(void*)*1);
            list[0]=$1;
            $$ = create_node(list,1,"ExtDecList",&@1,ExtDecList);
            }
-		   | VarDec COMMA ExtDecList {
+           | VarDec COMMA ExtDecList {
            MTnode** list=malloc(sizeof(void*)*3);
            list[0]=$1;
            list[1]=$2;
@@ -130,7 +143,7 @@ Specifier : TYPE {
           list[0]=$1;
           $$ = create_node(list,1,"Specifier",&@1,Specifier);
           }
-		  | StructSpecifier {
+          | StructSpecifier {
           MTnode** list=malloc(sizeof(void*)*1);
           list[0]=$1;
           $$ = create_node(list,1,"Specifier",&@1,Specifier);
@@ -144,7 +157,7 @@ StructSpecifier : STRUCT OptTag LC DefList RC {
                 list[4]=$5;
                 $$ = create_node(list,5,"StructSpecifier",&@1,StructSpecifier);
                 }
-				| STRUCT Tag {
+                | STRUCT Tag {
                 MTnode** list=malloc(sizeof(void*)*2);
                 list[0]=$1;
                 list[1]=$2;
@@ -155,11 +168,8 @@ OptTag : ID {
        list[0]=$1;
        $$ = create_node(list,1,"OptTag",&@1,OptTag);
        }
-	   | error '\n' {
-	   myyyerror(2,"broken struct specify");
-	   }
-	   | %empty				{$$ = create_node(NULL,0,"",&@$,EMPTY);}
-	
+       | %empty                {$$ = create_node(NULL,0,"",&@$,EMPTY);}
+    
 
 Tag : ID {
     MTnode** list=malloc(sizeof(void*)*1);
@@ -171,7 +181,7 @@ VarDec : ID {
        list[0]=$1;
        $$ = create_node(list,1,"VarDec",&@1,VarDec);
        }
-	   | VarDec LB INT RB {
+       | VarDec LB INT RB {
        MTnode** list=malloc(sizeof(void*)*4);
        list[0]=$1;
        list[1]=$2;
@@ -187,7 +197,7 @@ FunDec : ID LP VarList RP {
        list[3]=$4;
        $$ = create_node(list,4,"FunDec",&@1,FunDec);
        }
-	   | ID LP RP {
+       | ID LP RP {
        MTnode** list=malloc(sizeof(void*)*3);
        list[0]=$1;
        list[1]=$2;
@@ -201,7 +211,7 @@ VarList : ParamDec COMMA VarList {
         list[2]=$3;
         $$ = create_node(list,3,"VarList",&@1,VarList);
         }
-		| ParamDec {
+        | ParamDec {
         MTnode** list=malloc(sizeof(void*)*1);
         list[0]=$1;
         $$ = create_node(list,1,"VarList",&@1,VarList);
@@ -220,18 +230,13 @@ CompSt : LC DefList StmtList RC {
        list[3]=$4;
        $$ = create_node(list,4,"CompSt",&@1,CompSt);
        }
-	   |LC DefList error RC {
-	   myyyerror(2,"Statement Error Between { and }");
-	   }
 StmtList : Stmt StmtList {
          MTnode** list=malloc(sizeof(void*)*2);
          list[0]=$1;
          list[1]=$2;
          $$ = create_node(list,2,"StmtList",&@1,StmtList);
          }
-		 | %empty 				{$$ = create_node(NULL,0,"",&@$,EMPTY);}
-		 | Exp error{myyyerror(2,"';' is expected");}StmtList
-	      /*solve missing ';'*/
+         | %empty                 {$$ = create_node(NULL,0,"",&@$,EMPTY);}
 
 Stmt : Exp SEMI {
      MTnode** list=malloc(sizeof(void*)*2);
@@ -239,19 +244,19 @@ Stmt : Exp SEMI {
      list[1]=$2;
      $$ = create_node(list,2,"Stmt",&@1,Stmt);
      }
-	 | CompSt {
+     | CompSt {
      MTnode** list=malloc(sizeof(void*)*1);
      list[0]=$1;
      $$ = create_node(list,1,"Stmt",&@1,Stmt);
      }
-	 | RETURN Exp SEMI {
+     | RETURN Exp SEMI {
      MTnode** list=malloc(sizeof(void*)*3);
      list[0]=$1;
      list[1]=$2;
      list[2]=$3;
      $$ = create_node(list,3,"Stmt",&@1,Stmt);
      }
-	 | IF LP Exp RP Stmt %prec LOWER_THAN_ELSE {
+     | IF LP Exp RP Stmt %prec LOWER_THAN_ELSE {
      MTnode** list=malloc(sizeof(void*)*5);
      list[0]=$1;
      list[1]=$2;
@@ -260,7 +265,7 @@ Stmt : Exp SEMI {
      list[4]=$5;
      $$ = create_node(list,5,"Stmt",&@1,Stmt);
      }
-	 | IF LP Exp RP Stmt ELSE Stmt {
+     | IF LP Exp RP Stmt ELSE Stmt {
      MTnode** list=malloc(sizeof(void*)*7);
      list[0]=$1;
      list[1]=$2;
@@ -271,7 +276,7 @@ Stmt : Exp SEMI {
      list[6]=$7;
      $$ = create_node(list,7,"Stmt",&@1,Stmt);
      }
-	 | WHILE LP Exp RP Stmt {
+     | WHILE LP Exp RP Stmt {
      MTnode** list=malloc(sizeof(void*)*5);
      list[0]=$1;
      list[1]=$2;
@@ -280,14 +285,23 @@ Stmt : Exp SEMI {
      list[4]=$5;
      $$ = create_node(list,5,"Stmt",&@1,Stmt);
      }
-   	 |error{} ERROR {myyyerror(1,"A");} error SEMI {}
+     |error SEMI{
+     myyyerror(3,"U");
+     }
+     /*
+        |error{} ERROR {myyyerror(1,"A");} error SEMI {}
+     */
 DefList : Def DefList {
         MTnode** list=malloc(sizeof(void*)*2);
         list[0]=$1;
         list[1]=$2;
         $$ = create_node(list,2,"DefList",&@1,DefList);
         }
-		| %empty				{$$ = create_node(NULL,0,"",&@$,EMPTY);}
+        | %empty                {$$ = create_node(NULL,0,"",&@$,EMPTY);}
+        /*
+        | Specifier DecList {myyyerror(2,"';' is expected");}
+        */
+          /*solve missing ';'*/
 
 Def : Specifier DecList SEMI {
     MTnode** list=malloc(sizeof(void*)*3);
@@ -296,15 +310,12 @@ Def : Specifier DecList SEMI {
     list[2]=$3;
     $$ = create_node(list,3,"Def",&@1,Def);
     }
-	|Specifier error SEMI{
-	myyyerror(2,"broken Declaration");
-	}
 DecList : Dec {
         MTnode** list=malloc(sizeof(void*)*1);
         list[0]=$1;
         $$ = create_node(list,1,"DecList",&@1,DecList);
         }
-		| Dec COMMA DecList {
+        | Dec COMMA DecList {
         MTnode** list=malloc(sizeof(void*)*3);
         list[0]=$1;
         list[1]=$2;
@@ -316,7 +327,7 @@ Dec : VarDec {
     list[0]=$1;
     $$ = create_node(list,1,"Dec",&@1,Dec);
     }
-	| VarDec ASSIGNOP Exp {
+    | VarDec ASSIGNOP Exp {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
@@ -330,75 +341,75 @@ Exp : Exp ASSIGNOP Exp {
     list[2]=$3;
     $$ = create_node(list,3,"Exp",&@1,Exp);
     }
-	| Exp AND Exp {
+    | Exp AND Exp {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
     $$ = create_node(list,3,"Exp",&@1,Exp);
     }
-	| Exp OR Exp {
+    | Exp OR Exp {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
     $$ = create_node(list,3,"Exp",&@1,Exp);
     }
-	| Exp RELOP Exp {
+    | Exp RELOP Exp {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
     $$ = create_node(list,3,"Exp",&@1,Exp);
     }
-	| Exp PLUS Exp {
+    | Exp PLUS Exp {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
     $$ = create_node(list,3,"Exp",&@1,Exp);
     }
-	| Exp MINUS Exp {
+    | Exp MINUS Exp {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
     $$ = create_node(list,3,"Exp",&@1,Exp);
     }
-	| Exp STAR Exp {
+    | Exp STAR Exp {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
     $$ = create_node(list,3,"Exp",&@1,Exp);
     }
-	| Exp DIV Exp {
+    | Exp DIV Exp {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
     $$ = create_node(list,3,"Exp",&@1,Exp);
     }
-	| LP Exp RP {
+    | LP Exp RP {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
     $$ = create_node(list,3,"Exp",&@1,Exp);
     }
-	| MINUS Exp {
+    | MINUS Exp {
     MTnode** list=malloc(sizeof(void*)*2);
     list[0]=$1;
     list[1]=$2;
     $$ = create_node(list,2,"Exp",&@1,Exp);
     }
-	| NOT Exp {
+    | NOT Exp {
     MTnode** list=malloc(sizeof(void*)*2);
     list[0]=$1;
     list[1]=$2;
     $$ = create_node(list,2,"Exp",&@1,Exp);
     }
-	| ID LP Args RP {
+    | ID LP Args RP {
     MTnode** list=malloc(sizeof(void*)*4);
     list[0]=$1;
     list[1]=$2;
@@ -406,14 +417,14 @@ Exp : Exp ASSIGNOP Exp {
     list[3]=$4;
     $$ = create_node(list,4,"Exp",&@1,Exp);
     }
-	| ID LP RP {
+    | ID LP RP {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
     $$ = create_node(list,3,"Exp",&@1,Exp);
     }
-	| Exp LB Exp RB {
+    | Exp LB Exp RB {
     MTnode** list=malloc(sizeof(void*)*4);
     list[0]=$1;
     list[1]=$2;
@@ -421,24 +432,24 @@ Exp : Exp ASSIGNOP Exp {
     list[3]=$4;
     $$ = create_node(list,4,"Exp",&@1,Exp);
     }
-	| Exp DOT ID {
+    | Exp DOT ID {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
     $$ = create_node(list,3,"Exp",&@1,Exp);
     }
-	| ID{
+    | ID{
     MTnode** list=malloc(sizeof(void*)*1);
     list[0]=$1;
     $$ = create_node(list,1,"Exp",&@1,Exp);
     }
-	| INT 	{
+    | INT     {
     MTnode** list=malloc(sizeof(void*)*1);
     list[0]=$1;
     $$ = create_node(list,1,"Exp",&@1,Exp);
     }
-	| FLOAT {
+    | FLOAT {
     MTnode** list=malloc(sizeof(void*)*1);
     list[0]=$1;
     $$ = create_node(list,1,"Exp",&@1,Exp);
@@ -450,7 +461,7 @@ Args : Exp COMMA Args {
      list[2]=$3;
      $$ = create_node(list,3,"Args",&@1,Args);
      }
-	| Exp 	{
+    | Exp     {
      MTnode** list=malloc(sizeof(void*)*1);
      list[0]=$1;
      $$ = create_node(list,1,"Args",&@1,Args);
@@ -461,72 +472,72 @@ Args : Exp COMMA Args {
 #ifdef __MY_YYERROR__
 
 void lineno_init(){
-	head_.lineno = -1;
+    head_.lineno = -1;
 }
 
 int yyerror(char* msg){
-	error_detected=1;
-	if(yylloc.first_line == tail->lineno){//error been detected in this line
-		return 0;
-	}
-	else{
-		tail->next = malloc(sizeof(error_list));
-		tail = tail->next;
-		tail->lineno = yylloc.first_line;
-		tail->error_type = syntax_error_unknown;
-		tail->error_msg = "Unknown Syntax Error";
-		return 0;
-	}
+    error_detected=1;
+    if(yylloc.first_line == tail->lineno){//error been detected in this line
+        return 0;
+    }
+    else{
+        tail->next = malloc(sizeof(error_list));
+        tail = tail->next;
+        tail->lineno = yylloc.first_line;
+        tail->error_type = syntax_error_unknown;
+        tail->error_msg = "Unknown Syntax Error";
+        return 0;
+    }
 }
 
 int myyyerror(int error_type,char* msg){
-	error_detected=1;
-	if(yylloc.first_line == tail->lineno){//error been detected in this line
-		//only lexical error can overwrite syntax error;
-		if(tail->error_type != lexical_error && 
-			error_type == lexical_error){
-			tail->error_type = lexical_error;
-			tail->error_node = yylval.error_node;
-		}
-	}
-	else{
-		tail->next = malloc(sizeof(error_list));
-		tail = tail->next;
-		tail->lineno = yylloc.first_line;
-		if(error_type == lexical_error){
-			tail->error_type = lexical_error;
-			tail->error_node = yylval.error_node;
-		}
-		else if(error_type == syntax_error_known){
-			tail->error_type = syntax_error_known;
-			tail->error_msg = msg;
-		}
-		else{
-			tail->error_type = syntax_error_unknown;
-			tail->error_msg = "Unknown Syntax Error";
-		}
-	}
-	return 0;
+    error_detected=1;
+    if(yylloc.first_line == tail->lineno){//error been detected in this line
+        //only lexical error can overwrite syntax error;
+        if(tail->error_type != lexical_error && 
+            error_type == lexical_error){
+            tail->error_type = lexical_error;
+            tail->error_node = yylval.error_node;
+        }
+    }
+    else{
+        tail->next = malloc(sizeof(error_list));
+        tail = tail->next;
+        tail->lineno = yylloc.first_line;
+        if(error_type == lexical_error){
+            tail->error_type = lexical_error;
+            tail->error_node = yylval.error_node;
+        }
+        else if(error_type == syntax_error_known){
+            tail->error_type = syntax_error_known;
+            tail->error_msg = msg;
+        }
+        else{
+            tail->error_type = syntax_error_unknown;
+            tail->error_msg = "Unknown Syntax Error";
+        }
+    }
+    return 0;
 }
 
 void error_print(error_list* p){
-	if(p->error_type == lexical_error){
-		printf("Error type A at Line %d: %s %s\n",
-			p->lineno,p->error_node->error_type,p->error_node->error_token);
-	}
-	else if(p->error_type == syntax_error_known){
-		printf("Error type B at Line %d: %s\n",p->lineno,p->error_msg);
-	}
-	else{
-		printf("Error type B at Line %d: Unknown Error\n",p->lineno);
-	}
+    if(p->error_type == lexical_error){
+        printf("Error type A at Line %d: %s %s\n",
+            p->lineno,p->error_node->error_type,p->error_node->error_token);
+    }
+    else if(p->error_type == syntax_error_known){
+        printf("Error type B at Line %d: %s\n",p->lineno,p->error_msg);
+    }
+    else{
+        printf("Error type B at Line %d: Unknown Error\n",p->lineno);
+    }
 }
-		
+        
 void error_report(){
-	error_list* p = head;
-	while(p!=tail){
-		p = p->next;
-		error_print(p);
-	}
+    error_list* p = head;
+    while(p!=tail){
+        p = p->next;
+        error_print(p);
+    }
 }
 #endif

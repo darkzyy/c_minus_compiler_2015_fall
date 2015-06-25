@@ -1,7 +1,6 @@
 %{
-#include<assert.h>
+#include<stdio.h>
 #include"lex.yy.c"
-#include"error.h"
 int error_detected = 0;
 int current_line_err = 0;
 
@@ -48,10 +47,6 @@ struct lex_error_msg *error_node;
 %token <mtnode>WHILE
 %token <mtnode>ERROR
 
-%nonassoc MISSING_SEMI_4
-%nonassoc MISSING_SEMI_3
-%nonassoc MISSING_SEMI_2
-%nonassoc MISSING_SEMI_1
 
 %right    ASSIGNOP
 %left    OR
@@ -61,7 +56,6 @@ struct lex_error_msg *error_node;
 %left    STAR DIV
 %right    NOT
 %left    DOT LP RP LB RB
-%left  HIGHER_THAN_LP
 
 %nonassoc LOWER_THAN_ELSE
 %nonassoc ELSE
@@ -93,8 +87,6 @@ ExtDefList : ExtDef ExtDefList {
            | %empty                {$$ = create_node(NULL,0,"",&@$,EMPTY);}
            | Specifier {yyerror("';' might be missed BEFORE this line");} ExtDefList
            | Specifier ExtDecList{yyerror("';' might be missed BEFORE this line");} ExtDefList
-           /*
-           */
             /*solve missing ';'*/
            
 
@@ -225,8 +217,8 @@ CompSt : LC DefList StmtList RC {
        $$ = create_node(list,4,"CompSt",&@1,CompSt);
        }
        /*
-       | LC DefList StmtList Exp error {yyerror(2,"';'is expected");}
-       | LC DefList error{yyerror(3,"Something wrong between { and }");} RC
+       | LC DefList StmtList Exp error 
+       | LC DefList error RC
        */
 StmtList : Stmt StmtList {
          MTnode** list=malloc(sizeof(void*)*2);
@@ -284,9 +276,6 @@ Stmt : Exp SEMI {
      $$ = create_node(list,5,"Stmt",&@1,Stmt);
      }
      |error SEMI{}
-     /*
-        |error{} ERROR {yyerror(1,"A");} error SEMI {}
-     */
 DefList : Def DefList {
         MTnode** list=malloc(sizeof(void*)*2);
         list[0]=$1;
@@ -294,10 +283,9 @@ DefList : Def DefList {
         $$ = create_node(list,2,"DefList",&@1,DefList);
         }
         | %empty                {$$ = create_node(NULL,0,"",&@$,EMPTY);}
-        /*
-        | Specifier DecList {yyerror(2,"';' is expected");}
-        */
-          /*solve missing ';'*/
+/*
+        | Specifier DecList {yyerror("';' is expected");}
+          solve missing ';'*/
 
 Def : Specifier DecList SEMI {
     MTnode** list=malloc(sizeof(void*)*3);
@@ -451,6 +439,7 @@ Exp : Exp ASSIGNOP Exp {
     list[0]=$1;
     $$ = create_node(list,1,"Exp",&@1,Exp);
     }
+    | LP error RP {}
 Args : Exp COMMA Args {
      MTnode** list=malloc(sizeof(void*)*3);
      list[0]=$1;
@@ -470,12 +459,17 @@ Args : Exp COMMA Args {
 
 
 int yyerror(char* msg){
-    current_line_err == 1;
+    error_detected=1;
     if(current_line_err == 1){
         return 0;
     }
-    error_detected=1;
-    printf("Error Type B at Line %d : syntax error\n",yylloc.first_line);
+    current_line_err = 1;
+    if(msg!=NULL){
+        printf("Error Type B at Line %d : %s\n",yylloc.first_line,msg);
+    }
+    else{
+        printf("Error Type B at Line %d : syntax error \n",yylloc.first_line);
+    }
     return 0;
 }
         

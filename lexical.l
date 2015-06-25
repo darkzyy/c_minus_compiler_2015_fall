@@ -2,7 +2,6 @@
   #include "string.h"
   #include "syntax.tab.h"
   #include "multi_tree.h"
-  #include "error.h"
   int yycolumn = 1;
   #define YY_USER_ACTION \
 	yylloc.first_line = yylloc.last_line = yylineno; \

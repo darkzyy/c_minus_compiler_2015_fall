@@ -1,4 +1,5 @@
 %{
+  #include "string.h"
   #include "syntax.tab.h"
   #include "multi_tree.h"
   #include "error.h"

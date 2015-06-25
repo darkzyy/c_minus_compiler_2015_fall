@@ -34,7 +34,7 @@
 # define YY_YY_SYNTAX_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG 1
+# define YYDEBUG 0
 #endif
 #if YYDEBUG
 extern int yydebug;
@@ -87,12 +87,12 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 19 "syntax.y" /* yacc.c:1909  */
+#line 19 "./syntax.y" /* yacc.c:1909  */
 
 struct MTnode* mtnode;
 struct lex_error_msg *error_node;
 
-#line 96 "syntax.tab.h" /* yacc.c:1909  */
+#line 96 "./syntax.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

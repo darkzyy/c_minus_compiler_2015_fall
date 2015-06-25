@@ -230,6 +230,7 @@ CompSt : LC DefList StmtList RC {
        list[3]=$4;
        $$ = create_node(list,4,"CompSt",&@1,CompSt);
        }
+       | LC DefList StmtList Exp error {myyyerror(2,"';'is expected");}
        /*
        | LC DefList error{myyyerror(3,"Something wrong between { and }");} RC
        */

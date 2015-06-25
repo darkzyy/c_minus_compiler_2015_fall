@@ -9,6 +9,8 @@
 	yylloc.first_column = yycolumn; \
 	yylloc.last_column = yycolumn + yyleng - 1; \
 	yycolumn += yyleng;
+  extern int error_detected;
+  extern int current_line_err;
 %}
 
 digit	[0-9]
@@ -29,14 +31,15 @@ alpha_	[a-zA-Z_]
 <COMMENTS>(.|\n)		{;}
 <COMMENTS><<EOF>>	{
 	BEGIN INITIAL;
-	printf("Error type  at Line %d : comments met EOF\'%s\'\n",
+	printf("Error type A at Line %d : comments met EOF\'%s\'\n",
 	yylineno,yytext);
 }
 
  /*spaces
  */
 <INITIAL>[\ \t\b\f\r]	{;}
-<INITIAL>\n		{ yycolumn = 1;}
+<INITIAL>\n		{ yycolumn = 1;
+    current_line_err = 0;}
 
  /*relops
  */
@@ -143,29 +146,29 @@ alpha_	[a-zA-Z_]
  /*build-in types
  */
 <INITIAL>{digit}*"."{digit}*[Ee][+-]?{digit}+ {
-	char* str = strdup(yytext);
-	yylval.error_node->error_token = str;
-	yylval.error_node->error_type = "scientific notation(unsupported)";
-	return ERROR;
+    current_line_err = 1;
+    error_detected = 1;
+    printf("Error type A at Line %d: scientific notation (unsupported) \'%s\'\n",
+        yylineno,yytext);
 }
 <INITIAL>{digit}+"."{digit}+ {
-	char* str = strdup(yytext);
-	yylval.error_node->error_token = str;
-	yylval.error_node->error_type = "float(unsupported)";
-	return ERROR;
+    current_line_err = 1;
+    error_detected = 1;
+    printf("Error type A at Line %d: float (unsupported) \'%s\'\n",
+        yylineno,yytext);
 }
 <INITIAL>{digit}{10}{digit}+ {
-	char* str = strdup(yytext);
-	yylval.error_node->error_token = str;
-	yylval.error_node->error_type = "too large number";
-	return ERROR;
+    current_line_err = 1;
+    error_detected = 1;
+    printf("Error type A at Line %d: too large number \'%s\'\n",
+        yylineno,yytext);
 }
 <INITIAL>{digit_0}{digit}{0,9}|"0" {
 	if(atoll(yytext)>0xffffffff){
-		char* str = strdup(yytext);
-		yylval.error_node->error_token = str;
-		yylval.error_node->error_type = "too large number";
-		return ERROR;
+        current_line_err = 1;
+        error_detected = 1;
+        printf("Error type A at Line %d: too large number \'%s\'\n",
+            yylineno,yytext);
 	}
 	else{
 		char* str = strdup(yytext);
@@ -174,16 +177,16 @@ alpha_	[a-zA-Z_]
 	}
 }
 <INITIAL>"0x"[0-9a-f]{1,8}|"0X"[0-9A-F]{1,8} {//hex
-	char* str = strdup(yytext);
-	yylval.error_node->error_token = str;
-	yylval.error_node->error_type = "hex (unsupported)";
-	return ERROR;
+    current_line_err = 1;
+    error_detected = 1;
+    printf("Error type A at Line %d: hex (unsupported) \'%s\'\n",
+       yylineno,yytext);
 }
 <INITIAL>"0"[0-7]{1,16} { //oct
-	char* str = strdup(yytext);
-	yylval.error_node->error_token = str;
-	yylval.error_node->error_type = "oct (unsupported)";
-	return ERROR;
+    current_line_err = 1;
+    error_detected = 1;
+    printf("Error type A at Line %d: oct (unsupported) \'%s\'\n",
+       yylineno,yytext);
 }
 
 <INITIAL>{alpha_}({alpha_}|{digit})* {
@@ -191,14 +194,11 @@ alpha_	[a-zA-Z_]
 	yylval.mtnode = create_node(NULL,0,str,&yylloc,ID);
 	return ID;
 }
- /*
- *error
- */
-<INITIAL>. {
-	char* str = strdup(yytext);
-	yylval.error_node->error_token = str;
-	yylval.error_node->error_type = "mysterious token";
-	return ERROR;
-}
+ <INITIAL>. {
+     current_line_err = 1;
+     error_detected = 1;
+     printf("Error type A at Line %d: Mysterious characters \'%s\'\n",
+        yylineno,yytext);
+ }
 
 %%

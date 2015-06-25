@@ -2,13 +2,9 @@
 #include<assert.h>
 #include"lex.yy.c"
 #include"error.h"
-//int yyerror(char* m);
 int error_detected = 0;
+int current_line_err = 0;
 
-error_list head_;
-error_list* head = &head_;
-error_list* tail = &head_;
-int myyyerror(int error_type,char* msg);
 int yyerror(char* msg);
  %}
 
@@ -95,8 +91,8 @@ ExtDefList : ExtDef ExtDefList {
            $$ = create_node(list,2,"ExtDefList",&@1,ExtDefList);
            }
            | %empty                {$$ = create_node(NULL,0,"",&@$,EMPTY);}
-           | Specifier {myyyerror(2,"';' might be missed BEFORE this line");} ExtDefList
-           | Specifier ExtDecList{myyyerror(2,"';' might be missed BEFORE this line");} ExtDefList
+           | Specifier {yyerror("';' might be missed BEFORE this line");} ExtDefList
+           | Specifier ExtDecList{yyerror("';' might be missed BEFORE this line");} ExtDefList
            /*
            */
             /*solve missing ';'*/
@@ -123,9 +119,7 @@ ExtDef : Specifier ExtDecList SEMI {
        list[2]=$3;
        $$ = create_node(list,3,"ExtDef",&@1,ExtDef);
        }
-       |error SEMI {
-       myyyerror(3,"U");
-       }
+       |error SEMI {}
 ExtDecList : VarDec {
            MTnode** list=malloc(sizeof(void*)*1);
            list[0]=$1;
@@ -231,8 +225,8 @@ CompSt : LC DefList StmtList RC {
        $$ = create_node(list,4,"CompSt",&@1,CompSt);
        }
        /*
-       | LC DefList StmtList Exp error {myyyerror(2,"';'is expected");}
-       | LC DefList error{myyyerror(3,"Something wrong between { and }");} RC
+       | LC DefList StmtList Exp error {yyerror(2,"';'is expected");}
+       | LC DefList error{yyerror(3,"Something wrong between { and }");} RC
        */
 StmtList : Stmt StmtList {
          MTnode** list=malloc(sizeof(void*)*2);
@@ -289,11 +283,9 @@ Stmt : Exp SEMI {
      list[4]=$5;
      $$ = create_node(list,5,"Stmt",&@1,Stmt);
      }
-     |error SEMI{
-     myyyerror(3,"U");
-     }
+     |error SEMI{}
      /*
-        |error{} ERROR {myyyerror(1,"A");} error SEMI {}
+        |error{} ERROR {yyerror(1,"A");} error SEMI {}
      */
 DefList : Def DefList {
         MTnode** list=malloc(sizeof(void*)*2);
@@ -303,7 +295,7 @@ DefList : Def DefList {
         }
         | %empty                {$$ = create_node(NULL,0,"",&@$,EMPTY);}
         /*
-        | Specifier DecList {myyyerror(2,"';' is expected");}
+        | Specifier DecList {yyerror(2,"';' is expected");}
         */
           /*solve missing ';'*/
 
@@ -314,7 +306,7 @@ Def : Specifier DecList SEMI {
     list[2]=$3;
     $$ = create_node(list,3,"Def",&@1,Def);
     }
-    |Specifier error{myyyerror(3,"U");}SEMI;
+    |Specifier error{}SEMI;
 DecList : Dec {
         MTnode** list=malloc(sizeof(void*)*1);
         list[0]=$1;
@@ -476,73 +468,15 @@ Args : Exp COMMA Args {
 #define __MY_YYERROR__
 #ifdef __MY_YYERROR__
 
-void lineno_init(){
-    head_.lineno = -1;
-}
 
 int yyerror(char* msg){
-    error_detected=1;
-    if(yylloc.first_line == tail->lineno){//error been detected in this line
+    current_line_err == 1;
+    if(current_line_err == 1){
         return 0;
     }
-    else{
-        tail->next = malloc(sizeof(error_list));
-        tail = tail->next;
-        tail->lineno = yylloc.first_line;
-        tail->error_type = syntax_error_unknown;
-        tail->error_msg = "Unknown Syntax Error";
-        return 0;
-    }
-}
-
-int myyyerror(int error_type,char* msg){
     error_detected=1;
-    if(yylloc.first_line == tail->lineno){//error been detected in this line
-        //only lexical error can overwrite syntax error;
-        if(tail->error_type != lexical_error && 
-            error_type == lexical_error){
-            tail->error_type = lexical_error;
-            tail->error_node = yylval.error_node;
-        }
-    }
-    else{
-        tail->next = malloc(sizeof(error_list));
-        tail = tail->next;
-        tail->lineno = yylloc.first_line;
-        if(error_type == lexical_error){
-            tail->error_type = lexical_error;
-            tail->error_node = yylval.error_node;
-        }
-        else if(error_type == syntax_error_known){
-            tail->error_type = syntax_error_known;
-            tail->error_msg = msg;
-        }
-        else{
-            tail->error_type = syntax_error_unknown;
-            tail->error_msg = "Unknown Syntax Error";
-        }
-    }
+    printf("Error Type B at Line %d : syntax error\n",yylloc.first_line);
     return 0;
 }
-
-void error_print(error_list* p){
-    if(p->error_type == lexical_error){
-        printf("Error type A at Line %d: %s %s\n",
-            p->lineno,p->error_node->error_type,p->error_node->error_token);
-    }
-    else if(p->error_type == syntax_error_known){
-        printf("Error type B at Line %d: %s\n",p->lineno,p->error_msg);
-    }
-    else{
-        printf("Error type B at Line %d: Unknown Error\n",p->lineno);
-    }
-}
         
-void error_report(){
-    error_list* p = head;
-    while(p!=tail){
-        p = p->next;
-        error_print(p);
-    }
-}
 #endif

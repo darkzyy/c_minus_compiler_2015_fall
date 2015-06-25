@@ -34,9 +34,7 @@ int main(int argc,char** argv){
 #if YYDEBUG
 	yydebug = 1;
 #endif
-	lineno_init();
 	yyparse(); 
-	error_report();
 	return 0; 
 }
 #endif

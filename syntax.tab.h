@@ -87,7 +87,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 19 "./syntax.y" /* yacc.c:1909  */
+#line 15 "./syntax.y" /* yacc.c:1909  */
 
 struct MTnode* mtnode;
 struct lex_error_msg *error_node;

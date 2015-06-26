@@ -18,8 +18,6 @@ alpha_	[a-zA-Z_]
 
 %option yylineno
 %START COMMENTS
-%START STRING
-
 %%
 
  /*comments
@@ -30,8 +28,7 @@ alpha_	[a-zA-Z_]
 <COMMENTS>(.|\n)		{;}
 <COMMENTS><<EOF>>	{
 	BEGIN INITIAL;
-	printf("Error type A at Line %d : comments met EOF\'%s\'\n",
-	yylineno,yytext);
+	printf("Error type A at Line %d : comments met EOF\n",yylineno);
 }
 
  /*spaces
@@ -149,18 +146,21 @@ alpha_	[a-zA-Z_]
     error_detected = 1;
     printf("Error type A at Line %d: scientific notation (unsupported) \'%s\'\n",
         yylineno,yytext);
+    return FLOAT;
 }
 <INITIAL>{digit}+"."{digit}+ {
     current_line_err = 1;
     error_detected = 1;
     printf("Error type A at Line %d: float (unsupported) \'%s\'\n",
         yylineno,yytext);
+    return FLOAT;
 }
 <INITIAL>{digit}{10}{digit}+ {
     current_line_err = 1;
     error_detected = 1;
     printf("Error type A at Line %d: too large number \'%s\'\n",
         yylineno,yytext);
+    return INT;
 }
 <INITIAL>{digit_0}{digit}{0,9}|"0" {
 	if(atoll(yytext)>0xffffffff){
@@ -168,6 +168,7 @@ alpha_	[a-zA-Z_]
         error_detected = 1;
         printf("Error type A at Line %d: too large number \'%s\'\n",
             yylineno,yytext);
+        return INT;
 	}
 	else{
 		char* str = strdup(yytext);
@@ -180,12 +181,14 @@ alpha_	[a-zA-Z_]
     error_detected = 1;
     printf("Error type A at Line %d: hex (unsupported) \'%s\'\n",
        yylineno,yytext);
+    return INT;
 }
 <INITIAL>"0"[0-7]{1,16} { //oct
     current_line_err = 1;
     error_detected = 1;
     printf("Error type A at Line %d: oct (unsupported) \'%s\'\n",
        yylineno,yytext);
+    return INT;
 }
 
 <INITIAL>{alpha_}({alpha_}|{digit})* {

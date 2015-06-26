@@ -13,7 +13,6 @@ int yyerror(char* msg);
 
 %union {
 struct MTnode* mtnode;
-struct lex_error_msg *error_node;
 }
 
 /*declare tokens
@@ -217,7 +216,7 @@ CompSt : LC DefList StmtList RC {
        $$ = create_node(list,4,"CompSt",&@1,CompSt);
        }
        /*
-       | LC DefList StmtList Exp error 
+       | LC DefList StmtList error{yyerror("';' might be missed");} RC{}
        | LC DefList error RC
        */
 StmtList : Stmt StmtList {
@@ -465,10 +464,10 @@ int yyerror(char* msg){
     }
     current_line_err = 1;
     if(msg!=NULL){
-        printf("Error Type B at Line %d : %s\n",yylloc.first_line,msg);
+        printf("Error Type B at Line %d: %s\n",yylloc.first_line,msg);
     }
     else{
-        printf("Error Type B at Line %d : syntax error \n",yylloc.first_line);
+        printf("Error Type B at Line %d: syntax error \n",yylloc.first_line);
     }
     return 0;
 }

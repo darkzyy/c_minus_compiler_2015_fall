@@ -77,6 +77,7 @@ Program : ExtDefList {
             pre_tranverse($$);
         }
         }
+        ;
 ExtDefList : ExtDef ExtDefList {
            MTnode** list=malloc(sizeof(void*)*2);
            list[0]=$1;
@@ -87,6 +88,7 @@ ExtDefList : ExtDef ExtDefList {
            | Specifier {yyerror("';' might be missed BEFORE this line");} ExtDefList
            | Specifier ExtDecList{yyerror("';' might be missed BEFORE this line");} ExtDefList
             /*solve missing ';'*/
+            ;
            
 
 ExtDef : Specifier ExtDecList SEMI {
@@ -111,6 +113,7 @@ ExtDef : Specifier ExtDecList SEMI {
        $$ = create_node(list,3,"ExtDef",&@1,ExtDef);
        }
        |error SEMI {}
+       ;
 ExtDecList : VarDec {
            MTnode** list=malloc(sizeof(void*)*1);
            list[0]=$1;
@@ -123,6 +126,8 @@ ExtDecList : VarDec {
            list[2]=$3;
            $$ = create_node(list,3,"ExtDecList",&@1,ExtDecList);
            }
+           ;
+
 Specifier : TYPE {
           MTnode** list=malloc(sizeof(void*)*1);
           list[0]=$1;
@@ -133,6 +138,7 @@ Specifier : TYPE {
           list[0]=$1;
           $$ = create_node(list,1,"Specifier",&@1,Specifier);
           }
+          ;
 StructSpecifier : STRUCT OptTag LC DefList RC {
                 MTnode** list=malloc(sizeof(void*)*5);
                 list[0]=$1;
@@ -148,6 +154,7 @@ StructSpecifier : STRUCT OptTag LC DefList RC {
                 list[1]=$2;
                 $$ = create_node(list,2,"StructSpecifier",&@1,StructSpecifier);
                 }
+                ;
 
 OptTag : ID {
        MTnode** list=malloc(sizeof(void*)*1);
@@ -155,6 +162,7 @@ OptTag : ID {
        $$ = create_node(list,1,"OptTag",&@1,OptTag);
        }
        | %empty                {$$ = create_node(NULL,0,"",&@$,EMPTY);}
+       ;
     
 
 Tag : ID {
@@ -162,6 +170,7 @@ Tag : ID {
     list[0]=$1;
     $$ = create_node(list,1,"Tag",&@1,Tag);
     }
+    ;
 VarDec : ID {
        MTnode** list=malloc(sizeof(void*)*1);
        list[0]=$1;
@@ -175,6 +184,7 @@ VarDec : ID {
        list[3]=$4;
        $$ = create_node(list,4,"VarDec",&@1,VarDec);
        }
+       ;
 FunDec : ID LP VarList RP {
        MTnode** list=malloc(sizeof(void*)*4);
        list[0]=$1;
@@ -190,6 +200,7 @@ FunDec : ID LP VarList RP {
        list[2]=$3;
        $$ = create_node(list,3,"FunDec",&@1,FunDec);
        }
+       ;
 VarList : ParamDec COMMA VarList {
         MTnode** list=malloc(sizeof(void*)*3);
         list[0]=$1;
@@ -202,12 +213,14 @@ VarList : ParamDec COMMA VarList {
         list[0]=$1;
         $$ = create_node(list,1,"VarList",&@1,VarList);
         }
+        ;
 ParamDec : Specifier VarDec {
          MTnode** list=malloc(sizeof(void*)*2);
          list[0]=$1;
          list[1]=$2;
          $$ = create_node(list,2,"ParamDec",&@1,ParamDec);
          }
+         ;
 CompSt : LC DefList StmtList RC {
        MTnode** list=malloc(sizeof(void*)*4);
        list[0]=$1;
@@ -220,6 +233,7 @@ CompSt : LC DefList StmtList RC {
        | LC DefList StmtList error{yyerror("';' might be missed");} RC{}
        | LC DefList error RC
        */
+       ;
 StmtList : Stmt StmtList {
          MTnode** list=malloc(sizeof(void*)*2);
          list[0]=$1;
@@ -227,7 +241,7 @@ StmtList : Stmt StmtList {
          $$ = create_node(list,2,"StmtList",&@1,StmtList);
          }
          | %empty                 {$$ = create_node(NULL,0,"",&@$,EMPTY);}
-
+         ;
 Stmt : Exp SEMI {
      MTnode** list=malloc(sizeof(void*)*2);
      list[0]=$1;
@@ -276,6 +290,7 @@ Stmt : Exp SEMI {
      $$ = create_node(list,5,"Stmt",&@1,Stmt);
      }
      |error SEMI{}
+     ;
 DefList : Def DefList {
         MTnode** list=malloc(sizeof(void*)*2);
         list[0]=$1;
@@ -286,6 +301,7 @@ DefList : Def DefList {
 /*
         | Specifier DecList {yyerror("';' is expected");}
           solve missing ';'*/
+          ;
 
 Def : Specifier DecList SEMI {
     MTnode** list=malloc(sizeof(void*)*3);
@@ -295,6 +311,7 @@ Def : Specifier DecList SEMI {
     $$ = create_node(list,3,"Def",&@1,Def);
     }
     |Specifier error{}SEMI;
+    ;
 DecList : Dec {
         MTnode** list=malloc(sizeof(void*)*1);
         list[0]=$1;
@@ -307,6 +324,7 @@ DecList : Dec {
         list[2]=$3;
         $$ = create_node(list,3,"DecList",&@1,DecList);
         }
+        ;
 Dec : VarDec {
     MTnode** list=malloc(sizeof(void*)*1);
     list[0]=$1;
@@ -319,6 +337,7 @@ Dec : VarDec {
     list[2]=$3;
     $$ = create_node(list,3,"Dec",&@1,Dec);
     }
+    ;
 Exp : Exp ASSIGNOP Exp {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
@@ -441,6 +460,7 @@ Exp : Exp ASSIGNOP Exp {
     }
     | LP error RP {}
     | LP Exp error RP {}
+    ;
 Args : Exp COMMA Args {
      MTnode** list=malloc(sizeof(void*)*3);
      list[0]=$1;
@@ -453,6 +473,7 @@ Args : Exp COMMA Args {
      list[0]=$1;
      $$ = create_node(list,1,"Args",&@1,Args);
      }
+     ;
 %%
 
 #define __MY_YYERROR__

@@ -148,6 +148,7 @@ StructSpecifier : STRUCT OptTag LC DefList RC {
                 list[1]=$2;
                 $$ = create_node(list,2,"StructSpecifier",&@1,StructSpecifier);
                 }
+
 OptTag : ID {
        MTnode** list=malloc(sizeof(void*)*1);
        list[0]=$1;
@@ -439,6 +440,7 @@ Exp : Exp ASSIGNOP Exp {
     $$ = create_node(list,1,"Exp",&@1,Exp);
     }
     | LP error RP {}
+    | LP Exp error RP {}
 Args : Exp COMMA Args {
      MTnode** list=malloc(sizeof(void*)*3);
      list[0]=$1;

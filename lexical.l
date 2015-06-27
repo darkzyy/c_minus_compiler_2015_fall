@@ -142,10 +142,8 @@ alpha_	[a-zA-Z_]
  /*build-in types
  */
 <INITIAL>{digit}*"."{digit}*[Ee][+-]?{digit}+ {
-    current_line_err = 1;
-    error_detected = 1;
-    printf("Error type A at Line %d: scientific notation (unsupported) \'%s\'\n",
-        yylineno,yytext);
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,FLOAT);
     return FLOAT;
 }
 <INITIAL>{digit}+"."{digit}+ {
@@ -196,11 +194,11 @@ alpha_	[a-zA-Z_]
 	yylval.mtnode = create_node(NULL,0,str,&yylloc,ID);
 	return ID;
 }
- <INITIAL>. {
-     current_line_err = 1;
-     error_detected = 1;
-     printf("Error type A at Line %d: Mysterious characters \'%s\'\n",
-        yylineno,yytext);
- }
+<INITIAL>. {
+    current_line_err = 1;
+    error_detected = 1;
+    printf("Error type A at Line %d: Mysterious characters \'%s\'\n",
+       yylineno,yytext);
+}
 
 %%

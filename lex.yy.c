@@ -1157,16 +1157,14 @@ case 31:
 YY_RULE_SETUP
 #line 144 "./lexical.l"
 {
-    current_line_err = 1;
-    error_detected = 1;
-    printf("Error type A at Line %d: scientific notation (unsupported) \'%s\'\n",
-        yylineno,yytext);
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,FLOAT);
     return FLOAT;
 }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 151 "./lexical.l"
+#line 149 "./lexical.l"
 {
     current_line_err = 1;
     error_detected = 1;
@@ -1177,7 +1175,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 158 "./lexical.l"
+#line 156 "./lexical.l"
 {
     current_line_err = 1;
     error_detected = 1;
@@ -1188,7 +1186,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 165 "./lexical.l"
+#line 163 "./lexical.l"
 {
 	if(atoll(yytext)>0xffffffff){
         current_line_err = 1;
@@ -1206,7 +1204,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 179 "./lexical.l"
+#line 177 "./lexical.l"
 {//hex
     current_line_err = 1;
     error_detected = 1;
@@ -1217,7 +1215,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 186 "./lexical.l"
+#line 184 "./lexical.l"
 { //oct
     current_line_err = 1;
     error_detected = 1;
@@ -1228,7 +1226,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 194 "./lexical.l"
+#line 192 "./lexical.l"
 {
 	char* str = strdup(yytext);
 	yylval.mtnode = create_node(NULL,0,str,&yylloc,ID);
@@ -1237,20 +1235,20 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 199 "./lexical.l"
+#line 197 "./lexical.l"
 {
-     current_line_err = 1;
-     error_detected = 1;
-     printf("Error type A at Line %d: Mysterious characters \'%s\'\n",
-        yylineno,yytext);
- }
+    current_line_err = 1;
+    error_detected = 1;
+    printf("Error type A at Line %d: Mysterious characters \'%s\'\n",
+       yylineno,yytext);
+}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 206 "./lexical.l"
+#line 204 "./lexical.l"
 ECHO;
 	YY_BREAK
-#line 1254 "./lex.yy.c"
+#line 1252 "./lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2257,7 +2255,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 205 "./lexical.l"
+#line 203 "./lexical.l"
 
 
 

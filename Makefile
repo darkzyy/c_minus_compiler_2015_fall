@@ -5,7 +5,8 @@
 CC = gcc
 FLEX = flex
 BISON = bison
-CFLAGS = -std=gnu99
+#CFLAGS = -std=c99
+CFLAGS = -std=gnu99 -Wall -Wno-unused-function
 
 # 编译目标：src目录下的所有.c文件
 CFILES = $(shell find ./ -name "*.c")
@@ -16,6 +17,7 @@ LFC = $(shell find ./ -name "*.l" | sed s/[^/]*\\.l/lex.yy.c/)
 YFC = $(shell find ./ -name "*.y" | sed s/[^/]*\\.y/syntax.tab.c/)
 LFO = $(LFC:.c=.o)
 YFO = $(YFC:.c=.o)
+TEST_FILE_LIST = $(shell find ../Test/ -name "*.cmm")
 
 parser: syntax $(filter-out $(LFO),$(OBJS))
 	$(CC) -o parser $(filter-out $(LFO),$(OBJS)) -lfl -ly
@@ -33,10 +35,8 @@ syntax-c: $(YFILE)
 
 # 定义的一些伪目标
 .PHONY: clean test
-test06:
-	./parser ../Test/test06.c
-test10:
-	./parser ../Test/test10.c
+test: 
+	bash test.sh $(TEST_FILE_LIST)
 clean:
 	rm -f parser lex.yy.c syntax.tab.c syntax.tab.h syntax.output
 	rm -f $(OBJS) $(OBJS:.o=.d)

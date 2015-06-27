@@ -142,15 +142,15 @@ alpha_	[a-zA-Z_]
  /*build-in types
  */
 <INITIAL>{digit}*"."{digit}*[Ee][+-]?{digit}+ {
-	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,FLOAT);
+    current_line_err = 1;
+    error_detected = 1;
+    printf("Error type A at Line %d: scientific notation (unsupported) \'%s\'\n",
+        yylineno,yytext);
     return FLOAT;
 }
 <INITIAL>{digit}+"."{digit}+ {
-    current_line_err = 1;
-    error_detected = 1;
-    printf("Error type A at Line %d: float (unsupported) \'%s\'\n",
-        yylineno,yytext);
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,FLOAT);
     return FLOAT;
 }
 <INITIAL>{digit}{10}{digit}+ {

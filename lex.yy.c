@@ -1157,19 +1157,19 @@ case 31:
 YY_RULE_SETUP
 #line 144 "./lexical.l"
 {
-	char* str = strdup(yytext);
-	yylval.mtnode = create_node(NULL,0,str,&yylloc,FLOAT);
+    current_line_err = 1;
+    error_detected = 1;
+    printf("Error type A at Line %d: scientific notation (unsupported) \'%s\'\n",
+        yylineno,yytext);
     return FLOAT;
 }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 149 "./lexical.l"
+#line 151 "./lexical.l"
 {
-    current_line_err = 1;
-    error_detected = 1;
-    printf("Error type A at Line %d: float (unsupported) \'%s\'\n",
-        yylineno,yytext);
+	char* str = strdup(yytext);
+	yylval.mtnode = create_node(NULL,0,str,&yylloc,FLOAT);
     return FLOAT;
 }
 	YY_BREAK

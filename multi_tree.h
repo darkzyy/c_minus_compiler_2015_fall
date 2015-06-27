@@ -9,6 +9,10 @@ typedef struct MTnode{
 	int type;
 	int children_amount;
 	char* str;
+    union {
+        int valt;
+        double valf;
+    };
 	YYLTYPE location;
 	struct MTnode** children_list;
 }MTnode;

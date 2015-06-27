@@ -14,6 +14,12 @@ MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int 
 	new_node->location.last_line = loc->last_line;
 	new_node->type = type;
 	new_node->children_list = node_list;
+    if(type == INT){
+        new_node->valt = atoi(str);
+    }
+    else if(type == FLOAT){
+        new_node->valf = atof(str);
+    }
 	return new_node;
 }
 
@@ -31,7 +37,10 @@ void pre_tranverse2(MTnode* root,int indent){
 			printf("TYPE: %s\n",root->str);
 		}
 		else if(root->type==INT){
-			printf("INT: %s\n",root->str);
+			printf("INT: %d\n",root->valt);
+		}
+		else if(root->type==FLOAT){
+			printf("FLOAT: %.6lf\n",root->valf);
 		}
 		else if(root->type==ID){
 			printf("ID: %s\n",root->str);

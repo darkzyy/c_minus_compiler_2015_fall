@@ -3,3 +3,4 @@ tmp*
 lexer
 parser
 *.o
+x

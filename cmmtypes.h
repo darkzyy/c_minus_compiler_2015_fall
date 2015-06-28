@@ -17,7 +17,7 @@ struct Type_{
             int size;
         }array;
         FieldList* structure;
-    }u;
+    };
 };
 
 struct FieldLidt_{

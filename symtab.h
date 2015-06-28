@@ -13,6 +13,18 @@ struct symbol_{
     int dim;
     int argamt;//arguement amount
     union{
+        struct{
+            unsigned int is_struct : 1;
+            unsigned int is_func : 1;
+            unsigned int is_var : 1;
+            unsigned int is_domain : 1;
+            unsigned int def_ed : 1;
+            unsigned int dec_ed : 1;
+            unsigned int init_ed : 1;
+        };
+        unsigned int property;
+    };
+    union{
         int val_int;
         float val_float;
     };

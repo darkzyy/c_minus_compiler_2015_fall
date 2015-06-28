@@ -63,7 +63,7 @@ struct MTnode* mtnode;
 %type <mtnode> Exp Args Dec DecList Def DefList 
 %type <mtnode> Stmt StmtList CompSt VarDec FunDec VarList ParamDec
 %type <mtnode> Tag OptTag StructSpecifier Specifier
-%type <mtnode> ExtDecList ExtDef ExtDefList Program
+%type <mtnode> ExtDecList ExtDef ExtDefList Program ExtDec
 /*%type <mtnode> SyntaxError*/
 
 %%
@@ -90,6 +90,14 @@ ExtDefList : ExtDef ExtDefList {
             /*solve missing ';'*/
             ;
            
+ExtDec : Specifier FunDec SEMI{
+       MTnode** list=malloc(sizeof(void*)*3);
+       list[0]=$1;
+       list[1]=$2;
+       list[2]=$3;
+       $$ = create_node(list,3,"ExtDec",&@1,ExtDec);
+       }
+       ;
 
 ExtDef : Specifier ExtDecList SEMI {
        MTnode** list=malloc(sizeof(void*)*3);
@@ -111,6 +119,11 @@ ExtDef : Specifier ExtDecList SEMI {
        list[1]=$2;
        list[2]=$3;
        $$ = create_node(list,3,"ExtDef",&@1,ExtDef);
+       }
+       |ExtDec{
+       MTnode** list=malloc(sizeof(void*)*1);
+       list[0]=$1;
+       $$ = create_node(list,1,"ExtDef",&@1,ExtDef);
        }
        |error SEMI {}
        ;

@@ -47,7 +47,8 @@ enum{
     Dec=319,
     Exp=320,
     Args=321,
-	EMPTY=322
+    ExtDec=322,
+	EMPTY=323
 };
 
 #endif

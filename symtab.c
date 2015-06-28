@@ -6,7 +6,7 @@
 
 symbol* ht = NULL;
 
-void add_sym( char* id_name,int dim){
+void add_sym_name( char* id_name,int dim){
     symbol* s;
     HASH_FIND_STR( ht,id_name,s);
     if(s==NULL){
@@ -16,6 +16,18 @@ void add_sym( char* id_name,int dim){
         HASH_ADD_KEYPTR(hh,ht,s->id_name,strlen(s->id_name),s);
     }
 }
+
+void add_sym_node(symbol* new_node){
+    symbol* s;
+    HASH_FIND_STR( ht,new_node->id_name,s);
+    if(s==NULL){
+        s=(symbol*)malloc(sizeof(symbol));
+        s->id_name = id_name;
+        s->dim = dim;
+        HASH_ADD_KEYPTR(hh,ht,new_node->id_name,strlen(new_node->id_name),new_node);
+    }
+}
+
 symbol* find_sym(char* id_name){
     symbol* s;
     HASH_FIND_STR(ht,id_name,s);

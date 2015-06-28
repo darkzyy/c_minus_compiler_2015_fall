@@ -78,9 +78,10 @@ Program : ExtDefList {
         /*
         if(error_detected == 0){
             pre_tranverse($$);
-        }*/
+        }
+        */
         build_table($$);
-        print_symtab();
+        print_symtab(var_tab);
         }
         ;
 ExtDefList : ExtDef ExtDefList {

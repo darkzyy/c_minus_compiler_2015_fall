@@ -32,11 +32,16 @@ struct symbol_{
     UT_hash_handle hh;
 };
 
-void add_sym_name(char* id_name);
-void add_sym_node(symbol* new_node);
-symbol* find_sym(char* id_name);
-symbol* del_sym(char* id_name);
-void print_symtab();
+extern symbol* func_tab;
+extern symbol* struct_tab;
+extern symbol* var_tab;
+extern symbol* domain_tab;
+
+void add_sym_name(symbol** ht,char* id_name);
+void add_sym_node(symbol** ht,symbol* new_node);
+symbol* find_sym(symbol** ht,char* id_name);
+symbol* del_sym(symbol** ht,char* id_name);
+void print_symtab(symbol* ht);
 
 
 #endif

@@ -9,7 +9,7 @@
  */
 void build_table(MTnode* root){
     if(root->type == ID){
-        add_sym_name(root->str);
+        add_sym_name(&var_tab,root->str);
     }
     int i;
     for(i=0;i<root->children_amount;i++){

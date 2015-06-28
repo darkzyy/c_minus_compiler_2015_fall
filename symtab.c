@@ -6,13 +6,12 @@
 
 symbol* ht = NULL;
 
-void add_sym_name( char* id_name,int dim){
+void add_sym_name( char* id_name){
     symbol* s;
     HASH_FIND_STR( ht,id_name,s);
     if(s==NULL){
         s=(symbol*)malloc(sizeof(symbol));
         s->id_name = id_name;
-        s->dim = dim;
         HASH_ADD_KEYPTR(hh,ht,s->id_name,strlen(s->id_name),s);
     }
 }
@@ -21,9 +20,6 @@ void add_sym_node(symbol* new_node){
     symbol* s;
     HASH_FIND_STR( ht,new_node->id_name,s);
     if(s==NULL){
-        s=(symbol*)malloc(sizeof(symbol));
-        s->id_name = id_name;
-        s->dim = dim;
         HASH_ADD_KEYPTR(hh,ht,new_node->id_name,strlen(new_node->id_name),new_node);
     }
 }
@@ -39,6 +35,13 @@ symbol* del_sym(char* id_name){
         HASH_DEL(ht,s);
     }
     return s;
+}
+
+void print_symtab(){
+    symbol* s;
+    for(s=ht;s!=NULL;s=s->hh.next){
+        printf("ID: %s\n",s->id_name);
+    }
 }
 
 /*

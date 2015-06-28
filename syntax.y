@@ -1,6 +1,8 @@
 %{
 #include<stdio.h>
 #include"lex.yy.c"
+#include"semantic.h"
+#include"symtab.h"
 int error_detected = 0;
 int current_line_err = 0;
 
@@ -73,9 +75,12 @@ Program : ExtDefList {
         MTnode** list=malloc(sizeof(void*)*1);
         list[0]=$1;
         $$ = create_node(list,1,"Program",&@1,Program);
+        /*
         if(error_detected == 0){
             pre_tranverse($$);
-        }
+        }*/
+        build_table($$);
+        print_symtab();
         }
         ;
 ExtDefList : ExtDef ExtDefList {

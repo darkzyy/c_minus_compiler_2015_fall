@@ -20,5 +20,11 @@ struct symbol_{
     UT_hash_handle hh;
 };
 
+void add_sym_name(char* id_name);
+void add_sym_node(symbol* new_node);
+symbol* find_sym(char* id_name);
+symbol* del_sym(char* id_name);
+void print_symtab();
+
 
 #endif

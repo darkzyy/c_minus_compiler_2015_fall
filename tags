@@ -48,8 +48,8 @@ EOB_ACT_END_OF_FILE	lex.yy.c	175;"	d	file:
 EOB_ACT_LAST_MATCH	lex.yy.c	176;"	d	file:
 ERROR	syntax.tab.c	/^    ERROR = 285,$/;"	e	enum:yytokentype	file:
 ERROR	syntax.tab.h	/^    ERROR = 285,$/;"	e	enum:yytokentype
-EXIT_SUCCESS	syntax.tab.c	312;"	d	file:
-EXIT_SUCCESS	syntax.tab.c	340;"	d	file:
+EXIT_SUCCESS	syntax.tab.c	313;"	d	file:
+EXIT_SUCCESS	syntax.tab.c	341;"	d	file:
 Exp	multi_tree.h	/^    Exp=320,$/;"	e	enum:__anon2
 Exp	syntax.y	/^Exp : Exp ASSIGNOP Exp {$/;"	l
 ExtDec	multi_tree.h	/^    ExtDec=322,$/;"	e	enum:__anon2
@@ -290,33 +290,33 @@ WP	uthash.h	543;"	d
 YFC	Makefile	/^YFC = $(shell find .\/ -name "*.y" | sed s\/[^\/]*\\\\.y\/syntax.tab.c\/)$/;"	m
 YFILE	Makefile	/^YFILE = $(shell find .\/ -name "*.y")$/;"	m
 YFO	Makefile	/^YFO = $(YFC:.c=.o)$/;"	m
-YYABORT	syntax.tab.c	699;"	d	file:
-YYACCEPT	syntax.tab.c	698;"	d	file:
-YYBACKUP	syntax.tab.c	705;"	d	file:
+YYABORT	syntax.tab.c	700;"	d	file:
+YYACCEPT	syntax.tab.c	699;"	d	file:
+YYBACKUP	syntax.tab.c	706;"	d	file:
 YYBISON	syntax.tab.c	44;"	d	file:
 YYBISON_VERSION	syntax.tab.c	47;"	d	file:
-YYCASE_	syntax.tab.c	1114;"	d	file:
-YYCASE_	syntax.tab.c	1124;"	d	file:
-YYCOPY	syntax.tab.c	406;"	d	file:
-YYCOPY	syntax.tab.c	409;"	d	file:
-YYCOPY_NEEDED	syntax.tab.c	381;"	d	file:
-YYDEBUG	syntax.tab.c	99;"	d	file:
+YYCASE_	syntax.tab.c	1115;"	d	file:
+YYCASE_	syntax.tab.c	1125;"	d	file:
+YYCOPY	syntax.tab.c	407;"	d	file:
+YYCOPY	syntax.tab.c	410;"	d	file:
+YYCOPY_NEEDED	syntax.tab.c	382;"	d	file:
+YYDEBUG	syntax.tab.c	100;"	d	file:
 YYDEBUG	syntax.tab.h	37;"	d
-YYDPRINTF	syntax.tab.c	762;"	d	file:
-YYDPRINTF	syntax.tab.c	919;"	d	file:
-YYEMPTY	syntax.tab.c	695;"	d	file:
-YYEOF	syntax.tab.c	696;"	d	file:
-YYERRCODE	syntax.tab.c	724;"	d	file:
-YYERROR	syntax.tab.c	700;"	d	file:
-YYERROR_VERBOSE	syntax.tab.c	87;"	d	file:
+YYDPRINTF	syntax.tab.c	763;"	d	file:
+YYDPRINTF	syntax.tab.c	920;"	d	file:
+YYEMPTY	syntax.tab.c	696;"	d	file:
+YYEOF	syntax.tab.c	697;"	d	file:
+YYERRCODE	syntax.tab.c	725;"	d	file:
+YYERROR	syntax.tab.c	701;"	d	file:
 YYERROR_VERBOSE	syntax.tab.c	88;"	d	file:
-YYERROR_VERBOSE	syntax.tab.c	90;"	d	file:
-YYFINAL	syntax.tab.c	422;"	d	file:
-YYFPRINTF	syntax.tab.c	759;"	d	file:
-YYFREE	syntax.tab.c	350;"	d	file:
-YYINITDEPTH	syntax.tab.c	928;"	d	file:
-YYLAST	syntax.tab.c	424;"	d	file:
-YYLLOC_DEFAULT	syntax.tab.c	732;"	d	file:
+YYERROR_VERBOSE	syntax.tab.c	89;"	d	file:
+YYERROR_VERBOSE	syntax.tab.c	91;"	d	file:
+YYFINAL	syntax.tab.c	423;"	d	file:
+YYFPRINTF	syntax.tab.c	760;"	d	file:
+YYFREE	syntax.tab.c	351;"	d	file:
+YYINITDEPTH	syntax.tab.c	929;"	d	file:
+YYLAST	syntax.tab.c	425;"	d	file:
+YYLLOC_DEFAULT	syntax.tab.c	733;"	d	file:
 YYLTYPE	syntax.tab.c	/^struct YYLTYPE$/;"	s	file:
 YYLTYPE	syntax.tab.c	/^typedef struct YYLTYPE YYLTYPE;$/;"	t	typeref:struct:YYLTYPE	file:
 YYLTYPE	syntax.tab.h	/^struct YYLTYPE$/;"	s
@@ -329,41 +329,41 @@ YYLTYPE::last_column	syntax.tab.c	/^  int last_column;$/;"	m	struct:YYLTYPE	file
 YYLTYPE::last_column	syntax.tab.h	/^  int last_column;$/;"	m	struct:YYLTYPE	access:public
 YYLTYPE::last_line	syntax.tab.c	/^  int last_line;$/;"	m	struct:YYLTYPE	file:	access:public
 YYLTYPE::last_line	syntax.tab.h	/^  int last_line;$/;"	m	struct:YYLTYPE	access:public
-YYLTYPE_IS_DECLARED	syntax.tab.c	167;"	d	file:
+YYLTYPE_IS_DECLARED	syntax.tab.c	168;"	d	file:
 YYLTYPE_IS_DECLARED	syntax.tab.h	105;"	d
-YYLTYPE_IS_TRIVIAL	syntax.tab.c	168;"	d	file:
+YYLTYPE_IS_TRIVIAL	syntax.tab.c	169;"	d	file:
 YYLTYPE_IS_TRIVIAL	syntax.tab.h	106;"	d
-YYMALLOC	syntax.tab.c	344;"	d	file:
-YYMAXDEPTH	syntax.tab.c	939;"	d	file:
-YYMAXUTOK	syntax.tab.c	438;"	d	file:
-YYNNTS	syntax.tab.c	429;"	d	file:
-YYNRULES	syntax.tab.c	431;"	d	file:
-YYNSTATES	syntax.tab.c	433;"	d	file:
-YYNTOKENS	syntax.tab.c	427;"	d	file:
-YYPACT_NINF	syntax.tab.c	521;"	d	file:
-YYPOPSTACK	syntax.tab.c	1256;"	d	file:
+YYMALLOC	syntax.tab.c	345;"	d	file:
+YYMAXDEPTH	syntax.tab.c	940;"	d	file:
+YYMAXUTOK	syntax.tab.c	439;"	d	file:
+YYNNTS	syntax.tab.c	430;"	d	file:
+YYNRULES	syntax.tab.c	432;"	d	file:
+YYNSTATES	syntax.tab.c	434;"	d	file:
+YYNTOKENS	syntax.tab.c	428;"	d	file:
+YYPACT_NINF	syntax.tab.c	522;"	d	file:
+YYPOPSTACK	syntax.tab.c	1257;"	d	file:
 YYPULL	syntax.tab.c	59;"	d	file:
 YYPURE	syntax.tab.c	53;"	d	file:
 YYPUSH	syntax.tab.c	56;"	d	file:
-YYRECOVERING	syntax.tab.c	703;"	d	file:
-YYRHSLOC	syntax.tab.c	751;"	d	file:
-YYSIZE_MAXIMUM	syntax.tab.c	223;"	d	file:
-YYSIZE_T	syntax.tab.c	212;"	d	file:
-YYSIZE_T	syntax.tab.c	214;"	d	file:
-YYSIZE_T	syntax.tab.c	217;"	d	file:
-YYSIZE_T	syntax.tab.c	219;"	d	file:
+YYRECOVERING	syntax.tab.c	704;"	d	file:
+YYRHSLOC	syntax.tab.c	752;"	d	file:
+YYSIZE_MAXIMUM	syntax.tab.c	224;"	d	file:
+YYSIZE_T	syntax.tab.c	213;"	d	file:
+YYSIZE_T	syntax.tab.c	215;"	d	file:
+YYSIZE_T	syntax.tab.c	218;"	d	file:
+YYSIZE_T	syntax.tab.c	220;"	d	file:
 YYSKELETON_NAME	syntax.tab.c	50;"	d	file:
-YYSTACK_ALLOC	syntax.tab.c	298;"	d	file:
-YYSTACK_ALLOC	syntax.tab.c	302;"	d	file:
-YYSTACK_ALLOC	syntax.tab.c	307;"	d	file:
-YYSTACK_ALLOC	syntax.tab.c	330;"	d	file:
-YYSTACK_ALLOC_MAXIMUM	syntax.tab.c	327;"	d	file:
-YYSTACK_ALLOC_MAXIMUM	syntax.tab.c	333;"	d	file:
-YYSTACK_BYTES	syntax.tab.c	377;"	d	file:
-YYSTACK_FREE	syntax.tab.c	321;"	d	file:
-YYSTACK_FREE	syntax.tab.c	331;"	d	file:
-YYSTACK_GAP_MAXIMUM	syntax.tab.c	373;"	d	file:
-YYSTACK_RELOCATE	syntax.tab.c	388;"	d	file:
+YYSTACK_ALLOC	syntax.tab.c	299;"	d	file:
+YYSTACK_ALLOC	syntax.tab.c	303;"	d	file:
+YYSTACK_ALLOC	syntax.tab.c	308;"	d	file:
+YYSTACK_ALLOC	syntax.tab.c	331;"	d	file:
+YYSTACK_ALLOC_MAXIMUM	syntax.tab.c	328;"	d	file:
+YYSTACK_ALLOC_MAXIMUM	syntax.tab.c	334;"	d	file:
+YYSTACK_BYTES	syntax.tab.c	378;"	d	file:
+YYSTACK_FREE	syntax.tab.c	322;"	d	file:
+YYSTACK_FREE	syntax.tab.c	332;"	d	file:
+YYSTACK_GAP_MAXIMUM	syntax.tab.c	374;"	d	file:
+YYSTACK_RELOCATE	syntax.tab.c	389;"	d	file:
 YYSTATE	lex.yy.c	133;"	d	file:
 YYSTYPE	syntax.tab.c	/^typedef union YYSTYPE YYSTYPE;$/;"	t	typeref:union:YYSTYPE	file:
 YYSTYPE	syntax.tab.c	/^union YYSTYPE$/;"	u	file:
@@ -371,25 +371,25 @@ YYSTYPE	syntax.tab.h	/^typedef union YYSTYPE YYSTYPE;$/;"	t	typeref:union:YYSTYP
 YYSTYPE	syntax.tab.h	/^union YYSTYPE$/;"	u
 YYSTYPE::mtnode	syntax.tab.c	/^struct MTnode* mtnode;$/;"	m	union:YYSTYPE	typeref:struct:YYSTYPE::MTnode	file:	access:public
 YYSTYPE::mtnode	syntax.tab.h	/^struct MTnode* mtnode;$/;"	m	union:YYSTYPE	typeref:struct:YYSTYPE::MTnode	access:public
-YYSTYPE_IS_DECLARED	syntax.tab.c	154;"	d	file:
+YYSTYPE_IS_DECLARED	syntax.tab.c	155;"	d	file:
 YYSTYPE_IS_DECLARED	syntax.tab.h	92;"	d
-YYSTYPE_IS_TRIVIAL	syntax.tab.c	153;"	d	file:
+YYSTYPE_IS_TRIVIAL	syntax.tab.c	154;"	d	file:
 YYSTYPE_IS_TRIVIAL	syntax.tab.h	91;"	d
 YYTABLES_NAME	lex.yy.c	2256;"	d	file:
-YYTABLE_NINF	syntax.tab.c	526;"	d	file:
-YYTERROR	syntax.tab.c	723;"	d	file:
-YYTOKENTYPE	syntax.tab.c	107;"	d	file:
+YYTABLE_NINF	syntax.tab.c	527;"	d	file:
+YYTERROR	syntax.tab.c	724;"	d	file:
+YYTOKENTYPE	syntax.tab.c	108;"	d	file:
 YYTOKENTYPE	syntax.tab.h	45;"	d
-YYTRANSLATE	syntax.tab.c	440;"	d	file:
-YYUNDEFTOK	syntax.tab.c	437;"	d	file:
-YYUSE	syntax.tab.c	266;"	d	file:
-YYUSE	syntax.tab.c	268;"	d	file:
-YY_	syntax.tab.c	229;"	d	file:
-YY_	syntax.tab.c	233;"	d	file:
-YY_ATTRIBUTE	syntax.tab.c	241;"	d	file:
-YY_ATTRIBUTE	syntax.tab.c	243;"	d	file:
-YY_ATTRIBUTE_PURE	syntax.tab.c	248;"	d	file:
-YY_ATTRIBUTE_UNUSED	syntax.tab.c	252;"	d	file:
+YYTRANSLATE	syntax.tab.c	441;"	d	file:
+YYUNDEFTOK	syntax.tab.c	438;"	d	file:
+YYUSE	syntax.tab.c	267;"	d	file:
+YYUSE	syntax.tab.c	269;"	d	file:
+YY_	syntax.tab.c	230;"	d	file:
+YY_	syntax.tab.c	234;"	d	file:
+YY_ATTRIBUTE	syntax.tab.c	242;"	d	file:
+YY_ATTRIBUTE	syntax.tab.c	244;"	d	file:
+YY_ATTRIBUTE_PURE	syntax.tab.c	249;"	d	file:
+YY_ATTRIBUTE_UNUSED	syntax.tab.c	253;"	d	file:
 YY_AT_BOL	lex.yy.c	360;"	d	file:
 YY_BREAK	lex.yy.c	803;"	d	file:
 YY_BUFFER_EOF_PENDING	lex.yy.c	276;"	d	file:
@@ -413,62 +413,65 @@ YY_FLEX_MAJOR_VERSION	lex.yy.c	10;"	d	file:
 YY_FLEX_MINOR_VERSION	lex.yy.c	11;"	d	file:
 YY_FLEX_SUBMINOR_VERSION	lex.yy.c	12;"	d	file:
 YY_FLUSH_BUFFER	lex.yy.c	328;"	d	file:
-YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN	syntax.tab.c	273;"	d	file:
-YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN	syntax.tab.c	283;"	d	file:
-YY_IGNORE_MAYBE_UNINITIALIZED_END	syntax.tab.c	277;"	d	file:
-YY_IGNORE_MAYBE_UNINITIALIZED_END	syntax.tab.c	284;"	d	file:
-YY_INITIAL_VALUE	syntax.tab.c	280;"	d	file:
-YY_INITIAL_VALUE	syntax.tab.c	287;"	d	file:
+YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN	syntax.tab.c	274;"	d	file:
+YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN	syntax.tab.c	284;"	d	file:
+YY_IGNORE_MAYBE_UNINITIALIZED_END	syntax.tab.c	278;"	d	file:
+YY_IGNORE_MAYBE_UNINITIALIZED_END	syntax.tab.c	285;"	d	file:
+YY_INITIAL_VALUE	syntax.tab.c	281;"	d	file:
+YY_INITIAL_VALUE	syntax.tab.c	288;"	d	file:
 YY_INPUT	lex.yy.c	731;"	d	file:
 YY_INT_ALIGNED	lex.yy.c	5;"	d	file:
 YY_LESS_LINENO	lex.yy.c	185;"	d	file:
 YY_LINENO_REWIND_TO	lex.yy.c	192;"	d	file:
-YY_LOCATION_PRINT	syntax.tab.c	804;"	d	file:
-YY_LOCATION_PRINT	syntax.tab.c	808;"	d	file:
+YY_LOCATION_PRINT	syntax.tab.c	805;"	d	file:
+YY_LOCATION_PRINT	syntax.tab.c	809;"	d	file:
 YY_MORE_ADJ	lex.yy.c	612;"	d	file:
 YY_NEW_FILE	lex.yy.c	139;"	d	file:
 YY_NULL	lex.yy.c	113;"	d	file:
-YY_NULLPTR	syntax.tab.c	79;"	d	file:
-YY_NULLPTR	syntax.tab.c	81;"	d	file:
+YY_NULLPTR	syntax.tab.c	80;"	d	file:
+YY_NULLPTR	syntax.tab.c	82;"	d	file:
 YY_NUM_RULES	lex.yy.c	392;"	d	file:
 YY_READ_BUF_SIZE	lex.yy.c	713;"	d	file:
 YY_READ_BUF_SIZE	lex.yy.c	715;"	d	file:
-YY_REDUCE_PRINT	syntax.tab.c	909;"	d	file:
-YY_REDUCE_PRINT	syntax.tab.c	922;"	d	file:
+YY_REDUCE_PRINT	syntax.tab.c	910;"	d	file:
+YY_REDUCE_PRINT	syntax.tab.c	923;"	d	file:
 YY_RESTORE_YY_MORE_OFFSET	lex.yy.c	613;"	d	file:
 YY_RULE_SETUP	lex.yy.c	806;"	d	file:
 YY_SC_TO_UI	lex.yy.c	120;"	d	file:
-YY_STACK_PRINT	syntax.tab.c	878;"	d	file:
-YY_STACK_PRINT	syntax.tab.c	921;"	d	file:
+YY_STACK_PRINT	syntax.tab.c	879;"	d	file:
+YY_STACK_PRINT	syntax.tab.c	922;"	d	file:
 YY_START	lex.yy.c	132;"	d	file:
 YY_START_STACK_INCR	lex.yy.c	773;"	d	file:
 YY_STATE_BUF_SIZE	lex.yy.c	158;"	d	file:
 YY_STATE_EOF	lex.yy.c	136;"	d	file:
 YY_STRUCT_YY_BUFFER_STATE	lex.yy.c	217;"	d	file:
-YY_SYMBOL_PRINT	syntax.tab.c	813;"	d	file:
-YY_SYMBOL_PRINT	syntax.tab.c	920;"	d	file:
+YY_SYMBOL_PRINT	syntax.tab.c	814;"	d	file:
+YY_SYMBOL_PRINT	syntax.tab.c	921;"	d	file:
 YY_TYPEDEF_YY_BUFFER_STATE	lex.yy.c	161;"	d	file:
 YY_TYPEDEF_YY_SIZE_T	lex.yy.c	166;"	d	file:
 YY_USER_ACTION	lex.yy.c	621;"	d	file:
 YY_USER_ACTION	lex.yy.c	798;"	d	file:
 YY_USE_CONST	lex.yy.c	101;"	d	file:
 YY_USE_CONST	lex.yy.c	94;"	d	file:
-YY_YY_SYNTAX_TAB_H_INCLUDED	syntax.tab.c	96;"	d	file:
+YY_YY_SYNTAX_TAB_H_INCLUDED	syntax.tab.c	97;"	d	file:
 YY_YY_SYNTAX_TAB_H_INCLUDED	syntax.tab.h	34;"	d
-_Noreturn	syntax.tab.c	258;"	d	file:
-_Noreturn	syntax.tab.c	260;"	d	file:
+_Noreturn	syntax.tab.c	259;"	d	file:
+_Noreturn	syntax.tab.c	261;"	d	file:
 __CMMTYPES_H__	cmmtypes.h	2;"	d
 __MULTI_TREE_H__	multi_tree.h	2;"	d
-__MY_YYERROR__	syntax.tab.c	2412;"	d	file:
+__MY_YYERROR__	syntax.tab.c	2414;"	d	file:
 __PARSER_DEBUG__	main.c	5;"	d	file:
+__SEMANTIC_H__	semantic.h	2;"	d
 __STDC_LIMIT_MACROS	lex.yy.c	40;"	d	file:
 __SYMTAB_H__	symtab.h	2;"	d
 add_node	multi_tree.c	/^void add_node(MTnode* par,MTnode* child){$/;"	f	signature:(MTnode* par,MTnode* child)
 add_node	multi_tree.h	/^void add_node(MTnode* par,MTnode* child);$/;"	p	signature:(MTnode* par,MTnode* child)
-add_sym_name	symtab.c	/^void add_sym_name( char* id_name,int dim){$/;"	f	signature:( char* id_name,int dim)
+add_sym_name	symtab.c	/^void add_sym_name( char* id_name){$/;"	f	signature:( char* id_name)
+add_sym_name	symtab.h	/^void add_sym_name(char* id_name);$/;"	p	signature:(char* id_name)
 add_sym_node	symtab.c	/^void add_sym_node(symbol* new_node){$/;"	f	signature:(symbol* new_node)
+add_sym_node	symtab.h	/^void add_sym_node(symbol* new_node);$/;"	p	signature:(symbol* new_node)
 addr	symtab.h	/^    void* addr;$/;"	m	struct:symbol_	access:public
-alloca	syntax.tab.c	305;"	d	file:
+alloca	syntax.tab.c	306;"	d	file:
 argamt	symtab.h	/^    int argamt;\/\/arguement amount$/;"	m	struct:symbol_	access:public
 array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon3
 array	cmmtypes.h	/^        }array;$/;"	m	union:Type_::__anon4	typeref:struct:Type_::__anon4::__anon5	access:public
@@ -478,6 +481,8 @@ bloom_bv	uthash.h	/^   uint8_t *bloom_bv;$/;"	m	struct:UT_hash_table	access:publ
 bloom_nbits	uthash.h	/^   uint8_t bloom_nbits;$/;"	m	struct:UT_hash_table	access:public
 bloom_sig	uthash.h	/^   uint32_t bloom_sig; \/* used only to test bloom exists in external analysis *\/$/;"	m	struct:UT_hash_table	access:public
 buckets	uthash.h	/^   UT_hash_bucket *buckets;$/;"	m	struct:UT_hash_table	access:public
+build_table	semantic.c	/^void build_table(MTnode* root){$/;"	f	signature:(MTnode* root)
+build_table	semantic.h	/^void build_table(MTnode* root);$/;"	p	signature:(MTnode* root)
 children_amount	multi_tree.h	/^	int children_amount;$/;"	m	struct:MTnode	access:public
 children_list	multi_tree.h	/^	struct MTnode** children_list;$/;"	m	struct:MTnode	typeref:struct:MTnode::MTnode	access:public
 count	uthash.h	/^   unsigned count;$/;"	m	struct:UT_hash_bucket	access:public
@@ -485,12 +490,14 @@ create_node	multi_tree.c	/^MTnode* create_node(MTnode* node_list[],int list_len,
 create_node	multi_tree.h	/^MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type);$/;"	p	signature:(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type)
 current_line_err	syntax.tab.c	/^int current_line_err = 0;$/;"	v
 del_sym	symtab.c	/^symbol* del_sym(char* id_name){$/;"	f	signature:(char* id_name)
+del_sym	symtab.h	/^symbol* del_sym(char* id_name);$/;"	p	signature:(char* id_name)
 dim	symtab.h	/^    int dim;$/;"	m	struct:symbol_	access:public
 elem	cmmtypes.h	/^            Type* elem;$/;"	m	struct:Type_::__anon4::__anon5	access:public
 error_detected	syntax.tab.c	/^int error_detected = 0;$/;"	v
 error_report	main.c	/^extern void error_report();$/;"	p	file:
 expand_mult	uthash.h	/^   unsigned expand_mult;$/;"	m	struct:UT_hash_bucket	access:public
 find_sym	symtab.c	/^symbol* find_sym(char* id_name){$/;"	f	signature:(char* id_name)
+find_sym	symtab.h	/^symbol* find_sym(char* id_name);$/;"	p	signature:(char* id_name)
 first_column	syntax.tab.c	/^  int first_column;$/;"	m	struct:YYLTYPE	file:	access:public
 first_column	syntax.tab.h	/^  int first_column;$/;"	m	struct:YYLTYPE	access:public
 first_line	syntax.tab.c	/^  int first_line;$/;"	m	struct:YYLTYPE	file:	access:public
@@ -548,7 +555,9 @@ pre_tranverse	multi_tree.c	/^void pre_tranverse(MTnode* root){$/;"	f	signature:(
 pre_tranverse	multi_tree.h	/^void pre_tranverse(MTnode* root);$/;"	p	signature:(MTnode* root)
 pre_tranverse2	multi_tree.c	/^void pre_tranverse2(MTnode* root,int indent){$/;"	f	signature:(MTnode* root,int indent)
 prev	uthash.h	/^   void *prev;                       \/* prev element in app order      *\/$/;"	m	struct:UT_hash_handle	access:public
-short	syntax.tab.c	183;"	d	file:
+print_symtab	symtab.c	/^void print_symtab(){$/;"	f
+print_symtab	symtab.h	/^void print_symtab();$/;"	p	signature:()
+short	syntax.tab.c	184;"	d	file:
 signature	uthash.h	/^   uint32_t signature; \/* used only to find hash tables in external analysis *\/$/;"	m	struct:UT_hash_table	access:public
 size	cmmtypes.h	/^            int size;$/;"	m	struct:Type_::__anon4::__anon5	access:public
 str	multi_tree.h	/^	char* str;$/;"	m	struct:MTnode	access:public
@@ -683,7 +692,7 @@ yyalloc::yyss_alloc	syntax.tab.c	/^  yytype_int16 yyss_alloc;$/;"	m	union:yyallo
 yyalloc::yyvs_alloc	syntax.tab.c	/^  YYSTYPE yyvs_alloc;$/;"	m	union:yyalloc	file:	access:public
 yychar	syntax.tab.c	/^int yychar;$/;"	v
 yycheck	syntax.tab.c	/^static const yytype_int8 yycheck[] =$/;"	v	file:
-yyclearin	syntax.tab.c	694;"	d	file:
+yyclearin	syntax.tab.c	695;"	d	file:
 yycolumn	lex.yy.c	/^  int yycolumn = 1;$/;"	v
 yyconst	lex.yy.c	107;"	d	file:
 yyconst	lex.yy.c	109;"	d	file:
@@ -693,7 +702,7 @@ yydefgoto	syntax.tab.c	/^static const yytype_int8 yydefgoto[] =$/;"	v	file:
 yydestruct	syntax.tab.c	/^yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocationp)$/;"	f	file:	signature:(const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocationp)
 yyensure_buffer_stack	lex.yy.c	/^static void yyensure_buffer_stack (void );$/;"	p	file:	signature:(void )
 yyensure_buffer_stack	lex.yy.c	/^static void yyensure_buffer_stack (void)$/;"	f	file:	signature:(void)
-yyerrok	syntax.tab.c	693;"	d	file:
+yyerrok	syntax.tab.c	694;"	d	file:
 yyerror	syntax.tab.c	/^int yyerror(char* msg);$/;"	p	file:	signature:(char* msg)
 yyerror	syntax.tab.c	/^int yyerror(char* msg){$/;"	f	signature:(char* msg)
 yyfree	lex.yy.c	/^void yyfree (void *  );$/;"	p	file:	signature:(void * )
@@ -729,7 +738,7 @@ yymore	lex.yy.c	611;"	d	file:
 yynerrs	syntax.tab.c	/^int yynerrs;$/;"	v
 yyout	lex.yy.c	/^FILE *yyin = (FILE *) 0, *yyout = (FILE *) 0;$/;"	v
 yypact	syntax.tab.c	/^static const yytype_int16 yypact[] =$/;"	v	file:
-yypact_value_is_default	syntax.tab.c	523;"	d	file:
+yypact_value_is_default	syntax.tab.c	524;"	d	file:
 yyparse	syntax.tab.c	/^int yyparse (void);$/;"	p	file:	signature:(void)
 yyparse	syntax.tab.c	/^yyparse (void)$/;"	f	signature:(void)
 yyparse	syntax.tab.h	/^int yyparse (void);$/;"	p	signature:(void)
@@ -758,12 +767,12 @@ yyset_out	lex.yy.c	/^void yyset_out (FILE *  out_str )$/;"	f	signature:(FILE * o
 yyss_alloc	syntax.tab.c	/^  yytype_int16 yyss_alloc;$/;"	m	union:yyalloc	file:	access:public
 yystos	syntax.tab.c	/^static const yytype_uint8 yystos[] =$/;"	v	file:
 yystpcpy	syntax.tab.c	/^yystpcpy (char *yydest, const char *yysrc)$/;"	f	file:	signature:(char *yydest, const char *yysrc)
-yystpcpy	syntax.tab.c	963;"	d	file:
+yystpcpy	syntax.tab.c	964;"	d	file:
 yystrlen	syntax.tab.c	/^yystrlen (const char *yystr)$/;"	f	file:	signature:(const char *yystr)
-yystrlen	syntax.tab.c	947;"	d	file:
+yystrlen	syntax.tab.c	948;"	d	file:
 yysyntax_error	syntax.tab.c	/^yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,$/;"	f	file:	signature:(YYSIZE_T *yymsg_alloc, char **yymsg, yytype_int16 *yyssp, int yytoken)
 yytable	syntax.tab.c	/^static const yytype_int8 yytable[] =$/;"	v	file:
-yytable_value_is_error	syntax.tab.c	528;"	d	file:
+yytable_value_is_error	syntax.tab.c	529;"	d	file:
 yyterminate	lex.yy.c	768;"	d	file:
 yytext	lex.yy.c	/^char *yytext;$/;"	v
 yytext_ptr	lex.yy.c	375;"	d	file:

@@ -3,10 +3,11 @@
 #include"symtab.h"
 #include"cmmtypes.h"
 #include"syntax.tab.h"
+#include"semantic.h"
 
 void init_basic_type(){
-    type_int = malloc(sizeof(type));
-    type_float = malloc(sizeof(type));
+    type_int = malloc(sizeof(Type));
+    type_float = malloc(sizeof(Type));
     type_int->kind = basic;
     type_int->basic = INT; 
     type_float->kind = basic;
@@ -39,18 +40,18 @@ char* get_spec_name(MTnode* spec){  //not tested!!
 }
 
 FieldList* add_field(MTnode* root){
-    if(spec->type!=DefList){
+    if(root->type!=DefList){
         printf("error refer\n");
         return NULL;
     }
-    if(root->children_amount=0){
+    if(root->children_amount==0){
         return NULL;
     }
     else{
-        fl = malloc(sizeof(FieldList));
+        FieldList* fl = malloc(sizeof(FieldList));
         fl->name = get_spec_name( root->children_list[0]->children_list[0]);
         //          Def         Specifier
-        fl->type = addtype(root->children_list[0]);
+        fl->type = add_type(root->children_list[0]);
         fl->next = add_field(root->children_list[1]);
         return fl;
     }
@@ -63,7 +64,7 @@ Type* add_type(MTnode* root){
                 if(root->children_amount==5){
                     Type* tp = malloc(sizeof(Type));
                     tp->kind=structure;
-                    fl=add_type(root->children_list[3]);
+                    tp->fl=add_field(root->children_list[3]);
                     return tp;
                 }
                 else{
@@ -91,6 +92,10 @@ Type* add_type(MTnode* root){
                     return type_float;
                 }
             }
+        default:
+            {
+                return NULL;
+            }
     }
 }
 
@@ -100,9 +105,6 @@ Type* add_type(MTnode* root){
  */
 
 void build_table(MTnode* root){
-    if(root->type == ID){
-        add_sym_name(&var_tab,root->str);
-    }
     switch(root->type){
         case OptTag:
             {

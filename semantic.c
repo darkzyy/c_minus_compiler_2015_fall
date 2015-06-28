@@ -50,7 +50,7 @@ FieldList* add_field(MTnode* root){
     else{
         FieldList* fl = malloc(sizeof(FieldList));
         fl->name = get_spec_name( root->children_list[0]->children_list[0]);
-        //          Def         Specifier
+        //                                            Def         Specifier
         fl->type = add_type(root->children_list[0]);
         fl->next = add_field(root->children_list[1]);
         return fl;

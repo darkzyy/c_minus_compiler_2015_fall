@@ -2,7 +2,7 @@
 #define __CMMTYPES_H__
 
 typedef struct Type_ Type;
-typedef struct FieldLidt_ FieldList;
+typedef struct FieldList_ FieldList;
 
 struct Type_{
     enum{
@@ -16,11 +16,11 @@ struct Type_{
             Type* elem;
             int size;
         }array;
-        FieldList* structure;
+        FieldList* fl;
     };
 };
 
-struct FieldLidt_{
+struct FieldList_{
     char* name; //field name
     Type* type; //field type
     FieldList* next; //next field

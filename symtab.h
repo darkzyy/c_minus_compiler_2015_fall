@@ -8,7 +8,7 @@ typedef struct symbol_ symbol;
 
 struct symbol_{
     char* id_name;
-    int id_type;//func struct variable ?
+    //int id_type;//func struct variable ?
     Type* val_type;//int float user_struct
     int dim;
     int argamt;//arguement amount

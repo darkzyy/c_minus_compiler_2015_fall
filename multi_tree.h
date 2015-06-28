@@ -4,6 +4,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include"syntax.tab.h"
+#include"cmmtypes.h"
 
 typedef struct MTnode{
 	int type;
@@ -15,6 +16,7 @@ typedef struct MTnode{
     };
 	YYLTYPE location;
 	struct MTnode** children_list;
+    Type* tp;
 }MTnode;
 
 MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type);

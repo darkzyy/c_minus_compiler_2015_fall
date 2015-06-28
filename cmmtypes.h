@@ -21,9 +21,9 @@ struct Type_{
 };
 
 struct FieldLidt_{
-    char* name; //domain name
-    Type* type; //domain type
-    FieldList* next; //next domain
+    char* name; //field name
+    Type* type; //field type
+    FieldList* next; //next field
 };
 
 #endif

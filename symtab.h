@@ -14,10 +14,6 @@ struct symbol_{
     int argamt;//arguement amount
     union{
         struct{
-            unsigned int is_struct : 1;
-            unsigned int is_func : 1;
-            unsigned int is_var : 1;
-            unsigned int is_domain : 1;
             unsigned int def_ed : 1;
             unsigned int dec_ed : 1;
             unsigned int init_ed : 1;
@@ -35,7 +31,7 @@ struct symbol_{
 extern symbol* func_tab;
 extern symbol* struct_tab;
 extern symbol* var_tab;
-extern symbol* domain_tab;
+extern symbol* field_tab;
 
 void add_sym_name(symbol** ht,char* id_name);
 void add_sym_node(symbol** ht,symbol* new_node);

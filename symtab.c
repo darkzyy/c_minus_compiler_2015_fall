@@ -7,7 +7,7 @@
 symbol* func_tab = NULL;
 symbol* struct_tab = NULL;
 symbol* var_tab = NULL;
-symbol* domain_tab = NULL;
+symbol* field_tab = NULL;
 
 void add_sym_name(symbol** ht, char* id_name){
     symbol* s;

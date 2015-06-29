@@ -501,7 +501,7 @@ _Noreturn	syntax.tab.c	262;"	d	file:
 __CMMTYPES_H__	cmmtypes.h	2;"	d
 __DEBUG_H__	debug.h	2;"	d
 __MULTI_TREE_H__	multi_tree.h	2;"	d
-__MY_YYERROR__	syntax.tab.c	2408;"	d	file:
+__MY_YYERROR__	syntax.tab.c	2406;"	d	file:
 __PARSER_DEBUG__	main.c	5;"	d	file:
 __SEMANTIC_H__	semantic.h	2;"	d
 __STDC_LIMIT_MACROS	lex.yy.c	40;"	d	file:
@@ -578,8 +578,10 @@ ineff_expands	uthash.h	/^   unsigned ineff_expands, noexpand;$/;"	m	struct:UT_ha
 inh_dim	multi_tree.h	/^    int inh_dim;$/;"	m	struct:MTnode	access:public
 inh_type	multi_tree.h	/^    Type* inh_type;$/;"	m	struct:MTnode	access:public
 init_basic_type	semantic.c	/^void init_basic_type(){$/;"	f
+init_basic_type	semantic.h	/^void init_basic_type();$/;"	p	signature:()
 init_ed	symtab.h	/^            unsigned int init_ed : 1;$/;"	m	struct:symbol_::__anon6::__anon7	access:public
 input	lex.yy.c	/^static int input (void );$/;"	p	file:	signature:(void )
+inside_func	semantic.c	/^int inside_func;$/;"	v
 inside_struct	semantic.c	/^int inside_struct;$/;"	v
 key	uthash.h	/^   void *key;                        \/* ptr to enclosing struct's key  *\/$/;"	m	struct:UT_hash_handle	access:public
 keylen	uthash.h	/^   unsigned keylen;                  \/* enclosing struct's key len     *\/$/;"	m	struct:UT_hash_handle	access:public

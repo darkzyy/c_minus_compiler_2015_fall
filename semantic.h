@@ -7,5 +7,6 @@ Type* type_float;
 Type* type_error;
 
 void sem(MTnode* root);
+void init_basic_type();
 
 #endif

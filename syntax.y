@@ -77,6 +77,7 @@ Program : ExtDefList {
         $$ = create_node(list,1,"Program",&@1,Program);
         if(error_detected == 0){
             //pre_tranverse($$);
+            init_basic_type();
             sem($$);
         }
         //print_symtab(var_tab);

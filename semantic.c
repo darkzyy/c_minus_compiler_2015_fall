@@ -7,6 +7,7 @@
 #include"debug.h"
 
 int inside_struct;
+int inside_func;
 
 void init_basic_type(){
     type_int = malloc(sizeof(Type));
@@ -17,6 +18,8 @@ void init_basic_type(){
     type_float->basic = FLOAT; 
     type_error = malloc(sizeof(Type));
     type_float->kind = semantic_error;
+    inside_struct = 0;
+    inside_func = 0;
 }
 
 MTnode* get_var_id(MTnode* dec){
@@ -94,7 +97,7 @@ void sem(MTnode* root){
             }
         case ExtDef3: // func definition
             {
-                Log("ExtDef3");
+                Log("ExtDef3: Func Def");
                 sem(root->children_list[0]);
                 root->children_list[1]->inh_type = 
                     root->children_list[0]->syn_type;//func def
@@ -383,4 +386,3 @@ void sem(MTnode* root){
             }
     }
 }
-

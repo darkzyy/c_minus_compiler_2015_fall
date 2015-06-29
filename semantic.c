@@ -663,62 +663,102 @@ void sem(MTnode* root){
                     root->syn_type=type_float;
                 }
                 break;
-
             }
         case Exp1:
             {
-                
+                Log("Exp1");
+                sem(root->children_list[0]);
+                sem(root->children_list[2]);
+                if(type_cmp(chst(0),chst(2))!=0){
+                    printf("Error type 5 at Line %d: Type mismatched for assignment.\n",
+                                locl);
+                }
+                break;
             }
         case Exp2:
             {
+                Log("Exp2");
+                break;
             }
         case Exp3:
             {
+                Log("Exp3");
+                break;
             }
         case Exp4:
             {
+                Log("Exp4");
+                break;
             }
         case Exp5:
             {
+                Log("Exp5");
+                break;
             }
         case Exp6:
             {
+                Log("Exp6");
+                break;
             }
         case Exp7:
             {
+                Log("Exp7");
+                break;
             }
         case Exp8:
             {
+                Log("Exp8");
+                break;
             }
         case Exp9:
             {
+                Log("Exp9");
+                break;
             }
         case Exp10:
             {
+                Log("Exp10");
+                break;
             }
         case Exp11:
             {
+                Log("Exp11");
+                break;
             }
         case Exp12:
             {
+                Log("Exp12");
+                break;
             }
         case Exp13:
             {
+                Log("Exp13");
+                break;
             }
         case Exp14:
             {
+                Log("Exp14");
+                break;
             }
         case Exp15:
             {
+                Log("Exp15");
+                break;
             }
         case Exp16:
             {
+                Log("Exp16");
+                break;
             }
         case Exp17:
             {
+                Log("Exp17");
+                break;
             }
         case Exp18:
             {
+                Log("Exp18");
+                break;
             }
         case EMPTY:
             {

@@ -74,6 +74,7 @@ void sem(MTnode* root){
             }
         case ExtDefList2:
             {
+                Log("ExtDefList2");
                 break;
             }
         case ExtDef1:
@@ -211,17 +212,17 @@ void sem(MTnode* root){
                         printf("Error type 15 at Line %d: field's is same as a var \"%s\".\n",
                                     var_id->location.first_line,var_id->str);
                     }
-
                     root->syn_type = root->inh_type;
                     if(err){
                         break;
                     }
                     else{//new var -> symtab
                         symbol* var_sym = malloc(sizeof(symbol));
-                        var_sym->dim = 0;
+                        var_sym->dim = root->inh_dim;
                         var_sym->id_name = var_id->str;
                         var_sym->val_type = root->syn_type;
                         add_sym_node(&field_tab,var_sym);
+                        Log("#======------added array symbol %s------======#",var_sym->id_name);
                         break;
                     }
                 }
@@ -252,11 +253,13 @@ void sem(MTnode* root){
                     else{
                         MTnode* main_part = root->children_list[0];
                         main_part->inh_type = root->inh_type;
+                        main_part->inh_dim = root->inh_dim+1;
                         sem(main_part);
                         root->syn_type = malloc(sizeof(Type));
                         root->syn_type->kind = array;
                         root->syn_type->array.elem = main_part->syn_type;
                         root->syn_type->array.size = root->children_list[2]->valt;
+                        Log("find array dim:%d",root->inh_dim);
                     }
                 }
                 break;
@@ -329,6 +332,7 @@ void sem(MTnode* root){
                 if(inside_struct){
                     MTnode* vardec = root->children_list[0];
                     vardec->inh_type = root->inh_type;
+                    vardec->inh_dim = 0;
                     sem(vardec);
                     root->syn_fl = malloc(sizeof(FieldList));
                     root->syn_fl->type = vardec->syn_type;

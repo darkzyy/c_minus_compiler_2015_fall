@@ -15,6 +15,7 @@ typedef struct MTnode{
         double valf;
     };
     Type* inh_type;
+    int inh_dim;
     Type* syn_type;
     FieldList* syn_fl;
 	YYLTYPE location;

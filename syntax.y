@@ -75,12 +75,10 @@ Program : ExtDefList {
         MTnode** list=malloc(sizeof(void*)*1);
         list[0]=$1;
         $$ = create_node(list,1,"Program",&@1,Program);
-        /*
         if(error_detected == 0){
-            pre_tranverse($$);
+            //pre_tranverse($$);
+            sem($$);
         }
-        */
-        sem($$);
         //print_symtab(var_tab);
         }
         ;

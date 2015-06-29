@@ -1,4 +1,5 @@
 //This file is used for semantic analyzation
+#include<string.h>
 #include"multi_tree.h"
 #include"symtab.h"
 #include"cmmtypes.h"
@@ -549,6 +550,7 @@ void Func_FunDec2(MTnode* root)
             s->line = locl;
         }
         s->func_arg = NULL;
+        Log("#======------adding func %s------======#",func_id->str);
         add_sym_node(&func_tab,s);
         Log("#======------added func %s------======#",func_id->str);
     }

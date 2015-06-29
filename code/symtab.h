@@ -26,6 +26,7 @@ struct symbol_{
     };
     void* addr;
     symbol* next;
+    int valid;
 };
 
 extern symbol* func_tab;
@@ -34,6 +35,7 @@ extern symbol* var_tab;
 extern symbol* field_tab;
 
 //void add_sym_name(symbol** ht,char* id_name);
+void hash_init();
 void add_sym_node(symbol** ht,symbol* new_node);
 symbol* find_sym(symbol** ht,char* id_name);
 //symbol* del_sym(symbol** ht,char* id_name);

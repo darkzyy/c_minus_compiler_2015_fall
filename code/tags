@@ -574,7 +574,7 @@ __STDC_LIMIT_MACROS	lex.yy.c	40;"	d	file:
 __SYMTAB_H__	symtab.h	2;"	d
 add_node	multi_tree.c	/^void add_node(MTnode* par,MTnode* child){$/;"	f	signature:(MTnode* par,MTnode* child)
 add_node	multi_tree.h	/^void add_node(MTnode* par,MTnode* child);$/;"	p	signature:(MTnode* par,MTnode* child)
-add_sym_name	symtab.h	/^void add_sym_name(symbol** ht,char* id_name);$/;"	p	signature:(symbol** ht,char* id_name)
+add_sym_node	symtab.c	/^void add_sym_node(symbol** ht,symbol* new_node){$/;"	f	signature:(symbol** ht,symbol* new_node)
 add_sym_node	symtab.h	/^void add_sym_node(symbol** ht,symbol* new_node);$/;"	p	signature:(symbol** ht,symbol* new_node)
 addr	symtab.h	/^    void* addr;$/;"	m	struct:symbol_	access:public
 al_free	semantic2.c	/^void al_free(ArgList* al){$/;"	f	signature:(ArgList* al)
@@ -591,6 +591,7 @@ bloom_nbits	uthash.h	/^   uint8_t bloom_nbits;$/;"	m	struct:UT_hash_table	access
 bloom_sig	uthash.h	/^   uint32_t bloom_sig; \/* used only to test bloom exists in external analysis *\/$/;"	m	struct:UT_hash_table	access:public
 buckets	uthash.h	/^   UT_hash_bucket *buckets;$/;"	m	struct:UT_hash_table	access:public
 ch	multi_tree.h	33;"	d
+check_func	symtab.c	/^void check_func(){$/;"	f
 children_amount	multi_tree.h	/^	int children_amount;$/;"	m	struct:MTnode	access:public
 children_list	multi_tree.h	/^	struct MTnode** children_list;$/;"	m	struct:MTnode	typeref:struct:MTnode::MTnode	access:public
 chit	multi_tree.h	35;"	d
@@ -604,7 +605,6 @@ create_node	multi_tree.h	/^MTnode* create_node(MTnode* node_list[],int list_len,
 current_line_err	syntax.tab.c	/^int current_line_err = 0;$/;"	v
 dec_ed	symtab.h	/^            unsigned int dec_ed : 1;$/;"	m	struct:symbol_::__anon6::__anon7	access:public
 def_ed	symtab.h	/^            unsigned int def_ed : 1;$/;"	m	struct:symbol_::__anon6::__anon7	access:public
-del_sym	symtab.h	/^symbol* del_sym(symbol** ht,char* id_name);$/;"	p	signature:(symbol** ht,char* id_name)
 dim	symtab.h	/^    int dim;$/;"	m	struct:symbol_	access:public
 elem	cmmtypes.h	/^            Type* elem;$/;"	m	struct:Type_::__anon4::__anon5	access:public
 enable_debug	main.c	/^int enable_debug = 0;$/;"	v
@@ -613,7 +613,7 @@ error_report	main.c	/^extern void error_report();$/;"	p	file:
 expand_mult	uthash.h	/^   unsigned expand_mult;$/;"	m	struct:UT_hash_bucket	access:public
 field_find	semantic2.c	/^Type* field_find(FieldList* fl,char* id){$/;"	f	signature:(FieldList* fl,char* id)
 field_tab	symtab.c	/^symbol* field_tab;$/;"	v
-find_sym	symtab.c	/^symbol* find_sym(symbol** ht,char* id_nmae){$/;"	f	signature:(symbol** ht,char* id_nmae)
+find_sym	symtab.c	/^symbol* find_sym(symbol** ht,char* id_name){$/;"	f	signature:(symbol** ht,char* id_name)
 find_sym	symtab.h	/^symbol* find_sym(symbol** ht,char* id_name);$/;"	p	signature:(symbol** ht,char* id_name)
 first_column	syntax.tab.c	/^  int first_column;$/;"	m	struct:YYLTYPE	file:	access:public
 first_column	syntax.tab.h	/^  int first_column;$/;"	m	struct:YYLTYPE	access:public
@@ -712,7 +712,6 @@ pre_tranverse	multi_tree.c	/^void pre_tranverse(MTnode* root){$/;"	f	signature:(
 pre_tranverse	multi_tree.h	/^void pre_tranverse(MTnode* root);$/;"	p	signature:(MTnode* root)
 pre_tranverse2	multi_tree.c	/^void pre_tranverse2(MTnode* root,int indent){$/;"	f	signature:(MTnode* root,int indent)
 prev	uthash.h	/^   void *prev;                       \/* prev element in app order      *\/$/;"	m	struct:UT_hash_handle	access:public
-print_symtab	symtab.h	/^void print_symtab(symbol* ht);$/;"	p	signature:(symbol* ht)
 prod_name	gen_gram.py	/^            prod_name = prod_name.rstrip(' ')$/;"	v
 prod_name	gen_gram.py	/^prod_name = ''$/;"	v
 property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon6	access:public
@@ -723,6 +722,7 @@ semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon3
 short	syntax.tab.c	185;"	d	file:
 signature	uthash.h	/^   uint32_t signature; \/* used only to find hash tables in external analysis *\/$/;"	m	struct:UT_hash_table	access:public
 size	cmmtypes.h	/^            int size;$/;"	m	struct:Type_::__anon4::__anon5	access:public
+size	symtab.c	/^const int size = 0x3fff;$/;"	v
 str	multi_tree.h	/^	char* str;$/;"	m	struct:MTnode	access:public
 struct_tab	symtab.c	/^symbol* struct_tab;$/;"	v
 structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon3
@@ -742,6 +742,7 @@ symbol_::id_name	symtab.h	/^    char* id_name;$/;"	m	struct:symbol_	access:publi
 symbol_::line	symtab.h	/^    int line;$/;"	m	struct:symbol_	access:public
 symbol_::next	symtab.h	/^    symbol* next;$/;"	m	struct:symbol_	access:public
 symbol_::val_type	symtab.h	/^    Type* val_type;\/\/int float user_struct$/;"	m	struct:symbol_	access:public
+symbol_::valid	symtab.h	/^    int valid;$/;"	m	struct:symbol_	access:public
 syn_al	multi_tree.h	/^    ArgList* syn_al;$/;"	m	struct:MTnode	access:public
 syn_fl	multi_tree.h	/^    FieldList* syn_fl;$/;"	m	struct:MTnode	access:public
 syn_type	multi_tree.h	/^    Type* syn_type;$/;"	m	struct:MTnode	access:public
@@ -767,6 +768,7 @@ val_float	symtab.h	/^        float val_float;$/;"	m	union:symbol_::__anon8	acces
 val_int	symtab.h	/^        int val_int;$/;"	m	union:symbol_::__anon8	access:public
 val_type	symtab.h	/^    Type* val_type;\/\/int float user_struct$/;"	m	struct:symbol_	access:public
 valf	multi_tree.h	/^        double valf;$/;"	m	union:MTnode::__anon1	access:public
+valid	symtab.h	/^    int valid;$/;"	m	struct:symbol_	access:public
 valt	multi_tree.h	/^        int valt;$/;"	m	union:MTnode::__anon1	access:public
 var_tab	symtab.c	/^symbol* var_tab;$/;"	v
 yy_accept	lex.yy.c	/^static yyconst flex_int16_t yy_accept[130] =$/;"	v	file:

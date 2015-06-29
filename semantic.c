@@ -665,6 +665,61 @@ void sem(MTnode* root){
                 break;
 
             }
+        case Exp1:
+            {
+                
+            }
+        case Exp2:
+            {
+            }
+        case Exp3:
+            {
+            }
+        case Exp4:
+            {
+            }
+        case Exp5:
+            {
+            }
+        case Exp6:
+            {
+            }
+        case Exp7:
+            {
+            }
+        case Exp8:
+            {
+            }
+        case Exp9:
+            {
+            }
+        case Exp10:
+            {
+            }
+        case Exp11:
+            {
+            }
+        case Exp12:
+            {
+            }
+        case Exp13:
+            {
+            }
+        case Exp14:
+            {
+            }
+        case Exp15:
+            {
+            }
+        case Exp16:
+            {
+            }
+        case Exp17:
+            {
+            }
+        case Exp18:
+            {
+            }
         case EMPTY:
             {
                 Log("empty");

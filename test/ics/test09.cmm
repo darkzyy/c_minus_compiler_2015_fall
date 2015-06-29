@@ -1,0 +1,36 @@
+struct  x{
+    int x;
+    int y;
+    int z
+};
+
+struct y{
+	int x;
+	int x
+	int x;
+};
+
+struct y{
+	int x
+	int x;
+	int x;
+};
+
+struct y{
+	int x;
+}
+struct y{
+	int x;
+}
+struct y{
+	int x;
+};
+
+int main(){
+	int x;
+	float y;
+	expl 999;
+	sdf;
+	dfsdf;
+	return 0
+}

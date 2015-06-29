@@ -1,5 +1,7 @@
 tmp*
-lexer
-parser
 *.o
-x
+code/lex.yy.c
+code/syntax.output
+code/syntax.tab.c
+code/syntax.tab.h
+parser

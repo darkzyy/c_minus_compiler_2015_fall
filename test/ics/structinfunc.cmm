@@ -1,0 +1,10 @@
+struct ID{
+	int d;
+} i ;
+int main(){
+	struct newtype{
+		struct{
+			int a;
+		}o;
+	} SS;
+}

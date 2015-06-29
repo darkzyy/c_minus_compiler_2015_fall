@@ -1,0 +1,33 @@
+struct a{
+    int aa;
+    int bb+b;
+    int bb+b;
+};
+struct a{
+    int aa;
+    int bb+b
+    int bb+b;
+};
+struct a{
+    int aa;
+    int bb
+    int bb
+};
+struct a{
+    int aa;
+    int bb;
+    int bb;
+};
+struct a{
+    int aa;
+    int bb;
+    int bb
+};
+struct a{
+    int a;
+    int a;
+};
+
+int main(){
+}
+

@@ -6,6 +6,8 @@
 #include"semantic.h"
 #include"debug.h"
 
+//#define __ARRAY_WIDTH_CMP__
+
 int inside_struct;
 int inside_func_para;
 int inside_func_compst;
@@ -85,12 +87,16 @@ int type_cmp(Type* tx,Type* ty){
         return 1;
     }
     else{// array
+#ifdef __ARRAY_WIDTH_CMP__
         if(tx->array.size != ty->array.size){
             return 1;
         }
         else{
             return type_cmp(tx->array.elem,ty->array.elem);
         }
+#else
+        return type_cmp(tx->array.elem,ty->array.elem);
+#endif
     }
 }
 
@@ -365,7 +371,7 @@ void Func_VarDec1(MTnode* root)
 }
 void Func_VarDec2(MTnode* root)
 {
-    Log("DefDec2");
+    Log("VarDec2");
     if(inside_struct){
         int err = 0;
         MTnode* var_id = get_var_id(root);
@@ -396,7 +402,7 @@ void Func_VarDec2(MTnode* root)
             Log("find array dim:%d",root->inh_dim);
             //find array's id, and change id's type 
             MTnode* var_id = get_var_id(root);
-            symbol* s = find_sym(&var_tab,var_id->str);
+            symbol* s = find_sym(&field_tab,var_id->str);
             s->val_type = root->syn_type;
         }
     }

@@ -1,0 +1,10 @@
+int a[1][2][3];
+
+struct A {
+	int b[10], d, c[20][30], e[1][2][3];
+	float a[1][2][3], cc, b;
+	struct C { int d[20]; float e [30]; } ccc[4];
+} a [4][5];
+
+struct A main (struct A a, int b[1][2][3]) {}
+

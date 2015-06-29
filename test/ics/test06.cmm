@@ -1,0 +1,27 @@
+struct za
+{
+    float real, image;
+}
+struct za
+{
+    float real, image;
+    int @;
+};
+int main()
+{
+    y = 7+7;
+    y = 7+@;
+    @;
+    fa ;
+    x = 0x934543  ;
+    x = y x l;
+	xx
+	u = 4;
+    x = 034543;
+    x = 4.5;
+    x = 4.5e-4;
+    struct @Complex x;
+    y.@image = 3;
+}
+
+

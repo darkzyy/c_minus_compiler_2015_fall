@@ -1,0 +1,15 @@
+struct Complex 
+{ 
+	float real, image; 
+}; 
+int main()
+{ 
+	struct Complex x; 
+	if(u>0){
+				x= y;
+				}
+	y = 7+7;
+	y = 7.7;
+	fa ;
+	y.image = 3; 
+}

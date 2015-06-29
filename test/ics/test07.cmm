@@ -1,0 +1,29 @@
+@ struct  x{
+};
+struct x{
+    int y;
+};
+struct x{
+    int y;
+}
+struct @ x{
+};
+struct x{
+    int y;
+};
+struct x{
+    int y;
+}
+struct  x@{
+};
+
+struct x{
+    int y;
+};
+struct x{
+    int y;
+}
+int main(){
+	exp = 0;
+    a = b;
+}

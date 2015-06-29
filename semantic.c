@@ -188,14 +188,15 @@ void sem(MTnode* root){
                     root->children_list[0]->syn_type;
                 root->children_list[2]->inh_type = 
                     root->children_list[0]->syn_type;
+                ch(2)->inh_ctrl = 1;
 
                 func_def = 1;
                 sem(root->children_list[1]);
-                func_def = 0;
 
                 inside_func_compst = 1;
                 sem(root->children_list[2]);
                 inside_func_compst = 0;
+                func_def = 0;
                 break;
             }
         case ExtDef4: // func delaration !!
@@ -328,6 +329,7 @@ void sem(MTnode* root){
                     }
                 }
                 else if(global||func_def){
+                    Log("____________________");
                     int err = 0;
                     MTnode* var_id = get_var_id(root);
                     symbol* s = find_sym(&field_tab,var_id->str);
@@ -549,6 +551,7 @@ void sem(MTnode* root){
             }
         case VarList1:
             {
+                Log("VarList1");
                 sem(root->children_list[0]);
                 sem(root->children_list[2]);
                 root->syn_al = malloc(sizeof(ArgList));
@@ -558,6 +561,7 @@ void sem(MTnode* root){
             }
         case VarList2:
             {
+                Log("VarList2");
                 sem(root->children_list[0]);
                 root->syn_al = malloc(sizeof(ArgList));
                 root->syn_al->next = NULL;
@@ -566,10 +570,117 @@ void sem(MTnode* root){
             }
         case ParamDec:
             {
+                Log("ParamDec");
                 sem(root->children_list[0]);
                 root->children_list[1]->inh_type = root->children_list[0]->syn_type;
                 sem(root->children_list[1]);
                 root->syn_type = root->children_list[1]->syn_type;
+                break;
+            }
+        case CompSt:
+            {
+                Log("CompSt, Contrl:%d",root->inh_ctrl);
+                if(ch(2)->type != StmtList2){
+                    ch(2)->inh_type = root->inh_type; //control
+                    ch(2)->inh_ctrl = root->inh_ctrl;
+                }
+                else if(root->inh_ctrl != 0){
+                    printf("Warning: Control reaches end at Line %d\n",locl);
+                }
+                sem(ch(1));
+                sem(ch(2));
+                break;
+            }
+        case StmtList1:
+            {
+                Log("StmtList1,Control: %d",root->inh_ctrl);
+                if(ch(1)->type == StmtList2){
+                    ch(0)->inh_ctrl = root->inh_ctrl;
+                }
+                else{
+                    ch(0)->inh_ctrl = 0;
+                }
+                ch(0)->inh_type = root->inh_type;
+                ch(1)->inh_type = root->inh_type;
+                ch(1)->inh_ctrl = root->inh_ctrl;
+                sem(ch(0));
+                sem(ch(1));
+                break;
+            }
+        case StmtList2:
+            {
+                Log("StmtList2");
+                break;
+            }
+        case Stmt1:
+            {
+                Log("Stmt1");
+                if(root->inh_ctrl==1){
+                    printf("Warning: Control reaches end at Line %d\n",locl);
+                }
+                sem(ch(0));
+                break;
+            }
+        case Stmt2:
+            {
+                Log("Stmt2");
+                ch(0)->inh_type = root->inh_type;
+                ch(0)->inh_ctrl = root->inh_ctrl;
+                sem(ch(0));
+                break;
+            }
+        case Stmt3:
+            {
+                Log("Stmt3");
+                sem(ch(1));
+                if(type_cmp(root->inh_type,ch(1)->syn_type)!=0){
+                    printf("Error type 8 at Line %d: Type mismatched for return.\n",locl);
+                }
+                break;
+            }
+        case Stmt4:
+            {
+                Log("Stmt4");
+                if(root->inh_ctrl==1){
+                    printf("Warning: Control might reach end at Line %d\n",locl);
+                }
+                ch(4)->inh_type = root->inh_type;
+                ch(4)->inh_ctrl = root->inh_ctrl;
+                sem(ch(2));
+                if(type_cmp(ch(2)->syn_type,type_int)!=0){
+                    printf("Error type 7 at Line %d: condition val is not integer.\n",locl);
+                }
+                sem(ch(4));
+                break;
+            }
+        case Stmt5:
+            {
+                Log("Stmt5");
+                ch(4)->inh_type = root->inh_type;
+                ch(4)->inh_ctrl = root->inh_ctrl;
+                ch(6)->inh_type = root->inh_type;
+                ch(6)->inh_ctrl = root->inh_ctrl;
+                sem(ch(2));
+                if(type_cmp(ch(2)->syn_type,type_int)!=0){
+                    printf("Error type 7 at Line %d: condition val is not integer.\n",locl);
+                }
+                sem(ch(4));
+                sem(ch(6));
+                break;
+            }
+        case Stmt6:
+            {
+                Log("Stmt6");
+                if(root->inh_ctrl==1){
+                    printf("Warning: Control might reach end at Line %d\n",locl);
+                }
+                ch(4)->inh_type = root->inh_type;
+                ch(4)->inh_ctrl = root->inh_ctrl;
+                sem(ch(2));
+                if(type_cmp(ch(2)->syn_type,type_int)!=0){
+                    printf("Error type 7 at Line %d: condition val is not integer.\n",locl);
+                }
+                sem(ch(4));
                 break;
             }
         case DefList1:
@@ -731,6 +842,8 @@ void sem(MTnode* root){
         case Exp2:
             {
                 Log("Exp2");
+                sem(root->children_list[0]);
+                sem(root->children_list[2]);
                 if(chst(0)!=type_int||chst(2)!=type_int){
                     printf("Error type 7 at Line %d: Type mismatched for AND.\n",locl);
                 }
@@ -740,6 +853,8 @@ void sem(MTnode* root){
         case Exp3:
             {
                 Log("Exp3");
+                sem(root->children_list[0]);
+                sem(root->children_list[2]);
                 if(chst(0)!=type_int||chst(2)!=type_int){
                     printf("Error type 7 at Line %d: Type mismatched for OR.\n",locl);
                 }
@@ -749,7 +864,9 @@ void sem(MTnode* root){
         case Exp4:
             {
                 Log("Exp4");
-                if(chst(0)!=chst(2)||(chst(0)!=type_int||chst(0)!=type_float)){
+                sem(root->children_list[0]);
+                sem(root->children_list[2]);
+                if(chst(0)!=chst(2)||(chst(0)!=type_int&&chst(0)!=type_float)){
                     printf("Error type 7 at Line %d: Type mismatched for RELOP.\n",locl);
                 }
                 root->syn_type = type_int;
@@ -758,7 +875,9 @@ void sem(MTnode* root){
         case Exp5:
             {
                 Log("Exp5");
-                if(chst(0)!=chst(2)||(chst(0)!=type_int||chst(0)!=type_float)){
+                sem(root->children_list[0]);
+                sem(root->children_list[2]);
+                if(chst(0)!=chst(2)||(chst(0)!=type_int&&chst(0)!=type_float)){
                     printf("Error type 7 at Line %d: Type mismatched for PLUS.\n",locl);
                 }
                 root->syn_type = chst(0);
@@ -767,7 +886,9 @@ void sem(MTnode* root){
         case Exp6:
             {
                 Log("Exp6");
-                if(chst(0)!=chst(2)||(chst(0)!=type_int||chst(0)!=type_float)){
+                sem(root->children_list[0]);
+                sem(root->children_list[2]);
+                if(chst(0)!=chst(2)||(chst(0)!=type_int&&chst(0)!=type_float)){
                     printf("Error type 7 at Line %d: Type mismatched for MINUS.\n",locl);
                 }
                 root->syn_type = chst(0);
@@ -776,7 +897,9 @@ void sem(MTnode* root){
         case Exp7:
             {
                 Log("Exp7");
-                if(chst(0)!=chst(2)||(chst(0)!=type_int||chst(0)!=type_float)){
+                sem(root->children_list[0]);
+                sem(root->children_list[2]);
+                if(chst(0)!=chst(2)||(chst(0)!=type_int&&chst(0)!=type_float)){
                     printf("Error type 7 at Line %d: Type mismatched for MUL.\n",locl);
                 }
                 root->syn_type = chst(0);
@@ -785,7 +908,9 @@ void sem(MTnode* root){
         case Exp8:
             {
                 Log("Exp8");
-                if(chst(0)!=chst(2)||(chst(0)!=type_int||chst(0)!=type_float)){
+                sem(root->children_list[0]);
+                sem(root->children_list[2]);
+                if(chst(0)!=chst(2)||(chst(0)!=type_int&&chst(0)!=type_float)){
                     printf("Error type 7 at Line %d: Type mismatched for DIV.\n",locl);
                 }
                 root->syn_type = chst(0);
@@ -794,13 +919,15 @@ void sem(MTnode* root){
         case Exp9:
             {
                 Log("Exp9");
+                sem(root->children_list[1]);
                 root->syn_type = chst(1);
                 break;
             }
         case Exp10:
             {
                 Log("Exp10");
-                if(chst(1)!=type_int||chst(1)!=type_float){
+                sem(root->children_list[1]);
+                if(chst(1)!=type_int&&chst(1)!=type_float){
                     printf("Error type 7 at Line %d: Type mismatched for NEG.\n",locl);
                 }
                 root->syn_type = chst(1);
@@ -809,6 +936,7 @@ void sem(MTnode* root){
         case Exp11:
             {
                 Log("Exp11");
+                sem(root->children_list[1]);
                 if(chst(1)!=type_int){
                     printf("Error type 7 at Line %d: Type mismatched for NOT.\n",locl);
                 }

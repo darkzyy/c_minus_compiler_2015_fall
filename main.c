@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<string.h>
 #include"syntax.tab.h"
 
 //#define __LEXER_DEBUG__
@@ -10,7 +11,7 @@ extern void error_report();
 extern void yyrestart(FILE* f);
 extern int lineno_init();
 
-int enable_debug = 1;
+int enable_debug = 0;
 
 #ifdef __LEXER_DEBUG__
 int main(int argc,char** argv){
@@ -28,6 +29,9 @@ int main(int argc,char** argv){
 #ifdef __PARSER_DEBUG__
 int main(int argc,char** argv){
 	if (argc <= 1) return 1; 
+    if (argc == 3&&strcmp(argv[2],"-d")==0){
+        enable_debug = 1;
+    }
 	FILE* f = fopen(argv[1], "r"); 
 	if (!f) { 
 		perror(argv[1]); 

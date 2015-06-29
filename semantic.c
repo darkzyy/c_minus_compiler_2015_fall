@@ -27,7 +27,7 @@ void init_basic_type(){
     inside_func_compst = 0;
     func_dec=0;
     func_def=0;
-    global = 1;
+    global = 0;
 }
 
 MTnode* get_var_id(MTnode* dec){
@@ -63,6 +63,34 @@ char* get_spec_name(MTnode* spec){  //not tested!!
     }
 }
 
+int type_cmp(Type* tx,Type* ty){
+    if(tx==NULL||ty==NULL){
+        if(tx==NULL&&ty==NULL){
+            return 0;
+        }
+        else{
+            return 1;
+        }
+    }
+    if(tx->kind != ty->kind){
+        return 1;
+    }
+    if(tx->kind == basic || tx->kind == structure){
+        return tx != ty;
+    }
+    else if(tx->kind == semantic_error){
+        return 1;
+    }
+    else{// array
+        if(tx->array.size != ty->array.size){
+            return 1;
+        }
+        else{
+            return type_cmp(tx->array.elem,ty->array.elem);
+        }
+    }
+}
+
 int argamt_count(ArgList* al){
     int count = 0;
     while(al!=NULL){
@@ -71,6 +99,7 @@ int argamt_count(ArgList* al){
     }
     return count;
 }
+
 int arg_cmp(ArgList* alx,ArgList* aly){
     if(alx==NULL||aly==NULL){
         if(alx==NULL&&aly==NULL){
@@ -80,13 +109,14 @@ int arg_cmp(ArgList* alx,ArgList* aly){
             return 1;
         }
     }
-    if(alx->type != aly->type){
+    if(type_cmp(alx->type,aly->type)!=0){
         return 1;
     }
     else{
         return arg_cmp(alx->next,aly->next);
     }
 }
+
 void al_free(ArgList* al){
     if(al!=NULL){
         al_free(al->next);
@@ -283,7 +313,7 @@ void sem(MTnode* root){
                         break;
                     }
                 }
-                else if(global){
+                else if(global||func_def){
                     int err = 0;
                     MTnode* var_id = get_var_id(root);
                     symbol* s = find_sym(&field_tab,var_id->str);
@@ -317,6 +347,10 @@ void sem(MTnode* root){
                         Log("#======------added global var %s------======#",var_sym->id_name);
                         break;
                     }
+                }
+                else if(func_dec){
+                    root->syn_type = root->inh_type;
+                    break;
                 }
                 break;
             }
@@ -354,7 +388,7 @@ void sem(MTnode* root){
                         Log("find array dim:%d",root->inh_dim);
                     }
                 }
-                else if(global){
+                else if(global||func_def){
                     int err = 0;
                     MTnode* var_id = get_var_id(root);
                     symbol* s = find_sym(&field_tab,var_id->str);
@@ -391,6 +425,18 @@ void sem(MTnode* root){
                         Log("find global array dim:%d",root->inh_dim);
                     }
                 }
+                else if(func_dec){
+                    root->syn_type = root->inh_type;
+                    MTnode* main_part = root->children_list[0];
+                    main_part->inh_type = root->inh_type;
+                    main_part->inh_dim = root->inh_dim+1;
+                    sem(main_part);
+                    root->syn_type = malloc(sizeof(Type));
+                    root->syn_type->kind = array;
+                    root->syn_type->array.elem = main_part->syn_type;
+                    root->syn_type->array.size = root->children_list[2]->valt;
+                    break;
+                }
                 break;
             }
         case FunDec1:
@@ -415,7 +461,7 @@ void sem(MTnode* root){
                 }
                 if(s!=NULL && func_dec && (s->dec_ed==1||s->def_ed==1)){ 
                     //defined or declared,and redeclaring now
-                    if(s->argamt != 0 || s->val_type != root->inh_type){
+                    if(type_cmp(s->val_type,root->inh_type)!=0){
                         printf("Error type 19 at Line %d: Inconsistent declaration\
  of function \"%s\".\n",func_id->location.first_line,func_id->str);
                         break;
@@ -443,6 +489,7 @@ void sem(MTnode* root){
                     }
                     al_free(varl->syn_al);
                 }
+                break;
             }
         case FunDec2:
             {//no arguement
@@ -467,7 +514,7 @@ void sem(MTnode* root){
                 }
                 if(s!=NULL && func_dec && (s->dec_ed==1||s->def_ed==1)){ 
                     //defined or declared,and redeclaring now
-                    if(s->argamt != 0 || s->val_type != root->inh_type){
+                    if(s->argamt != 0 || type_cmp(s->val_type,root->inh_type)){
                         printf("Error type 19 at Line %d: Inconsistent declaration\
  of function \"%s\".\n",func_id->location.first_line,func_id->str);
                     }
@@ -484,6 +531,31 @@ void sem(MTnode* root){
                     add_sym_node(&func_tab,s);
                     Log("#======------added func %s------======#",func_id->str);
                 }
+                break;
+            }
+        case VarList1:
+            {
+                sem(root->children_list[0]);
+                sem(root->children_list[2]);
+                root->syn_al = malloc(sizeof(ArgList));
+                root->syn_al->next = root->children_list[2]->syn_al;
+                root->syn_al->type = root->children_list[0]->syn_type;
+                break;
+            }
+        case VarList2:
+            {
+                sem(root->children_list[0]);
+                root->syn_al = malloc(sizeof(ArgList));
+                root->syn_al->next = NULL;
+                root->syn_al->type = root->children_list[0]->syn_type;
+                break;
+            }
+        case ParamDec:
+            {
+                sem(root->children_list[0]);
+                root->children_list[1]->inh_type = root->children_list[0]->syn_type;
+                sem(root->children_list[1]);
+                root->syn_type = root->children_list[1]->syn_type;
                 break;
             }
         case DefList1:

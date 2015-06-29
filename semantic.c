@@ -7,7 +7,9 @@
 #include"debug.h"
 
 int inside_struct;
-int inside_func;
+int inside_func_para;
+int inside_func_compst;
+int global;
 
 void init_basic_type(){
     type_int = malloc(sizeof(Type));
@@ -19,7 +21,9 @@ void init_basic_type(){
     type_error = malloc(sizeof(Type));
     type_float->kind = semantic_error;
     inside_struct = 0;
-    inside_func = 0;
+    inside_func_para = 0;
+    inside_func_compst = 0;
+    global = 1;
 }
 
 MTnode* get_var_id(MTnode* dec){
@@ -86,7 +90,9 @@ void sem(MTnode* root){
                 sem(root->children_list[0]);
                 root->children_list[1]->inh_type = 
                     root->children_list[0]->syn_type;//ExtDecList
+                global = 1;
                 sem(root->children_list[1]);
+                global = 0;
                 break;
             }
         case ExtDef2:
@@ -99,9 +105,10 @@ void sem(MTnode* root){
             {
                 Log("ExtDef3: Func Def");
                 sem(root->children_list[0]);
-                root->children_list[1]->inh_type = 
-                    root->children_list[0]->syn_type;//func def
+                root->children_list[2]->inh_type = 
+                    root->children_list[0]->syn_type;
                 sem(root->children_list[1]);
+                sem(root->children_list[2]);
                 break;
             }
         case ExtDef4: // func delaration !!
@@ -219,13 +226,48 @@ void sem(MTnode* root){
                     if(err){
                         break;
                     }
-                    else{//new var -> symtab
+                    else{//new field -> field_tab
                         symbol* var_sym = malloc(sizeof(symbol));
                         var_sym->dim = root->inh_dim;
                         var_sym->id_name = var_id->str;
                         var_sym->val_type = root->syn_type;
                         add_sym_node(&field_tab,var_sym);
-                        Log("#======------added array symbol %s------======#",var_sym->id_name);
+                        Log("#======------added field %s------======#",var_sym->id_name);
+                        break;
+                    }
+                }
+                else if(global){
+                    int err = 0;
+                    MTnode* var_id = get_var_id(root);
+                    symbol* s = find_sym(&field_tab,var_id->str);
+                    if(s!=NULL){
+                        err=1;
+                        printf("Error type 3 at Line %d: Redefined var \"%s\".\n",
+                                    var_id->location.first_line,var_id->str);
+                    }
+                    s = find_sym(&var_tab,root->children_list[0]->str);
+                    if(s!=NULL){
+                        err=1;
+                        printf("Error type 3 at Line %d: Redefined var \"%s\".\n",
+                                    var_id->location.first_line,var_id->str);
+                    }
+                    s = find_sym(&struct_tab,root->children_list[0]->str);
+                    if(s!=NULL){
+                        err=1;
+                        printf("Error type 3 at Line %d: Redefined var \"%s\".\n",
+                                    var_id->location.first_line,var_id->str);
+                    }
+                    root->syn_type = root->inh_type;
+                    if(err){
+                        break;
+                    }
+                    else{//new field -> field_tab
+                        symbol* var_sym = malloc(sizeof(symbol));
+                        var_sym->dim = root->inh_dim;
+                        var_sym->id_name = var_id->str;
+                        var_sym->val_type = root->syn_type;
+                        add_sym_node(&var_tab,var_sym);
+                        Log("#======------added global var %s------======#",var_sym->id_name);
                         break;
                     }
                 }
@@ -263,6 +305,43 @@ void sem(MTnode* root){
                         root->syn_type->array.elem = main_part->syn_type;
                         root->syn_type->array.size = root->children_list[2]->valt;
                         Log("find array dim:%d",root->inh_dim);
+                    }
+                }
+                else if(global){
+                    int err = 0;
+                    MTnode* var_id = get_var_id(root);
+                    symbol* s = find_sym(&field_tab,var_id->str);
+                    if(s!=NULL){
+                        err=1;
+                        printf("Error type 3 at Line %d: Redefined var \"%s\".\n",
+                                    var_id->location.first_line,var_id->str);
+                    }
+                    s = find_sym(&var_tab,root->children_list[0]->str);
+                    if(s!=NULL){
+                        err=1;
+                        printf("Error type 3 at Line %d: Redefined var \"%s\".\n",
+                                    var_id->location.first_line,var_id->str);
+                    }
+                    s = find_sym(&struct_tab,root->children_list[0]->str);
+                    if(s!=NULL){
+                        err=1;
+                        printf("Error type 3 at Line %d: Redefined var \"%s\".\n",
+                                    var_id->location.first_line,var_id->str);
+                    }
+                    if(err){
+                        root->syn_type = type_error;
+                        break;
+                    }
+                    else{
+                        MTnode* main_part = root->children_list[0];
+                        main_part->inh_type = root->inh_type;
+                        main_part->inh_dim = root->inh_dim+1;
+                        sem(main_part);
+                        root->syn_type = malloc(sizeof(Type));
+                        root->syn_type->kind = array;
+                        root->syn_type->array.elem = main_part->syn_type;
+                        root->syn_type->array.size = root->children_list[2]->valt;
+                        Log("find global array dim:%d",root->inh_dim);
                     }
                 }
                 break;

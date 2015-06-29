@@ -65,12 +65,15 @@ void sem(MTnode* root){
                 sem(root->children_list[0]);
                 break;
             }
-        case ExtDefList:
+        case ExtDefList1:
             {
-                Log("ExtDefList");
+                Log("ExtDefList1");
                 sem(root->children_list[0]);
-                Log();
                 sem(root->children_list[1]);
+                break;
+            }
+        case ExtDefList2:
+            {
                 break;
             }
         case ExtDef1:
@@ -187,13 +190,13 @@ void sem(MTnode* root){
                     symbol* s = find_sym(&field_tab,var_id->str);
                     if(s!=NULL){
                         err=1;
-                        printf("Error type 15 at Line %d: Redefined field \"%s\".",
+                        printf("Error type 15 at Line %d: Redefined field \"%s\".\n",
                                     var_id->location.first_line,var_id->str);
                     }
                     s = find_sym(&var_tab,root->children_list[0]->str);
                     if(s!=NULL){
                         err=1;
-                        printf("Error type 15 at Line %d: field's name is same as a var \"%s\".",
+                        printf("Error type 15 at Line %d: field's is same as a var \"%s\".\n",
                                     var_id->location.first_line,var_id->str);
                     }
 
@@ -212,18 +215,26 @@ void sem(MTnode* root){
                 }
                 break;
             }
-        case DefList:
+        case DefList1:
             {
-                Log("DefList");
+                Log("DefList1");
                 if(inside_struct){
                     MTnode* def = root->children_list[0];
                     MTnode* defl = root->children_list[1];
                     sem(def);
                     sem(defl);
                     root->syn_fl = def->syn_fl;
-                    def->syn_fl->next = defl->syn_fl;
-                    def->syn_fl->tail = defl->syn_fl->tail;
+                    if(defl->syn_fl!=NULL){
+                        def->syn_fl->next = defl->syn_fl;
+                        def->syn_fl->tail = defl->syn_fl->tail;
+                    }
                 }
+                break;
+            }
+        case DefList2:
+            {
+                Log("DefList2");
+                root->syn_fl=NULL;
                 break;
             }
         case Def:
@@ -312,11 +323,13 @@ void sem(MTnode* root){
             }
         case EMPTY:
             {
+                Log("empty");
                 break;
             }
         default:
             {
                 Log("Default : %d",root->type);
+                break;
             }
     }
 }

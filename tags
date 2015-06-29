@@ -3,7 +3,7 @@
 !_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
-!_TAG_PROGRAM_VERSION	5.8	//
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 AND	syntax.tab.c	/^    AND = 269,$/;"	e	enum:yytokentype	file:
 AND	syntax.tab.h	/^    AND = 269,$/;"	e	enum:yytokentype
 ASSIGNOP	syntax.tab.c	/^    ASSIGNOP = 263,$/;"	e	enum:yytokentype	file:
@@ -276,7 +276,8 @@ Type_::__anon4::fl	cmmtypes.h	/^        FieldList* fl;$/;"	m	union:Type_::__anon
 Type_::array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon3
 Type_::basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon3
 Type_::kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon3	access:public
-Type_::structure	cmmtypes.h	/^        structure$/;"	e	enum:Type_::__anon3
+Type_::semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon3
+Type_::structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon3
 UINT16_MAX	lex.yy.c	81;"	d	file:
 UINT32_MAX	lex.yy.c	84;"	d	file:
 UINT8_MAX	lex.yy.c	78;"	d	file:
@@ -504,7 +505,6 @@ add_sym_name	symtab.c	/^void add_sym_name(symbol** ht, char* id_name){$/;"	f	sig
 add_sym_name	symtab.h	/^void add_sym_name(symbol** ht,char* id_name);$/;"	p	signature:(symbol** ht,char* id_name)
 add_sym_node	symtab.c	/^void add_sym_node(symbol** ht,symbol* new_node){$/;"	f	signature:(symbol** ht,symbol* new_node)
 add_sym_node	symtab.h	/^void add_sym_node(symbol** ht,symbol* new_node);$/;"	p	signature:(symbol** ht,symbol* new_node)
-add_type	semantic.h	/^Type* add_type(MTnode* root);$/;"	p	signature:(MTnode* root)
 addr	symtab.h	/^    void* addr;$/;"	m	struct:symbol_	access:public
 alloca	syntax.tab.c	307;"	d	file:
 argamt	symtab.h	/^    int argamt;\/\/arguement amount$/;"	m	struct:symbol_	access:public
@@ -516,7 +516,6 @@ bloom_bv	uthash.h	/^   uint8_t *bloom_bv;$/;"	m	struct:UT_hash_table	access:publ
 bloom_nbits	uthash.h	/^   uint8_t bloom_nbits;$/;"	m	struct:UT_hash_table	access:public
 bloom_sig	uthash.h	/^   uint32_t bloom_sig; \/* used only to test bloom exists in external analysis *\/$/;"	m	struct:UT_hash_table	access:public
 buckets	uthash.h	/^   UT_hash_bucket *buckets;$/;"	m	struct:UT_hash_table	access:public
-build_table	semantic.h	/^void build_table(MTnode* root);$/;"	p	signature:(MTnode* root)
 children_amount	multi_tree.h	/^	int children_amount;$/;"	m	struct:MTnode	access:public
 children_list	multi_tree.h	/^	struct MTnode** children_list;$/;"	m	struct:MTnode	typeref:struct:MTnode::MTnode	access:public
 count	uthash.h	/^   unsigned count;$/;"	m	struct:UT_hash_bucket	access:public
@@ -558,6 +557,7 @@ get16bits	uthash.h	472;"	d
 get16bits	uthash.h	475;"	d
 get16bits	uthash.h	479;"	d
 get_spec_name	semantic.c	/^char* get_spec_name(MTnode* spec){  \/\/not tested!!$/;"	f	signature:(MTnode* spec)
+get_var_id	semantic.c	/^MTnode* get_var_id(MTnode* dec){$/;"	f	signature:(MTnode* dec)
 hashv	uthash.h	/^   unsigned hashv;                   \/* result of hash-fcn(key)        *\/$/;"	m	struct:UT_hash_handle	access:public
 hh	symtab.h	/^    UT_hash_handle hh;$/;"	m	struct:symbol_	access:public
 hh_head	uthash.h	/^   struct UT_hash_handle *hh_head;$/;"	m	struct:UT_hash_bucket	typeref:struct:UT_hash_bucket::UT_hash_handle	access:public
@@ -602,12 +602,14 @@ print_symtab	symtab.c	/^void print_symtab(symbol* ht){$/;"	f	signature:(symbol* 
 print_symtab	symtab.h	/^void print_symtab(symbol* ht);$/;"	p	signature:(symbol* ht)
 property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon6	access:public
 sem	semantic.c	/^void sem(MTnode* root){$/;"	f	signature:(MTnode* root)
+sem	semantic.h	/^void sem(MTnode* root);$/;"	p	signature:(MTnode* root)
+semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon3
 short	syntax.tab.c	185;"	d	file:
 signature	uthash.h	/^   uint32_t signature; \/* used only to find hash tables in external analysis *\/$/;"	m	struct:UT_hash_table	access:public
 size	cmmtypes.h	/^            int size;$/;"	m	struct:Type_::__anon4::__anon5	access:public
 str	multi_tree.h	/^	char* str;$/;"	m	struct:MTnode	access:public
 struct_tab	symtab.c	/^symbol* struct_tab = NULL;$/;"	v
-structure	cmmtypes.h	/^        structure$/;"	e	enum:Type_::__anon3
+structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon3
 symbol	symtab.h	/^typedef struct symbol_ symbol;$/;"	t	typeref:struct:symbol_
 symbol_	symtab.h	/^struct symbol_{$/;"	s
 symbol_::__anon6::__anon7::dec_ed	symtab.h	/^            unsigned int dec_ed : 1;$/;"	m	struct:symbol_::__anon6::__anon7	access:public
@@ -629,6 +631,7 @@ tail	uthash.h	/^   struct UT_hash_handle *tail; \/* tail hh in app order, for fa
 tbl	uthash.h	/^   struct UT_hash_table *tbl;$/;"	m	struct:UT_hash_handle	typeref:struct:UT_hash_handle::UT_hash_table	access:public
 type	cmmtypes.h	/^    Type* type; \/\/field type$/;"	m	struct:FieldList_	access:public
 type	multi_tree.h	/^	int type;$/;"	m	struct:MTnode	access:public
+type_error	semantic.h	/^Type* type_error;$/;"	v
 type_float	semantic.h	/^Type* type_float;$/;"	v
 type_int	semantic.h	/^Type* type_int;$/;"	v
 uint32_t	uthash.h	/^typedef unsigned int uint32_t;$/;"	t

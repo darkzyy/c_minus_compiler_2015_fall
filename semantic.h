@@ -4,6 +4,7 @@
 
 Type* type_int;
 Type* type_float;
+Type* type_error;
 
 void sem(MTnode* root);
 

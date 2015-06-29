@@ -8,7 +8,8 @@ struct Type_{
     enum{
         basic,
         array,
-        structure
+        structure,
+        semantic_error
     }kind;
     union{
         int basic;

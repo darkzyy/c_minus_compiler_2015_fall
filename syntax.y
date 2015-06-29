@@ -81,7 +81,7 @@ Program : ExtDefList {
         }
         */
         sem($$);
-        print_symtab(var_tab);
+        //print_symtab(var_tab);
         }
         ;
 ExtDefList : ExtDef ExtDefList {
@@ -96,7 +96,6 @@ ExtDefList : ExtDef ExtDefList {
             /*solve missing ';'*/
             ;
            
-
 ExtDef : Specifier ExtDecList SEMI {
        MTnode** list=malloc(sizeof(void*)*3);
        list[0]=$1;
@@ -176,7 +175,6 @@ OptTag : ID {
        | %empty                {$$ = create_node(NULL,0,"",&@$,EMPTY);}
        ;
     
-
 Tag : ID {
     MTnode** list=malloc(sizeof(void*)*1);
     list[0]=$1;
@@ -241,10 +239,6 @@ CompSt : LC DefList StmtList RC {
        list[3]=$4;
        $$ = create_node(list,4,"CompSt",&@1,CompSt);
        }
-       /*
-       | LC DefList StmtList error{yyerror("';' might be missed");} RC{}
-       | LC DefList error RC
-       */
        ;
 StmtList : Stmt StmtList {
          MTnode** list=malloc(sizeof(void*)*2);
@@ -469,7 +463,7 @@ Exp : Exp ASSIGNOP Exp {
     }
     | LP error RP {}
     | LP Exp error RP {}
-    ;
+     ;
 Args : Exp COMMA Args {
      MTnode** list=malloc(sizeof(void*)*3);
      list[0]=$1;
@@ -483,6 +477,7 @@ Args : Exp COMMA Args {
      $$ = create_node(list,1,"Args",&@1,Args2);
      }
      ;
+
 %%
 
 #define __MY_YYERROR__

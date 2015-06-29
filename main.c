@@ -9,6 +9,9 @@ extern FILE* yyin;
 extern void error_report();
 extern void yyrestart(FILE* f);
 extern int lineno_init();
+
+int enable_debug = 1;
+
 #ifdef __LEXER_DEBUG__
 int main(int argc,char** argv){
 	if(argc>0){

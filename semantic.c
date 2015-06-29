@@ -63,6 +63,37 @@ char* get_spec_name(MTnode* spec){  //not tested!!
     }
 }
 
+int argamt_count(ArgList* al){
+    int count = 0;
+    while(al!=NULL){
+        count++;
+        al = al->next;
+    }
+    return count;
+}
+int arg_cmp(ArgList* alx,ArgList* aly){
+    if(alx==NULL||aly==NULL){
+        if(alx==NULL&&aly==NULL){
+            return 0;
+        }
+        else{
+            return 1;
+        }
+    }
+    if(alx->type != aly->type){
+        return 1;
+    }
+    else{
+        return arg_cmp(alx->next,aly->next);
+    }
+}
+void al_free(ArgList* al){
+    if(al!=NULL){
+        al_free(al->next);
+        free(al);
+    }
+}
+
 /*tranverse the tree 
  * and build the ID table
  * for hash table testing
@@ -365,9 +396,56 @@ void sem(MTnode* root){
         case FunDec1:
             {
                 Log("FunDec1");
+                MTnode* func_id = get_var_id(root);
+                if(inside_func_compst){
+                    printf("Error type 20 at Line %d: Func in Func \"%s\".\n",
+                                func_id->location.first_line,func_id->str);
+                    break;
+                }
+                if(inside_struct){
+                    printf("Error type 20 at Line %d: Func in Struct \"%s\".\n",
+                                func_id->location.first_line,func_id->str);
+                    break;
+                }
+                symbol* s = find_sym(&func_tab,func_id->str);
+                if(s!=NULL && func_def && s->def_ed==1){ //redefine
+                    printf("Error type 4 at Line %d: Func Redefined \"%s\".\n",
+                                func_id->location.first_line,func_id->str);
+                    break;
+                }
+                if(s!=NULL && func_dec && (s->dec_ed==1||s->def_ed==1)){ 
+                    //defined or declared,and redeclaring now
+                    if(s->argamt != 0 || s->val_type != root->inh_type){
+                        printf("Error type 19 at Line %d: Inconsistent declaration\
+ of function \"%s\".\n",func_id->location.first_line,func_id->str);
+                        break;
+                    }
+                }
+                MTnode* varl = root->children_list[2];
+                sem(varl);
+                if(s==NULL){
+                    s = malloc(sizeof(symbol));
+                    s->id_name = func_id->str;
+                    s->val_type = root->inh_type;
+                    s->func_arg = varl->syn_al;
+                    s->argamt=argamt_count(varl->syn_al);
+                    s->property = 0;
+                    s->dec_ed = func_dec;
+                    s->def_ed = func_def;
+                    add_sym_node(&func_tab,s);
+                    Log("#======------added func %s------======#",func_id->str);
+                }
+                else{ 
+                    if(arg_cmp(varl->syn_al,s->func_arg)!=0){
+                        printf("Error type 19 at Line %d: Inconsistent declaration\
+ of function \"%s\".\n",func_id->location.first_line,func_id->str);
+                        break;
+                    }
+                    al_free(varl->syn_al);
+                }
             }
         case FunDec2:
-            {
+            {//no arguement
                 Log("FunDec2");
                 int err = 0;
                 MTnode* func_id = get_var_id(root);
@@ -387,10 +465,11 @@ void sem(MTnode* root){
                     printf("Error type 4 at Line %d: Func Redefined \"%s\".\n",
                                 func_id->location.first_line,func_id->str);
                 }
-                if(s!=NULL && func_dec && (s->dec_ed==1||s->def_ed==1)){ //defined or declared,and redeclaring now
+                if(s!=NULL && func_dec && (s->dec_ed==1||s->def_ed==1)){ 
+                    //defined or declared,and redeclaring now
                     if(s->argamt != 0 || s->val_type != root->inh_type){
-                        printf("Error type 19 at Line %d: Inconsistent declaration of function \"%s\".\n",
-                                    func_id->location.first_line,func_id->str);
+                        printf("Error type 19 at Line %d: Inconsistent declaration\
+ of function \"%s\".\n",func_id->location.first_line,func_id->str);
                     }
                 }
                 if((!err)&&s==NULL){ // not defined or declared  , func_id -> symtab
@@ -401,6 +480,7 @@ void sem(MTnode* root){
                     s->property = 0;
                     s->dec_ed = func_dec;
                     s->def_ed = func_def;
+                    s->func_arg = NULL;
                     add_sym_node(&func_tab,s);
                     Log("#======------added func %s------======#",func_id->str);
                 }

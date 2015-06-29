@@ -12,6 +12,7 @@ struct symbol_{
     Type* val_type;//int float user_struct
     int dim;
     int argamt;//arguement amount
+    ArgList* func_arg;
     union{
         struct{
             unsigned int def_ed : 1;

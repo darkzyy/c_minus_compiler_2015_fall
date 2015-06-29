@@ -18,6 +18,7 @@ typedef struct MTnode{
     int inh_dim;
     Type* syn_type;
     FieldList* syn_fl;
+    ArgList* syn_al;
 	YYLTYPE location;
 	struct MTnode** children_list;
 }MTnode;

@@ -34,4 +34,7 @@ struct ArgList_{
     ArgList* next;
 };
 
+void init_basic_type();
+int type_cmp(Type* tx,Type* ty);
+
 #endif

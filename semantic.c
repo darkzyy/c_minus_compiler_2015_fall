@@ -673,56 +673,94 @@ void sem(MTnode* root){
                     printf("Error type 5 at Line %d: Type mismatched for assignment.\n",
                                 locl);
                 }
+                root->syn_type = chst(2);
                 break;
             }
         case Exp2:
             {
                 Log("Exp2");
+                if(chst(0)!=type_int||chst(2)!=type_int){
+                    printf("Error type 7 at Line %d: Type mismatched for AND.\n",locl);
+                }
+                root->syn_type = type_int;
                 break;
             }
         case Exp3:
             {
                 Log("Exp3");
+                if(chst(0)!=type_int||chst(2)!=type_int){
+                    printf("Error type 7 at Line %d: Type mismatched for OR.\n",locl);
+                }
+                root->syn_type = type_int;
                 break;
             }
         case Exp4:
             {
                 Log("Exp4");
+                if(chst(0)!=chst(2)||(chst(0)!=type_int||chst(0)!=type_float)){
+                    printf("Error type 7 at Line %d: Type mismatched for RELOP.\n",locl);
+                }
+                root->syn_type = type_int;
                 break;
             }
         case Exp5:
             {
                 Log("Exp5");
+                if(chst(0)!=chst(2)||(chst(0)!=type_int||chst(0)!=type_float)){
+                    printf("Error type 7 at Line %d: Type mismatched for PLUS.\n",locl);
+                }
+                root->syn_type = chst(0);
                 break;
             }
         case Exp6:
             {
                 Log("Exp6");
+                if(chst(0)!=chst(2)||(chst(0)!=type_int||chst(0)!=type_float)){
+                    printf("Error type 7 at Line %d: Type mismatched for MINUS.\n",locl);
+                }
+                root->syn_type = chst(0);
                 break;
             }
         case Exp7:
             {
                 Log("Exp7");
+                if(chst(0)!=chst(2)||(chst(0)!=type_int||chst(0)!=type_float)){
+                    printf("Error type 7 at Line %d: Type mismatched for MUL.\n",locl);
+                }
+                root->syn_type = chst(0);
                 break;
             }
         case Exp8:
             {
                 Log("Exp8");
+                if(chst(0)!=chst(2)||(chst(0)!=type_int||chst(0)!=type_float)){
+                    printf("Error type 7 at Line %d: Type mismatched for DIV.\n",locl);
+                }
+                root->syn_type = chst(0);
                 break;
             }
         case Exp9:
             {
                 Log("Exp9");
+                root->syn_type = chst(1);
                 break;
             }
         case Exp10:
             {
                 Log("Exp10");
+                if(chst(1)!=type_int||chst(1)!=type_float){
+                    printf("Error type 7 at Line %d: Type mismatched for NEG.\n",locl);
+                }
+                root->syn_type = chst(1);
                 break;
             }
         case Exp11:
             {
                 Log("Exp11");
+                if(chst(1)!=type_int){
+                    printf("Error type 7 at Line %d: Type mismatched for NOT.\n",locl);
+                }
+                root->syn_type = chst(1);
                 break;
             }
         case Exp12:

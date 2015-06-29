@@ -39,6 +39,7 @@ CompSt1 :  LC DefList StmtList RC
 StmtList1 :  Stmt StmtList
 StmtList2 :  %empty
 
+////////////////////////////////////////////////////
 
 Stmt1 :  Exp SEMI
 Stmt2 :  CompSt
@@ -47,6 +48,7 @@ Stmt4 :  IF LP Exp RP Stmt
 Stmt5 :  IF LP Exp RP Stmt ELSE Stmt
 Stmt6 :  WHILE LP Exp RP Stmt
 
+////////////////////////////////////////////////////
 
 DefList1 :  Def DefList
 DefList2 :  %empty
@@ -75,6 +77,7 @@ Exp15 :  Exp DOT ID
 Exp16 :  ID
 Exp17 :  INT
 Exp18 :  FLOAT
+
 Args1 :  Exp COMMA Args
 Args2 :  Exp
 %%

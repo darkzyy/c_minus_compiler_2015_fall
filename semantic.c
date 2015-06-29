@@ -124,6 +124,20 @@ void al_free(ArgList* al){
     }
 }
 
+Type* field_find(FieldList* fl,char* id){
+    if(fl==NULL){
+        return NULL;
+    }
+    else{
+        if(strcmp(id,fl->name)==0){
+            return fl->type;
+        }
+        else{
+            return field_find(fl->next,id);
+        }
+    }
+}
+
 /*tranverse the tree 
  * and build the ID table
  * for hash table testing
@@ -338,7 +352,7 @@ void sem(MTnode* root){
                     if(err){
                         break;
                     }
-                    else{//new field -> field_tab
+                    else{//new field -> var_tab
                         symbol* var_sym = malloc(sizeof(symbol));
                         var_sym->dim = root->inh_dim;
                         var_sym->id_name = var_id->str;
@@ -562,8 +576,8 @@ void sem(MTnode* root){
             {
                 Log("DefList1");
                 if(inside_struct){
-                    MTnode* def = root->children_list[0];
-                    MTnode* defl = root->children_list[1];
+                    MTnode* def = ch(0);
+                    MTnode* defl = ch(1);
                     sem(def);
                     sem(defl);
                     root->syn_fl = def->syn_fl;
@@ -571,6 +585,10 @@ void sem(MTnode* root){
                         def->syn_fl->next = defl->syn_fl;
                         def->syn_fl->tail = defl->syn_fl->tail;
                     }
+                }
+                else{
+                    sem(ch(0));
+                    sem(ch(1));
                 }
                 break;
             }
@@ -591,6 +609,13 @@ void sem(MTnode* root){
                     sem(decl);
                     root->syn_fl = decl->syn_fl;
                 }
+                else{
+                    MTnode* spec = root->children_list[0];
+                    MTnode* decl = root->children_list[1];
+                    sem(spec);
+                    decl->inh_type = spec->syn_type;
+                    sem(decl);
+                }
                 break;
             }
         case DecList1:
@@ -601,6 +626,10 @@ void sem(MTnode* root){
                     dec->inh_type = root->inh_type;
                     sem(dec);
                     root->syn_fl = dec->syn_fl;
+                }
+                else{
+                    ch(0)->inh_type = root->inh_type;
+                    sem(ch(0));
                 }
                 break;
             }
@@ -617,6 +646,12 @@ void sem(MTnode* root){
                     root->syn_fl = dec->syn_fl;
                     dec->syn_fl->next = decl->syn_fl;
                     dec->syn_fl->tail = decl->syn_fl->tail;
+                }
+                else{
+                    ch(0)->inh_type = root->inh_type;
+                    ch(2)->inh_type = root->inh_type;
+                    sem(ch(0));
+                    sem(ch(2));
                 }
                 break;
             }
@@ -636,6 +671,12 @@ void sem(MTnode* root){
                     root->syn_fl->next = NULL;
                     root->syn_fl->tail = NULL;
                 }
+                else{
+                    MTnode* vardec = root->children_list[0];
+                    vardec->inh_type = root->inh_type;
+                    vardec->inh_dim = 0;
+                    sem(vardec);
+                }
                 break;
             }
         case Dec2:
@@ -650,6 +691,17 @@ void sem(MTnode* root){
                     root->syn_fl->name = dec_id->str;
                     root->syn_fl->next = NULL;
                     root->syn_fl->tail = NULL;
+                }
+                else{
+                    MTnode* vardec = root->children_list[0];
+                    vardec->inh_type = root->inh_type;
+                    vardec->inh_dim = 0;
+                    sem(vardec);
+                    sem(ch(2));
+                    if(type_cmp(vardec->syn_type,ch(2)->syn_type)!=0){
+                        printf("Error type 5 at Line %d: Type mismatched for assignment.\n",
+                                    locl);
+                    }
                 }
                 break;
             }
@@ -766,36 +818,126 @@ void sem(MTnode* root){
         case Exp12:
             {
                 Log("Exp12");
+                symbol* s = find_sym(&func_tab,ch(0)->str);
+                if(s==NULL){
+                    printf("Error type 2 at Line %d: Undefined function \"%s\".\n",
+                                locl,ch(0)->str);
+                    root->syn_type = type_error;
+                }
+                else{
+                    sem(ch(2));
+                    if(arg_cmp(s->func_arg,ch(2)->syn_al)==0){
+                        root->syn_type = s->val_type;
+                    }
+                    else{
+                        printf("Error type 9 at Line %d: Function \"%s\" is not applicable\
+ for arguments provided here.\n",locl,s->id_name);
+                        root->syn_type = type_error;
+                    }
+                }
                 break;
             }
         case Exp13:
             {
                 Log("Exp13");
+                symbol* s = find_sym(&func_tab,ch(0)->str);
+                if(s==NULL){
+                    printf("Error type 2 at Line %d: Undefined function \"%s\".\n",
+                                locl,ch(0)->str);
+                    root->syn_type = type_error;
+                }
+                else if(s->argamt==0){
+                        root->syn_type = s->val_type;
+                }
+                else{
+                    printf("Error type 9 at Line %d: Function \"%s\" is not applicable\
+ for arguments provided here.\n",locl,s->id_name);
+                    root->syn_type = type_error;
+                }
                 break;
             }
         case Exp14:
             {
                 Log("Exp14");
+                sem(ch(0));
+                sem(ch(2));
+                if(ch(0)->syn_type->kind != array){
+                    printf("Error type 10 at Line %d: use'[]'after non-array exp.\n",locl);
+                    root->syn_type = type_error;
+                }
+                else if(ch(2)->syn_type != type_int){
+                    printf("Error type 12 at Line %d: use'[]'around non-int exp.\n",locl);
+                    root->syn_type = type_error;
+                }
+                else{
+                    root->syn_type = ch(0)->syn_type->array.elem;
+                }
                 break;
             }
         case Exp15:
             {
                 Log("Exp15");
+                sem(ch(0));
+                if(ch(0)->syn_type->kind != structure){
+                    printf("Error type 13 at Line %d: Illegal use of \".\".\n",locl);
+                    root->syn_type = type_error;
+                }
+                else {
+                    Type* t = field_find(ch(0)->syn_type->fl,ch(2)->str);
+                    if(t==NULL){
+                        printf("Error type 14 at Line %d: Non_existent field \"%s\".\n",
+                                    locl,ch(2)->str);
+                        root->syn_type = type_error;
+                    }
+                    else{
+                        root->syn_type = t;
+                    }
+                }
                 break;
             }
         case Exp16:
             {
                 Log("Exp16");
+                symbol* s = find_sym(&var_tab,ch(0)->str);
+                if(s==NULL){
+                    printf("Error type 1 at Line %d: Undefined variable \"%s\".\n",
+                                locl,ch(0)->str);
+                    root->syn_type = type_error;
+                }
+                else{
+                    root->syn_type = s->val_type;
+                }
                 break;
             }
         case Exp17:
             {
                 Log("Exp17");
+                root->syn_type = type_int;
                 break;
             }
         case Exp18:
             {
                 Log("Exp18");
+                root->syn_type = type_float;
+                break;
+            }
+        case Args1:
+            {
+                Log("Args1");
+                sem(ch(0));
+                sem(ch(2));
+                root->syn_al = malloc(sizeof(ArgList));
+                root->syn_al->next = ch(2)->syn_al;
+                root->syn_al->type = chst(0);
+                break;
+            }
+        case Args2:
+            {
+                Log("Args2");
+                sem(ch(0));
+                root->syn_al = malloc(sizeof(ArgList));
+                root->syn_al->next = NULL;
+                root->syn_al->type = chst(0);
                 break;
             }
         case EMPTY:

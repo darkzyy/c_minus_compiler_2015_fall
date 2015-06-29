@@ -29,7 +29,7 @@ float func2(int arg_i){
 }
 
 int main(){
-    if(func2(l[0].j[0].g.d[9]) == l[1].j.e[3].b){
+    if(func2(l[0].j[0].g.c[9]) == l[1].j[1].e[3].b){
         h[0].f =0;
         h[0].g.b=0.0;
     }

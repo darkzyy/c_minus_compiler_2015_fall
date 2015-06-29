@@ -9,6 +9,8 @@
 int inside_struct;
 int inside_func_para;
 int inside_func_compst;
+int func_dec;
+int func_def;
 int global;
 
 void init_basic_type(){
@@ -23,6 +25,8 @@ void init_basic_type(){
     inside_struct = 0;
     inside_func_para = 0;
     inside_func_compst = 0;
+    func_dec=0;
+    func_def=0;
     global = 1;
 }
 
@@ -107,8 +111,12 @@ void sem(MTnode* root){
                 sem(root->children_list[0]);
                 root->children_list[2]->inh_type = 
                     root->children_list[0]->syn_type;
+
                 sem(root->children_list[1]);
+
+                inside_func_compst = 1;
                 sem(root->children_list[2]);
+                inside_func_compst = 0;
                 break;
             }
         case ExtDef4: // func delaration !!
@@ -344,6 +352,16 @@ void sem(MTnode* root){
                         Log("find global array dim:%d",root->inh_dim);
                     }
                 }
+                break;
+            }
+        case FunDec2:
+            {
+                /*
+                if(inside_func_compst){
+                        printf("Error type 20 at Line %d: Func in Func \"%s\".\n",
+                                    var_id->location.first_line,var_id->str);
+                }
+                */
                 break;
             }
         case DefList1:

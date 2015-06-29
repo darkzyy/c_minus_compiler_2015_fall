@@ -69,6 +69,7 @@ void sem(MTnode* root){
             {
                 Log("ExtDefList");
                 sem(root->children_list[0]);
+                Log();
                 sem(root->children_list[1]);
                 break;
             }
@@ -202,13 +203,14 @@ void sem(MTnode* root){
                     }
                     else{//new var -> symtab
                         symbol* var_sym = malloc(sizeof(symbol));
-                        add_sym_node(&field_tab,var_sym);
                         var_sym->dim = 0;
                         var_sym->id_name = var_id->str;
                         var_sym->val_type = root->syn_type;
+                        add_sym_node(&field_tab,var_sym);
                         break;
                     }
                 }
+                break;
             }
         case DefList:
             {
@@ -308,9 +310,13 @@ void sem(MTnode* root){
                 break;
 
             }
+        case EMPTY:
+            {
+                break;
+            }
         default:
             {
-                Log("Default : %s",root->str);
+                Log("Default : %d",root->type);
             }
     }
 }

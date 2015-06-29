@@ -3,6 +3,7 @@
 #include<string.h>
 
 #include"symtab.h"
+#include"debug.h"
 
 symbol* func_tab = NULL;
 symbol* struct_tab = NULL;

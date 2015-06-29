@@ -146,6 +146,16 @@ void sem(MTnode* root){
                 root->syn_type = malloc(sizeof(Type));
                 root->syn_type->kind = structure;
                 root->syn_type->fl = root->children_list[3]->syn_fl;
+                if(root->children_list[1]->type == OptTag){
+                    //add this struct to symtab
+                    char* struct_id = root->children_list[1]->str;
+                    symbol* struct_sym = malloc(sizeof(symbol));
+                    struct_sym->dim = 0;
+                    struct_sym->id_name = struct_id;
+                    struct_sym->val_type = root->syn_type;
+                    add_sym_node(&struct_tab,struct_sym);
+                    Log("#======------added struct %s------======#",struct_id);
+                }
                 if(inside_struct>0){
                     inside_struct -= 1;
                 }
@@ -167,6 +177,8 @@ void sem(MTnode* root){
                     printf("Error type 16 at Line %d: Duplicated name \"%s\".\n",
                                 struct_id->location.first_line,struct_id->str);
                 }
+                root->str = root->children_list[0]->str;
+                //trying: auto upload id
                 break;
             }
         case Tag:
@@ -211,6 +223,40 @@ void sem(MTnode* root){
                         var_sym->val_type = root->syn_type;
                         add_sym_node(&field_tab,var_sym);
                         break;
+                    }
+                }
+                break;
+            }
+        case VarDec2:
+            {
+                Log("DefDec2");
+                if(inside_struct){
+                    int err = 0;
+                    MTnode* var_id = get_var_id(root);
+                    symbol* s = find_sym(&field_tab,var_id->str);
+                    if(s!=NULL){
+                        err=1;
+                        printf("Error type 15 at Line %d: Redefined field \"%s\".\n",
+                                    var_id->location.first_line,var_id->str);
+                    }
+                    s = find_sym(&var_tab,root->children_list[0]->str);
+                    if(s!=NULL){
+                        err=1;
+                        printf("Error type 15 at Line %d: field's is same as a var \"%s\".\n",
+                                    var_id->location.first_line,var_id->str);
+                    }
+                    if(err){
+                        root->syn_type = type_error;
+                        break;
+                    }
+                    else{
+                        MTnode* main_part = root->children_list[0];
+                        main_part->inh_type = root->inh_type;
+                        sem(main_part);
+                        root->syn_type = malloc(sizeof(Type));
+                        root->syn_type->kind = array;
+                        root->syn_type->array.elem = main_part->syn_type;
+                        root->syn_type->array.size = root->children_list[2]->valt;
                     }
                 }
                 break;

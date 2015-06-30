@@ -20,6 +20,8 @@ typedef struct MTnode{
     Type* syn_type;
     FieldList* syn_fl;
     ArgList* syn_al;
+    int inh_offset;
+    int syn_offset;
     YYLTYPE location;
     struct MTnode** children_list;
 }MTnode;

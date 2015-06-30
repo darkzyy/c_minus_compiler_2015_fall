@@ -182,6 +182,7 @@ static void Func_StructSpecifier1(MTnode* root)
     root->syn_type = malloc(sizeof(Type));
     root->syn_type->kind = structure;
     root->syn_type->fl = ch(3)->syn_fl;
+    root->syn_type->size = ch(3)->syn_offset + chst(3)->size;
     if(ch(1)->type == OptTag){
         //add this struct to symtab
         char* struct_id = ch(1)->str;
@@ -244,8 +245,6 @@ static void Func_VarDec1(MTnode* root)
                         var_id->location.first_line,var_id->str);
         }
         root->syn_type = root->inh_type;
-        if(err){
-        }
         else{//new field -> field_tab
             symbol* var_sym = malloc(sizeof(symbol));
             var_sym->dim = root->inh_dim;

@@ -13,9 +13,11 @@ void init_basic_type(){
     type_int = malloc(sizeof(Type));
     type_int->kind = basic;
     type_int->basic = INT; 
+    type_int->size = 4;
     type_float = malloc(sizeof(Type));
     type_float->kind = basic;
     type_float->basic = FLOAT; 
+    type_float->size = 4;
     type_error = malloc(sizeof(Type));
     type_error->kind = semantic_error;
 }

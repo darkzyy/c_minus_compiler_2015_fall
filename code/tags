@@ -95,6 +95,7 @@ FieldList	cmmtypes.h	/^typedef struct FieldList_ FieldList;$/;"	t	typeref:struct
 FieldList_	cmmtypes.h	/^struct FieldList_{$/;"	s
 FieldList_::name	cmmtypes.h	/^    char* name; \/\/field name$/;"	m	struct:FieldList_	access:public
 FieldList_::next	cmmtypes.h	/^    FieldList* next; \/\/next field$/;"	m	struct:FieldList_	access:public
+FieldList_::offset	cmmtypes.h	/^    int offset;$/;"	m	struct:FieldList_	access:public
 FieldList_::tail	cmmtypes.h	/^    FieldList* tail; \/\/$/;"	m	struct:FieldList_	access:public
 FieldList_::type	cmmtypes.h	/^    Type* type; \/\/field type$/;"	m	struct:FieldList_	access:public
 FunDec	syntax.y	/^FunDec : ID LP VarList RP {$/;"	l
@@ -280,11 +281,13 @@ MTnode::children_amount	multi_tree.h	/^    int children_amount;$/;"	m	struct:MTn
 MTnode::children_list	multi_tree.h	/^    struct MTnode** children_list;$/;"	m	struct:MTnode	typeref:struct:MTnode::MTnode	access:public
 MTnode::inh_ctrl	multi_tree.h	/^    int inh_ctrl;$/;"	m	struct:MTnode	access:public
 MTnode::inh_dim	multi_tree.h	/^    int inh_dim;$/;"	m	struct:MTnode	access:public
+MTnode::inh_offset	multi_tree.h	/^    int inh_offset;$/;"	m	struct:MTnode	access:public
 MTnode::inh_type	multi_tree.h	/^    Type* inh_type;$/;"	m	struct:MTnode	access:public
 MTnode::location	multi_tree.h	/^    YYLTYPE location;$/;"	m	struct:MTnode	access:public
 MTnode::str	multi_tree.h	/^    char* str;$/;"	m	struct:MTnode	access:public
 MTnode::syn_al	multi_tree.h	/^    ArgList* syn_al;$/;"	m	struct:MTnode	access:public
 MTnode::syn_fl	multi_tree.h	/^    FieldList* syn_fl;$/;"	m	struct:MTnode	access:public
+MTnode::syn_offset	multi_tree.h	/^    int syn_offset;$/;"	m	struct:MTnode	access:public
 MTnode::syn_type	multi_tree.h	/^    Type* syn_type;$/;"	m	struct:MTnode	access:public
 MTnode::type	multi_tree.h	/^    int type;$/;"	m	struct:MTnode	access:public
 NOT	syntax.tab.c	/^    NOT = 272,$/;"	e	enum:yytokentype	file:
@@ -341,16 +344,27 @@ Tag	multi_tree.h	/^    Tag,$/;"	e	enum:__anon44
 Tag	syntax.y	/^Tag : ID {$/;"	l
 Type	cmmtypes.h	/^typedef struct Type_ Type;$/;"	t	typeref:struct:Type_
 Type_	cmmtypes.h	/^struct Type_{$/;"	s
-Type_::__anon46::__anon47::elem	cmmtypes.h	/^            Type* elem;$/;"	m	struct:Type_::__anon46::__anon47	access:public
-Type_::__anon46::__anon47::size	cmmtypes.h	/^            int size;$/;"	m	struct:Type_::__anon46::__anon47	access:public
-Type_::__anon46::array	cmmtypes.h	/^        }array;$/;"	m	union:Type_::__anon46	typeref:struct:Type_::__anon46::__anon47	access:public
-Type_::__anon46::basic	cmmtypes.h	/^        int basic;$/;"	m	union:Type_::__anon46	access:public
-Type_::__anon46::fl	cmmtypes.h	/^        FieldList* fl;$/;"	m	union:Type_::__anon46	access:public
+Type_::__anon46::elem	cmmtypes.h	/^        Type* elem;$/;"	m	struct:Type_::__anon46	access:public
+Type_::__anon46::size	cmmtypes.h	/^        int size;$/;"	m	struct:Type_::__anon46	access:public
+Type_::__anon48::__anon49::elem	cmmtypes.h	/^            Type* elem;$/;"	m	struct:Type_::__anon48::__anon49	access:public
+Type_::__anon48::__anon49::size	cmmtypes.h	/^            int size;$/;"	m	struct:Type_::__anon48::__anon49	access:public
+Type_::__anon48::array	cmmtypes.h	/^        }array;$/;"	m	union:Type_::__anon48	typeref:struct:Type_::__anon48::__anon49	access:public
+Type_::__anon48::basic	cmmtypes.h	/^        int basic;$/;"	m	union:Type_::__anon48	access:public
+Type_::__anon48::fl	cmmtypes.h	/^        FieldList* fl;$/;"	m	union:Type_::__anon48	access:public
 Type_::array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon45
+Type_::array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon47
+Type_::array	cmmtypes.h	/^    }array;$/;"	m	struct:Type_	typeref:struct:Type_::__anon46	access:public
 Type_::basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon45
+Type_::basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon47
+Type_::basic	cmmtypes.h	/^    int basic;$/;"	m	struct:Type_	access:public
+Type_::fl	cmmtypes.h	/^    FieldList* fl;$/;"	m	struct:Type_	access:public
 Type_::kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon45	access:public
+Type_::kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon47	access:public
 Type_::semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon45
+Type_::semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon47
+Type_::size	cmmtypes.h	/^    int size;$/;"	m	struct:Type_	access:public
 Type_::structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon45
+Type_::structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon47
 UINT16_MAX	lex.yy.c	81;"	d	file:
 UINT32_MAX	lex.yy.c	84;"	d	file:
 UINT8_MAX	lex.yy.c	78;"	d	file:
@@ -558,25 +572,30 @@ arg_cmp	semantic.c	/^int arg_cmp(ArgList* alx,ArgList* aly){$/;"	f	signature:(Ar
 argamt	symtab.h	/^    int argamt;\/\/arguement amount$/;"	m	struct:symbol_	access:public
 argamt_count	semantic.c	/^int argamt_count(ArgList* al){$/;"	f	signature:(ArgList* al)
 array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon45
-array	cmmtypes.h	/^        }array;$/;"	m	union:Type_::__anon46	typeref:struct:Type_::__anon46::__anon47	access:public
+array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon47
+array	cmmtypes.h	/^        }array;$/;"	m	union:Type_::__anon48	typeref:struct:Type_::__anon48::__anon49	access:public
+array	cmmtypes.h	/^    }array;$/;"	m	struct:Type_	typeref:struct:Type_::__anon46	access:public
 basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon45
-basic	cmmtypes.h	/^        int basic;$/;"	m	union:Type_::__anon46	access:public
-ch	multi_tree.h	33;"	d
+basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon47
+basic	cmmtypes.h	/^        int basic;$/;"	m	union:Type_::__anon48	access:public
+basic	cmmtypes.h	/^    int basic;$/;"	m	struct:Type_	access:public
+ch	multi_tree.h	35;"	d
 check_func	symtab.c	/^void check_func(){$/;"	f
 children_amount	multi_tree.h	/^    int children_amount;$/;"	m	struct:MTnode	access:public
 children_list	multi_tree.h	/^    struct MTnode** children_list;$/;"	m	struct:MTnode	typeref:struct:MTnode::MTnode	access:public
-chit	multi_tree.h	35;"	d
-chst	multi_tree.h	34;"	d
+chit	multi_tree.h	37;"	d
+chst	multi_tree.h	36;"	d
 count	gen_func.py	/^    count = 0$/;"	v
 count	gen_gram.py	/^            count = 1$/;"	v
 count	gen_gram.py	/^count = 0$/;"	v
 create_node	multi_tree.c	/^MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type){$/;"	f	signature:(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type)
 create_node	multi_tree.h	/^MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type);$/;"	p	signature:(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type)
 current_line_err	syntax.tab.c	/^int current_line_err = 0;$/;"	v
-dec_ed	symtab.h	/^            unsigned int dec_ed : 1;$/;"	m	struct:symbol_::__anon48::__anon49	access:public
-def_ed	symtab.h	/^            unsigned int def_ed : 1;$/;"	m	struct:symbol_::__anon48::__anon49	access:public
+dec_ed	symtab.h	/^            unsigned int dec_ed : 1;$/;"	m	struct:symbol_::__anon50::__anon51	access:public
+def_ed	symtab.h	/^            unsigned int def_ed : 1;$/;"	m	struct:symbol_::__anon50::__anon51	access:public
 dim	symtab.h	/^    int dim;$/;"	m	struct:symbol_	access:public
-elem	cmmtypes.h	/^            Type* elem;$/;"	m	struct:Type_::__anon46::__anon47	access:public
+elem	cmmtypes.h	/^            Type* elem;$/;"	m	struct:Type_::__anon48::__anon49	access:public
+elem	cmmtypes.h	/^        Type* elem;$/;"	m	struct:Type_::__anon46	access:public
 enable_debug	main.c	/^int enable_debug = 0;$/;"	v
 error_detected	syntax.tab.c	/^int error_detected = 0;$/;"	v
 error_report	main.c	/^extern void error_report();$/;"	p	file:
@@ -588,7 +607,8 @@ first_column	syntax.tab.c	/^  int first_column;$/;"	m	struct:YYLTYPE	file:	acces
 first_column	syntax.tab.h	/^  int first_column;$/;"	m	struct:YYLTYPE	access:public
 first_line	syntax.tab.c	/^  int first_line;$/;"	m	struct:YYLTYPE	file:	access:public
 first_line	syntax.tab.h	/^  int first_line;$/;"	m	struct:YYLTYPE	access:public
-fl	cmmtypes.h	/^        FieldList* fl;$/;"	m	union:Type_::__anon46	access:public
+fl	cmmtypes.h	/^        FieldList* fl;$/;"	m	union:Type_::__anon48	access:public
+fl	cmmtypes.h	/^    FieldList* fl;$/;"	m	struct:Type_	access:public
 flex_int16_t	lex.yy.c	/^typedef int16_t flex_int16_t;$/;"	t	file:
 flex_int16_t	lex.yy.c	/^typedef short int flex_int16_t;$/;"	t	file:
 flex_int32_t	lex.yy.c	/^typedef int flex_int32_t;$/;"	t	file:
@@ -664,10 +684,11 @@ icn_write	intercode.h	/^    struct{ operand write_src; }                    icn_
 id_name	symtab.h	/^    char* id_name;$/;"	m	struct:symbol_	access:public
 inh_ctrl	multi_tree.h	/^    int inh_ctrl;$/;"	m	struct:MTnode	access:public
 inh_dim	multi_tree.h	/^    int inh_dim;$/;"	m	struct:MTnode	access:public
+inh_offset	multi_tree.h	/^    int inh_offset;$/;"	m	struct:MTnode	access:public
 inh_type	multi_tree.h	/^    Type* inh_type;$/;"	m	struct:MTnode	access:public
 init_basic_type	cmmtypes.c	/^void init_basic_type(){$/;"	f
 init_basic_type	cmmtypes.h	/^void init_basic_type();$/;"	p	signature:()
-init_ed	symtab.h	/^            unsigned int init_ed : 1;$/;"	m	struct:symbol_::__anon48::__anon49	access:public
+init_ed	symtab.h	/^            unsigned int init_ed : 1;$/;"	m	struct:symbol_::__anon50::__anon51	access:public
 init_sem	semantic.c	/^void init_sem(){$/;"	f
 init_sem	semantic.h	/^void init_sem();$/;"	p	signature:()
 input	lex.yy.c	/^static int input (void );$/;"	p	file:	signature:(void )
@@ -793,6 +814,7 @@ intercode::intercode::list	intercode.h	/^    ListHead list;$/;"	m	struct:interco
 intercode::kind	intercode.h	/^    int kind;$/;"	m	struct:intercode	access:public
 intercodeno	intercode.h	/^enum intercodeno{$/;"	g
 kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon45	access:public
+kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon47	access:public
 kind	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon1	access:public
 kind	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon3	access:public
 kind	intercode.h	/^    int kind;$/;"	m	struct:intercode	access:public
@@ -846,7 +868,7 @@ list_entry	list.h	24;"	d
 list_foreach	list.h	65;"	d
 list_init	list.h	/^list_init(ListHead *list) {$/;"	f	signature:(ListHead *list)
 location	multi_tree.h	/^    YYLTYPE location;$/;"	m	struct:MTnode	access:public
-locl	multi_tree.h	36;"	d
+locl	multi_tree.h	38;"	d
 main	main.c	/^int main(int argc,char** argv){$/;"	f	signature:(int argc,char** argv)
 malloc	syntax.tab.c	/^void *malloc (YYSIZE_T); \/* INFRINGES ON USER NAME SPACE *\/$/;"	p	file:
 mtnode	syntax.tab.c	/^struct MTnode* mtnode;$/;"	m	union:YYSTYPE	typeref:struct:YYSTYPE::MTnode	file:	access:public
@@ -856,6 +878,7 @@ next	cmmtypes.h	/^    ArgList* next;$/;"	m	struct:ArgList_	access:public
 next	cmmtypes.h	/^    FieldList* next; \/\/next field$/;"	m	struct:FieldList_	access:public
 next	list.h	/^	struct ListHead *prev, *next;$/;"	m	struct:ListHead	typeref:struct:ListHead::	access:public
 next	symtab.h	/^    symbol* next;$/;"	m	struct:symbol_	access:public
+offset	cmmtypes.h	/^    int offset;$/;"	m	struct:FieldList_	access:public
 op_left	intercode.h	/^        struct{ operand op_left,op_right,label; }icn_if;$/;"	m	struct:intercode::__anon4::__anon16	access:public
 op_left	intercode.h	/^        struct{ operand result,op_left,op_right; }icn_div;$/;"	m	struct:intercode::__anon4::__anon11	access:public
 op_left	intercode.h	/^        struct{ operand result,op_left,op_right; }icn_minus;$/;"	m	struct:intercode::__anon4::__anon9	access:public
@@ -906,7 +929,7 @@ pre_tranverse2	multi_tree.c	/^void pre_tranverse2(MTnode* root,int indent){$/;"	
 prev	list.h	/^	struct ListHead *prev, *next;$/;"	m	struct:ListHead	typeref:struct:ListHead::ListHead	access:public
 prod_name	gen_gram.py	/^            prod_name = prod_name.rstrip(' ')$/;"	v
 prod_name	gen_gram.py	/^prod_name = ''$/;"	v
-property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon48	access:public
+property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon50	access:public
 read_dst	intercode.h	/^        struct{ operand read_dst; }icn_read;$/;"	m	struct:intercode::__anon4::__anon18::__anon22	access:public
 read_dst	intercode.h	/^    struct{ operand read_dst; }                     icn_read;$/;"	m	struct:intercode::intercode::__anon41	access:public
 result	intercode.h	/^        struct{ operand result,op_left,op_right; }icn_div;$/;"	m	struct:intercode::__anon4::__anon11	access:public
@@ -931,22 +954,26 @@ s	gen_func.py	/^            s = 'Func_'+l$/;"	v
 sem	semantic.c	/^void sem(MTnode* root){$/;"	f	signature:(MTnode* root)
 sem	semantic.h	/^void sem(MTnode* root);$/;"	p	signature:(MTnode* root)
 semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon45
+semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon47
 short	syntax.tab.c	185;"	d	file:
-size	cmmtypes.h	/^            int size;$/;"	m	struct:Type_::__anon46::__anon47	access:public
+size	cmmtypes.h	/^            int size;$/;"	m	struct:Type_::__anon48::__anon49	access:public
+size	cmmtypes.h	/^        int size;$/;"	m	struct:Type_::__anon46	access:public
+size	cmmtypes.h	/^    int size;$/;"	m	struct:Type_	access:public
 size	intercode.h	/^        struct{ operand size;\/\/size % 4 = 0 }icn_dec;$/;"	m	struct:intercode::__anon4::__anon18	access:public
 size	intercode.h	/^    struct{ operand size;\/*size % 4 = 0*\/}          icn_dec;$/;"	m	struct:intercode::intercode::__anon37	access:public
 size	symtab.c	/^const int size = 0x3fff;$/;"	v
 str	multi_tree.h	/^    char* str;$/;"	m	struct:MTnode	access:public
 struct_tab	symtab.c	/^symbol* struct_tab;$/;"	v
 structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon45
+structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon47
 symbol	symtab.h	/^typedef struct symbol_ symbol;$/;"	t	typeref:struct:symbol_
 symbol_	symtab.h	/^struct symbol_{$/;"	s
-symbol_::__anon48::__anon49::dec_ed	symtab.h	/^            unsigned int dec_ed : 1;$/;"	m	struct:symbol_::__anon48::__anon49	access:public
-symbol_::__anon48::__anon49::def_ed	symtab.h	/^            unsigned int def_ed : 1;$/;"	m	struct:symbol_::__anon48::__anon49	access:public
-symbol_::__anon48::__anon49::init_ed	symtab.h	/^            unsigned int init_ed : 1;$/;"	m	struct:symbol_::__anon48::__anon49	access:public
-symbol_::__anon48::property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon48	access:public
-symbol_::__anon50::val_float	symtab.h	/^        float val_float;$/;"	m	union:symbol_::__anon50	access:public
-symbol_::__anon50::val_int	symtab.h	/^        int val_int;$/;"	m	union:symbol_::__anon50	access:public
+symbol_::__anon50::__anon51::dec_ed	symtab.h	/^            unsigned int dec_ed : 1;$/;"	m	struct:symbol_::__anon50::__anon51	access:public
+symbol_::__anon50::__anon51::def_ed	symtab.h	/^            unsigned int def_ed : 1;$/;"	m	struct:symbol_::__anon50::__anon51	access:public
+symbol_::__anon50::__anon51::init_ed	symtab.h	/^            unsigned int init_ed : 1;$/;"	m	struct:symbol_::__anon50::__anon51	access:public
+symbol_::__anon50::property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon50	access:public
+symbol_::__anon52::val_float	symtab.h	/^        float val_float;$/;"	m	union:symbol_::__anon52	access:public
+symbol_::__anon52::val_int	symtab.h	/^        int val_int;$/;"	m	union:symbol_::__anon52	access:public
 symbol_::addr	symtab.h	/^    void* addr;$/;"	m	struct:symbol_	access:public
 symbol_::argamt	symtab.h	/^    int argamt;\/\/arguement amount$/;"	m	struct:symbol_	access:public
 symbol_::dim	symtab.h	/^    int dim;$/;"	m	struct:symbol_	access:public
@@ -958,6 +985,7 @@ symbol_::val_type	symtab.h	/^    Type* val_type;\/\/int float user_struct$/;"	m	
 symbol_::valid	symtab.h	/^    int valid;$/;"	m	struct:symbol_	access:public
 syn_al	multi_tree.h	/^    ArgList* syn_al;$/;"	m	struct:MTnode	access:public
 syn_fl	multi_tree.h	/^    FieldList* syn_fl;$/;"	m	struct:MTnode	access:public
+syn_offset	multi_tree.h	/^    int syn_offset;$/;"	m	struct:MTnode	access:public
 syn_type	multi_tree.h	/^    Type* syn_type;$/;"	m	struct:MTnode	access:public
 tail	cmmtypes.h	/^    FieldList* tail; \/\/$/;"	m	struct:FieldList_	access:public
 type	cmmtypes.h	/^    Type* type; \/\/field type$/;"	m	struct:FieldList_	access:public
@@ -969,8 +997,8 @@ type_error	semantic.h	/^Type* type_error;$/;"	v
 type_float	semantic.h	/^Type* type_float;$/;"	v
 type_int	semantic.h	/^Type* type_int;$/;"	v
 unput	lex.yy.c	214;"	d	file:
-val_float	symtab.h	/^        float val_float;$/;"	m	union:symbol_::__anon50	access:public
-val_int	symtab.h	/^        int val_int;$/;"	m	union:symbol_::__anon50	access:public
+val_float	symtab.h	/^        float val_float;$/;"	m	union:symbol_::__anon52	access:public
+val_int	symtab.h	/^        int val_int;$/;"	m	union:symbol_::__anon52	access:public
 val_type	symtab.h	/^    Type* val_type;\/\/int float user_struct$/;"	m	struct:symbol_	access:public
 valf	multi_tree.h	/^        double valf;$/;"	m	union:MTnode::__anon43	access:public
 valid	symtab.h	/^    int valid;$/;"	m	struct:symbol_	access:public

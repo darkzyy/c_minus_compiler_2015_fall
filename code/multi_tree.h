@@ -7,9 +7,9 @@
 #include"cmmtypes.h"
 
 typedef struct MTnode{
-	int type;
-	int children_amount;
-	char* str;
+    int type;
+    int children_amount;
+    char* str;
     union {
         int valt;
         double valf;
@@ -20,8 +20,8 @@ typedef struct MTnode{
     Type* syn_type;
     FieldList* syn_fl;
     ArgList* syn_al;
-	YYLTYPE location;
-	struct MTnode** children_list;
+    YYLTYPE location;
+    struct MTnode** children_list;
 }MTnode;
 
 MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type);
@@ -36,8 +36,8 @@ void add_node(MTnode* par,MTnode* child);
 #define locl (root->location.first_line)
 
 enum{
-	TERMINALS=300,
-	Program,
+    TERMINALS=300,
+    Program,
     ExtDefList1,
     ExtDefList2,
     ExtDef1,
@@ -95,7 +95,7 @@ enum{
     Exp18,
     Args1,
     Args2,
-	EMPTY
+    EMPTY
 };
 
 #endif

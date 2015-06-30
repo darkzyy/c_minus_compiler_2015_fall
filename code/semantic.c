@@ -34,32 +34,6 @@ MTnode* get_var_id(MTnode* dec){
     return vardec;
 }
 
-/*
-char* get_spec_name(MTnode* spec){  //not tested!!
-    if(spec->type!=Specifier1 && spec->type!=Specifier2){
-        printf("error refer\n");
-        return NULL;
-    }
-    else if(spec->type==Specifier1){//int & float
-        return spec->children_list[0]->str;
-    }
-    else{
-        MTnode* ss = spec->children_list[0];//StructSpecifier
-        if(ss->children_amount==2){
-            return ss->children_list[1]->children_list[0]->str;
-        }
-        else{
-            MTnode* opttag = ss->children_list[1];
-            if(opttag->children_amount==0){
-                return NULL;
-            }
-            else{
-                return opttag->children_list[0]->str;
-            }
-        }
-    }
-}
-*/
 int argamt_count(ArgList* al){
     int count = 0;
     while(al!=NULL){
@@ -113,31 +87,24 @@ Type* field_find(FieldList* fl,char* id){
  */
 
 typedef void (*ft)(MTnode*);
-extern ft func_table[60];
 
-void sem(MTnode* root){
-    if(root->type == TYPE)
-        func_table[59](root);
-    else
-        func_table[root->type - Program](root);
-}
 
-void Func_Program(MTnode* root)
+static void Func_Program(MTnode* root)
 {
     Log("Program");
     sem(ch(0));
 }
-void Func_ExtDefList1(MTnode* root)
+static void Func_ExtDefList1(MTnode* root)
 {
     Log("ExtDefList1");
     sem(ch(0));
     sem(ch(1));
 }
-void Func_ExtDefList2(MTnode* root)
+static void Func_ExtDefList2(MTnode* root)
 {
     Log("ExtDefList2");
 }
-void Func_ExtDef1(MTnode* root)
+static void Func_ExtDef1(MTnode* root)
 {
     Log("ExtDef1");
     sem(ch(0));
@@ -147,12 +114,12 @@ void Func_ExtDef1(MTnode* root)
     sem(ch(1));
     global = 0;
 }
-void Func_ExtDef2(MTnode* root)
+static void Func_ExtDef2(MTnode* root)
 {
     Log("ExtDef2");
     sem(ch(0));
 }
-void Func_ExtDef3(MTnode* root)
+static void Func_ExtDef3(MTnode* root)
 {
     Log("ExtDef3: Func Def");
     sem(ch(0));
@@ -170,7 +137,7 @@ void Func_ExtDef3(MTnode* root)
     inside_func_compst = 0;
     func_def = 0;
 }
-void Func_ExtDef4(MTnode* root)
+static void Func_ExtDef4(MTnode* root)
 {
     Log("ExtDef4");
     sem(ch(0));
@@ -180,13 +147,13 @@ void Func_ExtDef4(MTnode* root)
     sem(ch(1));
     func_dec = 0;
 }
-void Func_ExtDecList1(MTnode* root)
+static void Func_ExtDecList1(MTnode* root)
 {
     Log("ExtDecList1");
     ch(0)->inh_type = root->inh_type;
     sem(ch(0));
 }
-void Func_ExtDecList2(MTnode* root)
+static void Func_ExtDecList2(MTnode* root)
 {
     Log("ExtDecList2");
     ch(0)->inh_type = root->inh_type;
@@ -194,19 +161,19 @@ void Func_ExtDecList2(MTnode* root)
     ch(2)->inh_type = root->inh_type;
     sem(ch(2));
 }
-void Func_Specifier1(MTnode* root)
+static void Func_Specifier1(MTnode* root)
 {
     Log("Specifier1");
     sem(ch(0));//basic
     root->syn_type = chst(0);
 }
-void Func_Specifier2(MTnode* root)
+static void Func_Specifier2(MTnode* root)
 {
     Log("Specifier2");
     sem(ch(0));//struct
     root->syn_type = chst(0);
 }
-void Func_StructSpecifier1(MTnode* root)
+static void Func_StructSpecifier1(MTnode* root)
 {
     Log("StructSpecifier1");
     inside_struct += 1;
@@ -229,13 +196,13 @@ void Func_StructSpecifier1(MTnode* root)
         inside_struct -= 1;
     }
 }
-void Func_StructSpecifier2(MTnode* root)
+static void Func_StructSpecifier2(MTnode* root)
 {
     Log("StructSpecifier2");
     sem(ch(1));//Tag
     root->syn_type = chst(1);
 }
-void Func_OptTag(MTnode* root)
+static void Func_OptTag(MTnode* root)
 {
     Log("OptTag");
     MTnode* struct_id = ch(0);
@@ -247,7 +214,7 @@ void Func_OptTag(MTnode* root)
     root->str = ch(0)->str;
     //trying: auto upload id
 }
-void Func_Tag(MTnode* root)
+static void Func_Tag(MTnode* root)
 {
     Log("Tag");
     MTnode* struct_id = ch(0);
@@ -258,7 +225,7 @@ void Func_Tag(MTnode* root)
     }
     root->syn_type = (s==NULL)? NULL : s->val_type;
 }
-void Func_VarDec1(MTnode* root)
+static void Func_VarDec1(MTnode* root)
 {
     Log("VarDec1");
     if(inside_struct){
@@ -329,7 +296,7 @@ void Func_VarDec1(MTnode* root)
         root->syn_type = root->inh_type;
     }
 }
-void Func_VarDec2(MTnode* root)
+static void Func_VarDec2(MTnode* root)
 {
     Log("VarDec2");
     if(inside_struct){
@@ -418,7 +385,7 @@ void Func_VarDec2(MTnode* root)
         root->syn_type->array.size = ch(2)->valt;
     }
 }
-void Func_FunDec1(MTnode* root)
+static void Func_FunDec1(MTnode* root)
 {
     Log("FunDec1");
     MTnode* func_id = get_var_id(root);
@@ -469,7 +436,7 @@ void Func_FunDec1(MTnode* root)
         s->def_ed = func_def;
     }
 }
-void Func_FunDec2(MTnode* root)
+static void Func_FunDec2(MTnode* root)
 {//no arguement
     Log("FunDec2");
     int err = 0;
@@ -518,7 +485,7 @@ void Func_FunDec2(MTnode* root)
         s->def_ed = func_def;
     }
 }
-void Func_VarList1(MTnode* root)
+static void Func_VarList1(MTnode* root)
 {
     Log("VarList1");
     sem(ch(0));
@@ -527,7 +494,7 @@ void Func_VarList1(MTnode* root)
     root->syn_al->next = ch(2)->syn_al;
     root->syn_al->type = chst(0);
 }
-void Func_VarList2(MTnode* root)
+static void Func_VarList2(MTnode* root)
 {
     Log("VarList2");
     sem(ch(0));
@@ -535,7 +502,7 @@ void Func_VarList2(MTnode* root)
     root->syn_al->next = NULL;
     root->syn_al->type = chst(0);
 }
-void Func_ParamDec(MTnode* root)
+static void Func_ParamDec(MTnode* root)
 {
     Log("ParamDec");
     sem(ch(0));
@@ -543,7 +510,7 @@ void Func_ParamDec(MTnode* root)
     sem(ch(1));
     root->syn_type = chst(1);
 }
-void Func_CompSt(MTnode* root)
+static void Func_CompSt(MTnode* root)
 {
     Log("CompSt, Contrl:%d",root->inh_ctrl);
     if(ch(2)->type != StmtList2){
@@ -558,7 +525,7 @@ void Func_CompSt(MTnode* root)
     sem(ch(1));
     sem(ch(2));
 }
-void Func_StmtList1(MTnode* root)
+static void Func_StmtList1(MTnode* root)
 {
     Log("StmtList1,Control: %d",root->inh_ctrl);
     if(ch(1)->type == StmtList2){
@@ -573,11 +540,11 @@ void Func_StmtList1(MTnode* root)
     sem(ch(0));
     sem(ch(1));
 }
-void Func_StmtList2(MTnode* root)
+static void Func_StmtList2(MTnode* root)
 {
     Log("StmtList2");
 }
-void Func_Stmt1(MTnode* root)
+static void Func_Stmt1(MTnode* root)
 {
     Log("Stmt1");
     if(root->inh_ctrl==1){
@@ -587,14 +554,14 @@ void Func_Stmt1(MTnode* root)
     }
     sem(ch(0));
 }
-void Func_Stmt2(MTnode* root)
+static void Func_Stmt2(MTnode* root)
 {
     Log("Stmt2");
     ch(0)->inh_type = root->inh_type;
     ch(0)->inh_ctrl = root->inh_ctrl;
     sem(ch(0));
 }
-void Func_Stmt3(MTnode* root)
+static void Func_Stmt3(MTnode* root)
 {
     Log("Stmt3");
     sem(ch(1));
@@ -602,7 +569,7 @@ void Func_Stmt3(MTnode* root)
         printf("Error type 8 at Line %d: Type mismatched for return.\n",locl);
     }
 }
-void Func_Stmt4(MTnode* root)
+static void Func_Stmt4(MTnode* root)
 {
     Log("Stmt4");
     if(root->inh_ctrl==1){
@@ -618,7 +585,7 @@ void Func_Stmt4(MTnode* root)
     }
     sem(ch(4));
 }
-void Func_Stmt5(MTnode* root)
+static void Func_Stmt5(MTnode* root)
 {
     Log("Stmt5");
     ch(4)->inh_type = root->inh_type;
@@ -632,7 +599,7 @@ void Func_Stmt5(MTnode* root)
     sem(ch(4));
     sem(ch(6));
 }
-void Func_Stmt6(MTnode* root)
+static void Func_Stmt6(MTnode* root)
 {
     Log("Stmt6");
     if(root->inh_ctrl==1){
@@ -648,7 +615,7 @@ void Func_Stmt6(MTnode* root)
     }
     sem(ch(4));
 }
-void Func_DefList1(MTnode* root)
+static void Func_DefList1(MTnode* root)
 {
     Log("DefList1");
     if(inside_struct){
@@ -667,12 +634,12 @@ void Func_DefList1(MTnode* root)
         sem(ch(1));
     }
 }
-void Func_DefList2(MTnode* root)
+static void Func_DefList2(MTnode* root)
 {
     Log("DefList2");
     root->syn_fl=NULL;
 }
-void Func_Def(MTnode* root)
+static void Func_Def(MTnode* root)
 {
     Log("Def");
     if(inside_struct){
@@ -691,7 +658,7 @@ void Func_Def(MTnode* root)
         sem(decl);
     }
 }
-void Func_DecList1(MTnode* root)
+static void Func_DecList1(MTnode* root)
 {
     Log("DecList1");
     if(inside_struct){
@@ -705,7 +672,7 @@ void Func_DecList1(MTnode* root)
         sem(ch(0));
     }
 }
-void Func_DecList2(MTnode* root)
+static void Func_DecList2(MTnode* root)
 {
     Log("DecList2");
     if(inside_struct){
@@ -726,7 +693,7 @@ void Func_DecList2(MTnode* root)
         sem(ch(2));
     }
 }
-void Func_Dec1(MTnode* root)
+static void Func_Dec1(MTnode* root)
 {
     Log("Dec1");
     if(inside_struct){
@@ -749,7 +716,7 @@ void Func_Dec1(MTnode* root)
         sem(vardec);
     }
 }
-void Func_Dec2(MTnode* root)
+static void Func_Dec2(MTnode* root)
 {
     Log("Dec2");
     if(inside_struct){
@@ -773,7 +740,7 @@ void Func_Dec2(MTnode* root)
         }
     }
 }
-void Func_TYPE(MTnode* root)
+static void Func_TYPE(MTnode* root)
 {
     Log("TYPE");
     if(strcmp(root->str,"int")==0){
@@ -785,7 +752,7 @@ void Func_TYPE(MTnode* root)
         root->syn_type=type_float;
     }
 }
-void Func_Exp1(MTnode* root)
+static void Func_Exp1(MTnode* root)
 {
     Log("Exp1");
     if(ch(0)->type!=Exp16 &&
@@ -802,7 +769,7 @@ void Func_Exp1(MTnode* root)
     }
     root->syn_type = chst(2);
 }
-void Func_Exp2(MTnode* root)
+static void Func_Exp2(MTnode* root)
 {
     Log("Exp2");
     sem(ch(0));
@@ -812,7 +779,7 @@ void Func_Exp2(MTnode* root)
     }
     root->syn_type = type_int;
 }
-void Func_Exp3(MTnode* root)
+static void Func_Exp3(MTnode* root)
 {
     Log("Exp3");
     sem(ch(0));
@@ -822,7 +789,7 @@ void Func_Exp3(MTnode* root)
     }
     root->syn_type = type_int;
 }
-void Func_Exp4(MTnode* root)
+static void Func_Exp4(MTnode* root)
 {
     Log("Exp4");
     sem(ch(0));
@@ -832,7 +799,7 @@ void Func_Exp4(MTnode* root)
     }
     root->syn_type = type_int;
 }
-void Func_Exp5(MTnode* root)
+static void Func_Exp5(MTnode* root)
 {
     Log("Exp5");
     sem(ch(0));
@@ -842,7 +809,7 @@ void Func_Exp5(MTnode* root)
     }
     root->syn_type = chst(0);
 }
-void Func_Exp6(MTnode* root)
+static void Func_Exp6(MTnode* root)
 {
     Log("Exp6");
     sem(ch(0));
@@ -852,7 +819,7 @@ void Func_Exp6(MTnode* root)
     }
     root->syn_type = chst(0);
 }
-void Func_Exp7(MTnode* root)
+static void Func_Exp7(MTnode* root)
 {
     Log("Exp7");
     sem(ch(0));
@@ -862,7 +829,7 @@ void Func_Exp7(MTnode* root)
     }
     root->syn_type = chst(0);
 }
-void Func_Exp8(MTnode* root)
+static void Func_Exp8(MTnode* root)
 {
     Log("Exp8");
     sem(ch(0));
@@ -872,13 +839,13 @@ void Func_Exp8(MTnode* root)
     }
     root->syn_type = chst(0);
 }
-void Func_Exp9(MTnode* root)
+static void Func_Exp9(MTnode* root)
 {
     Log("Exp9");
     sem(ch(1));
     root->syn_type = chst(1);
 }
-void Func_Exp10(MTnode* root)
+static void Func_Exp10(MTnode* root)
 {
     Log("Exp10");
     sem(ch(1));
@@ -887,7 +854,7 @@ void Func_Exp10(MTnode* root)
     }
     root->syn_type = chst(1);
 }
-void Func_Exp11(MTnode* root)
+static void Func_Exp11(MTnode* root)
 {
     Log("Exp11");
     sem(ch(1));
@@ -896,7 +863,7 @@ void Func_Exp11(MTnode* root)
     }
     root->syn_type = chst(1);
 }
-void Func_Exp12(MTnode* root)
+static void Func_Exp12(MTnode* root)
 {
     Log("Exp12");
     symbol* s = find_sym(&func_tab,ch(0)->str);
@@ -917,7 +884,7 @@ void Func_Exp12(MTnode* root)
         }
     }
 }
-void Func_Exp13(MTnode* root)
+static void Func_Exp13(MTnode* root)
 {
     Log("Exp13");
     symbol* s = find_sym(&func_tab,ch(0)->str);
@@ -935,7 +902,7 @@ void Func_Exp13(MTnode* root)
         root->syn_type = type_error;
     }
 }
-void Func_Exp14(MTnode* root)
+static void Func_Exp14(MTnode* root)
 {
     Log("Exp14");
     sem(ch(0));
@@ -952,7 +919,7 @@ void Func_Exp14(MTnode* root)
         root->syn_type = chst(0)->array.elem;
     }
 }
-void Func_Exp15(MTnode* root)
+static void Func_Exp15(MTnode* root)
 {
     Log("Exp15");
     sem(ch(0));
@@ -972,7 +939,7 @@ void Func_Exp15(MTnode* root)
         }
     }
 }
-void Func_Exp16(MTnode* root)
+static void Func_Exp16(MTnode* root)
 {
     Log("Exp16");
     symbol* s = find_sym(&var_tab,ch(0)->str);
@@ -985,17 +952,17 @@ void Func_Exp16(MTnode* root)
         root->syn_type = s->val_type;
     }
 }
-void Func_Exp17(MTnode* root)
+static void Func_Exp17(MTnode* root)
 {
     Log("Exp17");
     root->syn_type = type_int;
 }
-void Func_Exp18(MTnode* root)
+static void Func_Exp18(MTnode* root)
 {
     Log("Exp18");
     root->syn_type = type_float;
 }
-void Func_Args1(MTnode* root)
+static void Func_Args1(MTnode* root)
 {
     Log("Args1");
     sem(ch(0));
@@ -1004,7 +971,7 @@ void Func_Args1(MTnode* root)
     root->syn_al->next = ch(2)->syn_al;
     root->syn_al->type = chst(0);
 }
-void Func_Args2(MTnode* root)
+static void Func_Args2(MTnode* root)
 {
     Log("Args2");
     sem(ch(0));
@@ -1012,12 +979,12 @@ void Func_Args2(MTnode* root)
     root->syn_al->next = NULL;
     root->syn_al->type = chst(0);
 }
-void Func_EMPTY(MTnode* root)
+static void Func_EMPTY(MTnode* root)
 {
     Log("empty");
 }
 
-ft func_table[60] = {
+static ft func_table[60] = {
     Func_Program ,
     Func_ExtDefList1 ,
     Func_ExtDefList2 ,
@@ -1079,3 +1046,11 @@ ft func_table[60] = {
     Func_EMPTY ,
     Func_TYPE
 };
+
+
+void sem(MTnode* root){
+    if(root->type == TYPE)
+        func_table[59](root);
+    else
+        func_table[root->type - Program](root);
+}

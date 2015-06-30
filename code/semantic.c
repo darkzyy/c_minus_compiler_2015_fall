@@ -26,14 +26,6 @@ void init_sem(){
     global = 0;
 }
 
-MTnode* get_var_id(MTnode* dec){
-    MTnode* vardec = dec->children_list[0];
-    while(vardec->type!=ID){
-        vardec = vardec->children_list[0];
-    }
-    return vardec;
-}
-
 int argamt_count(ArgList* al){
     int count = 0;
     while(al!=NULL){

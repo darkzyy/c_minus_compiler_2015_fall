@@ -32,6 +32,9 @@ void pre_tranverse(MTnode* root);
 
 void add_node(MTnode* par,MTnode* child);
 
+MTnode* get_var_id(MTnode* dec);
+
+
 #define ch(x) (root->children_list[x])
 #define chst(x) (root->children_list[x]->syn_type)
 #define chit(x) (root->children_list[x]->inh_type)

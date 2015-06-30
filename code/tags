@@ -23,8 +23,10 @@ CFLAGS	Makefile	/^CFLAGS = -std=c99$/;"	m
 COMMA	syntax.tab.c	/^    COMMA = 262,$/;"	e	enum:yytokentype	file:
 COMMA	syntax.tab.h	/^    COMMA = 262,$/;"	e	enum:yytokentype
 COMMENTS	lex.yy.c	632;"	d	file:
-CONSTANT	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon1
-CONSTANT	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon3
+CONST_FLOAT	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon1
+CONST_FLOAT	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME,VAR_TMP } kind;$/;"	e	enum:operand::__anon3
+CONST_INT	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon1
+CONST_INT	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME,VAR_TMP } kind;$/;"	e	enum:operand::__anon3
 CompSt	multi_tree.h	/^    CompSt,$/;"	e	enum:__anon44
 CompSt	syntax.y	/^CompSt : LC DefList StmtList RC {$/;"	l
 DIV	syntax.tab.c	/^    DIV = 268,$/;"	e	enum:yytokentype	file:
@@ -89,8 +91,8 @@ FLEX_BETA	lex.yy.c	14;"	d	file:
 FLEX_SCANNER	lex.yy.c	9;"	d	file:
 FLOAT	syntax.tab.c	/^    FLOAT = 259,$/;"	e	enum:yytokentype	file:
 FLOAT	syntax.tab.h	/^    FLOAT = 259,$/;"	e	enum:yytokentype
-FUNC_NAME	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon1
-FUNC_NAME	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon3
+FUNC_NAME	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon1
+FUNC_NAME	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME,VAR_TMP } kind;$/;"	e	enum:operand::__anon3
 FieldList	cmmtypes.h	/^typedef struct FieldList_ FieldList;$/;"	t	typeref:struct:FieldList_
 FieldList_	cmmtypes.h	/^struct FieldList_{$/;"	s
 FieldList_::name	cmmtypes.h	/^    char* name; \/\/field name$/;"	m	struct:FieldList_	access:public
@@ -253,8 +255,8 @@ INT32_MAX	lex.yy.c	75;"	d	file:
 INT32_MIN	lex.yy.c	66;"	d	file:
 INT8_MAX	lex.yy.c	69;"	d	file:
 INT8_MIN	lex.yy.c	60;"	d	file:
-LABEL	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon1
-LABEL	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon3
+LABEL	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon1
+LABEL	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME,VAR_TMP } kind;$/;"	e	enum:operand::__anon3
 LB	syntax.tab.c	/^    LB = 276,$/;"	e	enum:yytokentype	file:
 LB	syntax.tab.h	/^    LB = 276,$/;"	e	enum:yytokentype
 LC	syntax.tab.c	/^    LC = 278,$/;"	e	enum:yytokentype	file:
@@ -271,6 +273,7 @@ ListHead	list.h	/^typedef struct ListHead ListHead;$/;"	t	typeref:struct:ListHea
 ListHead::next	list.h	/^	struct ListHead *prev, *next;$/;"	m	struct:ListHead	typeref:struct:ListHead::	access:public
 ListHead::prev	list.h	/^	struct ListHead *prev, *next;$/;"	m	struct:ListHead	typeref:struct:ListHead::ListHead	access:public
 Log	debug.h	6;"	d
+Log2	debug.h	13;"	d
 MINUS	syntax.tab.c	/^    MINUS = 266,$/;"	e	enum:yytokentype	file:
 MINUS	syntax.tab.h	/^    MINUS = 266,$/;"	e	enum:yytokentype
 MTnode	multi_tree.h	/^typedef struct MTnode{$/;"	s
@@ -368,8 +371,9 @@ Type_::structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon47
 UINT16_MAX	lex.yy.c	81;"	d	file:
 UINT32_MAX	lex.yy.c	84;"	d	file:
 UINT8_MAX	lex.yy.c	78;"	d	file:
-VARIABLE	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon1
-VARIABLE	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon3
+VARIABLE	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon1
+VARIABLE	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME,VAR_TMP } kind;$/;"	e	enum:operand::__anon3
+VAR_TMP	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME,VAR_TMP } kind;$/;"	e	enum:operand::__anon3
 VarDec	syntax.y	/^VarDec : ID {$/;"	l
 VarDec1	multi_tree.h	/^    VarDec1,$/;"	e	enum:__anon44
 VarDec2	multi_tree.h	/^    VarDec2,$/;"	e	enum:__anon44
@@ -585,12 +589,11 @@ children_amount	multi_tree.h	/^    int children_amount;$/;"	m	struct:MTnode	acce
 children_list	multi_tree.h	/^    struct MTnode** children_list;$/;"	m	struct:MTnode	typeref:struct:MTnode::MTnode	access:public
 chit	multi_tree.h	37;"	d
 chst	multi_tree.h	36;"	d
-count	gen_func.py	/^    count = 0$/;"	v
-count	gen_gram.py	/^            count = 1$/;"	v
-count	gen_gram.py	/^count = 0$/;"	v
+code_head	gen_inter_code.c	/^static ListHead code_head;$/;"	v	file:
 create_node	multi_tree.c	/^MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type){$/;"	f	signature:(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type)
 create_node	multi_tree.h	/^MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type);$/;"	p	signature:(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type)
 current_line_err	syntax.tab.c	/^int current_line_err = 0;$/;"	v
+current_var_no	gen_inter_code.c	/^static int current_var_no=0;$/;"	v	file:
 dec_ed	symtab.h	/^            unsigned int dec_ed : 1;$/;"	m	struct:symbol_::__anon50::__anon51	access:public
 def_ed	symtab.h	/^            unsigned int def_ed : 1;$/;"	m	struct:symbol_::__anon50::__anon51	access:public
 dim	symtab.h	/^    int dim;$/;"	m	struct:symbol_	access:public
@@ -633,13 +636,14 @@ func	intercode.h	/^    struct{ operand left , func; }                  icn_call;
 func_arg	symtab.h	/^    ArgList* func_arg;$/;"	m	struct:symbol_	access:public
 func_dec	semantic.c	/^int func_dec;$/;"	v
 func_def	semantic.c	/^int func_def;$/;"	v
-func_list	gen_func.py	/^func_list = []$/;"	v
 func_tab	symtab.c	/^symbol* func_tab;$/;"	v
 func_table	gen_inter_code.c	/^static ft func_table[60] = {$/;"	v	file:
 func_table	semantic.c	/^static ft func_table[60] = {$/;"	v	file:
 gen	gen_inter_code.c	/^extern void gen(MTnode* root);$/;"	p	file:	signature:(MTnode* root)
 gen	gen_inter_code.c	/^void gen(MTnode* root){$/;"	f	signature:(MTnode* root)
+get_int_val	gen_inter_code.c	/^static inline int get_int_val(MTnode* root){$/;"	f	file:	signature:(MTnode* root)
 get_var_id	semantic.c	/^MTnode* get_var_id(MTnode* dec){$/;"	f	signature:(MTnode* dec)
+get_var_no	gen_inter_code.c	/^static inline char* get_var_no(){$/;"	f	file:
 global	semantic.c	/^int global;$/;"	v
 hash_init	symtab.c	/^void hash_init(){$/;"	f
 hash_init	symtab.h	/^void hash_init();$/;"	p	signature:()
@@ -692,9 +696,6 @@ init_ed	symtab.h	/^            unsigned int init_ed : 1;$/;"	m	struct:symbol_::_
 init_sem	semantic.c	/^void init_sem(){$/;"	f
 init_sem	semantic.h	/^void init_sem();$/;"	p	signature:()
 input	lex.yy.c	/^static int input (void );$/;"	p	file:	signature:(void )
-inside_func	gen_func.py	/^                inside_func = 0$/;"	v
-inside_func	gen_func.py	/^            inside_func = 1$/;"	v
-inside_func	gen_func.py	/^inside_func = 0$/;"	v
 inside_func_compst	semantic.c	/^int inside_func_compst;$/;"	v
 inside_func_para	semantic.c	/^int inside_func_para;$/;"	v
 inside_struct	semantic.c	/^int inside_struct;$/;"	v
@@ -815,20 +816,10 @@ intercode::kind	intercode.h	/^    int kind;$/;"	m	struct:intercode	access:public
 intercodeno	intercode.h	/^enum intercodeno{$/;"	g
 kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon45	access:public
 kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon47	access:public
-kind	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon1	access:public
-kind	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon3	access:public
+kind	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon1	access:public
+kind	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME,VAR_TMP } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon3	access:public
 kind	intercode.h	/^    int kind;$/;"	m	struct:intercode	access:public
 kind	intercode.h	/^    int kind;$/;"	m	struct:intercode::intercode	access:public
-l	gen_func.py	/^                l = l.lstrip(' ')$/;"	v
-l	gen_func.py	/^                l = l.lstrip('break;')$/;"	v
-l	gen_func.py	/^                l = l.rstrip('\\n')$/;"	v
-l	gen_func.py	/^            l = l.lstrip(' ')$/;"	v
-l	gen_func.py	/^            l = l.lstrip('case')$/;"	v
-l	gen_func.py	/^            l = l.rstrip(' ')$/;"	v
-l	gen_func.py	/^            l = l.rstrip(':')$/;"	v
-l	gen_func.py	/^            l = l.rstrip('\\n')$/;"	v
-l	gen_func.py	/^        l = f.readline()$/;"	v
-l	gen_func.py	/^    l = f.readline()$/;"	v
 label	intercode.h	/^        char* label;$/;"	m	union:operand::__anon2	access:public
 label	intercode.h	/^        struct{ operand label; }icn_goto;$/;"	m	struct:intercode::__anon4::__anon15	access:public
 label	intercode.h	/^        struct{ operand label; }icn_label;$/;"	m	struct:intercode::__anon4::__anon5	access:public
@@ -841,8 +832,6 @@ last_column	syntax.tab.c	/^  int last_column;$/;"	m	struct:YYLTYPE	file:	access:
 last_column	syntax.tab.h	/^  int last_column;$/;"	m	struct:YYLTYPE	access:public
 last_line	syntax.tab.c	/^  int last_line;$/;"	m	struct:YYLTYPE	file:	access:public
 last_line	syntax.tab.h	/^  int last_line;$/;"	m	struct:YYLTYPE	access:public
-lcamt	gen_func.py	/^            lcamt = 0$/;"	v
-lcamt	gen_func.py	/^lcamt = 0$/;"	v
 left	intercode.h	/^        struct{ operand left,func; }icn_call;$/;"	m	struct:intercode::__anon4::__anon18::__anon20	access:public
 left	intercode.h	/^        struct{ operand left,right; }icn_addr;$/;"	m	struct:intercode::__anon4::__anon12	access:public
 left	intercode.h	/^        struct{ operand left,right; }icn_assign;$/;"	m	struct:intercode::__anon4::__anon7	access:public
@@ -853,8 +842,6 @@ left	intercode.h	/^    struct{ operand left , right; }                 icn_addr;
 left	intercode.h	/^    struct{ operand left , right; }                 icn_assign;$/;"	m	struct:intercode::intercode::__anon26	access:public
 left	intercode.h	/^    struct{ operand left , right; }                 icn_refer;$/;"	m	struct:intercode::intercode::__anon32	access:public
 left	intercode.h	/^    struct{ operand left , right; }                 icn_refer_assign;$/;"	m	struct:intercode::intercode::__anon33	access:public
-line	gen_gram.py	/^        line = line.rstrip(' ')$/;"	v
-line	gen_gram.py	/^        line = line.rstrip('\\n')$/;"	v
 line	symtab.h	/^    int line;$/;"	m	struct:symbol_	access:public
 lineno_init	main.c	/^extern int lineno_init();$/;"	p	file:
 list	intercode.h	/^    ListHead list;$/;"	m	struct:intercode::intercode	access:public
@@ -901,34 +888,36 @@ op_right	intercode.h	/^    struct{ operand result , op_left , op_right; }  icn_m
 op_right	intercode.h	/^    struct{ operand result , op_left , op_right; }  icn_plus;$/;"	m	struct:intercode::intercode::__anon27	access:public
 operand	intercode.h	/^struct operand{$/;"	s
 operand	intercode.h	/^typedef struct operand operand;$/;"	t	typeref:struct:operand
-operand::CONSTANT	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon1
-operand::CONSTANT	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon3
-operand::FUNC_NAME	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon1
-operand::FUNC_NAME	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon3
-operand::LABEL	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon1
-operand::LABEL	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon3
-operand::VARIABLE	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon1
-operand::VARIABLE	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon3
+operand::CONST_FLOAT	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon1
+operand::CONST_FLOAT	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME,VAR_TMP } kind;$/;"	e	enum:operand::__anon3
+operand::CONST_INT	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon1
+operand::CONST_INT	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME,VAR_TMP } kind;$/;"	e	enum:operand::__anon3
+operand::FUNC_NAME	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon1
+operand::FUNC_NAME	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME,VAR_TMP } kind;$/;"	e	enum:operand::__anon3
+operand::LABEL	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon1
+operand::LABEL	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME,VAR_TMP } kind;$/;"	e	enum:operand::__anon3
+operand::VARIABLE	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME } kind;$/;"	e	enum:operand::__anon1
+operand::VARIABLE	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME,VAR_TMP } kind;$/;"	e	enum:operand::__anon3
+operand::VAR_TMP	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME,VAR_TMP } kind;$/;"	e	enum:operand::__anon3
 operand::__anon2::func	intercode.h	/^        char* func;$/;"	m	union:operand::__anon2	access:public
 operand::__anon2::label	intercode.h	/^        char* label;$/;"	m	union:operand::__anon2	access:public
 operand::__anon2::value_float	intercode.h	/^        float value_float;$/;"	m	union:operand::__anon2	access:public
 operand::__anon2::value_int	intercode.h	/^        int value_int;$/;"	m	union:operand::__anon2	access:public
 operand::__anon2::var_no	intercode.h	/^        int var_no;$/;"	m	union:operand::__anon2	access:public
 operand::func	intercode.h	/^    char* func;$/;"	m	struct:operand	access:public
-operand::kind	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon1	access:public
-operand::kind	intercode.h	/^    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon3	access:public
+operand::kind	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon1	access:public
+operand::kind	intercode.h	/^    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME,VAR_TMP } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon3	access:public
 operand::label	intercode.h	/^    char* label;$/;"	m	struct:operand	access:public
 operand::value_float	intercode.h	/^    float value_float;$/;"	m	struct:operand	access:public
 operand::value_int	intercode.h	/^    int value_int;$/;"	m	struct:operand	access:public
-operand::var_no	intercode.h	/^    int var_no;$/;"	m	struct:operand	access:public
+operand::var_tmp	intercode.h	/^    char* var_tmp;$/;"	m	struct:operand	access:public
 param	intercode.h	/^        struct{ operand param; }icn_param;$/;"	m	struct:intercode::__anon4::__anon18::__anon21	access:public
 param	intercode.h	/^    struct{ operand param; }                        icn_param;$/;"	m	struct:intercode::intercode::__anon40	access:public
 pre_tranverse	multi_tree.c	/^void pre_tranverse(MTnode* root){$/;"	f	signature:(MTnode* root)
 pre_tranverse	multi_tree.h	/^void pre_tranverse(MTnode* root);$/;"	p	signature:(MTnode* root)
 pre_tranverse2	multi_tree.c	/^void pre_tranverse2(MTnode* root,int indent){$/;"	f	signature:(MTnode* root,int indent)
 prev	list.h	/^	struct ListHead *prev, *next;$/;"	m	struct:ListHead	typeref:struct:ListHead::ListHead	access:public
-prod_name	gen_gram.py	/^            prod_name = prod_name.rstrip(' ')$/;"	v
-prod_name	gen_gram.py	/^prod_name = ''$/;"	v
+print_field	semantic.c	/^void print_field(FieldList* fl){$/;"	f	signature:(FieldList* fl)
 property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon50	access:public
 read_dst	intercode.h	/^        struct{ operand read_dst; }icn_read;$/;"	m	struct:intercode::__anon4::__anon18::__anon22	access:public
 read_dst	intercode.h	/^    struct{ operand read_dst; }                     icn_read;$/;"	m	struct:intercode::intercode::__anon41	access:public
@@ -950,7 +939,6 @@ right	intercode.h	/^    struct{ operand left , right; }                 icn_addr
 right	intercode.h	/^    struct{ operand left , right; }                 icn_assign;$/;"	m	struct:intercode::intercode::__anon26	access:public
 right	intercode.h	/^    struct{ operand left , right; }                 icn_refer;$/;"	m	struct:intercode::intercode::__anon32	access:public
 right	intercode.h	/^    struct{ operand left , right; }                 icn_refer_assign;$/;"	m	struct:intercode::intercode::__anon33	access:public
-s	gen_func.py	/^            s = 'Func_'+l$/;"	v
 sem	semantic.c	/^void sem(MTnode* root){$/;"	f	signature:(MTnode* root)
 sem	semantic.h	/^void sem(MTnode* root);$/;"	p	signature:(MTnode* root)
 semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon45
@@ -1008,8 +996,8 @@ value_float	intercode.h	/^    float value_float;$/;"	m	struct:operand	access:pub
 value_int	intercode.h	/^        int value_int;$/;"	m	union:operand::__anon2	access:public
 value_int	intercode.h	/^    int value_int;$/;"	m	struct:operand	access:public
 var_no	intercode.h	/^        int var_no;$/;"	m	union:operand::__anon2	access:public
-var_no	intercode.h	/^    int var_no;$/;"	m	struct:operand	access:public
 var_tab	symtab.c	/^symbol* var_tab;$/;"	v
+var_tmp	intercode.h	/^    char* var_tmp;$/;"	m	struct:operand	access:public
 wall	main.c	/^int wall = 0;$/;"	v
 write_src	intercode.h	/^        struct{ operand write_src; }icn_write;$/;"	m	struct:intercode::__anon4::__anon18::__anon23	access:public
 write_src	intercode.h	/^    struct{ operand write_src; }                    icn_write;$/;"	m	struct:intercode::intercode::__anon42	access:public

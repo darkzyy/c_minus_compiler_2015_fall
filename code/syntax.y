@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include"lex.yy.c"
 #include"semantic.h"
+#include"gen_inter_code.h"
 #include"symtab.h"
 int error_detected = 0;
 int current_line_err = 0;
@@ -82,6 +83,8 @@ Program : ExtDefList {
             init_sem();
             sem($$);
             check_func();
+            gen($$);
+            print_code();
         }
         //print_symtab(var_tab);
         }

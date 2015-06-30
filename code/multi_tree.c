@@ -72,3 +72,11 @@ void add_node(MTnode* par,MTnode* child){
 	par->children_list = new_list;
 }
 
+MTnode* get_var_id(MTnode* dec){
+    MTnode* vardec = dec->children_list[0];
+    while(vardec->type!=ID){
+        vardec = vardec->children_list[0];
+    }
+    return vardec;
+}
+

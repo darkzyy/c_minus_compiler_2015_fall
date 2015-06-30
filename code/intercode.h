@@ -29,23 +29,25 @@ enum intercodeno{
 
 #ifdef __USE_UNION__
 struct operand{
-    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;
-    union {
-        int var_no;
+    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME,VAR_TMP } kind;
+    union{
+        char* var_str;
         int value_int;
         float value_float;
         char* label;
         char* func;
+        char* var_tmp_str;
     };
 };
 #else
 struct operand{
-    enum{ VARIABLE,CONSTANT,LABEL,FUNC_NAME } kind;
-    int var_no;
+    enum{ VARIABLE,CONST_INT,CONST_FLOAT,LABEL,FUNC_NAME,VAR_TMP } kind;
+    char* var_str;
     int value_int;
     float value_float;
     char* label;
     char* func;
+    char* var_tmp_str;
 };
 #endif
 typedef struct operand operand;

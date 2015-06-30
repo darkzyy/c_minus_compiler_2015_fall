@@ -12,7 +12,8 @@ extern Type* type_error;
 
 static ListHead code_head;
 
-static int current_var_no=0;
+static int current_var_no = 0;
+static int inside_func = 0;
 
 static inline int get_int_val(MTnode* root){
     return ch(0)->valt;
@@ -32,8 +33,11 @@ extern void gen(MTnode* root);
 #define pp list_entry(p,intercode,list)
 void print_code(){
     ListHead* p=NULL;
-    list_foreach(p,&code_head){
+    ListHead* h = &code_head;
+    list_foreach(p,h){
+        Log2();
         if(code_type == ICN_ASSIGN){
+            Log2();
             printf("%s := ",pp->icn_assign.left.var_tmp_str);
             if(pp->icn_assign.right.kind == CONST_INT){
                 printf("#%d\n",pp->icn_assign.right.value_int);
@@ -56,39 +60,59 @@ static void Func_Program(MTnode* root){
 }
 static void Func_ExtDefList1(MTnode* root){
     Log2("Func_ExtDefList1");
+    gen(ch(0));
+    gen(ch(1));
 }
 static void Func_ExtDefList2(MTnode* root){
     Log2("Func_ExtDefList2");
 }
 static void Func_ExtDef1(MTnode* root){
     Log2("Func_ExtDef1");
+    gen(ch(0));
+    gen(ch(1));
 }
 static void Func_ExtDef2(MTnode* root){
     Log2("Func_ExtDef2");
+    gen(ch(0));
 }
 static void Func_ExtDef3(MTnode* root){
     Log2("Func_ExtDef3");
+    gen(ch(0));
+    gen(ch(1));
+    inside_func = 1;
+    gen(ch(2));
+    inside_func = 0;
 }
 static void Func_ExtDef4(MTnode* root){
     Log2("Func_ExtDef4");
+    gen(ch(0));
+    gen(ch(1));
 }
 static void Func_ExtDecList1(MTnode* root){
     Log2("Func_ExtDecList1");
+    gen(ch(0));
 }
 static void Func_ExtDecList2(MTnode* root){
     Log2("Func_ExtDecList2");
+    gen(ch(0));
+    gen(ch(1));
 }
 static void Func_Specifier1(MTnode* root){
     Log2("Func_Specifier1");
+    gen(ch(0));
 }
 static void Func_Specifier2(MTnode* root){
     Log2("Func_Specifier2");
+    gen(ch(0));
 }
 static void Func_StructSpecifier1(MTnode* root){
     Log2("Func_StructSpecifier1");
+    gen(ch(1));
+    gen(ch(3));
 }
 static void Func_StructSpecifier2(MTnode* root){
     Log2("Func_StructSpecifier2");
+    gen(ch(1));
 }
 static void Func_OptTag(MTnode* root){
     Log2("Func_OptTag");
@@ -98,6 +122,13 @@ static void Func_Tag(MTnode* root){
 }
 static void Func_VarDec1(MTnode* root){
     Log2("Func_VarDec1");
+    if(root->syn_type != type_int && root->syn_type != type_float){
+        //example DEC v2 8
+        intercode* ic = malloc(sizeof(intercode));
+        ic->kind = ICN_DEC;
+        ic->icn_dec.size.kind = CONST_INT;
+        ic->icn_dec.size.value_int = root->syn_type->size;
+    }
 }
 static void Func_VarDec2(MTnode* root){
     Log2("Func_VarDec2");
@@ -119,18 +150,24 @@ static void Func_ParamDec(MTnode* root){
 }
 static void Func_CompSt(MTnode* root){
     Log2("Func_CompSt");
+    gen(ch(1));
+    gen(ch(2));
 }
 static void Func_StmtList1(MTnode* root){
     Log2("Func_StmtList1");
+    gen(ch(0));
+    gen(ch(1));
 }
 static void Func_StmtList2(MTnode* root){
     Log2("Func_StmtList2");
 }
 static void Func_Stmt1(MTnode* root){
     Log2("Func_Stmt1");
+    gen(ch(0));
 }
 static void Func_Stmt2(MTnode* root){
     Log2("Func_Stmt2");
+    gen(ch(0));
 }
 static void Func_Stmt3(MTnode* root){
     Log2("Func_Stmt3");
@@ -146,6 +183,8 @@ static void Func_Stmt6(MTnode* root){
 }
 static void Func_DefList1(MTnode* root){
     Log2("Func_DefList1");
+    gen(ch(0));
+    gen(ch(1));
 }
 static void Func_DefList2(MTnode* root){
     Log2("Func_DefList2");
@@ -161,9 +200,13 @@ static void Func_DecList2(MTnode* root){
 }
 static void Func_Dec1(MTnode* root){
     Log2("Func_Dec1");
+    gen(ch(0));
 }
-static void Func_Dec2(MTnode* root){
+static void Func_Dec2(MTnode* root){  
+    //  VarDec ASSIGNOP  Exp
     Log2("Func_Dec2");
+    gen(ch(0));
+    gen(ch(2));
 }
 static void Func_Exp1(MTnode* root){
     Log2("Func_Exp1");
@@ -219,6 +262,7 @@ static void Func_Exp16(MTnode* root){
     ic->icn_assign.right.kind = VARIABLE;
     ic->icn_assign.right.var_str = get_var_id(root)->str;
     list_add_before(&code_head,&(ic->list));
+    Log2("added ID");
 }
 static void Func_Exp17(MTnode* root){
     Log2("Func_Exp17");
@@ -230,6 +274,7 @@ static void Func_Exp17(MTnode* root){
     ic->icn_assign.right.kind = CONST_INT;
     ic->icn_assign.right.value_int = val;
     list_add_before(&code_head,&(ic->list));
+    Log2("added int");
 }
 static void Func_Exp18(MTnode* root){
     Log2("Func_Exp18");

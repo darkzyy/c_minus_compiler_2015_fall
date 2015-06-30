@@ -4,6 +4,7 @@
 #include"semantic.h"
 #include"gen_inter_code.h"
 #include"symtab.h"
+#include"debug.h"
 int error_detected = 0;
 int current_line_err = 0;
 

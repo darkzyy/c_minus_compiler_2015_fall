@@ -69,7 +69,7 @@ struct intercode{
         struct{ operand label; }icn_goto;
         struct{ operand op_left,op_right,label; }icn_if;
         struct{ operand return_val; }icn_return;
-        struct{ operand size;//size % 4 = 0 }icn_dec;
+        struct{ operand size;/*size % 4 = 0*/ }icn_dec;
         struct{ operand arg; }icn_arg;
         struct{ operand left,func; }icn_call;
         struct{ operand param; }icn_param;

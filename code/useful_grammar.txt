@@ -5,29 +5,13 @@
 %%
 
 ExtDefList1 :  ExtDef ExtDefList
-ExtDef1 :  Specifier ExtDecList SEMI
-ExtDef2 :  Specifier SEMI
 ExtDef3 :  Specifier FunDec CompSt
-ExtDecList1 :  VarDec
-ExtDecList2 :  VarDec COMMA ExtDecList
-
 
 Specifier1 :  TYPE
 Specifier2 :  StructSpecifier
-StructSpecifier1 :  STRUCT OptTag LC DefList RC
-StructSpecifier2 :  STRUCT Tag
-OptTag1 :  ID
-OptTag2 :  %empty
-Tag1 :  ID
-
 
 VarDec1 :  ID
 VarDec2 :  VarDec LB INT RB
-FunDec1 :  ID LP VarList RP
-FunDec2 :  ID LP RP
-VarList1 :  ParamDec COMMA VarList
-VarList2 :  ParamDec
-ParamDec1 :  Specifier VarDec
 
 
 CompSt1 :  LC DefList StmtList RC
@@ -73,7 +57,5 @@ Exp16 :  ID
 Exp17 :  INT
 Exp18 :  FLOAT
 
-Args1 :  Exp COMMA Args
-Args2 :  Exp
 %%
 

@@ -5,8 +5,8 @@
 CC = gcc
 FLEX = flex
 BISON = bison
-#CFLAGS = -std=c99
-CFLAGS = -std=gnu99 -Wall -Wno-unused-function
+CFLAGS = -std=c99
+#CFLAGS = -std=gnu99 -Wall -Wno-unused-function
 
 # 编译目标：src目录下的所有.c文件
 CFILES = $(shell find ./ -name "*.c")

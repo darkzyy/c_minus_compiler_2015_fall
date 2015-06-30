@@ -92,10 +92,10 @@ ExtDefList : ExtDef ExtDefList {
            list[1]=$2;
            $$ = create_node(list,2,"ExtDefList",&@1,ExtDefList1);
            }
-           | %empty                {$$ = create_node(NULL,0,"",&@$,ExtDefList2);}
            | Specifier {yyerror("';' might be missed BEFORE this line");} ExtDefList
            | Specifier ExtDecList{yyerror("';' might be missed BEFORE this line");} ExtDefList
             /*solve missing ';'*/
+           |                {$$ = create_node(NULL,0,"",&@$,ExtDefList2);}
             ;
            
 ExtDef : Specifier ExtDecList SEMI {
@@ -174,7 +174,7 @@ OptTag : ID {
        list[0]=$1;
        $$ = create_node(list,1,"OptTag",&@1,OptTag);
        }
-       | %empty                {$$ = create_node(NULL,0,"",&@$,EMPTY);}
+       |                 {$$ = create_node(NULL,0,"",&@$,EMPTY);}
        ;
     
 Tag : ID {
@@ -248,7 +248,7 @@ StmtList : Stmt StmtList {
          list[1]=$2;
          $$ = create_node(list,2,"StmtList",&@1,StmtList1);
          }
-         | %empty                 {$$ = create_node(NULL,0,"",&@$,StmtList2);}
+         |                  {$$ = create_node(NULL,0,"",&@$,StmtList2);}
          ;
 Stmt : Exp SEMI {
      MTnode** list=malloc(sizeof(void*)*2);
@@ -305,7 +305,7 @@ DefList : Def DefList {
         list[1]=$2;
         $$ = create_node(list,2,"DefList",&@1,DefList1);
         }
-        | %empty                {$$ = create_node(NULL,0,"",&@$,DefList2);}
+        |                 {$$ = create_node(NULL,0,"",&@$,DefList2);}
         ;
 
 Def : Specifier DecList SEMI {

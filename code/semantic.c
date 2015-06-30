@@ -81,6 +81,16 @@ Type* field_find(FieldList* fl,char* id){
     }
 }
 
+void print_field(FieldList* fl){
+    if(fl==NULL){
+        return;
+    }
+    else{
+        Log2("field:  %s,field offset: %d",fl->name,fl->offset);
+        print_field(fl->next);
+    }
+}
+
 /*tranverse the tree 
  * and build the ID table
  * for hash table testing
@@ -178,11 +188,12 @@ static void Func_StructSpecifier1(MTnode* root)
     Log("StructSpecifier1");
     inside_struct += 1;
     sem(ch(1));//OptTag
+    ch(3)->inh_offset = 0;
     sem(ch(3));//DefList
     root->syn_type = malloc(sizeof(Type));
     root->syn_type->kind = structure;
     root->syn_type->fl = ch(3)->syn_fl;
-    root->syn_type->size = ch(3)->syn_offset + chst(3)->size;
+    root->syn_type->size = ch(3)->syn_offset;
     if(ch(1)->type == OptTag){
         //add this struct to symtab
         char* struct_id = ch(1)->str;
@@ -193,6 +204,7 @@ static void Func_StructSpecifier1(MTnode* root)
         add_sym_node(&struct_tab,struct_sym);
         Log("#======------added struct %s------======#",struct_id);
     }
+    print_field(ch(3)->syn_fl);
     if(inside_struct>0){
         inside_struct -= 1;
     }
@@ -245,6 +257,8 @@ static void Func_VarDec1(MTnode* root)
                         var_id->location.first_line,var_id->str);
         }
         root->syn_type = root->inh_type;
+        if(err){
+        }
         else{//new field -> field_tab
             symbol* var_sym = malloc(sizeof(symbol));
             var_sym->dim = root->inh_dim;
@@ -325,6 +339,7 @@ static void Func_VarDec2(MTnode* root)
             root->syn_type->kind = array;
             root->syn_type->array.elem = main_part->syn_type;
             root->syn_type->array.size = ch(2)->valt;
+            root->syn_type->size = ch(2)->valt * main_part->syn_type->size;
             Log("find array dim:%d",root->inh_dim);
             //find array's id, and change id's type 
             MTnode* var_id = get_var_id(root);
@@ -365,6 +380,7 @@ static void Func_VarDec2(MTnode* root)
             root->syn_type->kind = array;
             root->syn_type->array.elem = main_part->syn_type;
             root->syn_type->array.size = ch(2)->valt;
+            root->syn_type->size = ch(2)->valt * main_part->syn_type->size;
             Log("find global array dim:%d",root->inh_dim);
             //find array's id, and change id's type 
             MTnode* var_id = get_var_id(root);
@@ -620,11 +636,14 @@ static void Func_DefList1(MTnode* root)
     if(inside_struct){
         MTnode* def = ch(0);
         MTnode* defl = ch(1);
+        def->inh_offset = root->inh_offset;
         sem(def);
+        defl->inh_offset = def->syn_offset;
         sem(defl);
+        root->syn_offset = defl->syn_offset;
         root->syn_fl = def->syn_fl;
         if(defl->syn_fl!=NULL){
-            def->syn_fl->next = defl->syn_fl;
+            def->syn_fl->tail->next = defl->syn_fl;
             def->syn_fl->tail = defl->syn_fl->tail;
         }
     }
@@ -636,7 +655,8 @@ static void Func_DefList1(MTnode* root)
 static void Func_DefList2(MTnode* root)
 {
     Log("DefList2");
-    root->syn_fl=NULL;
+    root->syn_fl = NULL;
+    root->syn_offset = root->inh_offset;
 }
 static void Func_Def(MTnode* root)
 {
@@ -646,8 +666,10 @@ static void Func_Def(MTnode* root)
         MTnode* decl = ch(1);
         sem(spec);
         decl->inh_type = spec->syn_type;
+        decl->inh_offset = root->inh_offset;
         sem(decl);
         root->syn_fl = decl->syn_fl;
+        root->syn_offset = decl->syn_offset;
     }
     else{
         MTnode* spec = ch(0);
@@ -663,8 +685,10 @@ static void Func_DecList1(MTnode* root)
     if(inside_struct){
         MTnode* dec = ch(0);
         dec->inh_type = root->inh_type;
+        dec->inh_offset = root->inh_offset;
         sem(dec);
         root->syn_fl = dec->syn_fl;
+        root->syn_offset = dec->syn_offset;
     }
     else{
         ch(0)->inh_type = root->inh_type;
@@ -678,10 +702,13 @@ static void Func_DecList2(MTnode* root)
         MTnode* dec = ch(0);
         MTnode* decl = ch(2);
         dec->inh_type = root->inh_type;
-        decl->inh_type = root->inh_type;
+        dec->inh_offset = root->inh_offset;
         sem(dec);
+        decl->inh_type = root->inh_type;
+        decl->inh_offset = dec->syn_offset;
         sem(decl);
         root->syn_fl = dec->syn_fl;
+        root->syn_offset = decl->syn_offset;
         dec->syn_fl->next = decl->syn_fl;
         dec->syn_fl->tail = decl->syn_fl->tail;
     }
@@ -706,7 +733,9 @@ static void Func_Dec1(MTnode* root)
         MTnode* dec_id = get_var_id(root);
         root->syn_fl->name = dec_id->str;
         root->syn_fl->next = NULL;
-        root->syn_fl->tail = NULL;
+        root->syn_fl->tail = root->syn_fl;
+        root->syn_offset = root->inh_offset + vardec->syn_type->size;
+        root->syn_fl->offset = root->inh_offset;
     }
     else{
         MTnode* vardec = ch(0);

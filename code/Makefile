@@ -21,7 +21,7 @@ TEST_FILE_LIST = $(shell find ../Test/ -name "*.cmm")
 
 parser: syntax $(filter-out $(LFO),$(OBJS))
 	$(CC) -o parser $(filter-out $(LFO),$(OBJS)) -lfl -ly
-#	cp ./parser ../test
+	cp ./parser ../test
 
 syntax: lexical syntax-c
 	$(CC) -c $(YFC) -o $(YFO)

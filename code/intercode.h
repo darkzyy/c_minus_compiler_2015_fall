@@ -41,10 +41,13 @@ struct intercode{
     struct{ char* label; }                                  icn_label;
     struct{ char* func; }                                   icn_func;
     struct{ operand* left , *right; }                   icn_assign;
+    struct{ operand* result , *op_left , *op_right; }    icn_arith;
+    /*
     struct{ operand* result , *op_left , *op_right; }    icn_plus;
     struct{ operand* result , *op_left , *op_right; }    icn_minus;
     struct{ operand* result , *op_left , *op_right; }    icn_mul;
     struct{ operand* result , *op_left , *op_right; }    icn_viv;
+    */
     struct{ operand* left , *right; }                           icn_addr;
     struct{ operand* left , *right; }                           icn_refer;
     struct{ operand* left , *right; }                           icn_refer_assign;

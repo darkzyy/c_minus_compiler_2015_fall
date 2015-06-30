@@ -27,6 +27,7 @@ struct symbol_{
     void* addr;
     symbol* next;
     int valid;
+    char* var_tmp;
 };
 
 extern symbol* func_tab;

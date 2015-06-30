@@ -5,6 +5,7 @@
 #include<stdlib.h>
 #include"syntax.tab.h"
 #include"cmmtypes.h"
+#include"intercode.h"
 
 typedef struct MTnode{
     int type;
@@ -24,6 +25,8 @@ typedef struct MTnode{
     int syn_offset;
     YYLTYPE location;
     struct MTnode** children_list;
+    operand* op;
+    char* label;
 }MTnode;
 
 MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type);

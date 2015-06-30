@@ -3,5 +3,7 @@ int f(int i){
     return f;
 }
 int main(){
-    return f(0);
+    if(1){
+        return f(0);
+    }
 }

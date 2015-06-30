@@ -15,6 +15,7 @@ int inside_func_compst;
 int func_dec;
 int func_def;
 int global;
+extern int wall;
 
 void init_sem(){
     inside_struct = 0;
@@ -33,6 +34,7 @@ MTnode* get_var_id(MTnode* dec){
     return vardec;
 }
 
+/*
 char* get_spec_name(MTnode* spec){  //not tested!!
     if(spec->type!=Specifier1 && spec->type!=Specifier2){
         printf("error refer\n");
@@ -57,7 +59,7 @@ char* get_spec_name(MTnode* spec){  //not tested!!
         }
     }
 }
-
+*/
 int argamt_count(ArgList* al){
     int count = 0;
     while(al!=NULL){
@@ -110,8 +112,8 @@ Type* field_find(FieldList* fl,char* id){
  * for hash table testing
  */
 
-typedef void (*fk)(MTnode*);
-extern fk func_table[60];
+typedef void (*ft)(MTnode*);
+extern ft func_table[60];
 
 void sem(MTnode* root){
     if(root->type == TYPE)
@@ -549,7 +551,9 @@ void Func_CompSt(MTnode* root)
         ch(2)->inh_ctrl = root->inh_ctrl;
     }
     else if(root->inh_ctrl != 0){
-        printf("Warning: Control reaches end at Line %d\n",locl);
+        if(wall){
+            printf("Warning: Control reaches end at Line %d\n",locl);
+        }
     }
     sem(ch(1));
     sem(ch(2));
@@ -577,7 +581,9 @@ void Func_Stmt1(MTnode* root)
 {
     Log("Stmt1");
     if(root->inh_ctrl==1){
-        printf("Warning: Control reaches end at Line %d\n",locl);
+        if(wall){
+            printf("Warning: Control reaches end at Line %d\n",locl);
+        }
     }
     sem(ch(0));
 }
@@ -600,7 +606,9 @@ void Func_Stmt4(MTnode* root)
 {
     Log("Stmt4");
     if(root->inh_ctrl==1){
-        printf("Warning: Control might reach end at Line %d\n",locl);
+        if(wall){
+            printf("Warning: Control might reach end at Line %d\n",locl);
+        }
     }
     ch(4)->inh_type = root->inh_type;
     ch(4)->inh_ctrl = root->inh_ctrl;
@@ -628,7 +636,9 @@ void Func_Stmt6(MTnode* root)
 {
     Log("Stmt6");
     if(root->inh_ctrl==1){
-        printf("Warning: Control might reach end at Line %d\n",locl);
+        if(wall){
+            printf("Warning: Control might reach end at Line %d\n",locl);
+        }
     }
     ch(4)->inh_type = root->inh_type;
     ch(4)->inh_ctrl = root->inh_ctrl;
@@ -1007,7 +1017,7 @@ void Func_EMPTY(MTnode* root)
     Log("empty");
 }
 
-fk func_table[60] = {
+ft func_table[60] = {
     Func_Program ,
     Func_ExtDefList1 ,
     Func_ExtDefList2 ,

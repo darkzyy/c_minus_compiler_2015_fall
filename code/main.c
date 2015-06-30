@@ -12,6 +12,7 @@ extern void yyrestart(FILE* f);
 extern int lineno_init();
 
 int enable_debug = 0;
+int wall = 0;
 
 #ifdef __LEXER_DEBUG__
 int main(int argc,char** argv){
@@ -29,8 +30,14 @@ int main(int argc,char** argv){
 #ifdef __PARSER_DEBUG__
 int main(int argc,char** argv){
 	if (argc <= 1) return 1; 
-    if (argc == 3&&strcmp(argv[2],"-d")==0){
-        enable_debug = 1;
+    int i;
+    for(i = 2;i<argc;i++){
+        if (strcmp(argv[i],"-d")==0){
+            enable_debug = 1;
+        }
+        if (strcmp(argv[i],"-Wall")==0){
+            wall = 1;
+        }
     }
 	FILE* f = fopen(argv[1], "r"); 
 	if (!f) { 

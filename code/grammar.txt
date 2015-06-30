@@ -4,8 +4,6 @@
 
 %%
 
-
-
 Program1 :  ExtDefList
 ExtDefList1 :  ExtDef ExtDefList
 ExtDefList2 :  %empty

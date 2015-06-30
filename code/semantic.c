@@ -439,7 +439,7 @@ void Func_FunDec1(MTnode* root)
         //defined or declared,and redeclaring now
         if(type_cmp(s->val_type,root->inh_type)!=0){
             printf("Error type 19 at Line %d: Inconsistent declaration\
-                        of function \"%s\".\n",func_id->location.first_line,func_id->str);
+ of function \"%s\".\n",func_id->location.first_line,func_id->str);
         }
     }
     MTnode* varl = ch(2);
@@ -462,7 +462,7 @@ void Func_FunDec1(MTnode* root)
     else{ 
         if(arg_cmp(varl->syn_al,s->func_arg)!=0){
             printf("Error type 19 at Line %d: Inconsistent declaration\
-                        of function \"%s\".\n",func_id->location.first_line,func_id->str);
+ of function \"%s\".\n",func_id->location.first_line,func_id->str);
         }
         al_free(varl->syn_al);
         s->dec_ed = func_dec;
@@ -494,7 +494,7 @@ void Func_FunDec2(MTnode* root)
         //defined or declared,and redeclaring now
         if(s->argamt != 0 || type_cmp(s->val_type,root->inh_type)){
             printf("Error type 19 at Line %d: Inconsistent declaration\
-                        of function \"%s\".\n",func_id->location.first_line,func_id->str);
+ of function \"%s\".\n",func_id->location.first_line,func_id->str);
         }
     }
     if((!err)&&s==NULL){ // not defined or declared  , func_id -> symtab
@@ -753,7 +753,7 @@ void Func_Dec2(MTnode* root)
 {
     Log("Dec2");
     if(inside_struct){
-        printf("Error type 15 at Line %d: Init Struct Field .",
+        printf("Error type 15 at Line %d: Init Struct Field .\n",
                     root->location.first_line);
         root->syn_fl = malloc(sizeof(FieldList));
         root->syn_fl->type = type_error;
@@ -912,7 +912,7 @@ void Func_Exp12(MTnode* root)
         }
         else{
             printf("Error type 9 at Line %d: Function \"%s\" is not applicable\
-                        for arguments provided here.\n",locl,s->id_name);
+ for arguments provided here.\n",locl,s->id_name);
             root->syn_type = type_error;
         }
     }
@@ -931,7 +931,7 @@ void Func_Exp13(MTnode* root)
     }
     else{
         printf("Error type 9 at Line %d: Function \"%s\" is not applicable\
-                    for arguments provided here.\n",locl,s->id_name);
+ for arguments provided here.\n",locl,s->id_name);
         root->syn_type = type_error;
     }
 }

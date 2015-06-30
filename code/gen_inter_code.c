@@ -20,10 +20,14 @@ static int inside_func = 0;
 static inline int get_int_val(MTnode* root){
     return ch(0)->valt;
 }
+static inline int get_float_val(MTnode* root){
+    return ch(0)->valf;
+}
 static inline char* get_var_no(){
     char* v = malloc(6);
     v[0] = 'v';
     sprintf(v+1,"%04d",current_var_no);
+    Log2("------var no: %s used",v);
     current_var_no += 1;
     return v;
 }
@@ -38,33 +42,61 @@ static inline char* get_new_label(){
 typedef void (*ft)(MTnode*);
 extern void gen(MTnode* root);
 
+static void print_operand(operand* op){
+    if(op->kind == OP_INT){
+        printf(" #%d ",op->val_int);
+    }
+    else if(op->kind == OP_FLOAT){
+        printf(" #%d ",op->val_float);
+    }
+    else{
+        printf(" %s ",op->var_str);
+    }
+}
+
 #define code_type (list_entry(p,intercode,list)->kind)
 #define pp list_entry(p,intercode,list)
+#define print_arith(arith_op)\
+    print_operand(pp->icn_plus.result);\
+    printf(":=");\
+    print_operand(pp->icn_plus.op_left);\
+    printf("%c",arith_op);\
+    print_operand(pp->icn_plus.op_right);\
+    printf("\n");
+
 void print_code(){
     ListHead* p=NULL;
     ListHead* h = &code_head;
     list_foreach(p,h){
-        Log2();
+        Log2("------list entry addr : %p",pp);
         if(code_type == ICN_ASSIGN){
-            Log2();
-            printf("%s := ",pp->icn_assign.left.var_str);
-            if(pp->icn_assign.right.kind == OP_INT){
-                printf("#%d\n",pp->icn_assign.right.val_int);
-            }
-            else if(pp->icn_assign.right.kind == OP_FLOAT){
-                printf("#%f\n",pp->icn_assign.right.val_float);
-            }
-            else if(pp->icn_assign.right.kind == OP_VAR){
-                printf("%s\n",pp->icn_assign.right.var_str);
-            }
+            print_operand(pp->icn_assign.left);
+            printf(":=");
+            print_operand(pp->icn_assign.right);
+            printf("\n");
+        }
+        else if(code_type == ICN_PLUS){
+            print_arith('+');
+        }
+        else if(code_type == ICN_MINUS){
+            print_arith('-');
+        }
+        else if(code_type == ICN_MUL){
+            print_arith('*');
+        }
+        else if(code_type == ICN_DIV){
+            print_arith('/');
         }
     }
 }
 
+#undef print_arith
 #undef code_type
+#undef pp
 
 static void Func_Program(MTnode* root){
     Log2("Func_Program");
+    list_init(&code_head);
     gen(ch(0));
 }
 static void Func_ExtDefList1(MTnode* root){
@@ -134,13 +166,14 @@ static void Func_VarDec1(MTnode* root){
     char* id = get_var_id(root)->str;
     symbol* s = find_sym(&var_tab,id);
     assert(s);
-    s->var_tmp = get_var_no();
+    s->op = malloc(sizeof(operand));
+    s->op->kind = OP_VAR;
+    s->op->var_str = get_var_no();
     if(root->syn_type != type_int && root->syn_type != type_float){
         //example DEC v2 8
         intercode* ic = malloc(sizeof(intercode));
         ic->kind = ICN_DEC;
-        ic->icn_dec.var.kind = OP_VAR;
-        ic->icn_dec.var.var_str = s->var_tmp;
+        ic->icn_dec.var = s->op;
         ic->icn_dec.size = root->syn_type->size;
     }
 }
@@ -149,11 +182,12 @@ static void Func_VarDec2(MTnode* root){
     char* id = get_var_id(root)->str;
     symbol* s = find_sym(&var_tab,id);
     assert(s);
-    s->var_tmp = get_var_no();
+    s->op = malloc(sizeof(operand));
+    s->op->kind = OP_VAR;
+    s->op->var_str = get_var_no();
     intercode* ic = malloc(sizeof(intercode));
     ic->kind = ICN_DEC;
-    ic->icn_dec.var.kind = OP_VAR;
-    ic->icn_dec.var.var_str = s->var_tmp;
+    ic->icn_dec.var = s->op;
     ic->icn_dec.size = root->syn_type->size;
 }
 static void Func_FunDec1(MTnode* root){
@@ -186,6 +220,7 @@ static void Func_StmtList2(MTnode* root){
 }
 static void Func_Stmt1(MTnode* root){
     Log2("Func_Stmt1");
+    ch(0)->op = NULL;
     gen(ch(0));
 }
 static void Func_Stmt2(MTnode* root){
@@ -214,12 +249,16 @@ static void Func_DefList2(MTnode* root){
 }
 static void Func_Def(MTnode* root){
     Log2("Func_Def");
+    gen(ch(1));
 }
 static void Func_DecList1(MTnode* root){
     Log2("Func_DecList1");
+    gen(ch(0));
 }
 static void Func_DecList2(MTnode* root){
     Log2("Func_DecList2");
+    gen(ch(0));
+    gen(ch(2));
 }
 static void Func_Dec1(MTnode* root){
     Log2("Func_Dec1");
@@ -229,10 +268,44 @@ static void Func_Dec2(MTnode* root){
     //  VarDec ASSIGNOP  Exp
     Log2("Func_Dec2");
     gen(ch(0));
+    ch(2)->op = malloc(sizeof(operand));
     gen(ch(2));
+
+    //gen code2.1
+    char* id = get_var_id(root)->str;
+    symbol* s = find_sym(&var_tab,id);
+    intercode* ic = malloc(sizeof(intercode));
+    ic->kind = ICN_ASSIGN;
+    ic->icn_assign.left = s->op;
+    ic->icn_assign.right = ch(2)->op;
+    list_add_before(&code_head,&(ic->list));
+    Log2("------intercode addr:%p",ic);
+
 }
 static void Func_Exp1(MTnode* root){
-    Log2("Func_Exp1");
+    Log2("Func_Exp1 : ASSIGN");
+    ch(2)->op = malloc(sizeof(operand));
+    gen(ch(2));
+
+    //gen code2.1
+    char* id = get_var_id(root)->str;
+    symbol* s = find_sym(&var_tab,id);
+    intercode* ic = malloc(sizeof(intercode));
+    ic->kind = ICN_ASSIGN;
+    ic->icn_assign.left = s->op;
+    ic->icn_assign.right = ch(2)->op;
+    list_add_before(&code_head,&(ic->list));
+    Log2("------intercode addr:%p",ic);
+
+    if(root->op != NULL){
+        //gen code2.2
+        ic = malloc(sizeof(intercode));
+        ic->kind = ICN_ASSIGN;
+        ic->icn_assign.left = root->op;
+        ic->icn_assign.right = s->op;
+        list_add_before(&code_head,&(ic->list));
+    }
+    Log2("------intercode addr:%p",ic);
 }
 static void Func_Exp2(MTnode* root){
     Log2("Func_Exp2");
@@ -243,18 +316,36 @@ static void Func_Exp3(MTnode* root){
 static void Func_Exp4(MTnode* root){
     Log2("Func_Exp4");
 }
+
+#define arith(arith_op)\
+    ch(0)->op = malloc(sizeof(operand));\
+    gen(ch(0));\
+    ch(2)->op = malloc(sizeof(operand));\
+    gen(ch(2));\
+    intercode* ic = malloc(sizeof(intercode));\
+    ic->kind = ICN_##arith_op;\
+    root->op->kind = OP_VAR;\
+    root->op->var_str = get_var_no();\
+    ic->icn_plus.result = root->op;\
+    ic->icn_plus.op_left = ch(0)->op;\
+    ic->icn_plus.op_right = ch(2)->op;\
+    list_add_before(&code_head,&(ic->list));\
+    Log2("------intercode addr:%p",ic);
+
+
 static void Func_Exp5(MTnode* root){
-    Log2("Func_Exp5");
+    arith(PLUS);
 }
 static void Func_Exp6(MTnode* root){
-    Log2("Func_Exp6");
+    arith(MINUS);
 }
 static void Func_Exp7(MTnode* root){
-    Log2("Func_Exp7");
+    arith(MUL);
 }
 static void Func_Exp8(MTnode* root){
-    Log2("Func_Exp8");
+    arith(DIV);
 }
+#undef arith
 static void Func_Exp9(MTnode* root){
     Log2("Func_Exp9");
 }
@@ -281,48 +372,59 @@ static void Func_Exp16(MTnode* root){
     //gen code
     intercode* ic = malloc(sizeof(intercode));
     ic->kind = ICN_ASSIGN;
-    ic->icn_assign.left.kind = OP_VAR;
-    ic->icn_assign.left.var_str = get_var_no();
-    ic->icn_assign.right.kind = OP_VAR;
-    ic->icn_assign.right.var_str = get_var_id(root)->str;
+    ic->icn_assign.left = root->op;
+    ic->icn_assign.left->kind = OP_VAR;
+    ic->icn_assign.left->var_str = get_var_no();
+
+    char* id = get_var_id(root)->str;
+    symbol* s = find_sym(&var_tab,id);
+    assert(s);
+    Log2("current ID: %s",id);
+    ic->icn_assign.right = s->op;
     list_add_before(&code_head,&(ic->list));
 
+
     //modify its operand infomations for upper level
-    root->op->kind = OP_VAR;
-    root->op->var_str = get_var_id(root)->str;
     Log2("added ID");
+    Log2("------intercode addr:%p",ic);
 }
 static void Func_Exp17(MTnode* root){
     Log2("Func_Exp17");
-    int val = get_int_val(root);
+
+    //gen code
     intercode* ic = malloc(sizeof(intercode));
     ic->kind = ICN_ASSIGN;
-    ic->icn_assign.left.kind = OP_VAR;
-    ic->icn_assign.left.var_str = get_var_no();
-    ic->icn_assign.right.kind = INT;
-    ic->icn_assign.right.val_int = val;
+    ic->icn_assign.left = root->op;
+    ic->icn_assign.left->kind = OP_VAR;
+    ic->icn_assign.left->var_str = get_var_no();
+
+    int val = get_int_val(root);
+    ic->icn_assign.right = malloc(sizeof(operand));
+    ic->icn_assign.right->kind = OP_INT;
+    ic->icn_assign.right->val_int = val;
     list_add_before(&code_head,&(ic->list));
 
-    //modify its operand infomations for upper level
-    root->op->kind = INT;
-    root->op->val_int = root->valt;
-    Log2("added int");
+    Log2("added int: %d",val);
+    Log2("------intercode addr:%p",ic);
 }
 static void Func_Exp18(MTnode* root){
     Log2("Func_Exp18");
-    int val = get_int_val(root);
+
+    //gen code
     intercode* ic = malloc(sizeof(intercode));
     ic->kind = ICN_ASSIGN;
-    ic->icn_assign.left.kind = OP_VAR;
-    ic->icn_assign.left.var_str = get_var_no();
-    ic->icn_assign.right.kind = FLOAT;
-    ic->icn_assign.right.val_float = val;
+    ic->icn_assign.left = root->op;
+    ic->icn_assign.left->kind = OP_VAR;
+    ic->icn_assign.left->var_str = get_var_no();
+
+    float val = get_float_val(root);
+    ic->icn_assign.right = malloc(sizeof(operand));
+    ic->icn_assign.right->kind = OP_FLOAT;
+    ic->icn_assign.right->val_float = val;
     list_add_before(&code_head,&(ic->list));
 
-    //modify its operand infomations for upper level
-    root->op->kind = FLOAT;
-    root->op->val_int = root->valf;
     Log2("added float");
+    Log2("------intercode addr:%p",ic);
 }
 static void Func_Args1(MTnode* root){
     Log2("Func_Args1");

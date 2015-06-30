@@ -2,6 +2,7 @@
 #define __SYMTAB_H__
 
 #include"cmmtypes.h"
+#include"intercode.h"
 
 typedef struct symbol_ symbol;
 
@@ -27,7 +28,7 @@ struct symbol_{
     void* addr;
     symbol* next;
     int valid;
-    char* var_tmp;
+    operand* op;
 };
 
 extern symbol* func_tab;

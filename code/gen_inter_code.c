@@ -40,6 +40,43 @@ static inline char* get_new_label(){
     return label;
 }
 
+static void add_assign(operand* left,operand* right,int right_kind,char* right_val){
+    if(left==NULL){
+        left = malloc(sizeof(operand));
+        left->kind = OP_VAR;
+        left->var_str = get_var_no();
+    }
+    if(right==NULL){
+        right = malloc(sizeof(operand));
+        right->kind = right_kind;
+        if(right_kind == OP_INT){
+            right->val_int = atoi(right_val);
+        }
+        else if(right_kind == OP_FLOAT){
+            right->val_float = atof(right_val);
+        }
+        else{
+            right->var_str = get_var_no();
+        }
+    }
+    intercode* ic = malloc(sizeof(intercode));
+    ic->kind = ICN_ASSIGN;
+    ic->icn_assign.left = left;
+    ic->icn_assign.right = right;
+    list_add_before(&code_head,&(ic->list));
+}
+
+static inline void add_label(char* label){
+    intercode* ic = malloc(sizeof(intercode));
+    ic->kind = ICN_LABEL;
+    ic->icn_label.label = label;
+}
+static inline void add_func(char* label){
+    intercode* ic = malloc(sizeof(intercode));
+    ic->kind = ICN_FUNC;
+    ic->icn_func.func = label;
+}
+
 typedef void (*ft)(MTnode*);
 extern void gen(MTnode* root);
 
@@ -291,22 +328,12 @@ static void Func_Exp1(MTnode* root){
     //gen code2.1
     char* id = get_var_id(root)->str;
     symbol* s = find_sym(&var_tab,id);
-    intercode* ic = malloc(sizeof(intercode));
-    ic->kind = ICN_ASSIGN;
-    ic->icn_assign.left = s->op;
-    ic->icn_assign.right = ch(2)->op;
-    list_add_before(&code_head,&(ic->list));
-    Log2("------intercode addr:%p",ic);
+    add_assign(s->op,ch(2)->op,0,"");
+    //gen code2.2
 
     if(root->op != NULL){
-        //gen code2.2
-        ic = malloc(sizeof(intercode));
-        ic->kind = ICN_ASSIGN;
-        ic->icn_assign.left = root->op;
-        ic->icn_assign.right = s->op;
-        list_add_before(&code_head,&(ic->list));
+        add_assign(root->op,s->op,0,"");
     }
-    Log2("------intercode addr:%p",ic);
 }
 static void Func_Exp2(MTnode* root){
     Log2("Func_Exp2");
@@ -371,6 +398,15 @@ static void Func_Exp10(MTnode* root){
 }
 static void Func_Exp11(MTnode* root){
     Log2("Func_Exp11");
+    char* label1 = get_new_label();
+    char* label2 = get_new_label();
+    root->op->kind = OP_VAR;
+    root->op->var_str = get_var_no();
+    add_assign(root->op,NULL,OP_INT,"0");
+    add_label(label1);
+
+    add_assign(root->op,NULL,OP_INT,"1");
+    add_label(label2);
 }
 static void Func_Exp12(MTnode* root){
     Log2("Func_Exp12");

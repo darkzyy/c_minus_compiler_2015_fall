@@ -84,6 +84,7 @@ Program : ExtDefList {
             init_sem();
             sem($$);
             check_func();
+            op01_init();
             gen($$);
             print_code();
         }

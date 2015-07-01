@@ -26,7 +26,8 @@ typedef struct MTnode{
     YYLTYPE location;
     struct MTnode** children_list;
     operand* op;
-    char* label;
+    char* true_label;
+    char* false_label;
 }MTnode;
 
 MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type);

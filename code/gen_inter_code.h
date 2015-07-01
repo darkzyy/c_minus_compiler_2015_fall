@@ -4,5 +4,6 @@
 
 void gen(MTnode* root);
 void print_code();
+void op01_init();
 
 #endif

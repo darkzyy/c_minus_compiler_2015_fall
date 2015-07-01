@@ -39,27 +39,19 @@ typedef struct operand operand;
 struct intercode{
     int kind;
     struct{ char* label; }                                  icn_label;
-    struct{ char* func; }                                   icn_func;
+
     struct{ operand* left , *right; }                   icn_assign;
+
     struct{ operand* result , *op_left , *op_right; }    icn_arith;
-    /*
-    struct{ operand* result , *op_left , *op_right; }    icn_plus;
-    struct{ operand* result , *op_left , *op_right; }    icn_minus;
-    struct{ operand* result , *op_left , *op_right; }    icn_mul;
-    struct{ operand* result , *op_left , *op_right; }    icn_viv;
-    */
+
+    struct{ operand* var; }                           icn_single_var;
+
     struct{ operand* left , *right; }                           icn_addr;
     struct{ operand* left , *right; }                           icn_refer;
     struct{ operand* left , *right; }                           icn_refer_assign;
-    struct{ char* label; }                                  icn_goto;
-    struct{ operand* op_left , *op_right ; char* label; }     icn_if;
-    struct{ operand* return_val; }                           icn_return;
+    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;
     struct{ operand* var ; int size;/*size % 4 = 0*/}          icn_dec;
-    struct{ operand* arg; }                                  icn_arg;
-    struct{ operand* result , *func; }                            icn_call;
-    struct{ operand* param; }                                  icn_param;
-    struct{ char* read_dst; }                               icn_read;
-    struct{ operand* write_src; }                            icn_write;
+    struct{ operand* result ; char* func; }                            icn_call;
     ListHead list;
 };
 

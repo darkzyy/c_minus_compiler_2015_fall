@@ -39,23 +39,23 @@ Dec2 :  VarDec ASSIGNOP Exp
 
 
 Exp1 :  Exp ASSIGNOP Exp
-Exp2 :  Exp AND Exp
-Exp3 :  Exp OR Exp
-Exp4 :  Exp RELOP Exp
-Exp5 :  Exp PLUS Exp
-Exp6 :  Exp MINUS Exp
-Exp7 :  Exp STAR Exp
-Exp8 :  Exp DIV Exp
+VV Exp2 :  Exp AND Exp
+VV Exp3 :  Exp OR Exp
+VV Exp4 :  Exp RELOP Exp
+VV Exp5 :  Exp PLUS Exp
+VV Exp6 :  Exp MINUS Exp
+VV Exp7 :  Exp STAR Exp
+VV Exp8 :  Exp DIV Exp
 Exp9 :  LP Exp RP
-Exp10 :  MINUS Exp
-Exp11 :  NOT Exp
+VV Exp10 :  MINUS Exp
+VV Exp11 :  NOT Exp
 Exp12 :  ID LP Args RP
 Exp13 :  ID LP RP
 Exp14 :  Exp LB Exp RB
 Exp15 :  Exp DOT ID
-Exp16 :  ID
-Exp17 :  INT
-Exp18 :  FLOAT
+VV Exp16 :  ID
+VV Exp17 :  INT
+VV Exp18 :  FLOAT
 
 %%
 

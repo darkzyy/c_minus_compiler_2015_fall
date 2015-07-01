@@ -2,9 +2,9 @@
 #include<stdio.h>
 #include"lex.yy.c"
 #include"semantic.h"
-#include"gen_inter_code.h"
 #include"symtab.h"
 #include"debug.h"
+#include"code_print.h"
 int error_detected = 0;
 int current_line_err = 0;
 

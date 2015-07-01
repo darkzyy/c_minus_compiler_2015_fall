@@ -1,0 +1,196 @@
+#ifndef __GEN_CODE_TOOLS_H__
+#define __GEN_CODE_TOOLS_H__
+
+#include"list.h"
+#include"intercode.h"
+#include"multi_tree.h"
+
+//#define __USE_UNION__
+
+
+void op01_init(){
+    zero = malloc(sizeof(operand));
+    zero->kind = OP_INT;
+    zero->val_int = 0;
+    one = malloc(sizeof(operand));
+    one->kind = OP_INT;
+    one->val_int = 1;
+}
+
+static inline int get_int_val(MTnode* root){
+    return ch(0)->valt;
+}
+static inline float get_float_val(MTnode* root){
+    Log2("float val: %f\n",ch(0)->valf);
+    return ch(0)->valf;
+}
+static inline char* get_var_no(){
+    char* v = malloc(6);
+    v[0] = 'v';
+    sprintf(v+1,"%04d",current_var_no);
+    Log2("------var no: %s used",v);
+    current_var_no += 1;
+    return v;
+}
+static inline char* get_new_label(){
+    char* label = malloc(10);
+    strncpy(label,"label",5);
+    sprintf(label+5,"%04d",current_label_no);
+    current_label_no += 1;
+    return label;
+}
+
+static void gen_assign(operand* left,operand* right,int right_kind,void* right_val){
+    /*if left and right are given , this func will not change its content*/
+    if(left==NULL){
+        left = malloc(sizeof(operand));
+        left->kind = OP_VAR;
+        left->var_str = get_var_no();
+    }
+    if(right==NULL){
+        assert(right_val);
+        right = malloc(sizeof(operand));
+        right->kind = right_kind;
+        if(right_kind == OP_INT){
+            right->val_int = *((int*) right_val);
+        }
+        else if(right_kind == OP_FLOAT){
+            right->val_float = *((float*) right_val);
+        }
+        else{
+            right->var_str = get_var_no();
+        }
+    }
+    intercode* ic = malloc(sizeof(intercode));
+    ic->kind = ICN_ASSIGN;
+    ic->icn_assign.left = left;
+    ic->icn_assign.right = right;
+    list_add_before(&code_head,&(ic->list));
+    Log2("------intercode addr : %p",ic);
+}
+
+static void gen_addr(operand* left,operand* right){
+    /*if left is given , this func will not change its content*/
+    /*if right is OP_VAR , this func will generate a new operand for its ADDR*/
+    if(left==NULL){
+        left = malloc(sizeof(operand));
+        left->kind = OP_VAR;
+        left->var_str = get_var_no();
+    }
+    if(right->kind == OP_VAR){
+        operand* new_right = malloc(sizeof(operand));
+        new_right->kind = OP_ADDR;
+        new_right->var_str = right->var_str;
+        right = new_right;
+    }
+    intercode* ic = malloc(sizeof(intercode));
+    ic->kind = ICN_ADDR;
+    ic->icn_addr.left = left;
+    ic->icn_addr.right = right;
+    list_add_before(&code_head,&(ic->list));
+    Log2("------intercode addr : %p",ic);
+}
+static void gen_refer(operand* left,operand* right){
+    /*left and right are all expected to be given*/
+    intercode* ic = malloc(sizeof(intercode));
+    ic->kind = ICN_REFER;
+    ic->icn_refer.left = left;
+    ic->icn_refer.right = right;
+    list_add_before(&code_head,&(ic->list));
+    Log2("------intercode addr : %p",ic);
+}
+static void gen_refer_assign(operand* left,operand* right){
+    /*left and right are all expected to be given*/
+    intercode* ic = malloc(sizeof(intercode));
+    ic->kind = ICN_REFER_ASSIGN;
+    ic->icn_refer_assign.left = left;
+    ic->icn_refer_assign.right = right;
+    list_add_before(&code_head,&(ic->list));
+    Log2("------intercode addr : %p",ic);
+}
+
+#define gen_label(s,suffix) {\
+    intercode* ic = malloc(sizeof(intercode));\
+    ic->kind = ICN_##suffix;\
+    ic->icn_label.label = s;\
+    list_add_before(&code_head,&(ic->list));\
+}
+
+#define gen_single_var(op,suffix) {\
+    intercode* ic = malloc(sizeof(intercode));\
+    ic->kind = ICN_##suffix;\
+    ic->icn_single_var.var = op;\
+    list_add_before(&code_head,&(ic->list));\
+}
+
+static void gen_if(operand* op1,operand* op2,char* relop,char* label){
+    intercode* ic = malloc(sizeof(intercode));
+    ic->kind = ICN_IF;
+    ic->icn_if.op_left = op1;
+    ic->icn_if.op_right = op2;
+    ic->icn_if.relop = relop;
+    ic->icn_if.label = label;
+    list_add_before(&code_head,&(ic->list));
+}
+
+static void gen_call(operand* op,char* func){
+    intercode* ic = malloc(sizeof(intercode));
+    ic->kind = ICN_CALL;
+    ic->icn_call.result = op;
+    ic->icn_call.func = func;
+    list_add_before(&code_head,&(ic->list));
+}
+
+extern void gen(MTnode* root);
+
+static void translate_cond(MTnode* root,char* label_true,char* label_false){
+    Log2("--translate condition");
+    switch(root->type)
+    {
+        case Exp2:{
+                      char* label = get_new_label();
+                      translate_cond(ch(0),label,label_false);
+                      translate_cond(ch(2),label_true,label_false);
+                      break;
+                  }
+        case Exp3:{
+                      char* label = get_new_label();
+                      translate_cond(ch(0),label_true,label);
+                      translate_cond(ch(2),label_true,label_false);
+                      break;
+                  }
+        case Exp4:{
+                      ch(0)->op = malloc(sizeof(operand));
+                      ch(2)->op = malloc(sizeof(operand));
+                      gen(ch(0));
+                      gen(ch(2));
+                      gen_if(ch(0)->op,ch(2)->op,ch(1)->str,label_true);
+                      gen_label(label_false,GOTO);
+                      break;
+                  }
+        case Exp11:{
+                       translate_cond(ch(1),label_false,label_true);
+                       break;
+                   }
+        default:{
+                    root->op = malloc(sizeof(operand));
+                    gen(root);
+                    gen_if(root->op,zero,"!=",label_true);
+                    gen_label(label_false,LABEL);
+                    break;
+                }
+    }
+}
+#define bool_translate {\
+    char* label1 = get_new_label();\
+    char* label2 = get_new_label();\
+    root->op->kind = OP_VAR;\
+    root->op->var_str = get_var_no();\
+    gen_assign(root->op,zero,0,NULL);\
+    translate_cond(root,label1,label2);\
+    gen_label(label1,LABEL);\
+    gen_assign(root->op,one,0,NULL);\
+    gen_label(label2,LABEL);\
+}
+
+#endif

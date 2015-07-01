@@ -1,5 +1,5 @@
-#ifndef __INTERCODE_ENUM_H__
-#define __INTERCODE_ENUM_H__
+#ifndef __INTERCODE_H__
+#define __INTERCODE_H__
 
 #include"list.h"
 
@@ -61,5 +61,10 @@ struct intercode{
 };
 typedef struct intercode intercode ;
 
+operand* zero;
+operand* one;
+ListHead code_head;
+int current_label_no;
+int current_var_no;
 
 #endif

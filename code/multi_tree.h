@@ -3,9 +3,9 @@
 
 #include<stdio.h>
 #include<stdlib.h>
+#include"intercode.h"
 #include"syntax.tab.h"
 #include"cmmtypes.h"
-#include"intercode.h"
 
 typedef struct MTnode{
     int type;

@@ -15,6 +15,8 @@ static ListHead code_head;
 static int current_var_no = 0;
 static int current_label_no = 0;
 static int inside_func = 0;
+static int inside_paradec = 0;
+static int is_left_val = 0;
 static operand* zero;
 static operand* one;
 
@@ -317,11 +319,10 @@ static void Func_ExtDef1(MTnode* root){
 }
 static void Func_ExtDef2(MTnode* root){
     Log2("Func_ExtDef2");
-    gen(ch(0));
+    assert(0);
 }
 static void Func_ExtDef3(MTnode* root){
-    Log2("Func_ExtDef3");
-    gen(ch(0));
+    Log2("Func_ExtDef3 : Spec FunDec CompSt");
     gen(ch(1));
     inside_func = 1;
     gen(ch(2));
@@ -329,8 +330,7 @@ static void Func_ExtDef3(MTnode* root){
 }
 static void Func_ExtDef4(MTnode* root){
     Log2("Func_ExtDef4");
-    gen(ch(0));
-    gen(ch(1));
+    assert(0);
 }
 static void Func_ExtDecList1(MTnode* root){
     Log2("Func_ExtDecList1");
@@ -372,41 +372,60 @@ static void Func_VarDec1(MTnode* root){
     s->op = malloc(sizeof(operand));
     s->op->kind = OP_VAR;
     s->op->var_str = get_var_no();
-    if(root->syn_type != type_int && root->syn_type != type_float){
-        //example DEC v2 8
-        intercode* ic = malloc(sizeof(intercode));
-        ic->kind = ICN_DEC;
-        ic->icn_dec.var = s->op;
-        ic->icn_dec.size = root->syn_type->size;
+    if(inside_func){
+        if(root->syn_type != type_int && root->syn_type != type_float){
+            //example DEC v2 8
+            intercode* ic = malloc(sizeof(intercode));
+            ic->kind = ICN_DEC;
+            ic->icn_dec.var = s->op;
+            ic->icn_dec.size = root->syn_type->size;
+        }
+    }
+    else if(inside_paradec){
+        gen_single_var(s->op,PARAM);
     }
 }
 static void Func_VarDec2(MTnode* root){
     Log2("Func_VarDec2");
-    char* id = get_var_id(root)->str;
-    symbol* s = find_sym(&var_tab,id);
-    assert(s);
-    s->op = malloc(sizeof(operand));
-    s->op->kind = OP_VAR;
-    s->op->var_str = get_var_no();
-    intercode* ic = malloc(sizeof(intercode));
-    ic->kind = ICN_DEC;
-    ic->icn_dec.var = s->op;
-    ic->icn_dec.size = root->syn_type->size;
+    if(inside_func){
+        char* id = get_var_id(root)->str;
+        symbol* s = find_sym(&var_tab,id);
+        assert(s);
+        s->op = malloc(sizeof(operand));
+        s->op->kind = OP_VAR;
+        s->op->var_str = get_var_no();
+        intercode* ic = malloc(sizeof(intercode));
+        ic->kind = ICN_DEC;
+        ic->icn_dec.var = s->op;
+        ic->icn_dec.size = root->syn_type->size;       
+    }
+    else if(inside_paradec){
+        assert(0); //array as Parameter
+    }
 }
 static void Func_FunDec1(MTnode* root){
-    Log2("Func_FunDec1");
+    Log2("Func_FunDec1 : ID ( VarList )");
+    gen_label(ch(0)->str,FUNC);
+    inside_paradec = 1;
+    gen(ch(2));
+    inside_paradec = 0;
 }
 static void Func_FunDec2(MTnode* root){
-    Log2("Func_FunDec2");
+    Log2("Func_FunDec2 : ID ()");
+    gen_label(ch(0)->str,FUNC);
 }
 static void Func_VarList1(MTnode* root){
     Log2("Func_VarList1");
+    gen(ch(0));
+    gen(ch(2));
 }
 static void Func_VarList2(MTnode* root){
     Log2("Func_VarList2");
+    gen(ch(0));
 }
 static void Func_ParamDec(MTnode* root){
     Log2("Func_ParamDec");
+    gen(ch(1));
 }
 static void Func_CompSt(MTnode* root){
     Log2("Func_CompSt");
@@ -507,15 +526,15 @@ static void Func_Dec2(MTnode* root){
 }
 static void Func_Exp1(MTnode* root){
     Log2("Func_Exp1 : ASSIGN");
-    ch(2)->is_left_val = 0;
     ch(2)->op = malloc(sizeof(operand));
     gen(ch(2));
 
     //gen code2.1
-    ch(0)->is_left_val = 1;
+    is_left_val = 1;
     ch(0)->op = malloc(sizeof(operand));
     gen(ch(0));
     gen_assign(ch(0)->op,ch(2)->op,0,NULL);
+    is_left_val = 0;
 
     //gen code2.2
     if(root->op != NULL){
@@ -587,20 +606,6 @@ static void Func_Exp11(MTnode* root){
     Log2("Func_Exp11");
     bool_translate;
 }
-static void Func_Exp12(MTnode* root){
-    Log2("Func_Exp12");
-}
-static void Func_Exp13(MTnode* root){
-    Log2("Func_Exp13 : ID()");
-    root->op->kind = OP_VAR;
-    root->op->var_str = get_var_no();
-    if(strcmp(ch(0)->str,"read")==0){
-        gen_single_var(root->op,READ);
-    }
-    else{
-        gen_call(root->op,ch(0)->str);
-    }
-}
 static void gen_args(Argl* al){
     if(al==NULL){
         return;
@@ -608,8 +613,8 @@ static void gen_args(Argl* al){
     gen_args(al->next);
     gen_single_var(al->op,ARG);
 }
-static void Func_Exp14(MTnode* root){
-    Log2("Func_Exp14 : ID( Args )");
+static void Func_Exp12(MTnode* root){
+    Log2("Func_Exp12 : ID( Args )");
     root->op->kind = OP_VAR;
     root->op->var_str = get_var_no();
     ch(2)->al = malloc(sizeof(Argl));
@@ -623,12 +628,26 @@ static void Func_Exp14(MTnode* root){
         gen_call(root->op,ch(0)->str);
     }
 }
+static void Func_Exp13(MTnode* root){
+    Log2("Func_Exp13 : ID()");
+    root->op->kind = OP_VAR;
+    root->op->var_str = get_var_no();
+    if(strcmp(ch(0)->str,"read")==0){
+        gen_single_var(root->op,READ);
+    }
+    else{
+        gen_call(root->op,ch(0)->str);
+    }
+}
+static void Func_Exp14(MTnode* root){
+    Log2("Func_Exp14");
+}
 static void Func_Exp15(MTnode* root){
     Log2("Func_Exp15");
 }
 static void Func_Exp16(MTnode* root){
     Log2("Func_Exp16");
-    if(!root->is_left_val){
+    if(!is_left_val){
         root->op->kind = OP_VAR;
         root->op->var_str = get_var_no();
         char* id = get_var_id(root)->str;
@@ -667,6 +686,8 @@ static void Func_Args1(MTnode* root){
     root->al->op = ch(0)->op;
     root->al->next = malloc(sizeof(Argl));
     root->al->next->next = NULL;
+    ch(2)->al = root->al->next;
+    gen(ch(2));
 }
 static void Func_Args2(MTnode* root){
     Log2("Func_Args2 : Exp");

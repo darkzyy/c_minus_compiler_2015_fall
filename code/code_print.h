@@ -97,6 +97,11 @@ static void print_code(){
             print_operand(pp->icn_single_var.var);
             printf("\n");
         }
+        else if(code_type == ICN_ARG_ADDR){
+            printf("ARG &");
+            print_operand(pp->icn_single_var.var);
+            printf("\n");
+        }
         else if(code_type == ICN_CALL){
             print_operand(pp->icn_call.result);
             printf(" := CALL %s\n",pp->icn_call.func);

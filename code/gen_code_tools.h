@@ -34,6 +34,7 @@ static inline char* get_new_label(){
     strncpy(label,"label",5);
     sprintf(label+5,"%04d",current_label_no);
     current_label_no += 1;
+    Log3("LABEL applied : %s",label);
     return label;
 }
 
@@ -111,6 +112,7 @@ static void gen_refer_assign(operand* left,operand* right){
     ic->kind = ICN_##suffix;\
     ic->icn_label.label = s;\
     list_add_before(&code_head,&(ic->list));\
+    Log3("label : %s",s);\
 }
 
 #define gen_single_var(op,suffix) {\
@@ -147,12 +149,14 @@ static void translate_cond(MTnode* root,char* label_true,char* label_false){
         case Exp2:{
                       char* label = get_new_label();
                       translate_cond(ch(0),label,label_false);
+                      gen_label(label,LABEL);
                       translate_cond(ch(2),label_true,label_false);
                       break;
                   }
         case Exp3:{
                       char* label = get_new_label();
                       translate_cond(ch(0),label_true,label);
+                      gen_label(label,LABEL);
                       translate_cond(ch(2),label_true,label_false);
                       break;
                   }
@@ -162,6 +166,7 @@ static void translate_cond(MTnode* root,char* label_true,char* label_false){
                       gen(ch(0));
                       gen(ch(2));
                       gen_if(ch(0)->op,ch(2)->op,ch(1)->str,label_true);
+                      Log3("GOTO:");
                       gen_label(label_false,GOTO);
                       break;
                   }

@@ -21,6 +21,7 @@ enum intercodeno{
     ICN_RETURN,         //operand
     ICN_DEC,            //tmp_var
     ICN_ARG,            //operand
+    ICN_ARG_ADDR,            //operand addr
     ICN_CALL,           //f <= char*
     ICN_PARAM,          //tmp_var
     ICN_READ,           //tmp_var
@@ -37,6 +38,7 @@ typedef struct operand operand;
 
 struct Argl{
     operand* op;
+    int is_basic;
     struct Argl* next;
 };
 typedef struct Argl Argl;

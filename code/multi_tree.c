@@ -14,11 +14,15 @@ MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int 
 	new_node->location.last_line = loc->last_line;
 	new_node->type = type;
 	new_node->children_list = node_list;
+	new_node->is_const = 0;
+    new_node->op = NULL;
     if(type == INT){
         new_node->valt = atoi(str);
+	    new_node->is_const = 1;
     }
     else if(type == FLOAT){
         new_node->valf = atof(str);
+	    new_node->is_const = 1;
     }
 	return new_node;
 }

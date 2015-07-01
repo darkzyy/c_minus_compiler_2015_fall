@@ -89,9 +89,7 @@ static void Func_VarDec1(MTnode* root){
     char* id = get_var_id(root)->str;
     symbol* s = find_sym(&var_tab,id);
     assert(s);
-    s->op = malloc(sizeof(operand));
-    s->op->kind = OP_VAR;
-    s->op->var_str = get_var_no();
+    s->op = make_op(OP_VAR,NULL);
     if(inside_func){
         if(root->syn_type != type_int && root->syn_type != type_float){
             //example DEC v2 8
@@ -118,9 +116,7 @@ static void Func_VarDec2(MTnode* root){
         char* id = get_var_id(root)->str;
         symbol* s = find_sym(&var_tab,id);
         assert(s);
-        s->op = malloc(sizeof(operand));
-        s->op->kind = OP_VAR;
-        s->op->var_str = get_var_no();
+        s->op = make_op(OP_VAR,NULL);
         intercode* ic = malloc(sizeof(intercode));
         ic->kind = ICN_DEC;
         ic->icn_dec.var = s->op;
@@ -179,9 +175,21 @@ static void Func_Stmt2(MTnode* root){
 }
 static void Func_Stmt3(MTnode* root){//return
     Log2("Func_Stmt3");
-    ch(1)->op = malloc(sizeof(operand));
-    gen(ch(1));
-    gen_single_var(ch(1)->op,RETURN);
+    if(ch(1)->type == Exp17){
+        int tmp = get_int_val(ch(1));
+        operand* const_val = make_op(OP_INT,(void*)&tmp);
+        gen_single_var(const_val,RETURN);
+    }
+    else if(ch(1)->type == Exp18){
+        float tmp = get_float_val(ch(1));
+        operand* const_val = make_op(OP_FLOAT,(void*)&tmp);
+        gen_single_var(const_val,RETURN);
+    }
+    else{
+        ch(1)->op = malloc(sizeof(operand));
+        gen(ch(1));
+        gen_single_var(ch(1)->op,RETURN);
+    }
 }
 static void Func_Stmt4(MTnode* root){//if
     Log2("Func_Stmt4");
@@ -293,20 +301,33 @@ static void Func_Exp4(MTnode* root){
     bool_translate;
 }
 
+#define handle_op(x,oplr) {\
+    if(ch(x)->type == Exp17){\
+        int tmp = get_int_val(ch(x));\
+        oplr = make_op(OP_INT,(void*)&tmp);\
+    }\
+    else if(ch(x)->type == Exp18){\
+        float tmp = get_float_val(ch(x));\
+        oplr = make_op(OP_FLOAT,(void*)&tmp);\
+    }\
+    else{\
+        ch(x)->op = malloc(sizeof(operand));\
+        gen(ch(x));\
+        oplr = ch(x)->op;\
+    }\
+}
+
 #define arith(arith_op)\
-    ch(0)->op = malloc(sizeof(operand));\
-    gen(ch(0));\
-    ch(2)->op = malloc(sizeof(operand));\
-    gen(ch(2));\
-    root->op->kind = OP_VAR;\
-    root->op->var_str = get_var_no();\
     intercode* ic = malloc(sizeof(intercode));\
     ic->kind = ICN_##arith_op;\
+    root->op = make_op(OP_VAR,NULL);\
     ic->icn_arith.result = root->op;\
-    ic->icn_arith.op_left = ch(0)->op;\
-    ic->icn_arith.op_right = ch(2)->op;\
+    operand* op_left,*op_right;\
+    handle_op(0,op_left);\
+    handle_op(2,op_right);\
+    ic->icn_arith.op_left = op_left;\
+    ic->icn_arith.op_right = op_right;\
     list_add_before(&code_head,&(ic->list));
-
 
 static void Func_Exp5(MTnode* root){
     arith(PLUS);
@@ -320,6 +341,7 @@ static void Func_Exp7(MTnode* root){
 static void Func_Exp8(MTnode* root){
     arith(DIV);
 }
+#undef handle_op
 #undef arith
 static void Func_Exp9(MTnode* root){
     Log2("Func_Exp9");
@@ -417,7 +439,7 @@ static void Func_Exp14(MTnode* root){
     ic->kind = ICN_MUL;
     operand* tmp = make_op(OP_VAR,NULL);
     ic->icn_arith.result = tmp;
-    ic->icn_arith.op_left = make_op(OP_INT,&chst(0)->array.elem->size);
+    ic->icn_arith.op_left = make_op(OP_INT,(void*)&chst(0)->array.elem->size);
     ic->icn_arith.op_right = ch(2)->op;
     list_add_before(&code_head,&(ic->list));
     Log2("------intercode addr : %p",ic);
@@ -499,19 +521,11 @@ static void Func_Exp16(MTnode* root){
 }
 static void Func_Exp17(MTnode* root){
     Log2("Func_Exp17");
-    root->op->kind = OP_VAR;
-    root->op->var_str = get_var_no();
-    int val = get_int_val(root);
-    gen_assign(root->op,NULL,OP_INT,(void*)&val);
-    Log2("added int: %d",val);
+    root->op = make_op(OP_INT,get_int_addr(ch(0)));
 }
 static void Func_Exp18(MTnode* root){
     Log2("Func_Exp18");
-    root->op->kind = OP_VAR;
-    root->op->var_str = get_var_no();
-    float val = get_float_val(root);
-    gen_assign(root->op,NULL,OP_FLOAT,(void*)&val);
-    Log2("added float: %f",val);
+    root->op = make_op(OP_FLOAT,get_float_addr(ch(0)));
 }
 static void Func_Args1(MTnode* root){
     Log2("Func_Args1 : Exp , Args");

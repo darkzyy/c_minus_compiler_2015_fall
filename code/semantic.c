@@ -976,11 +976,13 @@ static void Func_Exp17(MTnode* root)
 {
     Log("Exp17");
     root->syn_type = type_int;
+    root->is_const = 1;
 }
 static void Func_Exp18(MTnode* root)
 {
     Log("Exp18");
     root->syn_type = type_float;
+    root->is_const = 1;
 }
 static void Func_Args1(MTnode* root)
 {

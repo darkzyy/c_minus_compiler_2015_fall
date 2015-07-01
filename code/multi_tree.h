@@ -13,7 +13,7 @@ typedef struct MTnode{
     char* str;
     union {
         int valt;
-        double valf;
+        float valf;
     };
     Type* inh_type;
     int inh_dim;
@@ -25,11 +25,13 @@ typedef struct MTnode{
     int syn_offset;
     YYLTYPE location;
     struct MTnode** children_list;
+    //for translate :
     operand* op;
     char* true_label;
     char* false_label;
     Argl* al;
     int offset;
+    int is_const;
 }MTnode;
 
 MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type);

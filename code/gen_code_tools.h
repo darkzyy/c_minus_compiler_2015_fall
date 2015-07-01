@@ -14,11 +14,28 @@ void op01_init(){
     one->val_int = 1;
 }
 
+static int* get_int_addr(MTnode* root){
+    assert(root);
+    if(root->type==INT){
+        return &(root->valt);
+    }
+    else{
+        return get_int_addr(ch(0));
+    }
+}
+static float* get_float_addr(MTnode* root){
+    assert(root);
+    if(root->type==FLOAT){
+        return &(root->valf);
+    }
+    else{
+        return get_float_addr(ch(0));
+    }
+}
 static inline int get_int_val(MTnode* root){
     return ch(0)->valt;
 }
 static inline float get_float_val(MTnode* root){
-    Log2("float val: %f\n",ch(0)->valf);
     return ch(0)->valf;
 }
 static inline char* get_var_no(){
@@ -199,10 +216,10 @@ static operand* make_op(int kind,void* val){
     operand* op = malloc(sizeof(operand));
     op->kind = kind;
     if(kind == OP_INT){
-        op->val_int = *((int*)val);
+        op->val_int = *(int*)val;
     }
     else if(kind == OP_FLOAT){
-        op->val_float = *((float*)val);
+        op->val_float = *(float*)val;
     }
     else if(kind == OP_VAR){
         if(val==NULL){

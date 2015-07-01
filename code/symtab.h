@@ -3,6 +3,7 @@
 
 #include"uthash.h"
 #include"cmmtypes.h"
+#include"intercode.h"
 
 typedef struct symbol_ symbol;
 
@@ -27,6 +28,7 @@ struct symbol_{
     };
     void* addr;
     UT_hash_handle hh;
+    operand* op;
 };
 
 extern symbol* func_tab;

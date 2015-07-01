@@ -1,108 +1,90 @@
-#include<stdio.h>
 #include<stdlib.h>
+#include<stdio.h>
 #include<string.h>
+
 #include"symtab.h"
-#include"semantic.h"
+#include"debug.h"
+#include"uthash.h"
 
-symbol* func_tab;
-symbol* struct_tab;
-symbol* var_tab;
-symbol* field_tab;
+symbol* func_tab = NULL;
+symbol* struct_tab = NULL;
+symbol* var_tab = NULL;
+symbol* field_tab = NULL;
 
-const int size = 0x3fff;
-
-unsigned int hash_pjw(char* name){
-    unsigned int val = 0,high;
-    for(;*name;name++){
-        val = (val<<2)+*name;
-        high = val&(~size);
-        if(high != 0){
-            val = (val^(high>>12))&size;
-        }
+void add_sym_name(symbol** ht, char* id_name){
+    symbol* s;
+    HASH_FIND_STR( *ht,id_name,s);
+    if(s==NULL){
+        s=(symbol*)malloc(sizeof(symbol));
+        s->id_name = id_name;
+        HASH_ADD_KEYPTR(hh,*ht,s->id_name,strlen(s->id_name),s);
     }
-    return val;
 }
 
-void hash_init(){
-    func_tab = malloc(size*sizeof(symbol));
-    struct_tab = malloc(size*sizeof(symbol));
-    var_tab = malloc(size*sizeof(symbol));
-    field_tab = malloc(size*sizeof(symbol));
-    int i;
-    for(i=0;i<size;i++){
-        func_tab[i].next = NULL;
-        struct_tab[i].next = NULL;
-        var_tab[i].next = NULL;
-        field_tab[i].next = NULL;
-        func_tab[i].valid = 0;
-        struct_tab[i].valid = 0;
-        var_tab[i].valid = 0;
-        field_tab[i].valid = 0;
+void add_sym_node(symbol** ht,symbol* new_node){
+    symbol* s;
+    HASH_FIND_STR( *ht,new_node->id_name,s);
+    if(s==NULL){
+        HASH_ADD_KEYPTR(hh,*ht,new_node->id_name,strlen(new_node->id_name),new_node);
     }
 }
 
 symbol* find_sym(symbol** ht,char* id_name){
-    unsigned int idx = hash_pjw(id_name);
-    symbol* sp = *ht;
-    if(sp[idx].valid == 1 && strcmp(sp[idx].id_name,id_name)==0){
-        return &(sp[idx]);
-    }
-    while(sp->next!=NULL){
-        sp = sp->next;
-        if(sp[idx].valid == 1 && strcmp(sp[idx].id_name,id_name)==0){
-            return &(sp[idx]);
-        }
-    }
-    return NULL;
+    symbol* s;
+    HASH_FIND_STR(*ht,id_name,s);
+    return s;
 }
 
-void add_sym_node(symbol** ht,symbol* new_node){
-    if(find_sym(ht,new_node->id_name)!=NULL){
-        return ;
+symbol* del_sym(symbol** ht,char* id_name){
+    symbol* s = find_sym(ht,id_name);
+    if(s!=NULL){
+        HASH_DEL(*ht,s);
     }
-    else{
-        unsigned int idx = hash_pjw(new_node->id_name);
-        symbol* sp = *ht+idx;
-        if(sp->valid == 0){
-            memcpy(sp,new_node,sizeof(symbol));
-            sp->valid = 1;
-        }
-        while(sp->next!=NULL){
-            sp = sp->next;
-            if(sp->valid == 0){
-                memcpy(sp,new_node,sizeof(symbol));
-                sp->valid = 1;
-            }
-        }
-        sp->next = new_node;
-        new_node->valid = 1;
-        return;
+    return s;
+}
+
+void print_symtab(symbol* ht){
+    symbol* s;
+    for(s=ht;s!=NULL;s=s->hh.next){
+        printf("ID: %s\n",s->id_name);
     }
 }
 
 void check_func(){
-    int i;
-    for(i=0;i<size;i++){
-        symbol* s = &func_tab[i];
+    symbol* s;
+    for(s=func_tab;s!=NULL;s=s->hh.next){
         if(s->def_ed==0 && s->dec_ed==1){
             printf("Error type 18 at Line %d: Undefined function \"%s\".\n",s->line,s->id_name);
         }
     }
 }
 
-void init_rw(){
-    symbol* r = malloc(sizeof(symbol));
-    r->id_name = "read";
-    r->argamt = 0;
-    r->val_type = type_int;
-    add_sym_node(&func_tab,r);
-    ArgList* wal = malloc(sizeof(ArgList));
-    wal->type = type_int;
-    wal->next = NULL;
-    symbol* w = malloc(sizeof(symbol));
-    w->id_name = "write";
-    w->argamt = 1;
-    w->val_type = type_int;
-    w->func_arg = wal;
-    add_sym_node(&func_tab,w);
+/*
+int main(){
+    add_sym("zyyyyy",1);
+    add_sym("zyyyyyxx",2);
+    symbol* s = find_sym("zyyyyy");
+    if(s==NULL){
+        printf("cannot find zyyyyy\n");
+    }
+    else{
+        printf("dim is %d\n",s->dim);
+    }
+    s = find_sym("zyyyyyxx");
+    if(s==NULL){
+        printf("cannot find zyyyyyxx\n");
+    }
+    else{
+        printf("dim is %d\n",s->dim);
+    }
+    del_sym("zyyyyy");
+    s = find_sym("zyyyyy");
+    if(s==NULL){
+        printf("cannot find zyyyyy\n");
+    }
+    else{
+        printf("dim is %d\n",s->dim);
+    }
+    return 0;
 }
+*/

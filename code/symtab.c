@@ -5,6 +5,7 @@
 #include"symtab.h"
 #include"debug.h"
 #include"uthash.h"
+#include"semantic.h"
 
 symbol* func_tab = NULL;
 symbol* struct_tab = NULL;
@@ -59,32 +60,20 @@ void check_func(){
     }
 }
 
-/*
-int main(){
-    add_sym("zyyyyy",1);
-    add_sym("zyyyyyxx",2);
-    symbol* s = find_sym("zyyyyy");
-    if(s==NULL){
-        printf("cannot find zyyyyy\n");
-    }
-    else{
-        printf("dim is %d\n",s->dim);
-    }
-    s = find_sym("zyyyyyxx");
-    if(s==NULL){
-        printf("cannot find zyyyyyxx\n");
-    }
-    else{
-        printf("dim is %d\n",s->dim);
-    }
-    del_sym("zyyyyy");
-    s = find_sym("zyyyyy");
-    if(s==NULL){
-        printf("cannot find zyyyyy\n");
-    }
-    else{
-        printf("dim is %d\n",s->dim);
-    }
-    return 0;
+void init_rw(){
+    symbol* r = malloc(sizeof(symbol));
+    r->id_name = "read";
+    r->argamt = 0;
+    r->val_type = type_int;
+    add_sym_node(&func_tab,r);
+    ArgList* wal = malloc(sizeof(ArgList));
+    wal->type = type_int;
+    wal->next = NULL;
+    symbol* w = malloc(sizeof(symbol));
+    w->id_name = "write";
+    w->argamt = 1;
+    w->val_type = type_int;
+    w->func_arg = wal;
+    add_sym_node(&func_tab,w);
 }
-*/
+

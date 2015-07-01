@@ -79,7 +79,6 @@ Program : ExtDefList {
         $$ = create_node(list,1,"Program",&@1,Program);
         if(error_detected == 0){
             //pre_tranverse($$);
-            hash_init();
             init_basic_type();
             init_sem();
             init_rw();

@@ -12,9 +12,13 @@ ArgList	cmmtypes.h	/^typedef struct ArgList_ ArgList;$/;"	t	typeref:struct:ArgLi
 ArgList_	cmmtypes.h	/^struct ArgList_{$/;"	s
 ArgList_::next	cmmtypes.h	/^    ArgList* next;$/;"	m	struct:ArgList_	access:public
 ArgList_::type	cmmtypes.h	/^    Type* type;$/;"	m	struct:ArgList_	access:public
+Argl	intercode.h	/^struct Argl{$/;"	s
+Argl	intercode.h	/^typedef struct Argl Argl;$/;"	t	typeref:struct:Argl
+Argl::next	intercode.h	/^    struct Argl* next;$/;"	m	struct:Argl	typeref:struct:Argl::Argl	access:public
+Argl::op	intercode.h	/^    operand* op;$/;"	m	struct:Argl	access:public
 Args	syntax.y	/^Args : Exp COMMA Args {$/;"	l
-Args1	multi_tree.h	/^    Args1,$/;"	e	enum:__anon13
-Args2	multi_tree.h	/^    Args2,$/;"	e	enum:__anon13
+Args1	multi_tree.h	/^    Args1,$/;"	e	enum:__anon10
+Args2	multi_tree.h	/^    Args2,$/;"	e	enum:__anon10
 BEGIN	lex.yy.c	126;"	d	file:
 BISON	Makefile	/^BISON = bison$/;"	m
 CC	Makefile	/^CC = gcc$/;"	m
@@ -23,27 +27,27 @@ CFLAGS	Makefile	/^CFLAGS = -std=gnu99 -Wall -Wno-unused-function$/;"	m
 COMMA	syntax.tab.c	/^    COMMA = 262,$/;"	e	enum:yytokentype	file:
 COMMA	syntax.tab.h	/^    COMMA = 262,$/;"	e	enum:yytokentype
 COMMENTS	lex.yy.c	632;"	d	file:
-CompSt	multi_tree.h	/^    CompSt,$/;"	e	enum:__anon13
+CompSt	multi_tree.h	/^    CompSt,$/;"	e	enum:__anon10
 CompSt	syntax.y	/^CompSt : LC DefList StmtList RC {$/;"	l
 DIV	syntax.tab.c	/^    DIV = 268,$/;"	e	enum:yytokentype	file:
 DIV	syntax.tab.h	/^    DIV = 268,$/;"	e	enum:yytokentype
 DOT	syntax.tab.c	/^    DOT = 271,$/;"	e	enum:yytokentype	file:
 DOT	syntax.tab.h	/^    DOT = 271,$/;"	e	enum:yytokentype
 Dec	syntax.y	/^Dec : VarDec {$/;"	l
-Dec1	multi_tree.h	/^    Dec1,$/;"	e	enum:__anon13
-Dec2	multi_tree.h	/^    Dec2,$/;"	e	enum:__anon13
+Dec1	multi_tree.h	/^    Dec1,$/;"	e	enum:__anon10
+Dec2	multi_tree.h	/^    Dec2,$/;"	e	enum:__anon10
 DecList	syntax.y	/^DecList : Dec {$/;"	l
-DecList1	multi_tree.h	/^    DecList1,$/;"	e	enum:__anon13
-DecList2	multi_tree.h	/^    DecList2,$/;"	e	enum:__anon13
-Def	multi_tree.h	/^    Def,$/;"	e	enum:__anon13
+DecList1	multi_tree.h	/^    DecList1,$/;"	e	enum:__anon10
+DecList2	multi_tree.h	/^    DecList2,$/;"	e	enum:__anon10
+Def	multi_tree.h	/^    Def,$/;"	e	enum:__anon10
 Def	syntax.y	/^Def : Specifier DecList SEMI {$/;"	l
 DefList	syntax.y	/^DefList : Def DefList {$/;"	l
-DefList1	multi_tree.h	/^    DefList1,$/;"	e	enum:__anon13
-DefList2	multi_tree.h	/^    DefList2,$/;"	e	enum:__anon13
+DefList1	multi_tree.h	/^    DefList1,$/;"	e	enum:__anon10
+DefList2	multi_tree.h	/^    DefList2,$/;"	e	enum:__anon10
 ECHO	lex.yy.c	724;"	d	file:
 ELSE	syntax.tab.c	/^    ELSE = 283,$/;"	e	enum:yytokentype	file:
 ELSE	syntax.tab.h	/^    ELSE = 283,$/;"	e	enum:yytokentype
-EMPTY	multi_tree.h	/^    EMPTY$/;"	e	enum:__anon13
+EMPTY	multi_tree.h	/^    EMPTY$/;"	e	enum:__anon10
 EOB_ACT_CONTINUE_SCAN	lex.yy.c	174;"	d	file:
 EOB_ACT_END_OF_FILE	lex.yy.c	175;"	d	file:
 EOB_ACT_LAST_MATCH	lex.yy.c	176;"	d	file:
@@ -52,35 +56,35 @@ ERROR	syntax.tab.h	/^    ERROR = 285,$/;"	e	enum:yytokentype
 EXIT_SUCCESS	syntax.tab.c	316;"	d	file:
 EXIT_SUCCESS	syntax.tab.c	344;"	d	file:
 Exp	syntax.y	/^Exp : Exp ASSIGNOP Exp {$/;"	l
-Exp1	multi_tree.h	/^    Exp1,$/;"	e	enum:__anon13
-Exp10	multi_tree.h	/^    Exp10,$/;"	e	enum:__anon13
-Exp11	multi_tree.h	/^    Exp11,$/;"	e	enum:__anon13
-Exp12	multi_tree.h	/^    Exp12,$/;"	e	enum:__anon13
-Exp13	multi_tree.h	/^    Exp13,$/;"	e	enum:__anon13
-Exp14	multi_tree.h	/^    Exp14,$/;"	e	enum:__anon13
-Exp15	multi_tree.h	/^    Exp15,$/;"	e	enum:__anon13
-Exp16	multi_tree.h	/^    Exp16,$/;"	e	enum:__anon13
-Exp17	multi_tree.h	/^    Exp17,$/;"	e	enum:__anon13
-Exp18	multi_tree.h	/^    Exp18,$/;"	e	enum:__anon13
-Exp2	multi_tree.h	/^    Exp2,$/;"	e	enum:__anon13
-Exp3	multi_tree.h	/^    Exp3,$/;"	e	enum:__anon13
-Exp4	multi_tree.h	/^    Exp4,$/;"	e	enum:__anon13
-Exp5	multi_tree.h	/^    Exp5,$/;"	e	enum:__anon13
-Exp6	multi_tree.h	/^    Exp6,$/;"	e	enum:__anon13
-Exp7	multi_tree.h	/^    Exp7,$/;"	e	enum:__anon13
-Exp8	multi_tree.h	/^    Exp8,$/;"	e	enum:__anon13
-Exp9	multi_tree.h	/^    Exp9,$/;"	e	enum:__anon13
+Exp1	multi_tree.h	/^    Exp1,$/;"	e	enum:__anon10
+Exp10	multi_tree.h	/^    Exp10,$/;"	e	enum:__anon10
+Exp11	multi_tree.h	/^    Exp11,$/;"	e	enum:__anon10
+Exp12	multi_tree.h	/^    Exp12,$/;"	e	enum:__anon10
+Exp13	multi_tree.h	/^    Exp13,$/;"	e	enum:__anon10
+Exp14	multi_tree.h	/^    Exp14,$/;"	e	enum:__anon10
+Exp15	multi_tree.h	/^    Exp15,$/;"	e	enum:__anon10
+Exp16	multi_tree.h	/^    Exp16,$/;"	e	enum:__anon10
+Exp17	multi_tree.h	/^    Exp17,$/;"	e	enum:__anon10
+Exp18	multi_tree.h	/^    Exp18,$/;"	e	enum:__anon10
+Exp2	multi_tree.h	/^    Exp2,$/;"	e	enum:__anon10
+Exp3	multi_tree.h	/^    Exp3,$/;"	e	enum:__anon10
+Exp4	multi_tree.h	/^    Exp4,$/;"	e	enum:__anon10
+Exp5	multi_tree.h	/^    Exp5,$/;"	e	enum:__anon10
+Exp6	multi_tree.h	/^    Exp6,$/;"	e	enum:__anon10
+Exp7	multi_tree.h	/^    Exp7,$/;"	e	enum:__anon10
+Exp8	multi_tree.h	/^    Exp8,$/;"	e	enum:__anon10
+Exp9	multi_tree.h	/^    Exp9,$/;"	e	enum:__anon10
 ExtDecList	syntax.y	/^ExtDecList : VarDec {$/;"	l
-ExtDecList1	multi_tree.h	/^    ExtDecList1,$/;"	e	enum:__anon13
-ExtDecList2	multi_tree.h	/^    ExtDecList2,$/;"	e	enum:__anon13
+ExtDecList1	multi_tree.h	/^    ExtDecList1,$/;"	e	enum:__anon10
+ExtDecList2	multi_tree.h	/^    ExtDecList2,$/;"	e	enum:__anon10
 ExtDef	syntax.y	/^ExtDef : Specifier ExtDecList SEMI {$/;"	l
-ExtDef1	multi_tree.h	/^    ExtDef1,$/;"	e	enum:__anon13
-ExtDef2	multi_tree.h	/^    ExtDef2,$/;"	e	enum:__anon13
-ExtDef3	multi_tree.h	/^    ExtDef3,$/;"	e	enum:__anon13
-ExtDef4	multi_tree.h	/^    ExtDef4,$/;"	e	enum:__anon13
+ExtDef1	multi_tree.h	/^    ExtDef1,$/;"	e	enum:__anon10
+ExtDef2	multi_tree.h	/^    ExtDef2,$/;"	e	enum:__anon10
+ExtDef3	multi_tree.h	/^    ExtDef3,$/;"	e	enum:__anon10
+ExtDef4	multi_tree.h	/^    ExtDef4,$/;"	e	enum:__anon10
 ExtDefList	syntax.y	/^ExtDefList : ExtDef ExtDefList {$/;"	l
-ExtDefList1	multi_tree.h	/^    ExtDefList1,$/;"	e	enum:__anon13
-ExtDefList2	multi_tree.h	/^    ExtDefList2,$/;"	e	enum:__anon13
+ExtDefList1	multi_tree.h	/^    ExtDefList1,$/;"	e	enum:__anon10
+ExtDefList2	multi_tree.h	/^    ExtDefList2,$/;"	e	enum:__anon10
 FLEX	Makefile	/^FLEX = flex$/;"	m
 FLEXINT_H	lex.yy.c	30;"	d	file:
 FLEX_BETA	lex.yy.c	14;"	d	file:
@@ -95,8 +99,8 @@ FieldList_::offset	cmmtypes.h	/^    int offset;$/;"	m	struct:FieldList_	access:p
 FieldList_::tail	cmmtypes.h	/^    FieldList* tail; \/\/$/;"	m	struct:FieldList_	access:public
 FieldList_::type	cmmtypes.h	/^    Type* type; \/\/field type$/;"	m	struct:FieldList_	access:public
 FunDec	syntax.y	/^FunDec : ID LP VarList RP {$/;"	l
-FunDec1	multi_tree.h	/^    FunDec1,$/;"	e	enum:__anon13
-FunDec2	multi_tree.h	/^    FunDec2,$/;"	e	enum:__anon13
+FunDec1	multi_tree.h	/^    FunDec1,$/;"	e	enum:__anon10
+FunDec2	multi_tree.h	/^    FunDec2,$/;"	e	enum:__anon10
 Func_Args1	gen_inter_code.c	/^static void Func_Args1(MTnode* root){$/;"	f	file:	signature:(MTnode* root)
 Func_Args1	semantic.c	/^static void Func_Args1(MTnode* root)$/;"	f	file:	signature:(MTnode* root)
 Func_Args2	gen_inter_code.c	/^static void Func_Args2(MTnode* root){$/;"	f	file:	signature:(MTnode* root)
@@ -270,8 +274,9 @@ MINUS	syntax.tab.c	/^    MINUS = 266,$/;"	e	enum:yytokentype	file:
 MINUS	syntax.tab.h	/^    MINUS = 266,$/;"	e	enum:yytokentype
 MTnode	multi_tree.h	/^typedef struct MTnode{$/;"	s
 MTnode	multi_tree.h	/^}MTnode;$/;"	t	typeref:struct:MTnode
-MTnode::__anon12::valf	multi_tree.h	/^        double valf;$/;"	m	union:MTnode::__anon12	access:public
-MTnode::__anon12::valt	multi_tree.h	/^        int valt;$/;"	m	union:MTnode::__anon12	access:public
+MTnode::__anon9::valf	multi_tree.h	/^        double valf;$/;"	m	union:MTnode::__anon9	access:public
+MTnode::__anon9::valt	multi_tree.h	/^        int valt;$/;"	m	union:MTnode::__anon9	access:public
+MTnode::al	multi_tree.h	/^    Argl* al;$/;"	m	struct:MTnode	access:public
 MTnode::children_amount	multi_tree.h	/^    int children_amount;$/;"	m	struct:MTnode	access:public
 MTnode::children_list	multi_tree.h	/^    struct MTnode** children_list;$/;"	m	struct:MTnode	typeref:struct:MTnode::MTnode	access:public
 MTnode::false_label	multi_tree.h	/^    char* false_label;$/;"	m	struct:MTnode	access:public
@@ -279,6 +284,7 @@ MTnode::inh_ctrl	multi_tree.h	/^    int inh_ctrl;$/;"	m	struct:MTnode	access:pub
 MTnode::inh_dim	multi_tree.h	/^    int inh_dim;$/;"	m	struct:MTnode	access:public
 MTnode::inh_offset	multi_tree.h	/^    int inh_offset;$/;"	m	struct:MTnode	access:public
 MTnode::inh_type	multi_tree.h	/^    Type* inh_type;$/;"	m	struct:MTnode	access:public
+MTnode::is_left_val	multi_tree.h	/^    int is_left_val;$/;"	m	struct:MTnode	access:public
 MTnode::location	multi_tree.h	/^    YYLTYPE location;$/;"	m	struct:MTnode	access:public
 MTnode::op	multi_tree.h	/^    operand* op;$/;"	m	struct:MTnode	access:public
 MTnode::str	multi_tree.h	/^    char* str;$/;"	m	struct:MTnode	access:public
@@ -291,18 +297,20 @@ MTnode::type	multi_tree.h	/^    int type;$/;"	m	struct:MTnode	access:public
 NOT	syntax.tab.c	/^    NOT = 272,$/;"	e	enum:yytokentype	file:
 NOT	syntax.tab.h	/^    NOT = 272,$/;"	e	enum:yytokentype
 OBJS	Makefile	/^OBJS = $(CFILES:.c=.o)$/;"	m
-OP_FLOAT	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR } kind;$/;"	e	enum:operand::__anon1
-OP_INT	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR } kind;$/;"	e	enum:operand::__anon1
-OP_VAR	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR } kind;$/;"	e	enum:operand::__anon1
+OP_ADDR	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR,OP_REFER } kind;$/;"	e	enum:operand::__anon1
+OP_FLOAT	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR,OP_REFER } kind;$/;"	e	enum:operand::__anon1
+OP_INT	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR,OP_REFER } kind;$/;"	e	enum:operand::__anon1
+OP_REFER	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR,OP_REFER } kind;$/;"	e	enum:operand::__anon1
+OP_VAR	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR,OP_REFER } kind;$/;"	e	enum:operand::__anon1
 OR	syntax.tab.c	/^    OR = 270,$/;"	e	enum:yytokentype	file:
 OR	syntax.tab.h	/^    OR = 270,$/;"	e	enum:yytokentype
-OptTag	multi_tree.h	/^    OptTag,$/;"	e	enum:__anon13
+OptTag	multi_tree.h	/^    OptTag,$/;"	e	enum:__anon10
 OptTag	syntax.y	/^OptTag : ID {$/;"	l
 PLUS	syntax.tab.c	/^    PLUS = 265,$/;"	e	enum:yytokentype	file:
 PLUS	syntax.tab.h	/^    PLUS = 265,$/;"	e	enum:yytokentype
-ParamDec	multi_tree.h	/^    ParamDec,$/;"	e	enum:__anon13
+ParamDec	multi_tree.h	/^    ParamDec,$/;"	e	enum:__anon10
 ParamDec	syntax.y	/^ParamDec : Specifier VarDec {$/;"	l
-Program	multi_tree.h	/^    Program,$/;"	e	enum:__anon13
+Program	multi_tree.h	/^    Program,$/;"	e	enum:__anon10
 Program	syntax.y	/^Program : ExtDefList {$/;"	l
 RB	syntax.tab.c	/^    RB = 277,$/;"	e	enum:yytokentype	file:
 RB	syntax.tab.h	/^    RB = 277,$/;"	e	enum:yytokentype
@@ -322,59 +330,59 @@ STAR	syntax.tab.h	/^    STAR = 267,$/;"	e	enum:yytokentype
 STRUCT	syntax.tab.c	/^    STRUCT = 280,$/;"	e	enum:yytokentype	file:
 STRUCT	syntax.tab.h	/^    STRUCT = 280,$/;"	e	enum:yytokentype
 Specifier	syntax.y	/^Specifier : TYPE {$/;"	l
-Specifier1	multi_tree.h	/^    Specifier1,$/;"	e	enum:__anon13
-Specifier2	multi_tree.h	/^    Specifier2,$/;"	e	enum:__anon13
+Specifier1	multi_tree.h	/^    Specifier1,$/;"	e	enum:__anon10
+Specifier2	multi_tree.h	/^    Specifier2,$/;"	e	enum:__anon10
 Stmt	syntax.y	/^Stmt : Exp SEMI {$/;"	l
-Stmt1	multi_tree.h	/^    Stmt1,$/;"	e	enum:__anon13
-Stmt2	multi_tree.h	/^    Stmt2,$/;"	e	enum:__anon13
-Stmt3	multi_tree.h	/^    Stmt3,$/;"	e	enum:__anon13
-Stmt4	multi_tree.h	/^    Stmt4,$/;"	e	enum:__anon13
-Stmt5	multi_tree.h	/^    Stmt5,$/;"	e	enum:__anon13
-Stmt6	multi_tree.h	/^    Stmt6,$/;"	e	enum:__anon13
+Stmt1	multi_tree.h	/^    Stmt1,$/;"	e	enum:__anon10
+Stmt2	multi_tree.h	/^    Stmt2,$/;"	e	enum:__anon10
+Stmt3	multi_tree.h	/^    Stmt3,$/;"	e	enum:__anon10
+Stmt4	multi_tree.h	/^    Stmt4,$/;"	e	enum:__anon10
+Stmt5	multi_tree.h	/^    Stmt5,$/;"	e	enum:__anon10
+Stmt6	multi_tree.h	/^    Stmt6,$/;"	e	enum:__anon10
 StmtList	syntax.y	/^StmtList : Stmt StmtList {$/;"	l
-StmtList1	multi_tree.h	/^    StmtList1,$/;"	e	enum:__anon13
-StmtList2	multi_tree.h	/^    StmtList2,$/;"	e	enum:__anon13
+StmtList1	multi_tree.h	/^    StmtList1,$/;"	e	enum:__anon10
+StmtList2	multi_tree.h	/^    StmtList2,$/;"	e	enum:__anon10
 StructSpecifier	syntax.y	/^StructSpecifier : STRUCT OptTag LC DefList RC {$/;"	l
-StructSpecifier1	multi_tree.h	/^    StructSpecifier1,$/;"	e	enum:__anon13
-StructSpecifier2	multi_tree.h	/^    StructSpecifier2,$/;"	e	enum:__anon13
-TERMINALS	multi_tree.h	/^    TERMINALS=300,$/;"	e	enum:__anon13
+StructSpecifier1	multi_tree.h	/^    StructSpecifier1,$/;"	e	enum:__anon10
+StructSpecifier2	multi_tree.h	/^    StructSpecifier2,$/;"	e	enum:__anon10
+TERMINALS	multi_tree.h	/^    TERMINALS=300,$/;"	e	enum:__anon10
 TEST_FILE_LIST	Makefile	/^TEST_FILE_LIST = $(shell find ..\/Test\/ -name "*.cmm")$/;"	m
 TYPE	syntax.tab.c	/^    TYPE = 273,$/;"	e	enum:yytokentype	file:
 TYPE	syntax.tab.h	/^    TYPE = 273,$/;"	e	enum:yytokentype
-Tag	multi_tree.h	/^    Tag,$/;"	e	enum:__anon13
+Tag	multi_tree.h	/^    Tag,$/;"	e	enum:__anon10
 Tag	syntax.y	/^Tag : ID {$/;"	l
 Type	cmmtypes.h	/^typedef struct Type_ Type;$/;"	t	typeref:struct:Type_
 Type_	cmmtypes.h	/^struct Type_{$/;"	s
-Type_::__anon15::elem	cmmtypes.h	/^        Type* elem;$/;"	m	struct:Type_::__anon15	access:public
-Type_::__anon15::size	cmmtypes.h	/^        int size;$/;"	m	struct:Type_::__anon15	access:public
-Type_::__anon17::__anon18::elem	cmmtypes.h	/^            Type* elem;$/;"	m	struct:Type_::__anon17::__anon18	access:public
-Type_::__anon17::__anon18::size	cmmtypes.h	/^            int size;$/;"	m	struct:Type_::__anon17::__anon18	access:public
-Type_::__anon17::array	cmmtypes.h	/^        }array;$/;"	m	union:Type_::__anon17	typeref:struct:Type_::__anon17::__anon18	access:public
-Type_::__anon17::basic	cmmtypes.h	/^        int basic;$/;"	m	union:Type_::__anon17	access:public
-Type_::__anon17::fl	cmmtypes.h	/^        FieldList* fl;$/;"	m	union:Type_::__anon17	access:public
-Type_::array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon14
-Type_::array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon16
-Type_::array	cmmtypes.h	/^    }array;$/;"	m	struct:Type_	typeref:struct:Type_::__anon15	access:public
-Type_::basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon14
-Type_::basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon16
+Type_::__anon12::elem	cmmtypes.h	/^        Type* elem;$/;"	m	struct:Type_::__anon12	access:public
+Type_::__anon12::size	cmmtypes.h	/^        int size;$/;"	m	struct:Type_::__anon12	access:public
+Type_::__anon14::__anon15::elem	cmmtypes.h	/^            Type* elem;$/;"	m	struct:Type_::__anon14::__anon15	access:public
+Type_::__anon14::__anon15::size	cmmtypes.h	/^            int size;$/;"	m	struct:Type_::__anon14::__anon15	access:public
+Type_::__anon14::array	cmmtypes.h	/^        }array;$/;"	m	union:Type_::__anon14	typeref:struct:Type_::__anon14::__anon15	access:public
+Type_::__anon14::basic	cmmtypes.h	/^        int basic;$/;"	m	union:Type_::__anon14	access:public
+Type_::__anon14::fl	cmmtypes.h	/^        FieldList* fl;$/;"	m	union:Type_::__anon14	access:public
+Type_::array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon11
+Type_::array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon13
+Type_::array	cmmtypes.h	/^    }array;$/;"	m	struct:Type_	typeref:struct:Type_::__anon12	access:public
+Type_::basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon11
+Type_::basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon13
 Type_::basic	cmmtypes.h	/^    int basic;$/;"	m	struct:Type_	access:public
 Type_::fl	cmmtypes.h	/^    FieldList* fl;$/;"	m	struct:Type_	access:public
-Type_::kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon14	access:public
-Type_::kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon16	access:public
-Type_::semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon14
-Type_::semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon16
+Type_::kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon11	access:public
+Type_::kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon13	access:public
+Type_::semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon11
+Type_::semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon13
 Type_::size	cmmtypes.h	/^    int size;$/;"	m	struct:Type_	access:public
-Type_::structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon14
-Type_::structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon16
+Type_::structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon11
+Type_::structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon13
 UINT16_MAX	lex.yy.c	81;"	d	file:
 UINT32_MAX	lex.yy.c	84;"	d	file:
 UINT8_MAX	lex.yy.c	78;"	d	file:
 VarDec	syntax.y	/^VarDec : ID {$/;"	l
-VarDec1	multi_tree.h	/^    VarDec1,$/;"	e	enum:__anon13
-VarDec2	multi_tree.h	/^    VarDec2,$/;"	e	enum:__anon13
+VarDec1	multi_tree.h	/^    VarDec1,$/;"	e	enum:__anon10
+VarDec2	multi_tree.h	/^    VarDec2,$/;"	e	enum:__anon10
 VarList	syntax.y	/^VarList : ParamDec COMMA VarList {$/;"	l
-VarList1	multi_tree.h	/^    VarList1,$/;"	e	enum:__anon13
-VarList2	multi_tree.h	/^    VarList2,$/;"	e	enum:__anon13
+VarList1	multi_tree.h	/^    VarList1,$/;"	e	enum:__anon10
+VarList2	multi_tree.h	/^    VarList2,$/;"	e	enum:__anon10
 WHILE	syntax.tab.c	/^    WHILE = 284,$/;"	e	enum:yytokentype	file:
 WHILE	syntax.tab.h	/^    WHILE = 284,$/;"	e	enum:yytokentype
 YFC	Makefile	/^YFC = $(shell find .\/ -name "*.y" | sed s\/[^\/]*\\\\.y\/syntax.tab.c\/)$/;"	m
@@ -563,42 +571,43 @@ add_node	multi_tree.h	/^void add_node(MTnode* par,MTnode* child);$/;"	p	signatur
 add_sym_node	symtab.c	/^void add_sym_node(symbol** ht,symbol* new_node){$/;"	f	signature:(symbol** ht,symbol* new_node)
 add_sym_node	symtab.h	/^void add_sym_node(symbol** ht,symbol* new_node);$/;"	p	signature:(symbol** ht,symbol* new_node)
 addr	symtab.h	/^    void* addr;$/;"	m	struct:symbol_	access:public
+al	multi_tree.h	/^    Argl* al;$/;"	m	struct:MTnode	access:public
 al_free	semantic.c	/^void al_free(ArgList* al){$/;"	f	signature:(ArgList* al)
 alloca	syntax.tab.c	309;"	d	file:
 arg_cmp	semantic.c	/^int arg_cmp(ArgList* alx,ArgList* aly){$/;"	f	signature:(ArgList* alx,ArgList* aly)
 argamt	symtab.h	/^    int argamt;\/\/arguement amount$/;"	m	struct:symbol_	access:public
 argamt_count	semantic.c	/^int argamt_count(ArgList* al){$/;"	f	signature:(ArgList* al)
-arith	gen_inter_code.c	526;"	d	file:
-arith	gen_inter_code.c	553;"	d	file:
-array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon14
-array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon16
-array	cmmtypes.h	/^        }array;$/;"	m	union:Type_::__anon17	typeref:struct:Type_::__anon17::__anon18	access:public
-array	cmmtypes.h	/^    }array;$/;"	m	struct:Type_	typeref:struct:Type_::__anon15	access:public
-basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon14
-basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon16
-basic	cmmtypes.h	/^        int basic;$/;"	m	union:Type_::__anon17	access:public
+arith	gen_inter_code.c	536;"	d	file:
+arith	gen_inter_code.c	563;"	d	file:
+array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon11
+array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon13
+array	cmmtypes.h	/^        }array;$/;"	m	union:Type_::__anon14	typeref:struct:Type_::__anon14::__anon15	access:public
+array	cmmtypes.h	/^    }array;$/;"	m	struct:Type_	typeref:struct:Type_::__anon12	access:public
+basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon11
+basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon13
+basic	cmmtypes.h	/^        int basic;$/;"	m	union:Type_::__anon14	access:public
 basic	cmmtypes.h	/^    int basic;$/;"	m	struct:Type_	access:public
-bool_translate	gen_inter_code.c	146;"	d	file:
-bool_translate	gen_inter_code.c	736;"	d	file:
-ch	multi_tree.h	42;"	d
+bool_translate	gen_inter_code.c	154;"	d	file:
+bool_translate	gen_inter_code.c	746;"	d	file:
+ch	multi_tree.h	44;"	d
 check_func	symtab.c	/^void check_func(){$/;"	f
 children_amount	multi_tree.h	/^    int children_amount;$/;"	m	struct:MTnode	access:public
 children_list	multi_tree.h	/^    struct MTnode** children_list;$/;"	m	struct:MTnode	typeref:struct:MTnode::MTnode	access:public
-chit	multi_tree.h	44;"	d
-chst	multi_tree.h	43;"	d
+chit	multi_tree.h	46;"	d
+chst	multi_tree.h	45;"	d
 code_head	gen_inter_code.c	/^static ListHead code_head;$/;"	v	file:
-code_type	gen_inter_code.c	171;"	d	file:
-code_type	gen_inter_code.c	281;"	d	file:
+code_type	gen_inter_code.c	185;"	d	file:
+code_type	gen_inter_code.c	297;"	d	file:
 create_node	multi_tree.c	/^MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type){$/;"	f	signature:(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type)
 create_node	multi_tree.h	/^MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type);$/;"	p	signature:(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type)
 current_label_no	gen_inter_code.c	/^static int current_label_no = 0;$/;"	v	file:
 current_line_err	syntax.tab.c	/^int current_line_err = 0;$/;"	v
 current_var_no	gen_inter_code.c	/^static int current_var_no = 0;$/;"	v	file:
-dec_ed	symtab.h	/^            unsigned int dec_ed : 1;$/;"	m	struct:symbol_::__anon19::__anon20	access:public
-def_ed	symtab.h	/^            unsigned int def_ed : 1;$/;"	m	struct:symbol_::__anon19::__anon20	access:public
+dec_ed	symtab.h	/^            unsigned int dec_ed : 1;$/;"	m	struct:symbol_::__anon16::__anon17	access:public
+def_ed	symtab.h	/^            unsigned int def_ed : 1;$/;"	m	struct:symbol_::__anon16::__anon17	access:public
 dim	symtab.h	/^    int dim;$/;"	m	struct:symbol_	access:public
-elem	cmmtypes.h	/^            Type* elem;$/;"	m	struct:Type_::__anon17::__anon18	access:public
-elem	cmmtypes.h	/^        Type* elem;$/;"	m	struct:Type_::__anon15	access:public
+elem	cmmtypes.h	/^            Type* elem;$/;"	m	struct:Type_::__anon14::__anon15	access:public
+elem	cmmtypes.h	/^        Type* elem;$/;"	m	struct:Type_::__anon12	access:public
 enable_debug	main.c	/^int enable_debug = 0;$/;"	v
 error_detected	syntax.tab.c	/^int error_detected = 0;$/;"	v
 error_report	main.c	/^extern void error_report();$/;"	p	file:
@@ -611,7 +620,7 @@ first_column	syntax.tab.c	/^  int first_column;$/;"	m	struct:YYLTYPE	file:	acces
 first_column	syntax.tab.h	/^  int first_column;$/;"	m	struct:YYLTYPE	access:public
 first_line	syntax.tab.c	/^  int first_line;$/;"	m	struct:YYLTYPE	file:	access:public
 first_line	syntax.tab.h	/^  int first_line;$/;"	m	struct:YYLTYPE	access:public
-fl	cmmtypes.h	/^        FieldList* fl;$/;"	m	union:Type_::__anon17	access:public
+fl	cmmtypes.h	/^        FieldList* fl;$/;"	m	union:Type_::__anon14	access:public
 fl	cmmtypes.h	/^    FieldList* fl;$/;"	m	struct:Type_	access:public
 flex_int16_t	lex.yy.c	/^typedef int16_t flex_int16_t;$/;"	t	file:
 flex_int16_t	lex.yy.c	/^typedef short int flex_int16_t;$/;"	t	file:
@@ -628,7 +637,7 @@ flex_uint8_t	lex.yy.c	/^typedef unsigned char flex_uint8_t; $/;"	t	file:
 free	syntax.tab.c	/^void free (void *); \/* INFRINGES ON USER NAME SPACE *\/$/;"	p	file:	signature:(void *)
 ft	gen_inter_code.c	/^typedef void (*ft)(MTnode*);$/;"	t	file:
 ft	semantic.c	/^typedef void (*ft)(MTnode*);$/;"	t	file:
-func	intercode.h	/^    struct{ operand* result ; char* func; }                            icn_call;$/;"	m	struct:intercode::__anon11	access:public
+func	intercode.h	/^    struct{ operand* result ; char* func; }                            icn_call;$/;"	m	struct:intercode::__anon8	access:public
 func_arg	symtab.h	/^    ArgList* func_arg;$/;"	m	struct:symbol_	access:public
 func_dec	semantic.c	/^int func_dec;$/;"	v
 func_def	semantic.c	/^int func_def;$/;"	v
@@ -638,7 +647,9 @@ func_table	semantic.c	/^static ft func_table[60] = {$/;"	v	file:
 gen	gen_inter_code.c	/^extern void gen(MTnode* root);$/;"	p	file:	signature:(MTnode* root)
 gen	gen_inter_code.c	/^void gen(MTnode* root){$/;"	f	signature:(MTnode* root)
 gen	gen_inter_code.h	/^void gen(MTnode* root);$/;"	p	signature:(MTnode* root)
+gen_args	gen_inter_code.c	/^static void gen_args(Argl* al){$/;"	f	file:	signature:(Argl* al)
 gen_assign	gen_inter_code.c	/^static void gen_assign(operand* left,operand* right,int right_kind,void* right_val){$/;"	f	file:	signature:(operand* left,operand* right,int right_kind,void* right_val)
+gen_call	gen_inter_code.c	/^static void gen_call(operand* op,char* func){$/;"	f	file:	signature:(operand* op,char* func)
 gen_if	gen_inter_code.c	/^static void gen_if(operand* op1,operand* op2,char* relop,char* label){$/;"	f	file:	signature:(operand* op1,operand* op2,char* relop,char* label)
 gen_label	gen_inter_code.c	84;"	d	file:
 gen_single_var	gen_inter_code.c	91;"	d	file:
@@ -652,15 +663,12 @@ global	semantic.c	/^int global;$/;"	v
 hash_init	symtab.c	/^void hash_init(){$/;"	f
 hash_init	symtab.h	/^void hash_init();$/;"	p	signature:()
 hash_pjw	symtab.c	/^unsigned int hash_pjw(char* name){$/;"	f	signature:(char* name)
-icn_addr	intercode.h	/^    struct{ operand* left , *right; }                           icn_addr;$/;"	m	struct:intercode	typeref:struct:intercode::__anon6	access:public
 icn_arith	intercode.h	/^    struct{ operand* result , *op_left , *op_right; }    icn_arith;$/;"	m	struct:intercode	typeref:struct:intercode::__anon4	access:public
 icn_assign	intercode.h	/^    struct{ operand* left , *right; }                   icn_assign;$/;"	m	struct:intercode	typeref:struct:intercode::__anon3	access:public
-icn_call	intercode.h	/^    struct{ operand* result ; char* func; }                            icn_call;$/;"	m	struct:intercode	typeref:struct:intercode::__anon11	access:public
-icn_dec	intercode.h	/^    struct{ operand* var ; int size;\/*size % 4 = 0*\/}          icn_dec;$/;"	m	struct:intercode	typeref:struct:intercode::__anon10	access:public
-icn_if	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode	typeref:struct:intercode::__anon9	access:public
+icn_call	intercode.h	/^    struct{ operand* result ; char* func; }                            icn_call;$/;"	m	struct:intercode	typeref:struct:intercode::__anon8	access:public
+icn_dec	intercode.h	/^    struct{ operand* var ; int size;\/*size % 4 = 0*\/}          icn_dec;$/;"	m	struct:intercode	typeref:struct:intercode::__anon7	access:public
+icn_if	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode	typeref:struct:intercode::__anon6	access:public
 icn_label	intercode.h	/^    struct{ char* label; }                                  icn_label;$/;"	m	struct:intercode	typeref:struct:intercode::__anon2	access:public
-icn_refer	intercode.h	/^    struct{ operand* left , *right; }                           icn_refer;$/;"	m	struct:intercode	typeref:struct:intercode::__anon7	access:public
-icn_refer_assign	intercode.h	/^    struct{ operand* left , *right; }                           icn_refer_assign;$/;"	m	struct:intercode	typeref:struct:intercode::__anon8	access:public
 icn_single_var	intercode.h	/^    struct{ operand* var; }                           icn_single_var;$/;"	m	struct:intercode	typeref:struct:intercode::__anon5	access:public
 id_name	symtab.h	/^    char* id_name;$/;"	m	struct:symbol_	access:public
 inh_ctrl	multi_tree.h	/^    int inh_ctrl;$/;"	m	struct:MTnode	access:public
@@ -669,7 +677,7 @@ inh_offset	multi_tree.h	/^    int inh_offset;$/;"	m	struct:MTnode	access:public
 inh_type	multi_tree.h	/^    Type* inh_type;$/;"	m	struct:MTnode	access:public
 init_basic_type	cmmtypes.c	/^void init_basic_type(){$/;"	f
 init_basic_type	cmmtypes.h	/^void init_basic_type();$/;"	p	signature:()
-init_ed	symtab.h	/^            unsigned int init_ed : 1;$/;"	m	struct:symbol_::__anon19::__anon20	access:public
+init_ed	symtab.h	/^            unsigned int init_ed : 1;$/;"	m	struct:symbol_::__anon16::__anon17	access:public
 init_sem	semantic.c	/^void init_sem(){$/;"	f
 init_sem	semantic.h	/^void init_sem();$/;"	p	signature:()
 input	lex.yy.c	/^static int input (void );$/;"	p	file:	signature:(void )
@@ -679,10 +687,6 @@ inside_func_para	semantic.c	/^int inside_func_para;$/;"	v
 inside_struct	semantic.c	/^int inside_struct;$/;"	v
 intercode	intercode.h	/^struct intercode{$/;"	s
 intercode	intercode.h	/^typedef struct intercode intercode ;$/;"	t	typeref:struct:intercode
-intercode::__anon10::size	intercode.h	/^    struct{ operand* var ; int size;\/*size % 4 = 0*\/}          icn_dec;$/;"	m	struct:intercode::__anon10	access:public
-intercode::__anon10::var	intercode.h	/^    struct{ operand* var ; int size;\/*size % 4 = 0*\/}          icn_dec;$/;"	m	struct:intercode::__anon10	access:public
-intercode::__anon11::func	intercode.h	/^    struct{ operand* result ; char* func; }                            icn_call;$/;"	m	struct:intercode::__anon11	access:public
-intercode::__anon11::result	intercode.h	/^    struct{ operand* result ; char* func; }                            icn_call;$/;"	m	struct:intercode::__anon11	access:public
 intercode::__anon2::label	intercode.h	/^    struct{ char* label; }                                  icn_label;$/;"	m	struct:intercode::__anon2	access:public
 intercode::__anon3::left	intercode.h	/^    struct{ operand* left , *right; }                   icn_assign;$/;"	m	struct:intercode::__anon3	access:public
 intercode::__anon3::right	intercode.h	/^    struct{ operand* left , *right; }                   icn_assign;$/;"	m	struct:intercode::__anon3	access:public
@@ -690,42 +694,35 @@ intercode::__anon4::op_left	intercode.h	/^    struct{ operand* result , *op_left
 intercode::__anon4::op_right	intercode.h	/^    struct{ operand* result , *op_left , *op_right; }    icn_arith;$/;"	m	struct:intercode::__anon4	access:public
 intercode::__anon4::result	intercode.h	/^    struct{ operand* result , *op_left , *op_right; }    icn_arith;$/;"	m	struct:intercode::__anon4	access:public
 intercode::__anon5::var	intercode.h	/^    struct{ operand* var; }                           icn_single_var;$/;"	m	struct:intercode::__anon5	access:public
-intercode::__anon6::left	intercode.h	/^    struct{ operand* left , *right; }                           icn_addr;$/;"	m	struct:intercode::__anon6	access:public
-intercode::__anon6::right	intercode.h	/^    struct{ operand* left , *right; }                           icn_addr;$/;"	m	struct:intercode::__anon6	access:public
-intercode::__anon7::left	intercode.h	/^    struct{ operand* left , *right; }                           icn_refer;$/;"	m	struct:intercode::__anon7	access:public
-intercode::__anon7::right	intercode.h	/^    struct{ operand* left , *right; }                           icn_refer;$/;"	m	struct:intercode::__anon7	access:public
-intercode::__anon8::left	intercode.h	/^    struct{ operand* left , *right; }                           icn_refer_assign;$/;"	m	struct:intercode::__anon8	access:public
-intercode::__anon8::right	intercode.h	/^    struct{ operand* left , *right; }                           icn_refer_assign;$/;"	m	struct:intercode::__anon8	access:public
-intercode::__anon9::label	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon9	access:public
-intercode::__anon9::op_left	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon9	access:public
-intercode::__anon9::op_right	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon9	access:public
-intercode::__anon9::relop	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon9	access:public
-intercode::icn_addr	intercode.h	/^    struct{ operand* left , *right; }                           icn_addr;$/;"	m	struct:intercode	typeref:struct:intercode::__anon6	access:public
+intercode::__anon6::label	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon6	access:public
+intercode::__anon6::op_left	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon6	access:public
+intercode::__anon6::op_right	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon6	access:public
+intercode::__anon6::relop	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon6	access:public
+intercode::__anon7::size	intercode.h	/^    struct{ operand* var ; int size;\/*size % 4 = 0*\/}          icn_dec;$/;"	m	struct:intercode::__anon7	access:public
+intercode::__anon7::var	intercode.h	/^    struct{ operand* var ; int size;\/*size % 4 = 0*\/}          icn_dec;$/;"	m	struct:intercode::__anon7	access:public
+intercode::__anon8::func	intercode.h	/^    struct{ operand* result ; char* func; }                            icn_call;$/;"	m	struct:intercode::__anon8	access:public
+intercode::__anon8::result	intercode.h	/^    struct{ operand* result ; char* func; }                            icn_call;$/;"	m	struct:intercode::__anon8	access:public
 intercode::icn_arith	intercode.h	/^    struct{ operand* result , *op_left , *op_right; }    icn_arith;$/;"	m	struct:intercode	typeref:struct:intercode::__anon4	access:public
 intercode::icn_assign	intercode.h	/^    struct{ operand* left , *right; }                   icn_assign;$/;"	m	struct:intercode	typeref:struct:intercode::__anon3	access:public
-intercode::icn_call	intercode.h	/^    struct{ operand* result ; char* func; }                            icn_call;$/;"	m	struct:intercode	typeref:struct:intercode::__anon11	access:public
-intercode::icn_dec	intercode.h	/^    struct{ operand* var ; int size;\/*size % 4 = 0*\/}          icn_dec;$/;"	m	struct:intercode	typeref:struct:intercode::__anon10	access:public
-intercode::icn_if	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode	typeref:struct:intercode::__anon9	access:public
+intercode::icn_call	intercode.h	/^    struct{ operand* result ; char* func; }                            icn_call;$/;"	m	struct:intercode	typeref:struct:intercode::__anon8	access:public
+intercode::icn_dec	intercode.h	/^    struct{ operand* var ; int size;\/*size % 4 = 0*\/}          icn_dec;$/;"	m	struct:intercode	typeref:struct:intercode::__anon7	access:public
+intercode::icn_if	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode	typeref:struct:intercode::__anon6	access:public
 intercode::icn_label	intercode.h	/^    struct{ char* label; }                                  icn_label;$/;"	m	struct:intercode	typeref:struct:intercode::__anon2	access:public
-intercode::icn_refer	intercode.h	/^    struct{ operand* left , *right; }                           icn_refer;$/;"	m	struct:intercode	typeref:struct:intercode::__anon7	access:public
-intercode::icn_refer_assign	intercode.h	/^    struct{ operand* left , *right; }                           icn_refer_assign;$/;"	m	struct:intercode	typeref:struct:intercode::__anon8	access:public
 intercode::icn_single_var	intercode.h	/^    struct{ operand* var; }                           icn_single_var;$/;"	m	struct:intercode	typeref:struct:intercode::__anon5	access:public
 intercode::kind	intercode.h	/^    int kind;$/;"	m	struct:intercode	access:public
 intercode::list	intercode.h	/^    ListHead list;$/;"	m	struct:intercode	access:public
 intercodeno	intercode.h	/^enum intercodeno{$/;"	g
-kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon14	access:public
-kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon16	access:public
-kind	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon1	access:public
+is_left_val	multi_tree.h	/^    int is_left_val;$/;"	m	struct:MTnode	access:public
+kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon11	access:public
+kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon13	access:public
+kind	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR,OP_REFER } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon1	access:public
 kind	intercode.h	/^    int kind;$/;"	m	struct:intercode	access:public
 label	intercode.h	/^    struct{ char* label; }                                  icn_label;$/;"	m	struct:intercode::__anon2	access:public
-label	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon9	access:public
+label	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon6	access:public
 last_column	syntax.tab.c	/^  int last_column;$/;"	m	struct:YYLTYPE	file:	access:public
 last_column	syntax.tab.h	/^  int last_column;$/;"	m	struct:YYLTYPE	access:public
 last_line	syntax.tab.c	/^  int last_line;$/;"	m	struct:YYLTYPE	file:	access:public
 last_line	syntax.tab.h	/^  int last_line;$/;"	m	struct:YYLTYPE	access:public
-left	intercode.h	/^    struct{ operand* left , *right; }                           icn_addr;$/;"	m	struct:intercode::__anon6	access:public
-left	intercode.h	/^    struct{ operand* left , *right; }                           icn_refer;$/;"	m	struct:intercode::__anon7	access:public
-left	intercode.h	/^    struct{ operand* left , *right; }                           icn_refer_assign;$/;"	m	struct:intercode::__anon8	access:public
 left	intercode.h	/^    struct{ operand* left , *right; }                   icn_assign;$/;"	m	struct:intercode::__anon3	access:public
 line	symtab.h	/^    int line;$/;"	m	struct:symbol_	access:public
 lineno_init	main.c	/^extern int lineno_init();$/;"	p	file:
@@ -739,7 +736,7 @@ list_entry	list.h	24;"	d
 list_foreach	list.h	65;"	d
 list_init	list.h	/^list_init(ListHead *list) {$/;"	f	signature:(ListHead *list)
 location	multi_tree.h	/^    YYLTYPE location;$/;"	m	struct:MTnode	access:public
-locl	multi_tree.h	45;"	d
+locl	multi_tree.h	47;"	d
 main	main.c	/^int main(int argc,char** argv){$/;"	f	signature:(int argc,char** argv)
 malloc	syntax.tab.c	/^void *malloc (YYSIZE_T); \/* INFRINGES ON USER NAME SPACE *\/$/;"	p	file:
 mtnode	syntax.tab.c	/^struct MTnode* mtnode;$/;"	m	union:YYSTYPE	typeref:struct:YYSTYPE::MTnode	file:	access:public
@@ -747,69 +744,70 @@ mtnode	syntax.tab.h	/^struct MTnode* mtnode;$/;"	m	union:YYSTYPE	typeref:struct:
 name	cmmtypes.h	/^    char* name; \/\/field name$/;"	m	struct:FieldList_	access:public
 next	cmmtypes.h	/^    ArgList* next;$/;"	m	struct:ArgList_	access:public
 next	cmmtypes.h	/^    FieldList* next; \/\/next field$/;"	m	struct:FieldList_	access:public
+next	intercode.h	/^    struct Argl* next;$/;"	m	struct:Argl	typeref:struct:Argl::Argl	access:public
 next	list.h	/^	struct ListHead *prev, *next;$/;"	m	struct:ListHead	typeref:struct:ListHead::	access:public
 next	symtab.h	/^    symbol* next;$/;"	m	struct:symbol_	access:public
 offset	cmmtypes.h	/^    int offset;$/;"	m	struct:FieldList_	access:public
 one	gen_inter_code.c	/^static operand* one;$/;"	v	file:
+op	intercode.h	/^    operand* op;$/;"	m	struct:Argl	access:public
 op	multi_tree.h	/^    operand* op;$/;"	m	struct:MTnode	access:public
 op	symtab.h	/^    operand* op;$/;"	m	struct:symbol_	access:public
 op01_init	gen_inter_code.c	/^void op01_init(){$/;"	f
 op01_init	gen_inter_code.h	/^void op01_init();$/;"	p	signature:()
-op_left	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon9	access:public
+op_left	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon6	access:public
 op_left	intercode.h	/^    struct{ operand* result , *op_left , *op_right; }    icn_arith;$/;"	m	struct:intercode::__anon4	access:public
-op_right	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon9	access:public
+op_right	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon6	access:public
 op_right	intercode.h	/^    struct{ operand* result , *op_left , *op_right; }    icn_arith;$/;"	m	struct:intercode::__anon4	access:public
 operand	intercode.h	/^struct operand{$/;"	s
 operand	intercode.h	/^typedef struct operand operand;$/;"	t	typeref:struct:operand
-operand::OP_FLOAT	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR } kind;$/;"	e	enum:operand::__anon1
-operand::OP_INT	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR } kind;$/;"	e	enum:operand::__anon1
-operand::OP_VAR	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR } kind;$/;"	e	enum:operand::__anon1
-operand::kind	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon1	access:public
+operand::OP_ADDR	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR,OP_REFER } kind;$/;"	e	enum:operand::__anon1
+operand::OP_FLOAT	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR,OP_REFER } kind;$/;"	e	enum:operand::__anon1
+operand::OP_INT	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR,OP_REFER } kind;$/;"	e	enum:operand::__anon1
+operand::OP_REFER	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR,OP_REFER } kind;$/;"	e	enum:operand::__anon1
+operand::OP_VAR	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR,OP_REFER } kind;$/;"	e	enum:operand::__anon1
+operand::kind	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR,OP_REFER } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon1	access:public
 operand::val_float	intercode.h	/^    float val_float;$/;"	m	struct:operand	access:public
 operand::val_int	intercode.h	/^    int val_int;$/;"	m	struct:operand	access:public
 operand::var_str	intercode.h	/^    char* var_str;$/;"	m	struct:operand	access:public
-pp	gen_inter_code.c	172;"	d	file:
-pp	gen_inter_code.c	282;"	d	file:
+pp	gen_inter_code.c	186;"	d	file:
+pp	gen_inter_code.c	298;"	d	file:
 pre_tranverse	multi_tree.c	/^void pre_tranverse(MTnode* root){$/;"	f	signature:(MTnode* root)
 pre_tranverse	multi_tree.h	/^void pre_tranverse(MTnode* root);$/;"	p	signature:(MTnode* root)
 pre_tranverse2	multi_tree.c	/^void pre_tranverse2(MTnode* root,int indent){$/;"	f	signature:(MTnode* root,int indent)
 prev	list.h	/^	struct ListHead *prev, *next;$/;"	m	struct:ListHead	typeref:struct:ListHead::ListHead	access:public
-print_arith	gen_inter_code.c	173;"	d	file:
-print_arith	gen_inter_code.c	280;"	d	file:
+print_arith	gen_inter_code.c	187;"	d	file:
+print_arith	gen_inter_code.c	296;"	d	file:
 print_code	gen_inter_code.c	/^void print_code(){$/;"	f
 print_code	gen_inter_code.h	/^void print_code();$/;"	p	signature:()
 print_field	semantic.c	/^void print_field(FieldList* fl){$/;"	f	signature:(FieldList* fl)
 print_operand	gen_inter_code.c	/^static void print_operand(operand* op){$/;"	f	file:	signature:(operand* op)
-property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon19	access:public
-relop	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon9	access:public
+property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon16	access:public
+relop	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon6	access:public
 result	intercode.h	/^    struct{ operand* result , *op_left , *op_right; }    icn_arith;$/;"	m	struct:intercode::__anon4	access:public
-result	intercode.h	/^    struct{ operand* result ; char* func; }                            icn_call;$/;"	m	struct:intercode::__anon11	access:public
-right	intercode.h	/^    struct{ operand* left , *right; }                           icn_addr;$/;"	m	struct:intercode::__anon6	access:public
-right	intercode.h	/^    struct{ operand* left , *right; }                           icn_refer;$/;"	m	struct:intercode::__anon7	access:public
-right	intercode.h	/^    struct{ operand* left , *right; }                           icn_refer_assign;$/;"	m	struct:intercode::__anon8	access:public
+result	intercode.h	/^    struct{ operand* result ; char* func; }                            icn_call;$/;"	m	struct:intercode::__anon8	access:public
 right	intercode.h	/^    struct{ operand* left , *right; }                   icn_assign;$/;"	m	struct:intercode::__anon3	access:public
 sem	semantic.c	/^void sem(MTnode* root){$/;"	f	signature:(MTnode* root)
 sem	semantic.h	/^void sem(MTnode* root);$/;"	p	signature:(MTnode* root)
-semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon14
-semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon16
+semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon11
+semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon13
 short	syntax.tab.c	187;"	d	file:
-size	cmmtypes.h	/^            int size;$/;"	m	struct:Type_::__anon17::__anon18	access:public
-size	cmmtypes.h	/^        int size;$/;"	m	struct:Type_::__anon15	access:public
+size	cmmtypes.h	/^            int size;$/;"	m	struct:Type_::__anon14::__anon15	access:public
+size	cmmtypes.h	/^        int size;$/;"	m	struct:Type_::__anon12	access:public
 size	cmmtypes.h	/^    int size;$/;"	m	struct:Type_	access:public
-size	intercode.h	/^    struct{ operand* var ; int size;\/*size % 4 = 0*\/}          icn_dec;$/;"	m	struct:intercode::__anon10	access:public
+size	intercode.h	/^    struct{ operand* var ; int size;\/*size % 4 = 0*\/}          icn_dec;$/;"	m	struct:intercode::__anon7	access:public
 size	symtab.c	/^const int size = 0x3fff;$/;"	v
 str	multi_tree.h	/^    char* str;$/;"	m	struct:MTnode	access:public
 struct_tab	symtab.c	/^symbol* struct_tab;$/;"	v
-structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon14
-structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon16
+structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon11
+structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon13
 symbol	symtab.h	/^typedef struct symbol_ symbol;$/;"	t	typeref:struct:symbol_
 symbol_	symtab.h	/^struct symbol_{$/;"	s
-symbol_::__anon19::__anon20::dec_ed	symtab.h	/^            unsigned int dec_ed : 1;$/;"	m	struct:symbol_::__anon19::__anon20	access:public
-symbol_::__anon19::__anon20::def_ed	symtab.h	/^            unsigned int def_ed : 1;$/;"	m	struct:symbol_::__anon19::__anon20	access:public
-symbol_::__anon19::__anon20::init_ed	symtab.h	/^            unsigned int init_ed : 1;$/;"	m	struct:symbol_::__anon19::__anon20	access:public
-symbol_::__anon19::property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon19	access:public
-symbol_::__anon21::val_float	symtab.h	/^        float val_float;$/;"	m	union:symbol_::__anon21	access:public
-symbol_::__anon21::val_int	symtab.h	/^        int val_int;$/;"	m	union:symbol_::__anon21	access:public
+symbol_::__anon16::__anon17::dec_ed	symtab.h	/^            unsigned int dec_ed : 1;$/;"	m	struct:symbol_::__anon16::__anon17	access:public
+symbol_::__anon16::__anon17::def_ed	symtab.h	/^            unsigned int def_ed : 1;$/;"	m	struct:symbol_::__anon16::__anon17	access:public
+symbol_::__anon16::__anon17::init_ed	symtab.h	/^            unsigned int init_ed : 1;$/;"	m	struct:symbol_::__anon16::__anon17	access:public
+symbol_::__anon16::property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon16	access:public
+symbol_::__anon18::val_float	symtab.h	/^        float val_float;$/;"	m	union:symbol_::__anon18	access:public
+symbol_::__anon18::val_int	symtab.h	/^        int val_int;$/;"	m	union:symbol_::__anon18	access:public
 symbol_::addr	symtab.h	/^    void* addr;$/;"	m	struct:symbol_	access:public
 symbol_::argamt	symtab.h	/^    int argamt;\/\/arguement amount$/;"	m	struct:symbol_	access:public
 symbol_::dim	symtab.h	/^    int dim;$/;"	m	struct:symbol_	access:public
@@ -837,14 +835,14 @@ type_float	semantic.h	/^Type* type_float;$/;"	v
 type_int	semantic.h	/^Type* type_int;$/;"	v
 unput	lex.yy.c	214;"	d	file:
 val_float	intercode.h	/^    float val_float;$/;"	m	struct:operand	access:public
-val_float	symtab.h	/^        float val_float;$/;"	m	union:symbol_::__anon21	access:public
+val_float	symtab.h	/^        float val_float;$/;"	m	union:symbol_::__anon18	access:public
 val_int	intercode.h	/^    int val_int;$/;"	m	struct:operand	access:public
-val_int	symtab.h	/^        int val_int;$/;"	m	union:symbol_::__anon21	access:public
+val_int	symtab.h	/^        int val_int;$/;"	m	union:symbol_::__anon18	access:public
 val_type	symtab.h	/^    Type* val_type;\/\/int float user_struct$/;"	m	struct:symbol_	access:public
-valf	multi_tree.h	/^        double valf;$/;"	m	union:MTnode::__anon12	access:public
+valf	multi_tree.h	/^        double valf;$/;"	m	union:MTnode::__anon9	access:public
 valid	symtab.h	/^    int valid;$/;"	m	struct:symbol_	access:public
-valt	multi_tree.h	/^        int valt;$/;"	m	union:MTnode::__anon12	access:public
-var	intercode.h	/^    struct{ operand* var ; int size;\/*size % 4 = 0*\/}          icn_dec;$/;"	m	struct:intercode::__anon10	access:public
+valt	multi_tree.h	/^        int valt;$/;"	m	union:MTnode::__anon9	access:public
+var	intercode.h	/^    struct{ operand* var ; int size;\/*size % 4 = 0*\/}          icn_dec;$/;"	m	struct:intercode::__anon7	access:public
 var	intercode.h	/^    struct{ operand* var; }                           icn_single_var;$/;"	m	struct:intercode::__anon5	access:public
 var_str	intercode.h	/^    char* var_str;$/;"	m	struct:operand	access:public
 var_tab	symtab.c	/^symbol* var_tab;$/;"	v

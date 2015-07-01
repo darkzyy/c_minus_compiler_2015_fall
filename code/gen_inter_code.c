@@ -105,6 +105,14 @@ static void gen_if(operand* op1,operand* op2,char* relop,char* label){
     list_add_before(&code_head,&(ic->list));
 }
 
+static void gen_call(operand* op,char* func){
+    intercode* ic = malloc(sizeof(intercode));
+    ic->kind = ICN_CALL;
+    ic->icn_call.result = op;
+    ic->icn_call.func = func;
+    list_add_before(&code_head,&(ic->list));
+}
+
 static void translate_cond(MTnode* root,char* label_true,char* label_false){
     Log2("--translate condition");
     switch(root->type)
@@ -163,8 +171,14 @@ static void print_operand(operand* op){
     else if(op->kind == OP_FLOAT){
         printf("#%f",op->val_float);
     }
-    else{
+    else if(op->kind == OP_VAR){
         printf("%s",op->var_str);
+    }
+    else if(op->kind == OP_ADDR){
+        printf("&%s",op->var_str);
+    }
+    else{
+        printf("*%s",op->var_str);
     }
 }
 
@@ -208,6 +222,7 @@ void print_code(){
         else if(code_type == ICN_FUNC){
             printf("FUNC %s :\n",pp->icn_label.label);
         }
+        /*
         else if(code_type == ICN_ADDR){
             print_operand(pp->icn_addr.left);
             printf(" := ");
@@ -227,6 +242,7 @@ void print_code(){
             print_operand(pp->icn_refer_assign.right);
             printf("\n");
         }
+        */
         else if(code_type == ICN_GOTO){
             printf("GOTO %s\n",pp->icn_label.label);
         }
@@ -491,17 +507,19 @@ static void Func_Dec2(MTnode* root){
 }
 static void Func_Exp1(MTnode* root){
     Log2("Func_Exp1 : ASSIGN");
+    ch(2)->is_left_val = 0;
     ch(2)->op = malloc(sizeof(operand));
     gen(ch(2));
 
     //gen code2.1
-    char* id = get_var_id(root)->str;
-    symbol* s = find_sym(&var_tab,id);
-    gen_assign(s->op,ch(2)->op,0,NULL);
-    //gen code2.2
+    ch(0)->is_left_val = 1;
+    ch(0)->op = malloc(sizeof(operand));
+    gen(ch(0));
+    gen_assign(ch(0)->op,ch(2)->op,0,NULL);
 
+    //gen code2.2
     if(root->op != NULL){
-        gen_assign(root->op,s->op,0,NULL);
+        gen_assign(root->op,ch(0)->op,0,NULL);
     }
 }
 static void Func_Exp2(MTnode* root){
@@ -573,23 +591,58 @@ static void Func_Exp12(MTnode* root){
     Log2("Func_Exp12");
 }
 static void Func_Exp13(MTnode* root){
-    Log2("Func_Exp13");
+    Log2("Func_Exp13 : ID()");
+    root->op->kind = OP_VAR;
+    root->op->var_str = get_var_no();
+    if(strcmp(ch(0)->str,"read")==0){
+        gen_single_var(root->op,READ);
+    }
+    else{
+        gen_call(root->op,ch(0)->str);
+    }
+}
+static void gen_args(Argl* al){
+    if(al==NULL){
+        return;
+    }
+    gen_args(al->next);
+    gen_single_var(al->op,ARG);
 }
 static void Func_Exp14(MTnode* root){
-    Log2("Func_Exp14");
+    Log2("Func_Exp14 : ID( Args )");
+    root->op->kind = OP_VAR;
+    root->op->var_str = get_var_no();
+    ch(2)->al = malloc(sizeof(Argl));
+    ch(2)->al->next = NULL;
+    gen(ch(2));
+    if(strcmp(ch(0)->str,"write")==0){
+        gen_single_var(ch(2)->al->op,WRITE);
+    }
+    else{
+        gen_args(ch(2)->al);
+        gen_call(root->op,ch(0)->str);
+    }
 }
 static void Func_Exp15(MTnode* root){
     Log2("Func_Exp15");
 }
 static void Func_Exp16(MTnode* root){
     Log2("Func_Exp16");
-    root->op->kind = OP_VAR;
-    root->op->var_str = get_var_no();
-    char* id = get_var_id(root)->str;
-    symbol* s = find_sym(&var_tab,id);
-    assert(s);
-    gen_assign(root->op,s->op,0,NULL);
-    Log2("current ID: %s",id);
+    if(!root->is_left_val){
+        root->op->kind = OP_VAR;
+        root->op->var_str = get_var_no();
+        char* id = get_var_id(root)->str;
+        symbol* s = find_sym(&var_tab,id);
+        assert(s);
+        gen_assign(root->op,s->op,0,NULL);
+    }
+    else{
+        root->op->kind = OP_VAR;
+        char* id = get_var_id(root)->str;
+        symbol* s = find_sym(&var_tab,id);
+        assert(s);
+        root->op = s->op;
+    }
 }
 static void Func_Exp17(MTnode* root){
     Log2("Func_Exp17");
@@ -608,10 +661,18 @@ static void Func_Exp18(MTnode* root){
     Log2("added float: %f",val);
 }
 static void Func_Args1(MTnode* root){
-    Log2("Func_Args1");
+    Log2("Func_Args1 : Exp , Args");
+    ch(0)->op = malloc(sizeof(operand));
+    gen(ch(0));
+    root->al->op = ch(0)->op;
+    root->al->next = malloc(sizeof(Argl));
+    root->al->next->next = NULL;
 }
 static void Func_Args2(MTnode* root){
-    Log2("Func_Args2");
+    Log2("Func_Args2 : Exp");
+    ch(0)->op = malloc(sizeof(operand));
+    gen(ch(0));
+    root->al->op = ch(0)->op;
 }
 static void Func_EMPTY(MTnode* root){
     Log2("Func_EMPTY");

@@ -28,13 +28,18 @@ enum intercodeno{
 };
 
 struct operand{
-    enum{ OP_INT,OP_FLOAT,OP_VAR } kind;
+    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR,OP_REFER } kind;
     char* var_str;
     int val_int;
     float val_float;
 };
-
 typedef struct operand operand;
+
+struct Argl{
+    operand* op;
+    struct Argl* next;
+};
+typedef struct Argl Argl;
 
 struct intercode{
     int kind;
@@ -46,15 +51,12 @@ struct intercode{
 
     struct{ operand* var; }                           icn_single_var;
 
-    struct{ operand* left , *right; }                           icn_addr;
-    struct{ operand* left , *right; }                           icn_refer;
-    struct{ operand* left , *right; }                           icn_refer_assign;
     struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;
     struct{ operand* var ; int size;/*size % 4 = 0*/}          icn_dec;
     struct{ operand* result ; char* func; }                            icn_call;
     ListHead list;
 };
-
 typedef struct intercode intercode ;
+
 
 #endif

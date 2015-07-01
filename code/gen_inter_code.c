@@ -5,7 +5,6 @@
 #include"cmmtypes.h"
 #include"debug.h"
 #include"gen_code_tools.h"
-#include"code_print.h"
 #include"assert.h"
 
 extern Type* type_int;
@@ -303,12 +302,10 @@ static void Func_Exp4(MTnode* root){
 
 #define handle_op(x,oplr) {\
     if(ch(x)->type == Exp17){\
-        int tmp = get_int_val(ch(x));\
-        oplr = make_op(OP_INT,(void*)&tmp);\
+        oplr = make_op(OP_INT,(void*)(get_int_addr(ch(x))));\
     }\
     else if(ch(x)->type == Exp18){\
-        float tmp = get_float_val(ch(x));\
-        oplr = make_op(OP_FLOAT,(void*)&tmp);\
+        oplr = make_op(OP_FLOAT,(void*)(get_float_addr(ch(x))));\
     }\
     else{\
         ch(x)->op = malloc(sizeof(operand));\

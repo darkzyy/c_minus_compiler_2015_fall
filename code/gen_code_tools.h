@@ -13,7 +13,6 @@ void op01_init(){
     one->kind = OP_INT;
     one->val_int = 1;
 }
-
 static int* get_int_addr(MTnode* root){
     assert(root);
     if(root->type==INT){
@@ -231,5 +230,26 @@ static operand* make_op(int kind,void* val){
     }
     return op;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif

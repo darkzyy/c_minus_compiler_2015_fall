@@ -40,6 +40,7 @@ extern symbol* field_tab;
 void hash_init();
 void add_sym_node(symbol** ht,symbol* new_node);
 symbol* find_sym(symbol** ht,char* id_name);
+void init_rw();
 //symbol* del_sym(symbol** ht,char* id_name);
 //void print_symtab(symbol* ht);
 

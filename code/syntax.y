@@ -82,6 +82,7 @@ Program : ExtDefList {
             hash_init();
             init_basic_type();
             init_sem();
+            init_rw();
             sem($$);
             check_func();
             op01_init();

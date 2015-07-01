@@ -5,9 +5,6 @@
 #include"intercode.h"
 #include"multi_tree.h"
 
-//#define __USE_UNION__
-
-
 void op01_init(){
     zero = malloc(sizeof(operand));
     zero->kind = OP_INT;
@@ -191,6 +188,26 @@ static void translate_cond(MTnode* root,char* label_true,char* label_false){
     gen_label(label1,LABEL);\
     gen_assign(root->op,one,0,NULL);\
     gen_label(label2,LABEL);\
+}
+
+static operand* make_op(int kind,void* val){
+    operand* op = malloc(sizeof(operand));
+    op->kind = kind;
+    if(kind == OP_INT){
+        op->val_int = *((int*)val);
+    }
+    else if(kind == OP_FLOAT){
+        op->val_float = *((float*)val);
+    }
+    else if(kind == OP_VAR){
+        if(val==NULL){
+            op->var_str = get_var_no();
+        }
+        else{
+            op->var_str = (char*)val;
+        }
+    }
+    return op;
 }
 
 #endif

@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include"symtab.h"
+#include"semantic.h"
 
 symbol* func_tab;
 symbol* struct_tab;
@@ -87,4 +88,21 @@ void check_func(){
             printf("Error type 18 at Line %d: Undefined function \"%s\".\n",s->line,s->id_name);
         }
     }
+}
+
+void init_rw(){
+    symbol* r = malloc(sizeof(symbol));
+    r->id_name = "read";
+    r->argamt = 0;
+    r->val_type = type_int;
+    add_sym_node(&func_tab,r);
+    ArgList* wal = malloc(sizeof(ArgList));
+    wal->type = type_int;
+    wal->next = NULL;
+    symbol* w = malloc(sizeof(symbol));
+    w->id_name = "write";
+    w->argamt = 1;
+    w->val_type = type_int;
+    w->func_arg = wal;
+    add_sym_node(&func_tab,w);
 }

@@ -1,0 +1,8 @@
+FUNCTION main :
+READ v0002
+v0000 := v0002 
+v0001 := v0000 
+v0005 := v0000 
+WRITE v0005
+v0006 := #0 
+RETURN v0006

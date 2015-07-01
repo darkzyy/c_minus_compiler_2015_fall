@@ -51,7 +51,7 @@ static void print_code(){
             printf("LABEL %s :\n",pp->icn_label.label);
         }
         else if(code_type == ICN_FUNC){
-            printf("FUNC %s :\n",pp->icn_label.label);
+            printf("FUNCTION %s :\n",pp->icn_label.label);
         }
         else if(code_type == ICN_ADDR){
             print_operand(pp->icn_addr.left);
@@ -61,9 +61,9 @@ static void print_code(){
         }
         else if(code_type == ICN_REFER){
             print_operand(pp->icn_refer.left);
-            printf(" := ");
+            printf(" := *");
             print_operand(pp->icn_refer.right);
-            printf("*\n");
+            printf("\n");
         }
         else if(code_type == ICN_REFER_ASSIGN){
             printf("*");

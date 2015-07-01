@@ -23,7 +23,7 @@ BEGIN	lex.yy.c	126;"	d	file:
 BISON	Makefile	/^BISON = bison$/;"	m
 CC	Makefile	/^CC = gcc$/;"	m
 CFILES	Makefile	/^CFILES = $(shell find .\/ -name "*.c")$/;"	m
-CFLAGS	Makefile	/^CFLAGS = -std=gnu99 -Wall -Wno-unused-function$/;"	m
+CFLAGS	Makefile	/^CFLAGS = -std=c99 -Wall$/;"	m
 COMMA	syntax.tab.c	/^    COMMA = 262,$/;"	e	enum:yytokentype	file:
 COMMA	syntax.tab.h	/^    COMMA = 262,$/;"	e	enum:yytokentype
 COMMENTS	lex.yy.c	632;"	d	file:
@@ -555,9 +555,10 @@ YY_YY_SYNTAX_TAB_H_INCLUDED	syntax.tab.h	34;"	d
 _Noreturn	syntax.tab.c	262;"	d	file:
 _Noreturn	syntax.tab.c	264;"	d	file:
 __CMMTYPES_H__	cmmtypes.h	2;"	d
+__CODE_PRINT_H__	code_print.h	2;"	d
 __DEBUG_H__	debug.h	2;"	d
-__GEN_INTER_CODE_H__	gen_inter_code.h	2;"	d
-__INTERCODE_ENUM_H__	intercode.h	2;"	d
+__GEN_CODE_TOOLS_H__	gen_code_tools.h	2;"	d
+__INTERCODE_H__	intercode.h	2;"	d
 __LIST_H__	list.h	2;"	d
 __MULTI_TREE_H__	multi_tree.h	2;"	d
 __MY_YYERROR__	syntax.tab.c	2415;"	d	file:
@@ -576,8 +577,8 @@ alloca	syntax.tab.c	309;"	d	file:
 arg_cmp	semantic.c	/^int arg_cmp(ArgList* alx,ArgList* aly){$/;"	f	signature:(ArgList* alx,ArgList* aly)
 argamt	symtab.h	/^    int argamt;\/\/arguement amount$/;"	m	struct:symbol_	access:public
 argamt_count	semantic.c	/^int argamt_count(ArgList* al){$/;"	f	signature:(ArgList* al)
-arith	gen_inter_code.c	585;"	d	file:
-arith	gen_inter_code.c	612;"	d	file:
+arith	gen_inter_code.c	285;"	d	file:
+arith	gen_inter_code.c	312;"	d	file:
 array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon14
 array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon16
 array	cmmtypes.h	/^        }array;$/;"	m	union:Type_::__anon17	typeref:struct:Type_::__anon17::__anon18	access:public
@@ -586,22 +587,21 @@ basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon14
 basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon16
 basic	cmmtypes.h	/^        int basic;$/;"	m	union:Type_::__anon17	access:public
 basic	cmmtypes.h	/^    int basic;$/;"	m	struct:Type_	access:public
-bool_translate	gen_inter_code.c	193;"	d	file:
-bool_translate	gen_inter_code.c	839;"	d	file:
+bool_translate	gen_code_tools.h	181;"	d
 ch	multi_tree.h	44;"	d
 check_func	symtab.c	/^void check_func(){$/;"	f
 children_amount	multi_tree.h	/^    int children_amount;$/;"	m	struct:MTnode	access:public
 children_list	multi_tree.h	/^    struct MTnode** children_list;$/;"	m	struct:MTnode	typeref:struct:MTnode::MTnode	access:public
 chit	multi_tree.h	46;"	d
 chst	multi_tree.h	45;"	d
-code_head	gen_inter_code.c	/^static ListHead code_head;$/;"	v	file:
-code_type	gen_inter_code.c	218;"	d	file:
-code_type	gen_inter_code.c	328;"	d	file:
+code_head	intercode.h	/^ListHead code_head;$/;"	v
+code_type	code_print.h	126;"	d
+code_type	code_print.h	16;"	d
 create_node	multi_tree.c	/^MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type){$/;"	f	signature:(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type)
 create_node	multi_tree.h	/^MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type);$/;"	p	signature:(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type)
-current_label_no	gen_inter_code.c	/^static int current_label_no = 0;$/;"	v	file:
+current_label_no	intercode.h	/^int current_label_no;$/;"	v
 current_line_err	syntax.tab.c	/^int current_line_err = 0;$/;"	v
-current_var_no	gen_inter_code.c	/^static int current_var_no = 0;$/;"	v	file:
+current_var_no	intercode.h	/^int current_var_no;$/;"	v
 dec_ed	symtab.h	/^            unsigned int dec_ed : 1;$/;"	m	struct:symbol_::__anon19::__anon20	access:public
 def_ed	symtab.h	/^            unsigned int def_ed : 1;$/;"	m	struct:symbol_::__anon19::__anon20	access:public
 dim	symtab.h	/^    int dim;$/;"	m	struct:symbol_	access:public
@@ -643,26 +643,26 @@ func_def	semantic.c	/^int func_def;$/;"	v
 func_tab	symtab.c	/^symbol* func_tab;$/;"	v
 func_table	gen_inter_code.c	/^static ft func_table[60] = {$/;"	v	file:
 func_table	semantic.c	/^static ft func_table[60] = {$/;"	v	file:
+gen	gen_code_tools.h	/^extern void gen(MTnode* root);$/;"	p	signature:(MTnode* root)
 gen	gen_inter_code.c	/^extern void gen(MTnode* root);$/;"	p	file:	signature:(MTnode* root)
 gen	gen_inter_code.c	/^void gen(MTnode* root){$/;"	f	signature:(MTnode* root)
-gen	gen_inter_code.h	/^void gen(MTnode* root);$/;"	p	signature:(MTnode* root)
-gen_addr	gen_inter_code.c	/^static void gen_addr(operand* left,operand* right){$/;"	f	file:	signature:(operand* left,operand* right)
+gen_addr	gen_code_tools.h	/^static void gen_addr(operand* left,operand* right){$/;"	f	signature:(operand* left,operand* right)
 gen_args	gen_inter_code.c	/^static void gen_args(Argl* al){$/;"	f	file:	signature:(Argl* al)
-gen_assign	gen_inter_code.c	/^static void gen_assign(operand* left,operand* right,int right_kind,void* right_val){$/;"	f	file:	signature:(operand* left,operand* right,int right_kind,void* right_val)
-gen_call	gen_inter_code.c	/^static void gen_call(operand* op,char* func){$/;"	f	file:	signature:(operand* op,char* func)
-gen_if	gen_inter_code.c	/^static void gen_if(operand* op1,operand* op2,char* relop,char* label){$/;"	f	file:	signature:(operand* op1,operand* op2,char* relop,char* label)
-gen_label	gen_inter_code.c	123;"	d	file:
-gen_refer	gen_inter_code.c	/^static void gen_refer(operand* left,operand* right){$/;"	f	file:	signature:(operand* left,operand* right)
-gen_refer_assign	gen_inter_code.c	/^static void gen_refer_assign(operand* left,operand* right){$/;"	f	file:	signature:(operand* left,operand* right)
-gen_single_var	gen_inter_code.c	130;"	d	file:
+gen_assign	gen_code_tools.h	/^static void gen_assign(operand* left,operand* right,int right_kind,void* right_val){$/;"	f	signature:(operand* left,operand* right,int right_kind,void* right_val)
+gen_call	gen_code_tools.h	/^static void gen_call(operand* op,char* func){$/;"	f	signature:(operand* op,char* func)
+gen_if	gen_code_tools.h	/^static void gen_if(operand* op1,operand* op2,char* relop,char* label){$/;"	f	signature:(operand* op1,operand* op2,char* relop,char* label)
+gen_label	gen_code_tools.h	109;"	d
+gen_refer	gen_code_tools.h	/^static void gen_refer(operand* left,operand* right){$/;"	f	signature:(operand* left,operand* right)
+gen_refer_assign	gen_code_tools.h	/^static void gen_refer_assign(operand* left,operand* right){$/;"	f	signature:(operand* left,operand* right)
+gen_single_var	gen_code_tools.h	116;"	d
 get_field_offset	cmmtypes.c	/^int get_field_offset(FieldList* fl,char* id){$/;"	f	signature:(FieldList* fl,char* id)
 get_field_offset	cmmtypes.h	/^int get_field_offset(FieldList* fl,char* id);$/;"	p	signature:(FieldList* fl,char* id)
-get_float_val	gen_inter_code.c	/^static inline float get_float_val(MTnode* root){$/;"	f	file:	signature:(MTnode* root)
-get_int_val	gen_inter_code.c	/^static inline int get_int_val(MTnode* root){$/;"	f	file:	signature:(MTnode* root)
-get_new_label	gen_inter_code.c	/^static inline char* get_new_label(){$/;"	f	file:
+get_float_val	gen_code_tools.h	/^static inline float get_float_val(MTnode* root){$/;"	f	signature:(MTnode* root)
+get_int_val	gen_code_tools.h	/^static inline int get_int_val(MTnode* root){$/;"	f	signature:(MTnode* root)
+get_new_label	gen_code_tools.h	/^static inline char* get_new_label(){$/;"	f	signature:()
 get_var_id	multi_tree.c	/^MTnode* get_var_id(MTnode* dec){$/;"	f	signature:(MTnode* dec)
 get_var_id	multi_tree.h	/^MTnode* get_var_id(MTnode* dec);$/;"	p	signature:(MTnode* dec)
-get_var_no	gen_inter_code.c	/^static inline char* get_var_no(){$/;"	f	file:
+get_var_no	gen_code_tools.h	/^static inline char* get_var_no(){$/;"	f	signature:()
 global	semantic.c	/^int global;$/;"	v
 hash_init	symtab.c	/^void hash_init(){$/;"	f
 hash_init	symtab.h	/^void hash_init();$/;"	p	signature:()
@@ -758,6 +758,7 @@ list_init	list.h	/^list_init(ListHead *list) {$/;"	f	signature:(ListHead *list)
 location	multi_tree.h	/^    YYLTYPE location;$/;"	m	struct:MTnode	access:public
 locl	multi_tree.h	47;"	d
 main	main.c	/^int main(int argc,char** argv){$/;"	f	signature:(int argc,char** argv)
+make_op	gen_code_tools.h	/^static operand* make_op(int kind,void* val){$/;"	f	signature:(int kind,void* val)
 malloc	syntax.tab.c	/^void *malloc (YYSIZE_T); \/* INFRINGES ON USER NAME SPACE *\/$/;"	p	file:
 mtnode	syntax.tab.c	/^struct MTnode* mtnode;$/;"	m	union:YYSTYPE	typeref:struct:YYSTYPE::MTnode	file:	access:public
 mtnode	syntax.tab.h	/^struct MTnode* mtnode;$/;"	m	union:YYSTYPE	typeref:struct:YYSTYPE::MTnode	access:public
@@ -769,12 +770,11 @@ next	list.h	/^	struct ListHead *prev, *next;$/;"	m	struct:ListHead	typeref:struc
 next	symtab.h	/^    symbol* next;$/;"	m	struct:symbol_	access:public
 offset	cmmtypes.h	/^    int offset;$/;"	m	struct:FieldList_	access:public
 offset	multi_tree.h	/^    int offset;$/;"	m	struct:MTnode	access:public
-one	gen_inter_code.c	/^static operand* one;$/;"	v	file:
+one	intercode.h	/^operand* one;$/;"	v
 op	intercode.h	/^    operand* op;$/;"	m	struct:Argl	access:public
 op	multi_tree.h	/^    operand* op;$/;"	m	struct:MTnode	access:public
 op	symtab.h	/^    operand* op;$/;"	m	struct:symbol_	access:public
-op01_init	gen_inter_code.c	/^void op01_init(){$/;"	f
-op01_init	gen_inter_code.h	/^void op01_init();$/;"	p	signature:()
+op01_init	gen_code_tools.h	/^void op01_init(){$/;"	f	signature:()
 op_left	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon9	access:public
 op_left	intercode.h	/^    struct{ operand* result , *op_left , *op_right; }    icn_arith;$/;"	m	struct:intercode::__anon7	access:public
 op_right	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon9	access:public
@@ -789,18 +789,17 @@ operand::kind	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"
 operand::val_float	intercode.h	/^    float val_float;$/;"	m	struct:operand	access:public
 operand::val_int	intercode.h	/^    int val_int;$/;"	m	struct:operand	access:public
 operand::var_str	intercode.h	/^    char* var_str;$/;"	m	struct:operand	access:public
-pp	gen_inter_code.c	219;"	d	file:
-pp	gen_inter_code.c	329;"	d	file:
+pp	code_print.h	127;"	d
+pp	code_print.h	17;"	d
 pre_tranverse	multi_tree.c	/^void pre_tranverse(MTnode* root){$/;"	f	signature:(MTnode* root)
 pre_tranverse	multi_tree.h	/^void pre_tranverse(MTnode* root);$/;"	p	signature:(MTnode* root)
 pre_tranverse2	multi_tree.c	/^void pre_tranverse2(MTnode* root,int indent){$/;"	f	signature:(MTnode* root,int indent)
 prev	list.h	/^	struct ListHead *prev, *next;$/;"	m	struct:ListHead	typeref:struct:ListHead::ListHead	access:public
-print_arith	gen_inter_code.c	220;"	d	file:
-print_arith	gen_inter_code.c	327;"	d	file:
-print_code	gen_inter_code.c	/^void print_code(){$/;"	f
-print_code	gen_inter_code.h	/^void print_code();$/;"	p	signature:()
+print_arith	code_print.h	125;"	d
+print_arith	code_print.h	18;"	d
+print_code	code_print.h	/^static void print_code(){$/;"	f	signature:()
 print_field	semantic.c	/^void print_field(FieldList* fl){$/;"	f	signature:(FieldList* fl)
-print_operand	gen_inter_code.c	/^static void print_operand(operand* op){$/;"	f	file:	signature:(operand* op)
+print_operand	code_print.h	/^static void print_operand(operand* op){$/;"	f	signature:(operand* op)
 property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon19	access:public
 relop	intercode.h	/^    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;$/;"	m	struct:intercode::__anon9	access:public
 result	intercode.h	/^    struct{ operand* result , *op_left , *op_right; }    icn_arith;$/;"	m	struct:intercode::__anon7	access:public
@@ -846,7 +845,7 @@ syn_fl	multi_tree.h	/^    FieldList* syn_fl;$/;"	m	struct:MTnode	access:public
 syn_offset	multi_tree.h	/^    int syn_offset;$/;"	m	struct:MTnode	access:public
 syn_type	multi_tree.h	/^    Type* syn_type;$/;"	m	struct:MTnode	access:public
 tail	cmmtypes.h	/^    FieldList* tail; \/\/$/;"	m	struct:FieldList_	access:public
-translate_cond	gen_inter_code.c	/^static void translate_cond(MTnode* root,char* label_true,char* label_false){$/;"	f	file:	signature:(MTnode* root,char* label_true,char* label_false)
+translate_cond	gen_code_tools.h	/^static void translate_cond(MTnode* root,char* label_true,char* label_false){$/;"	f	signature:(MTnode* root,char* label_true,char* label_false)
 true_label	multi_tree.h	/^    char* true_label;$/;"	m	struct:MTnode	access:public
 type	cmmtypes.h	/^    Type* type; \/\/field type$/;"	m	struct:FieldList_	access:public
 type	cmmtypes.h	/^    Type* type;$/;"	m	struct:ArgList_	access:public
@@ -1073,4 +1072,4 @@ yyunput	lex.yy.c	/^    static void yyunput (int c,char *buf_ptr  );$/;"	p	file:	
 yyvs_alloc	syntax.tab.c	/^  YYSTYPE yyvs_alloc;$/;"	m	union:yyalloc	file:	access:public
 yywrap	lex.yy.c	/^extern "C" int yywrap (void );$/;"	p	file:	signature:(void )
 yywrap	lex.yy.c	/^extern int yywrap (void );$/;"	p	file:	signature:(void )
-zero	gen_inter_code.c	/^static operand* zero;$/;"	v	file:
+zero	intercode.h	/^operand* zero;$/;"	v

@@ -99,6 +99,7 @@ static void Func_VarDec1(MTnode* root){
             ic->kind = ICN_DEC;
             ic->icn_dec.var = s->op;
             ic->icn_dec.size = root->syn_type->size;
+            list_add_before(&code_head,&(ic->list));
         }
     }
     else if(inside_paradec){
@@ -118,6 +119,7 @@ static void Func_VarDec2(MTnode* root){
         ic->kind = ICN_DEC;
         ic->icn_dec.var = s->op;
         ic->icn_dec.size = root->syn_type->size;       
+        list_add_before(&code_head,&(ic->list));
     }
     else if(inside_paradec){
         assert(0); //array as Parameter
@@ -162,7 +164,7 @@ static void Func_StmtList2(MTnode* root){
 }
 static void Func_Stmt1(MTnode* root){
     Log2("Func_Stmt1");
-    ch(0)->op = NULL;
+    ch(0)->op = make_op(OP_VAR,NULL);
     gen(ch(0));
 }
 static void Func_Stmt2(MTnode* root){
@@ -345,6 +347,7 @@ static void Func_Exp12(MTnode* root){
     Log2("Func_Exp12 : ID( Args )");
     root->op->kind = OP_VAR;
     root->op->var_str = get_var_no();
+    Log2();
     ch(2)->al = malloc(sizeof(Argl));
     ch(2)->al->next = NULL;
     gen(ch(2));
@@ -379,8 +382,12 @@ static void Func_Exp15(MTnode* root){ //!!!!!!!!!!!!!!!!!!1
     Log2("Func_Exp15 : Exp1 . Exp2");
     /*Exp1 is always ID || Exp14 || Exp15*/
     //get Exp1 addr
+    is_left_val += 1;
     ch(0)->op = malloc(sizeof(operand));
     gen(ch(0));
+    if(is_left_val>0){
+        is_left_val -= 1;
+    }
     operand* ch0_addr;
     if(ch(0)->op->kind == OP_VAR){
         ch0_addr = malloc(sizeof(operand));
@@ -406,6 +413,11 @@ static void Func_Exp15(MTnode* root){ //!!!!!!!!!!!!!!!!!!1
     ic->icn_arith.op_right = ch0_addr;
     list_add_before(&code_head,&(ic->list));
     Log2("------intercode addr : %p",ic);
+    if(!is_left_val){
+        operand* val = make_op(OP_VAR,NULL);
+        gen_refer(val,root->op);
+        root->op = val;
+    }
 }
 static void Func_Exp16(MTnode* root){
     Log2("Func_Exp16");
@@ -536,4 +548,3 @@ void gen(MTnode* root){
     }
 }
 
-#undef bool_translate

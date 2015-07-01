@@ -1,8 +1,8 @@
 #ifndef __SYMTAB_H__
 #define __SYMTAB_H__
 
+#include"uthash.h"
 #include"cmmtypes.h"
-#include"intercode.h"
 
 typedef struct symbol_ symbol;
 
@@ -26,9 +26,7 @@ struct symbol_{
         float val_float;
     };
     void* addr;
-    symbol* next;
-    int valid;
-    operand* op;
+    UT_hash_handle hh;
 };
 
 extern symbol* func_tab;
@@ -36,13 +34,11 @@ extern symbol* struct_tab;
 extern symbol* var_tab;
 extern symbol* field_tab;
 
-//void add_sym_name(symbol** ht,char* id_name);
-void hash_init();
+void add_sym_name(symbol** ht,char* id_name);
 void add_sym_node(symbol** ht,symbol* new_node);
 symbol* find_sym(symbol** ht,char* id_name);
-void init_rw();
-//symbol* del_sym(symbol** ht,char* id_name);
-//void print_symtab(symbol* ht);
+symbol* del_sym(symbol** ht,char* id_name);
+void print_symtab(symbol* ht);
 
 
 #endif

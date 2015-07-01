@@ -28,7 +28,7 @@ enum intercodeno{
 };
 
 struct operand{
-    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR,OP_REFER } kind;
+    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR } kind;
     char* var_str;
     int val_int;
     float val_float;
@@ -46,6 +46,9 @@ struct intercode{
     struct{ char* label; }                                  icn_label;
 
     struct{ operand* left , *right; }                   icn_assign;
+    struct{ operand* left , *right; }                   icn_addr;
+    struct{ operand* left , *right; }                   icn_refer;
+    struct{ operand* left , *right; }                   icn_refer_assign;
 
     struct{ operand* result , *op_left , *op_right; }    icn_arith;
 

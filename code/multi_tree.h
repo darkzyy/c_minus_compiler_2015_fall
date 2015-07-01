@@ -29,7 +29,7 @@ typedef struct MTnode{
     char* true_label;
     char* false_label;
     Argl* al;
-    int is_left_val;
+    int offset;
 }MTnode;
 
 MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type);

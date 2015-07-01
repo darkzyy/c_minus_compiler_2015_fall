@@ -22,6 +22,18 @@ void init_basic_type(){
     type_error->kind = semantic_error;
 }
 
+int get_field_offset(FieldList* fl,char* id){
+    if(fl==NULL){
+        return -1;
+    }
+    if(strcmp(id,fl->name)==0){
+        return fl->offset;
+    }
+    else{
+        return get_field_offset(fl->next,id);
+    }
+}
+
 int type_cmp(Type* tx,Type* ty){
     if(tx==NULL||ty==NULL){
         if(tx==NULL&&ty==NULL){

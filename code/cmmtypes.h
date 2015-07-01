@@ -58,5 +58,6 @@ struct ArgList_{
 
 void init_basic_type();
 int type_cmp(Type* tx,Type* ty);
+int get_field_offset(FieldList* fl,char* id);
 
 #endif

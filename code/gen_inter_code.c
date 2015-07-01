@@ -55,8 +55,8 @@ static inline char* get_new_label(){
     return label;
 }
 
-
 static void gen_assign(operand* left,operand* right,int right_kind,void* right_val){
+    /*if left and right are given , this func will not change its content*/
     if(left==NULL){
         left = malloc(sizeof(operand));
         left->kind = OP_VAR;
@@ -81,6 +81,47 @@ static void gen_assign(operand* left,operand* right,int right_kind,void* right_v
     ic->icn_assign.left = left;
     ic->icn_assign.right = right;
     list_add_before(&code_head,&(ic->list));
+    Log2("------intercode addr : %p",ic);
+}
+
+static void gen_addr(operand* left,operand* right){
+    /*if left is given , this func will not change its content*/
+    /*if right is OP_VAR , this func will generate a new operand for its ADDR*/
+    if(left==NULL){
+        left = malloc(sizeof(operand));
+        left->kind = OP_VAR;
+        left->var_str = get_var_no();
+    }
+    if(right->kind == OP_VAR){
+        operand* new_right = malloc(sizeof(operand));
+        new_right->kind = OP_ADDR;
+        new_right->var_str = right->var_str;
+        right = new_right;
+    }
+    intercode* ic = malloc(sizeof(intercode));
+    ic->kind = ICN_ADDR;
+    ic->icn_addr.left = left;
+    ic->icn_addr.right = right;
+    list_add_before(&code_head,&(ic->list));
+    Log2("------intercode addr : %p",ic);
+}
+static void gen_refer(operand* left,operand* right){
+    /*left and right are all expected to be given*/
+    intercode* ic = malloc(sizeof(intercode));
+    ic->kind = ICN_REFER;
+    ic->icn_refer.left = left;
+    ic->icn_refer.right = right;
+    list_add_before(&code_head,&(ic->list));
+    Log2("------intercode addr : %p",ic);
+}
+static void gen_refer_assign(operand* left,operand* right){
+    /*left and right are all expected to be given*/
+    intercode* ic = malloc(sizeof(intercode));
+    ic->kind = ICN_REFER_ASSIGN;
+    ic->icn_refer_assign.left = left;
+    ic->icn_refer_assign.right = right;
+    list_add_before(&code_head,&(ic->list));
+    Log2("------intercode addr : %p",ic);
 }
 
 #define gen_label(s,suffix) {\
@@ -173,14 +214,8 @@ static void print_operand(operand* op){
     else if(op->kind == OP_FLOAT){
         printf("#%f",op->val_float);
     }
-    else if(op->kind == OP_VAR){
-        printf("%s",op->var_str);
-    }
-    else if(op->kind == OP_ADDR){
-        printf("&%s",op->var_str);
-    }
     else{
-        printf("*%s",op->var_str);
+        printf("%s",op->var_str);
     }
 }
 
@@ -224,12 +259,11 @@ void print_code(){
         else if(code_type == ICN_FUNC){
             printf("FUNC %s :\n",pp->icn_label.label);
         }
-        /*
         else if(code_type == ICN_ADDR){
             print_operand(pp->icn_addr.left);
-            printf(" := ");
+            printf(" := &");
             print_operand(pp->icn_addr.right);
-            printf("&\n");
+            printf("\n");
         }
         else if(code_type == ICN_REFER){
             print_operand(pp->icn_refer.left);
@@ -244,7 +278,6 @@ void print_code(){
             print_operand(pp->icn_refer_assign.right);
             printf("\n");
         }
-        */
         else if(code_type == ICN_GOTO){
             printf("GOTO %s\n",pp->icn_label.label);
         }
@@ -319,7 +352,6 @@ static void Func_ExtDef1(MTnode* root){
 }
 static void Func_ExtDef2(MTnode* root){
     Log2("Func_ExtDef2");
-    assert(0);
 }
 static void Func_ExtDef3(MTnode* root){
     Log2("Func_ExtDef3 : Spec FunDec CompSt");
@@ -453,7 +485,12 @@ static void Func_Stmt3(MTnode* root){//return
     Log2("Func_Stmt3");
     ch(1)->op = malloc(sizeof(operand));
     gen(ch(1));
-    gen_single_var(ch(1)->op,RETURN);
+    if(ch(1)->op->kind == OP_VAR){
+        gen_single_var(ch(1)->op,RETURN);
+    }
+    else{
+        /*******need rebuild!!********/
+    }
 }
 static void Func_Stmt4(MTnode* root){//if
     Log2("Func_Stmt4");
@@ -533,7 +570,15 @@ static void Func_Exp1(MTnode* root){
     is_left_val = 1;
     ch(0)->op = malloc(sizeof(operand));
     gen(ch(0));
-    gen_assign(ch(0)->op,ch(2)->op,0,NULL);
+    if(ch(0)->op->kind == OP_VAR){
+        gen_assign(ch(0)->op,ch(2)->op,0,NULL);
+    }
+    else if(ch(0)->op->kind == OP_ADDR){
+        gen_refer_assign(ch(0)->op,ch(2)->op);
+    }
+    else{
+        assert(0);
+    }
     is_left_val = 0;
 
     //gen code2.2
@@ -640,10 +685,44 @@ static void Func_Exp13(MTnode* root){
     }
 }
 static void Func_Exp14(MTnode* root){
-    Log2("Func_Exp14");
+    Log2("Func_Exp14 : Exp [ Exp ]");
+    ch(0)->op = malloc(sizeof(operand));
+    ch(2)->op = malloc(sizeof(operand));
+    gen(ch(0)); // expect ch(0) to prepare addr
+    gen(ch(2));
+
 }
-static void Func_Exp15(MTnode* root){
-    Log2("Func_Exp15");
+static void Func_Exp15(MTnode* root){ //!!!!!!!!!!!!!!!!!!1
+    Log2("Func_Exp15 : Exp1 . Exp2");
+    /*Exp1 is always ID || Exp14 || Exp15*/
+    //get Exp1 addr
+    ch(0)->op = malloc(sizeof(operand));
+    gen(ch(0));
+    operand* ch0_addr;
+    if(ch(0)->op->kind == OP_VAR){
+        ch0_addr = malloc(sizeof(operand));
+        ch0_addr->kind = OP_ADDR;
+        ch0_addr->var_str = get_var_no();
+        gen_addr(ch0_addr,ch(0)->op);
+    }
+    else{
+        ch0_addr = ch(0)->op;
+    }
+    //get offset  ,and add to addr
+    char* id = ch(2)->str;
+    int offset = get_field_offset(chst(0)->fl,id);
+    intercode* ic = malloc(sizeof(intercode));
+    ic->kind = ICN_PLUS;
+    //root->op = malloc(sizeof(operand));
+    root->op->kind = OP_ADDR;
+    root->op->var_str = get_var_no();
+    ic->icn_arith.result = root->op;
+    ic->icn_arith.op_left = malloc(sizeof(operand));
+    ic->icn_arith.op_left->kind = OP_INT;
+    ic->icn_arith.op_left->val_int = offset;
+    ic->icn_arith.op_right = ch0_addr;
+    list_add_before(&code_head,&(ic->list));
+    Log2("------intercode addr : %p",ic);
 }
 static void Func_Exp16(MTnode* root){
     Log2("Func_Exp16");

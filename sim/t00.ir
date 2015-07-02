@@ -1,26 +1,39 @@
 FUNCTION main :
-v0000 := #1 
-v0001 := #4 
-v0002 := v0001 
-v0003 := v0000 
-IF v0003 == #1 GOTO label0000
+v0000 := #2 
+DEC v0001 40
+v0002 := &v0001
+v0004 := #36 + v0002
+*v0004 := #4
+v0005 := v0004 
+v0006 := v0000 
+IF v0006 == #1 GOTO label0000
+GOTO label0003
+LABEL label0003 :
+v0007 := v0000 
+IF v0007 == #0 GOTO label0000
 GOTO label0001
 LABEL label0000 :
-v0001 := #1 
-v0004 := v0001 
+WRITE #1
 GOTO label0002
 LABEL label0001 :
-v0001 := #2 
-v0005 := v0001 
+WRITE #0
 LABEL label0002 :
-READ v0006
-v0001 := v0006 
-v0007 := v0001 
-v0008 := v0001 
-IF v0008 != #0 GOTO label0003
-GOTO label0004
-LABEL label0003 :
-WRITE #1
+v0010 := &v0001
+v0012 := #36 + v0010
+v0013 := *v0012
+v0000 := v0013 
+v0014 := v0000 
+v0015 := v0000 
+IF v0015 == #3 GOTO label0004
+GOTO label0007
+LABEL label0007 :
+v0016 := v0000 
+IF v0016 == #4 GOTO label0004
+GOTO label0005
 LABEL label0004 :
-v0010 := v0001 
-RETURN v0010
+WRITE #1
+GOTO label0006
+LABEL label0005 :
+WRITE #0
+LABEL label0006 :
+RETURN #0

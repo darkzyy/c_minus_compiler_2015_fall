@@ -95,8 +95,8 @@ static void Func_VarDec1(MTnode* root){
             //example DEC v2 8
             intercode* ic = malloc(sizeof(intercode));
             ic->kind = ICN_DEC;
-            ic->icn_dec.var = s->op;
-            ic->icn_dec.size = root->syn_type->size;
+            ic->res = s->op;
+            ic->size = root->syn_type->size;
             list_add_before(&code_head,&(ic->list));
         }
     }
@@ -121,8 +121,8 @@ static void Func_VarDec2(MTnode* root){
         s->op = make_op(OP_VAR,NULL);
         intercode* ic = malloc(sizeof(intercode));
         ic->kind = ICN_DEC;
-        ic->icn_dec.var = s->op;
-        ic->icn_dec.size = root->syn_type->size;       
+        ic->res = s->op;
+        ic->size = root->syn_type->size;       
         list_add_before(&code_head,&(ic->list));
     }
     else if(inside_paradec){
@@ -307,9 +307,9 @@ static void Func_Exp4(MTnode* root){
     intercode* ic = malloc(sizeof(intercode));\
     ic->kind = ICN_##arith_op;\
     root->op = make_op(OP_VAR,NULL);\
-    ic->icn_arith.result = root->op;\
-    ic->icn_arith.op_left = ch(0)->op;\
-    ic->icn_arith.op_right = ch(2)->op;\
+    ic->res = root->op;\
+    ic->op1 = ch(0)->op;\
+    ic->op2 = ch(2)->op;\
     list_add_before(&code_head,&(ic->list));\
 }
 
@@ -437,9 +437,9 @@ static void Func_Exp10(MTnode* root){
     //gen code 
     intercode* ic = malloc(sizeof(intercode));
     ic->kind = ICN_MINUS;
-    ic->icn_arith.result = root->op;
-    ic->icn_arith.op_left = zero;
-    ic->icn_arith.op_right = ch(1)->op;
+    ic->res = root->op;
+    ic->op1 = zero;
+    ic->op2 = ch(1)->op;
     list_add_before(&code_head,&(ic->list));
     Log2("------intercode addr:%p",ic);
 }
@@ -520,9 +520,9 @@ static void Func_Exp14(MTnode* root){
         intercode* ic = malloc(sizeof(intercode));
         ic->kind = ICN_MUL;
         tmp = make_op(OP_VAR,NULL);
-        ic->icn_arith.result = tmp;
-        ic->icn_arith.op_left = make_op(OP_INT,(void*)&chst(0)->array.elem->size);
-        ic->icn_arith.op_right = ch(2)->op;
+        ic->res = tmp;
+        ic->op1 = make_op(OP_INT,(void*)&chst(0)->array.elem->size);
+        ic->op2 = ch(2)->op;
         list_add_before(&code_head,&(ic->list));
         Log2("------intercode addr : %p",ic);
     }
@@ -538,9 +538,9 @@ static void Func_Exp14(MTnode* root){
     root->op->kind = OP_ADDR;
     intercode* ic = malloc(sizeof(intercode));
     ic->kind = ICN_PLUS;
-    ic->icn_arith.result = root->op;
-    ic->icn_arith.op_left = tmp;
-    ic->icn_arith.op_right = ch0_addr;
+    ic->res = root->op;
+    ic->op1 = tmp;
+    ic->op2 = ch0_addr;
     list_add_before(&code_head,&(ic->list));
     Log2("------intercode addr : %p",ic);
 
@@ -581,11 +581,11 @@ static void Func_Exp15(MTnode* root){ //!!!!!!!!!!!!!!!!!!1
         root->op = make_op(OP_VAR,NULL);
     }
     root->op->kind = OP_ADDR;
-    ic->icn_arith.result = root->op;
-    ic->icn_arith.op_left = malloc(sizeof(operand));
-    ic->icn_arith.op_left->kind = OP_INT;
-    ic->icn_arith.op_left->val_int = offset;
-    ic->icn_arith.op_right = ch0_addr;
+    ic->res = root->op;
+    ic->op1 = malloc(sizeof(operand));
+    ic->op1->kind = OP_INT;
+    ic->op1->val_int = offset;
+    ic->op2 = ch0_addr;
     list_add_before(&code_head,&(ic->list));
     Log2("------intercode addr : %p",ic);
     if(!is_left_val){

@@ -90,8 +90,8 @@ static void gen_assign(operand* left,operand* right,int right_kind,void* right_v
     }
     intercode* ic = malloc(sizeof(intercode));
     ic->kind = ICN_ASSIGN;
-    ic->icn_assign.left = left;
-    ic->icn_assign.right = right;
+    ic->res = left;
+    ic->op1 = right;
     list_add_before(&code_head,&(ic->list));
     Log2("------intercode addr : %p",ic);
 }
@@ -112,8 +112,8 @@ static void gen_addr(operand* left,operand* right){
     }
     intercode* ic = malloc(sizeof(intercode));
     ic->kind = ICN_ADDR;
-    ic->icn_addr.left = left;
-    ic->icn_addr.right = right;
+    ic->res = left;
+    ic->op1 = right;
     list_add_before(&code_head,&(ic->list));
     Log2("------intercode addr : %p",ic);
 }
@@ -121,8 +121,8 @@ static void gen_refer(operand* left,operand* right){
     /*left and right are all expected to be given*/
     intercode* ic = malloc(sizeof(intercode));
     ic->kind = ICN_REFER;
-    ic->icn_refer.left = left;
-    ic->icn_refer.right = right;
+    ic->res = left;
+    ic->op1 = right;
     list_add_before(&code_head,&(ic->list));
     Log2("------intercode addr : %p",ic);
 }
@@ -130,8 +130,8 @@ static void gen_refer_assign(operand* left,operand* right){
     /*left and right are all expected to be given*/
     intercode* ic = malloc(sizeof(intercode));
     ic->kind = ICN_REFER_ASSIGN;
-    ic->icn_refer_assign.left = left;
-    ic->icn_refer_assign.right = right;
+    ic->res = left;
+    ic->op1 = right;
     list_add_before(&code_head,&(ic->list));
     Log2("------intercode addr : %p",ic);
 }
@@ -139,7 +139,7 @@ static void gen_refer_assign(operand* left,operand* right){
 #define gen_label(s,suffix) {\
     intercode* ic = malloc(sizeof(intercode));\
     ic->kind = ICN_##suffix;\
-    ic->icn_label.label = s;\
+    ic->label = s;\
     list_add_before(&code_head,&(ic->list));\
     Log3("label : %s",s);\
 }
@@ -147,25 +147,25 @@ static void gen_refer_assign(operand* left,operand* right){
 #define gen_single_var(op,suffix) {\
     intercode* ic = malloc(sizeof(intercode));\
     ic->kind = ICN_##suffix;\
-    ic->icn_single_var.var = op;\
+    ic->res = op;\
     list_add_before(&code_head,&(ic->list));\
 }
 
 static void gen_if(operand* op1,operand* op2,char* relop,char* label){
     intercode* ic = malloc(sizeof(intercode));
     ic->kind = ICN_IF;
-    ic->icn_if.op_left = op1;
-    ic->icn_if.op_right = op2;
-    ic->icn_if.relop = relop;
-    ic->icn_if.label = label;
+    ic->op1 = op1;
+    ic->op2 = op2;
+    ic->relop = relop;
+    ic->label = label;
     list_add_before(&code_head,&(ic->list));
 }
 
 static void gen_call(operand* op,char* func){
     intercode* ic = malloc(sizeof(intercode));
     ic->kind = ICN_CALL;
-    ic->icn_call.result = op;
-    ic->icn_call.func = func;
+    ic->res = op;
+    ic->label = func;
     list_add_before(&code_head,&(ic->list));
 }
 

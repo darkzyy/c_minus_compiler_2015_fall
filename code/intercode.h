@@ -47,20 +47,12 @@ struct code_block;
 
 struct intercode{
     int kind;
-    struct{ char* label; }                                  icn_label;
-
-    struct{ operand* left , *right; }                   icn_assign;
-    struct{ operand* left , *right; }                   icn_addr;
-    struct{ operand* left , *right; }                   icn_refer;
-    struct{ operand* left , *right; }                   icn_refer_assign;
-
-    struct{ operand* result , *op_left , *op_right; }    icn_arith;
-
-    struct{ operand* var; }                           icn_single_var;
-
-    struct{ operand* op_left , *op_right ; char* relop ; char* label; }     icn_if;
-    struct{ operand* var ; int size;/*size % 4 = 0*/}          icn_dec;
-    struct{ operand* result ; char* func; }                            icn_call;
+    char* relop;
+    char* label;
+    operand* res;
+    operand* op1;
+    operand* op2;
+    int size;
     ListHead list;
     struct code_block* cb;
 };

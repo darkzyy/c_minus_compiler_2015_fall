@@ -17,19 +17,19 @@ intercode* pp;
 */
 
 #define print_arith(arith_op) {\
-    print_operand(ic->icn_arith.result);\
+    print_operand(ic->res);\
     printf(" := ");\
-    print_operand(ic->icn_arith.op_left);\
+    print_operand(ic->op1);\
     printf(" %c ",arith_op);\
-    print_operand(ic->icn_arith.op_right);\
+    print_operand(ic->op2);\
     printf("\n");\
 }
 
 void print_intercode(intercode* ic){
     if(ic->kind == ICN_ASSIGN){
-        print_operand(ic->icn_assign.left);
+        print_operand(ic->res);
         printf(" := ");
-        print_operand(ic->icn_assign.right);
+        print_operand(ic->op1);
         printf(" \n");
     }
     else if(ic->kind == ICN_PLUS){
@@ -45,77 +45,77 @@ void print_intercode(intercode* ic){
         print_arith('/');
     }
     else if(ic->kind == ICN_LABEL){
-        printf("LABEL %s :\n",ic->icn_label.label);
+        printf("LABEL %s :\n",ic->label);
     }
     else if(ic->kind == ICN_FUNC){
-        printf("FUNCTION %s :\n",ic->icn_label.label);
+        printf("FUNCTION %s :\n",ic->label);
     }
     else if(ic->kind == ICN_ADDR){
-        print_operand(ic->icn_addr.left);
+        print_operand(ic->res);
         printf(" := &");
-        print_operand(ic->icn_addr.right);
+        print_operand(ic->op1);
         printf("\n");
     }
     else if(ic->kind == ICN_REFER){
-        print_operand(ic->icn_refer.left);
+        print_operand(ic->res);
         printf(" := *");
-        print_operand(ic->icn_refer.right);
+        print_operand(ic->op1);
         printf("\n");
     }
     else if(ic->kind == ICN_REFER_ASSIGN){
         printf("*");
-        print_operand(ic->icn_refer_assign.left);
+        print_operand(ic->res);
         printf(" := ");
-        print_operand(ic->icn_refer_assign.right);
+        print_operand(ic->op1);
         printf("\n");
     }
     else if(ic->kind == ICN_GOTO){
-        printf("GOTO %s\n",ic->icn_label.label);
+        printf("GOTO %s\n",ic->label);
     }
     else if(ic->kind == ICN_IF){
         printf("IF ");
-        print_operand(ic->icn_if.op_left);
-        printf(" %s ",ic->icn_if.relop);
-        print_operand(ic->icn_if.op_right);
-        printf(" GOTO %s\n",ic->icn_if.label);
+        print_operand(ic->op1);
+        printf(" %s ",ic->relop);
+        print_operand(ic->op2);
+        printf(" GOTO %s\n",ic->label);
     }
     else if(ic->kind == ICN_RETURN){
         printf("RETURN ");
-        print_operand(ic->icn_single_var.var);
+        print_operand(ic->res);
         printf("\n");
     }
     else if(ic->kind == ICN_DEC){
         printf("DEC ");
-        print_operand(ic->icn_dec.var);
-        printf(" %d\n",ic->icn_dec.size);
+        print_operand(ic->res);
+        printf(" %d\n",ic->size);
     }
     else if(ic->kind == ICN_ARG){
         printf("ARG ");
-        print_operand(ic->icn_single_var.var);
+        print_operand(ic->res);
         printf("\n");
     }
     else if(ic->kind == ICN_ARG_ADDR){
         printf("ARG &");
-        print_operand(ic->icn_single_var.var);
+        print_operand(ic->res);
         printf("\n");
     }
     else if(ic->kind == ICN_CALL){
-        print_operand(ic->icn_call.result);
-        printf(" := CALL %s\n",ic->icn_call.func);
+        print_operand(ic->res);
+        printf(" := CALL %s\n",ic->label);
     }
     else if(ic->kind == ICN_PARAM){
         printf("PARAM ");
-        print_operand(ic->icn_single_var.var);
+        print_operand(ic->res);
         printf("\n");
     }
     else if(ic->kind == ICN_READ){
         printf("READ ");
-        print_operand(ic->icn_single_var.var);
+        print_operand(ic->res);
         printf("\n");
     }
     else if(ic->kind == ICN_WRITE){
         printf("WRITE ");
-        print_operand(ic->icn_single_var.var);
+        print_operand(ic->res);
         printf("\n");
     }
     else{

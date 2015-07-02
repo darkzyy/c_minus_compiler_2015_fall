@@ -547,7 +547,6 @@ static void Func_Exp14(MTnode* root){
     ic->op2 = ch0_addr;
     list_add_before(&code_head,&(ic->list));
     Log2("------intercode addr : %p",ic);
-
     if(!is_left_val){
         operand* val = make_op(OP_VAR,NULL);
         gen_refer(val,root->op);
@@ -559,7 +558,6 @@ static void Func_Exp15(MTnode* root){ //!!!!!!!!!!!!!!!!!!1
     /*Exp1 is always ID || Exp14 || Exp15*/
     //get Exp1 addr
     is_left_val += 1;
-    //ch(0)->op = malloc(sizeof(operand));
     gen(ch(0));
     if(is_left_val>0){
         is_left_val -= 1;
@@ -569,9 +567,7 @@ static void Func_Exp15(MTnode* root){ //!!!!!!!!!!!!!!!!!!1
         ch0_addr = malloc(sizeof(operand));
         ch0_addr->kind = OP_ADDR;
         ch0_addr->var_str = get_var_no();
-        Log3();
         gen_addr(ch0_addr,ch(0)->op);
-        Log3();
     }
     else{
         ch0_addr = ch(0)->op;

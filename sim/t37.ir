@@ -1,0 +1,78 @@
+FUNCTION main :
+v0000 := #0 
+DEC v0001 712
+LABEL label0000 :
+IF v0000 < #10 GOTO label0001
+GOTO label0002
+LABEL label0001 :
+t0002 := &v0001
+t0003 := #0 + t0002
+t0004 := #0 + t0003
+t0005 := #0 + t0004
+t0006 := #4 * v0000
+t0007 := t0006 + t0005
+*t0007 := v0000
+t0008 := t0007 
+t0009 := v0000 + #1
+v0000 := t0009 
+t0010 := v0000 
+GOTO label0000
+LABEL label0002 :
+v0000 := #0 
+t0011 := v0000 
+LABEL label0003 :
+IF v0000 < #10 GOTO label0004
+GOTO label0005
+LABEL label0004 :
+t0013 := &v0001
+t0014 := #0 + t0013
+t0015 := #0 + t0014
+t0016 := #0 + t0015
+t0017 := #4 * v0000
+t0018 := t0017 + t0016
+t0019 := *t0018
+WRITE t0019
+t0020 := v0000 + #1
+v0000 := t0020 
+t0021 := v0000 
+GOTO label0003
+LABEL label0005 :
+v0000 := #0 
+t0022 := v0000 
+LABEL label0006 :
+IF v0000 < #15 GOTO label0007
+GOTO label0008
+LABEL label0007 :
+t0023 := &v0001
+t0024 := #204 + t0023
+t0026 := #156 + t0024
+t0027 := #48 + t0026
+t0028 := #4 * v0000
+t0029 := t0028 + t0027
+*t0029 := v0000
+t0030 := t0029 
+t0031 := v0000 + #1
+v0000 := t0031 
+t0032 := v0000 
+GOTO label0006
+LABEL label0008 :
+v0000 := #0 
+t0033 := v0000 
+LABEL label0009 :
+IF v0000 < #15 GOTO label0010
+GOTO label0011
+LABEL label0010 :
+t0035 := &v0001
+t0036 := #204 + t0035
+t0038 := #156 + t0036
+t0039 := #48 + t0038
+t0040 := #4 * v0000
+t0041 := t0040 + t0039
+t0042 := *t0041
+WRITE t0042
+t0043 := v0000 + #1
+v0000 := t0043 
+t0044 := v0000 
+GOTO label0009
+LABEL label0011 :
+RETURN #0

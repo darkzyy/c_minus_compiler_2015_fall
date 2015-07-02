@@ -1,0 +1,16 @@
+FUNCTION main :
+v0000 := #100 
+DEC v0001 40
+t0002 := &v0001
+t0004 := #0 + t0002
+*t0004 := #9
+t0005 := t0004 
+WRITE #0
+WRITE #0
+WRITE #0
+WRITE #0
+t0011 := &v0001
+t0013 := #0 + t0011
+t0014 := *t0013
+WRITE t0014
+RETURN #0

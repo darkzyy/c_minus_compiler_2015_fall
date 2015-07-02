@@ -1,5 +1,7 @@
 #include<stdlib.h>
+#include<stdio.h>
 #include"intercode.h"
+#include"code_print.h"
 
 /*
 intercode* pp;
@@ -24,6 +26,7 @@ void find_leader(){
             }
             code_block* cb = malloc(sizeof(code_block));
             cb->start = leader;
+            cb->end = NULL;
             list_add_before(&block_head,&(cb->list));
         }
         if(code_type == ICN_GOTO || code_type == ICN_IF){
@@ -33,12 +36,44 @@ void find_leader(){
                 leader = next_ic(pp);
                 code_block* cb = malloc(sizeof(code_block));
                 cb->start = leader;
+                cb->end = NULL;
                 list_add_before(&block_head,&(cb->list));
             }
         }
     }
+    p = &code_head;
+    last_cb->end = prev_ic(pp);
 }
 
 
-#undef pp
 #undef code_type
+#undef last_cb
+#undef prev_ic
+#undef next_ic
+#undef pp
+
+#define pp list_entry(p,code_block,list)
+
+void print_block(){
+    ListHead* p = NULL;
+    list_foreach(p,&block_head){
+        printf("------------+++++++++++------------\n");
+        print_intercode(pp->start);
+        print_intercode(pp->end);
+        printf("------------+++++++++++------------\n");
+    }
+}
+
+#undef pp
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,270 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+A	struct/s01.c	/^struct A{$/;"	s	file:
+A	struct/s02.c	/^struct A{$/;"	s	file:
+A	t11.c	/^struct A{$/;"	s	file:
+A	t16.c	/^struct A{$/;"	s	file:
+A	t28_struct.c	/^struct A{$/;"	s	file:
+A	t30_struct2.c	/^struct A{$/;"	s	file:
+A	t31.c	/^struct A{$/;"	s	file:
+A	t37_struct_array.c	/^struct A{$/;"	s	file:
+A::a	struct/s01.c	/^    int a;$/;"	m	struct:A	file:	access:public
+A::a	struct/s02.c	/^    int a;$/;"	m	struct:A	file:	access:public
+A::a	t11.c	/^    int a[3][3][3];$/;"	m	struct:A	file:	access:public
+A::a	t16.c	/^    int a;$/;"	m	struct:A	file:	access:public
+A::a	t28_struct.c	/^    int a;$/;"	m	struct:A	file:	access:public
+A::a	t30_struct2.c	/^    int a;$/;"	m	struct:A	file:	access:public
+A::a	t31.c	/^    int a;$/;"	m	struct:A	file:	access:public
+A::a	t37_struct_array.c	/^    int a[10];$/;"	m	struct:A	file:	access:public
+A::b	struct/s01.c	/^    float b;$/;"	m	struct:A	file:	access:public
+A::b	t11.c	/^    float b;$/;"	m	struct:A	file:	access:public
+A::b	t16.c	/^    int b,c,cc,ccc;$/;"	m	struct:A	file:	access:public
+A::b	t28_struct.c	/^    float b;$/;"	m	struct:A	file:	access:public
+A::b	t30_struct2.c	/^    float b;$/;"	m	struct:A	file:	access:public
+A::b	t31.c	/^    float b;$/;"	m	struct:A	file:	access:public
+A::b	t37_struct_array.c	/^    int b;$/;"	m	struct:A	file:	access:public
+A::c	struct/s01.c	/^    int c[10];$/;"	m	struct:A	file:	access:public
+A::c	t16.c	/^    int b,c,cc,ccc;$/;"	m	struct:A	file:	access:public
+A::cc	t16.c	/^    int b,c,cc,ccc;$/;"	m	struct:A	file:	access:public
+A::ccc	t16.c	/^    int b,c,cc,ccc;$/;"	m	struct:A	file:	access:public
+A::d	struct/s01.c	/^    float d[10];$/;"	m	struct:A	file:	access:public
+A::d	t16.c	/^    int d;$/;"	m	struct:A	file:	access:public
+A::e	t16.c	/^    float e;$/;"	m	struct:A	file:	access:public
+A::e	t30_struct2.c	/^    int e;$/;"	m	struct:A	file:	access:public
+A::e	t31.c	/^    int e;$/;"	m	struct:A	file:	access:public
+A::k	t37_struct_array.c	/^    float k;$/;"	m	struct:A	file:	access:public
+B	struct/s01.c	/^struct B{$/;"	s	file:
+B	t16.c	/^struct B{$/;"	s	file:
+B	t28_struct.c	/^struct B{$/;"	s	file:
+B	t30_struct2.c	/^struct B{$/;"	s	file:
+B	t31.c	/^struct B{$/;"	s	file:
+B	t37_struct_array.c	/^struct B{$/;"	s	file:
+B::c	t28_struct.c	/^    int c;$/;"	m	struct:B	file:	access:public
+B::c	t30_struct2.c	/^    int c;$/;"	m	struct:B	file:	access:public
+B::c	t31.c	/^    int c;$/;"	m	struct:B	file:	access:public
+B::c	t37_struct_array.c	/^    int c[15];$/;"	m	struct:B	file:	access:public
+B::e	struct/s01.c	/^    struct A e[10];$/;"	m	struct:B	typeref:struct:B::A	file:	access:public
+B::f	struct/s01.c	/^    int f;$/;"	m	struct:B	file:	access:public
+B::f	t16.c	/^    struct A f;$/;"	m	struct:B	typeref:struct:B::A	file:	access:public
+B::g	struct/s01.c	/^    struct A g;$/;"	m	struct:B	typeref:struct:B::A	file:	access:public
+B::g	t16.c	/^    int g;$/;"	m	struct:B	file:	access:public
+B::h	t16.c	/^    int h;$/;"	m	struct:B	file:	access:public
+B::i	t16.c	/^    struct A i,k;$/;"	m	struct:B	typeref:struct:B::A	file:	access:public
+B::k	t16.c	/^    struct A i,k;$/;"	m	struct:B	typeref:struct:B::	file:	access:public
+B::k	t28_struct.c	/^    int k,l;$/;"	m	struct:B	file:	access:public
+B::k	t30_struct2.c	/^    int k,l;$/;"	m	struct:B	file:	access:public
+B::k	t31.c	/^    int k,l;$/;"	m	struct:B	file:	access:public
+B::l	t28_struct.c	/^    int k,l;$/;"	m	struct:B	file:	access:public
+B::l	t30_struct2.c	/^    int k,l;$/;"	m	struct:B	file:	access:public
+B::l	t31.c	/^    int k,l;$/;"	m	struct:B	file:	access:public
+B::s	t28_struct.c	/^    struct A s;$/;"	m	struct:B	typeref:struct:B::A	file:	access:public
+B::s	t30_struct2.c	/^    struct A s;$/;"	m	struct:B	typeref:struct:B::A	file:	access:public
+B::s	t31.c	/^    struct A s;$/;"	m	struct:B	typeref:struct:B::A	file:	access:public
+B::sa1	t37_struct_array.c	/^    struct A sa1;$/;"	m	struct:B	typeref:struct:B::A	file:	access:public
+B::sa2	t37_struct_array.c	/^    struct A sa2;$/;"	m	struct:B	typeref:struct:B::A	file:	access:public
+C	struct/s01.c	/^struct C{$/;"	s	file:
+C	t16.c	/^struct C{$/;"	s	file:
+C	t37_struct_array.c	/^struct C{$/;"	s	file:
+C::b_Array	t37_struct_array.c	/^    struct B b_Array[3];$/;"	m	struct:C	typeref:struct:C::B	file:	access:public
+C::d	t37_struct_array.c	/^    int d[10];$/;"	m	struct:C	file:	access:public
+C::i	struct/s01.c	/^    int i;$/;"	m	struct:C	file:	access:public
+C::j	struct/s01.c	/^    struct B j[10];$/;"	m	struct:C	typeref:struct:C::B	file:	access:public
+C::k	struct/s01.c	/^    int k;$/;"	m	struct:C	file:	access:public
+C::s0	t16.c	/^    int s0,s1;$/;"	m	struct:C	file:	access:public
+C::s1	t16.c	/^    int s0,s1;$/;"	m	struct:C	file:	access:public
+C::sa3	t37_struct_array.c	/^    struct A sa3;$/;"	m	struct:C	typeref:struct:C::A	file:	access:public
+C::sb1	t37_struct_array.c	/^    struct B sb1;$/;"	m	struct:C	typeref:struct:C::B	file:	access:public
+EQ	t17.c	/^    int EQ;$/;"	m	struct:HouseGuest	file:	access:public
+EQ1	t17.c	/^    int EQ1;$/;"	m	struct:HouseGuestA	file:	access:public
+HOHCompetition	t17.c	/^int HOHCompetition(struct HouseGuest h1, struct HouseGuest h2)$/;"	f	signature:(struct HouseGuest h1, struct HouseGuest h2)
+HouseGuest	t17.c	/^struct HouseGuest {$/;"	s	file:
+HouseGuest::EQ	t17.c	/^    int EQ;$/;"	m	struct:HouseGuest	file:	access:public
+HouseGuest::strength	t17.c	/^    int strength;$/;"	m	struct:HouseGuest	file:	access:public
+HouseGuestA	t17.c	/^struct HouseGuestA {$/;"	s	file:
+HouseGuestA::EQ1	t17.c	/^    int EQ1;$/;"	m	struct:HouseGuestA	file:	access:public
+HouseGuestA::age	t17.c	/^    int age;$/;"	m	struct:HouseGuestA	file:	access:public
+HouseGuestA::strength1	t17.c	/^    int strength1;$/;"	m	struct:HouseGuestA	file:	access:public
+Position	e13.c	/^struct Position{$/;"	s	file:
+Position	e14.c	/^struct Position{$/;"	s	file:
+Position	e15.c	/^struct Position{$/;"	s	file:
+Position	e16.c	/^struct Position{$/;"	s	file:
+Position	e19.c	/^struct Position{$/;"	s	file:
+Position	e20.c	/^struct Position{$/;"	s	file:
+Position::x	e13.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+Position::x	e14.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+Position::x	e15.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+Position::x	e15.c	/^    int x;$/;"	m	struct:Position	file:	access:public
+Position::x	e16.c	/^    float x;$/;"	m	struct:Position	file:	access:public
+Position::x	e19.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+Position::x	e20.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+Position::y	e13.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+Position::y	e14.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+Position::y	e15.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+Position::y	e16.c	/^    int y;$/;"	m	struct:Position	file:	access:public
+Position::y	e19.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+Position::y	e20.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+a	ics/pascal.c	/^int a[31][31];$/;"	v
+a	struct/s01.c	/^    int a;$/;"	m	struct:A	file:	access:public
+a	struct/s02.c	/^    int a;$/;"	m	struct:A	file:	access:public
+a	t11.c	/^    int a[3][3][3];$/;"	m	struct:A	file:	access:public
+a	t16.c	/^    int a;$/;"	m	struct:A	file:	access:public
+a	t28_struct.c	/^    int a;$/;"	m	struct:A	file:	access:public
+a	t30_struct2.c	/^    int a;$/;"	m	struct:A	file:	access:public
+a	t31.c	/^    int a;$/;"	m	struct:A	file:	access:public
+a	t37_struct_array.c	/^    int a[10];$/;"	m	struct:A	file:	access:public
+a1	t09.c	/^int a1,b1;$/;"	v
+a2	t09.c	/^float a2,b2;$/;"	v
+a3	t09.c	/^}a3,b3;$/;"	v	typeref:struct:z
+add	t27_func_para.c	/^int add(int a,int b){$/;"	f	signature:(int a,int b)
+age	t17.c	/^    int age;$/;"	m	struct:HouseGuestA	file:	access:public
+b	struct/s01.c	/^    float b;$/;"	m	struct:A	file:	access:public
+b	struct/s02.c	/^struct A b[10];$/;"	v	typeref:struct:A
+b	t11.c	/^    float b;$/;"	m	struct:A	file:	access:public
+b	t16.c	/^    int b,c,cc,ccc;$/;"	m	struct:A	file:	access:public
+b	t28_struct.c	/^    float b;$/;"	m	struct:A	file:	access:public
+b	t30_struct2.c	/^    float b;$/;"	m	struct:A	file:	access:public
+b	t31.c	/^    float b;$/;"	m	struct:A	file:	access:public
+b	t37_struct_array.c	/^    int b;$/;"	m	struct:A	file:	access:public
+b1	t09.c	/^int a1,b1;$/;"	v
+b2	t09.c	/^float a2,b2;$/;"	v
+b3	t09.c	/^}a3,b3;$/;"	v	typeref:struct:z
+b_Array	t37_struct_array.c	/^    struct B b_Array[3];$/;"	m	struct:C	typeref:struct:C::B	file:	access:public
+c	struct/s01.c	/^    int c[10];$/;"	m	struct:A	file:	access:public
+c	t16.c	/^    int b,c,cc,ccc;$/;"	m	struct:A	file:	access:public
+c	t28_struct.c	/^    int c;$/;"	m	struct:B	file:	access:public
+c	t30_struct2.c	/^    int c;$/;"	m	struct:B	file:	access:public
+c	t31.c	/^    int c;$/;"	m	struct:B	file:	access:public
+c	t37_struct_array.c	/^    int c[15];$/;"	m	struct:B	file:	access:public
+cc	t16.c	/^    int b,c,cc,ccc;$/;"	m	struct:A	file:	access:public
+ccc	t16.c	/^    int b,c,cc,ccc;$/;"	m	struct:A	file:	access:public
+d	struct/s01.c	/^    float d[10];$/;"	m	struct:A	file:	access:public
+d	t16.c	/^    int d;$/;"	m	struct:A	file:	access:public
+d	t37_struct_array.c	/^    int d[10];$/;"	m	struct:C	file:	access:public
+e	struct/s01.c	/^    struct A e[10];$/;"	m	struct:B	typeref:struct:B::A	file:	access:public
+e	t16.c	/^    float e;$/;"	m	struct:A	file:	access:public
+e	t30_struct2.c	/^    int e;$/;"	m	struct:A	file:	access:public
+e	t31.c	/^    int e;$/;"	m	struct:A	file:	access:public
+f	struct/s01.c	/^    int f;$/;"	m	struct:B	file:	access:public
+f	t14.c	/^int f(int i){$/;"	f	signature:(int i)
+f	t16.c	/^    struct A f;$/;"	m	struct:B	typeref:struct:B::A	file:	access:public
+f	t30_struct2.c	/^int f(struct B x){$/;"	f	signature:(struct B x)
+f	t31.c	/^int f(struct B x){$/;"	f	signature:(struct B x)
+fib	t32.c	/^int fib(int n){$/;"	f	signature:(int n)
+func	e04.c	/^int func()$/;"	f
+func	e04.c	/^int func(int i)$/;"	f	signature:(int i)
+func	e09.c	/^int func(int i){$/;"	f	signature:(int i)
+func	e18.c	/^int func(int a);$/;"	p	file:	signature:(int a)
+func	e18.c	/^int func(int a){$/;"	f	signature:(int a)
+func	e19.c	/^int func(int a);$/;"	p	file:	signature:(int a)
+func	e19.c	/^int func(struct Position p);$/;"	p	file:	signature:(struct Position p)
+func	e20.c	/^int func(int a);$/;"	p	file:	signature:(int a)
+func	e20.c	/^int func(int a){$/;"	f	signature:(int a)
+func	struct/s02.c	/^int func(int arg_a){$/;"	f	signature:(int arg_a)
+func	t09.c	/^int func(int arg1,int arg2){$/;"	f	signature:(int arg1,int arg2)
+func	t12.c	/^int func(int a){$/;"	f	signature:(int a)
+func	t13.c	/^int func(int a[2]){$/;"	f	signature:(int a[2])
+func1	struct/s01.c	/^int func1(float arg_f){$/;"	f	signature:(float arg_f)
+func2	struct/s01.c	/^float func2(int arg_i){$/;"	f	signature:(int arg_i)
+func2	t09.c	/^int func2(int arg3){$/;"	f	signature:(int arg3)
+g	struct/s01.c	/^    struct A g;$/;"	m	struct:B	typeref:struct:B::A	file:	access:public
+g	t16.c	/^    int g;$/;"	m	struct:B	file:	access:public
+g	t31.c	/^int g(int pa,int pb){$/;"	f	signature:(int pa,int pb)
+h	struct/s01.c	/^struct B h[10];$/;"	v	typeref:struct:B
+h	t16.c	/^    int h;$/;"	m	struct:B	file:	access:public
+i	struct/s01.c	/^    int i;$/;"	m	struct:C	file:	access:public
+i	t16.c	/^    struct A i,k;$/;"	m	struct:B	typeref:struct:B::A	file:	access:public
+j	struct/s01.c	/^    struct B j[10];$/;"	m	struct:C	typeref:struct:C::B	file:	access:public
+k	struct/s01.c	/^    int k;$/;"	m	struct:C	file:	access:public
+k	t16.c	/^    struct A i,k;$/;"	m	struct:B	typeref:struct:B::	file:	access:public
+k	t28_struct.c	/^    int k,l;$/;"	m	struct:B	file:	access:public
+k	t30_struct2.c	/^    int k,l;$/;"	m	struct:B	file:	access:public
+k	t31.c	/^    int k,l;$/;"	m	struct:B	file:	access:public
+k	t37_struct_array.c	/^    float k;$/;"	m	struct:A	file:	access:public
+l	struct/s01.c	/^struct C l[10];$/;"	v	typeref:struct:C
+l	t28_struct.c	/^    int k,l;$/;"	m	struct:B	file:	access:public
+l	t30_struct2.c	/^    int k,l;$/;"	m	struct:B	file:	access:public
+l	t31.c	/^    int k,l;$/;"	m	struct:B	file:	access:public
+main	e01.c	/^int main()$/;"	f
+main	e02.c	/^int main()$/;"	f
+main	e03.c	/^int main()$/;"	f
+main	e04.c	/^int main()$/;"	f
+main	e05.c	/^int main(){$/;"	f
+main	e06.c	/^int main(){$/;"	f
+main	e07.c	/^int main()$/;"	f
+main	e08.c	/^int main(){$/;"	f
+main	e09.c	/^int main(){$/;"	f
+main	e10.c	/^int main(){$/;"	f
+main	e11.c	/^int main(){$/;"	f
+main	e12.c	/^int main(){$/;"	f
+main	e13.c	/^int main(){$/;"	f
+main	e14.c	/^int main(){$/;"	f
+main	e15.c	/^int main()$/;"	f
+main	e16.c	/^int main(){$/;"	f
+main	e17.c	/^int main(){$/;"	f
+main	e18.c	/^int main(){$/;"	f
+main	e19.c	/^int main(){$/;"	f
+main	e20.c	/^int main(){$/;"	f
+main	ics/pascal.c	/^int main() {$/;"	f
+main	struct/s01.c	/^int main(){$/;"	f
+main	struct/s02.c	/^int main(){$/;"	f
+main	t09.c	/^int main(){$/;"	f
+main	t10.c	/^int main(){$/;"	f
+main	t11.c	/^int main(){$/;"	f
+main	t13.c	/^int main(){$/;"	f
+main	t14.c	/^int main(){$/;"	f
+main	t15.c	/^int main(){$/;"	f
+main	t16.c	/^int main(){$/;"	f
+main	t17.c	/^int main()$/;"	f
+main	t19_int.c	/^int main(){$/;"	f
+main	t20.c	/^int main(){$/;"	f
+main	t21_neg.c	/^int main(){$/;"	f
+main	t22.c	/^int main(){$/;"	f
+main	t23.c	/^int main(){$/;"	f
+main	t24.c	/^int main(){$/;"	f
+main	t25_ifelse.c	/^int main(){$/;"	f
+main	t26_while.c	/^int main(){$/;"	f
+main	t27_func_para.c	/^int main(){$/;"	f
+main	t28_struct.c	/^int main(){$/;"	f
+main	t29_rw.c	/^int main(){$/;"	f
+main	t30_struct2.c	/^int main(){$/;"	f
+main	t31.c	/^int main(){$/;"	f
+main	t32.c	/^int main(){$/;"	f
+main	t33.c	/^int main(){$/;"	f
+main	t34_array1.c	/^int main(){$/;"	f
+main	t35_array2.c	/^int main(){$/;"	f
+main	t36_arith.c	/^int main(){$/;"	f
+main	t37_struct_array.c	/^int main(){$/;"	f
+n	t09.c	/^int n[5][4];$/;"	v
+s	t28_struct.c	/^    struct A s;$/;"	m	struct:B	typeref:struct:B::A	file:	access:public
+s	t30_struct2.c	/^    struct A s;$/;"	m	struct:B	typeref:struct:B::A	file:	access:public
+s	t31.c	/^    struct A s;$/;"	m	struct:B	typeref:struct:B::A	file:	access:public
+s0	t16.c	/^    int s0,s1;$/;"	m	struct:C	file:	access:public
+s1	t16.c	/^    int s0,s1;$/;"	m	struct:C	file:	access:public
+sa1	t37_struct_array.c	/^    struct A sa1;$/;"	m	struct:B	typeref:struct:B::A	file:	access:public
+sa2	t37_struct_array.c	/^    struct A sa2;$/;"	m	struct:B	typeref:struct:B::A	file:	access:public
+sa3	t37_struct_array.c	/^    struct A sa3;$/;"	m	struct:C	typeref:struct:C::A	file:	access:public
+sb1	t37_struct_array.c	/^    struct B sb1;$/;"	m	struct:C	typeref:struct:C::B	file:	access:public
+strength	t17.c	/^    int strength;$/;"	m	struct:HouseGuest	file:	access:public
+strength1	t17.c	/^    int strength1;$/;"	m	struct:HouseGuestA	file:	access:public
+x	e13.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+x	e14.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+x	e15.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+x	e15.c	/^    int x;$/;"	m	struct:Position	file:	access:public
+x	e16.c	/^    float x;$/;"	m	struct:Position	file:	access:public
+x	e19.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+x	e20.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+x	t09.c	/^    int x;$/;"	m	struct:z	file:	access:public
+y	e13.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+y	e14.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+y	e15.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+y	e16.c	/^    int y;$/;"	m	struct:Position	file:	access:public
+y	e19.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+y	e20.c	/^    float x,y;$/;"	m	struct:Position	file:	access:public
+y	t09.c	/^    float y;$/;"	m	struct:z	file:	access:public
+z	t09.c	/^struct z{$/;"	s	file:
+z::x	t09.c	/^    int x;$/;"	m	struct:z	file:	access:public
+z::y	t09.c	/^    float y;$/;"	m	struct:z	file:	access:public

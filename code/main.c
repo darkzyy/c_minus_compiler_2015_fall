@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<string.h>
 #include"syntax.tab.h"
+#include"block.h"
 
 //#define __LEXER_DEBUG__
 #define __PARSER_DEBUG__
@@ -49,6 +50,8 @@ int main(int argc,char** argv){
 	yydebug = 1;
 #endif
 	yyparse(); 
+    find_leader();
+    print_block();
 	return 0; 
 }
 #endif

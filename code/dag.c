@@ -8,18 +8,22 @@ static dagnode pool[NODE_AMOUNT];
 
 int current_nodeno = 1;
 
+static int max(int x,int y){
+    return x>y?x:y;
+}
+
 int opcmp(operand* x,operand* y){
     if(x->kind!=y->kind){
-        return 0;
+        return 1;
     }
     else if(x->kind == OP_VAR || x->kind == OP_ADDR){
-        return (strcmp(x->var_str,y->var_str)==0);
+        return (strcmp(x->var_str,y->var_str));
     }
     else if(x->kind == OP_INT){
-        return x->val_int == y->val_int;
+        return x->val_int != y->val_int;
     }
     else{
-        return (((x->val_float-y->val_float)>(-0.000001)) &&
+        return !(((x->val_float-y->val_float)>(-0.000001)) &&
                     (( x->val_float-y->val_float)<0.000001));
     }
 }
@@ -86,6 +90,28 @@ int find_make(operand* op){
     }
 }
 
+int ic_match(int start,int end,int op1_no,int op2_no,intercode* ic){
+    int i;
+    for(i=start+1;i<end;i++){
+        dagnode* nd = &pool[i];
+        if(nd->type != ic->kind){
+            continue;
+        }
+        if(nd->lch == op1_no && nd->rch == op2_no){
+            break;
+        }
+        if(nd->lch == op2_no && nd->rch == op1_no){
+            break;
+        }
+    }
+    if(i==end){
+        return 0;
+    }
+    else{
+        return i;
+    }
+}
+
 
 #define COMMON_ACTION {\
     nd->type = ic->kind;\
@@ -106,17 +132,56 @@ void handle_ic(intercode* ic){
             {
                 int op1_no = find_make(ic->op1);
                 tmpvar_ht_node* res_ht_nd = find_tmpvar(ic->res->var_str);
+                res_ht_nd->dag_node_no = op1_no;
+                dagnode* nd = &pool[op1_no];
+                nd->varlist[nd->varamt++] = ic->res;
+                break;
+            }
+        case ICN_PLUS:
+            {
+            }
+        case ICN_MINUS:
+            {
+            }
+        case ICN_MUL:
+            {
+            }
+        case ICN_DIV:
+            {
+                int op1_no = find_make(ic->op1);
+                int op2_no = find_make(ic->op2);
+                tmpvar_ht_node* res_ht_nd = find_tmpvar(ic->res->var_str);
+                int start = max(op1_no,op2_no);
+                int end = current_nodeno;
+                int match_no = ic_match(start,end,op1_no,op2_no,ic);
+                if(match_no == 0){
+                    res_ht_nd->dag_node_no = current_nodeno;
+                    dagnode* nd = &pool[current_nodeno];
+                    COMMON_ACTION;
+                    nd->lch = op1_no;
+                    nd->rch = op2_no;
+                    nd->varlist[nd->varamt++] = ic->res;
+                }
+                else{
+                    res_ht_nd->dag_node_no = match_no;
+                    dagnode* nd = &pool[match_no];
+                    nd->varlist[nd->varamt++] = ic->res;
+                }
+                break;
+            }
+        case ICN_ADDR:
+            {
+                int op1_no = find_make(ic->op1);
+                tmpvar_ht_node* res_ht_nd = find_tmpvar(ic->res->var_str);
                 res_ht_nd->dag_node_no = current_nodeno;
                 dagnode* nd = &pool[current_nodeno];
                 COMMON_ACTION;
-                nd->lch = op1_no;
-                nd->varlist[nd->varamt++] = ic->res;
             }
         default:
-        {
-            dagnode* nd = &pool[current_nodeno];
-            COMMON_ACTION;
-        }
+            {
+                dagnode* nd = &pool[current_nodeno];
+                COMMON_ACTION;
+            }
     }
 }
 

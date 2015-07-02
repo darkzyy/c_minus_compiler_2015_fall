@@ -11,6 +11,10 @@ struct B{
 
 int f(struct B x){
     int res = x.l - x.s.e - x.c;
+    write(x.l);
+    write(x.s.e);
+    write(x.c);
+    write(x.l-x.s.e);
     write(res);
     res = res - 5;
     write(res);

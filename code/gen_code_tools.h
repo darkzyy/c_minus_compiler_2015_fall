@@ -189,8 +189,6 @@ static void translate_cond(MTnode* root,char* label_true,char* label_false){
                       break;
                   }
         case Exp4:{
-                      ch(0)->op = malloc(sizeof(operand));
-                      ch(2)->op = malloc(sizeof(operand));
                       gen(ch(0));
                       gen(ch(2));
                       gen_if(ch(0)->op,ch(2)->op,ch(1)->str,label_true);
@@ -203,7 +201,6 @@ static void translate_cond(MTnode* root,char* label_true,char* label_false){
                        break;
                    }
         default:{
-                    root->op = malloc(sizeof(operand));
                     gen(root);
                     gen_if(root->op,zero,"!=",label_true);
                     gen_label(label_false,LABEL);

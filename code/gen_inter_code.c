@@ -101,8 +101,10 @@ static void Func_VarDec1(MTnode* root){
     }
     else if(inside_paradec){
         if(s->val_type!=type_int && s->val_type!=type_float){
+            Log3();
             s->op->kind = OP_ADDR;
             gen_single_var(s->op,PARAM);
+            Log3();
         }
         else{
             gen_single_var(s->op,PARAM);
@@ -165,7 +167,6 @@ static void Func_StmtList2(MTnode* root){
 }
 static void Func_Stmt1(MTnode* root){
     Log2("Func_Stmt1");
-    ch(0)->op = make_op(OP_VAR,NULL);
     gen(ch(0));
 }
 static void Func_Stmt2(MTnode* root){
@@ -185,7 +186,6 @@ static void Func_Stmt3(MTnode* root){//return
         gen_single_var(const_val,RETURN);
     }
     else{
-        ch(1)->op = malloc(sizeof(operand));
         gen(ch(1));
         gen_single_var(ch(1)->op,RETURN);
     }
@@ -262,12 +262,10 @@ static void Func_Dec2(MTnode* root){
 }
 static void Func_Exp1(MTnode* root){
     Log2("Func_Exp1 : ASSIGN");
-    ch(2)->op = malloc(sizeof(operand));
     gen(ch(2));
 
     //gen code2.1
     is_left_val += 1;
-    ch(0)->op = malloc(sizeof(operand));
     gen(ch(0));
     if(ch(0)->op->kind == OP_VAR){
         gen_assign(ch(0)->op,ch(2)->op,0,NULL);
@@ -283,9 +281,10 @@ static void Func_Exp1(MTnode* root){
     }
 
     //gen code2.2
-    if(root->op != NULL){
-        gen_assign(root->op,ch(0)->op,0,NULL);
+    if(root->op == NULL){
+        root->op = make_op(OP_VAR,NULL);
     }
+    gen_assign(root->op,ch(0)->op,0,NULL);
 }
 static void Func_Exp2(MTnode* root){
     Log2("Func_Exp2");
@@ -302,29 +301,26 @@ static void Func_Exp4(MTnode* root){
 
 
 #define arith(arith_op){\
-    operand* op_left,*op_right;\
-    handle_op(0,op_left);\
-    handle_op(2,op_right);\
     intercode* ic = malloc(sizeof(intercode));\
     ic->kind = ICN_##arith_op;\
     root->op = make_op(OP_VAR,NULL);\
     ic->icn_arith.result = root->op;\
-    ic->icn_arith.op_left = op_left;\
-    ic->icn_arith.op_right = op_right;\
+    ic->icn_arith.op_left = ch(0)->op;\
+    ic->icn_arith.op_right = ch(2)->op;\
     list_add_before(&code_head,&(ic->list));\
 }
 
-#define handle_double_const {\
-    if((ch(0)->is_const == 0)&&(ch(2)->is_const == 0)){\
+#define handle_double_const(arith_op) {\
+    if((ch(0)->is_const == 1)&&(ch(2)->is_const == 1)){\
         if(ch(0)->op->kind == OP_INT){\
-            int tmp = ch(0)->op->val_int + ch(2)->op->val_int;\
+            int tmp = ch(0)->op->val_int arith_op ch(2)->op->val_int;\
             root->op = make_op(OP_INT,&tmp);\
             root->is_const = 1;\
             root->valt = tmp;\
             return;\
         }\
         else{\
-            float tmp = ch(0)->op->val_float + ch(2)->op->val_float;\
+            float tmp = ch(0)->op->val_float arith_op ch(2)->op->val_float;\
             root->op = make_op(OP_FLOAT,&tmp);\
             root->is_const = 1;\
             root->valf = tmp;\
@@ -334,7 +330,11 @@ static void Func_Exp4(MTnode* root){
 }
 
 static void Func_Exp5(MTnode* root){
-    handle_double_const;
+    Log3("Func_Exp5");
+    Log3("root addr : %p",root);
+    gen(ch(0));
+    gen(ch(2));
+    handle_double_const(+);
     operand* op_const = NULL;
     operand* op_var;
     if(ch(0)->op->kind == OP_INT){
@@ -352,7 +352,11 @@ static void Func_Exp5(MTnode* root){
     arith(PLUS);
 }
 static void Func_Exp6(MTnode* root){
-    handle_double_const;
+    Log3("Func_Exp6");
+    Log3("root addr : %p",root);
+    gen(ch(0));
+    gen(ch(2));
+    handle_double_const(-);
     operand* op_const = NULL;
     operand* op_var;
     if(ch(2)->op->kind == OP_INT){
@@ -366,7 +370,12 @@ static void Func_Exp6(MTnode* root){
     arith(MINUS);
 }
 static void Func_Exp7(MTnode* root){
-    handle_double_const;
+    Log3("Func_Exp7");
+    Log3("root addr : %p",root);
+    gen(ch(0));
+    gen(ch(2));
+    handle_double_const(*);
+    Log3("ch0 addr : %p",ch(0));
     operand* op_const = NULL;
     operand* op_var;
     if(ch(0)->op->kind == OP_INT){
@@ -381,10 +390,17 @@ static void Func_Exp7(MTnode* root){
         root->op = op_var;
         return;
     }
+    if(op_const && op_const->val_int == 0){
+        root->op = op_const;
+        return;
+    }
     arith(MUL);
 }
 static void Func_Exp8(MTnode* root){
-    handle_double_const;
+    Log3("Func_Exp8");
+    gen(ch(0));
+    gen(ch(2));
+    handle_double_const(/);
     operand* op_const = NULL;
     operand* op_var;
     if(ch(2)->op->kind == OP_INT){
@@ -401,6 +417,10 @@ static void Func_Exp8(MTnode* root){
 #undef arith
 static void Func_Exp9(MTnode* root){
     Log2("Func_Exp9");
+    gen(ch(1));
+    root->op = ch(1)->op;
+    root->is_const = ch(1)->is_const;
+    root->al = ch(1)->al;
 }
 static void Func_Exp10(MTnode* root){
     Log2("Func_Exp10");
@@ -408,8 +428,9 @@ static void Func_Exp10(MTnode* root){
     ch(1)->op = malloc(sizeof(operand));
     gen(ch(1));
 
-    root->op->kind = OP_VAR;
-    root->op->var_str = get_var_no();
+    if(root->op == NULL){
+        root->op = make_op(OP_VAR,NULL);
+    }
     //gen code 
     intercode* ic = malloc(sizeof(intercode));
     ic->kind = ICN_MINUS;
@@ -436,9 +457,10 @@ static void gen_args(Argl* al){
     }
 }
 static void Func_Exp12(MTnode* root){
-    Log2("Func_Exp12 : ID( Args )");
-    root->op->kind = OP_VAR;
-    root->op->var_str = get_var_no();
+    Log3("Func_Exp12 : ID( Args )");
+    if(root->op == NULL){
+        root->op = make_op(OP_VAR,NULL);
+    }
 
     ch(2)->al = malloc(sizeof(Argl));
     ch(2)->al->next = NULL;
@@ -461,8 +483,9 @@ static void Func_Exp12(MTnode* root){
 }
 static void Func_Exp13(MTnode* root){
     Log2("Func_Exp13 : ID()");
-    root->op->kind = OP_VAR;
-    root->op->var_str = get_var_no();
+    if(root->op == NULL){
+        root->op = make_op(OP_VAR,NULL);
+    }
     if(strcmp(ch(0)->str,"read")==0){
         gen_single_var(root->op,READ);
     }
@@ -472,8 +495,6 @@ static void Func_Exp13(MTnode* root){
 }
 static void Func_Exp14(MTnode* root){
     Log2("Func_Exp14 : Exp [ Exp ]");
-    ch(0)->op = malloc(sizeof(operand));
-    ch(2)->op = malloc(sizeof(operand));
     is_left_val += 1;
     gen(ch(0)); // expect ch(0) to prepare addr
     if(is_left_val>0){
@@ -491,18 +512,28 @@ static void Func_Exp14(MTnode* root){
     }
     gen(ch(2));
     ////MUL:
-    intercode* ic = malloc(sizeof(intercode));
-    ic->kind = ICN_MUL;
-    operand* tmp = make_op(OP_VAR,NULL);
-    ic->icn_arith.result = tmp;
-    ic->icn_arith.op_left = make_op(OP_INT,(void*)&chst(0)->array.elem->size);
-    ic->icn_arith.op_right = ch(2)->op;
-    list_add_before(&code_head,&(ic->list));
-    Log2("------intercode addr : %p",ic);
+    operand* tmp;
+    if(!ch(2)->is_const){
+        intercode* ic = malloc(sizeof(intercode));
+        ic->kind = ICN_MUL;
+        tmp = make_op(OP_VAR,NULL);
+        ic->icn_arith.result = tmp;
+        ic->icn_arith.op_left = make_op(OP_INT,(void*)&chst(0)->array.elem->size);
+        ic->icn_arith.op_right = ch(2)->op;
+        list_add_before(&code_head,&(ic->list));
+        Log2("------intercode addr : %p",ic);
+    }
+    else{
+        tmp = make_op(OP_VAR,NULL);
+        tmp->kind = OP_INT;
+        tmp->val_int = chst(0)->array.elem->size * ch(2)->op->val_int;
+    }
     ////ADD:
+    if(root->op==NULL){
+        root->op = make_op(OP_VAR,NULL);
+    }
     root->op->kind = OP_ADDR;
-    root->op->var_str = get_var_no();
-    ic = malloc(sizeof(intercode));
+    intercode* ic = malloc(sizeof(intercode));
     ic->kind = ICN_PLUS;
     ic->icn_arith.result = root->op;
     ic->icn_arith.op_left = tmp;
@@ -517,11 +548,11 @@ static void Func_Exp14(MTnode* root){
     }
 }
 static void Func_Exp15(MTnode* root){ //!!!!!!!!!!!!!!!!!!1
-    Log2("Func_Exp15 : Exp1 . Exp2");
+    Log3("Func_Exp15 : Exp1 . Exp2");
     /*Exp1 is always ID || Exp14 || Exp15*/
     //get Exp1 addr
     is_left_val += 1;
-    ch(0)->op = malloc(sizeof(operand));
+    //ch(0)->op = malloc(sizeof(operand));
     gen(ch(0));
     if(is_left_val>0){
         is_left_val -= 1;
@@ -531,7 +562,9 @@ static void Func_Exp15(MTnode* root){ //!!!!!!!!!!!!!!!!!!1
         ch0_addr = malloc(sizeof(operand));
         ch0_addr->kind = OP_ADDR;
         ch0_addr->var_str = get_var_no();
+        Log3();
         gen_addr(ch0_addr,ch(0)->op);
+        Log3();
     }
     else{
         ch0_addr = ch(0)->op;
@@ -541,9 +574,10 @@ static void Func_Exp15(MTnode* root){ //!!!!!!!!!!!!!!!!!!1
     int offset = get_field_offset(chst(0)->fl,id);
     intercode* ic = malloc(sizeof(intercode));
     ic->kind = ICN_PLUS;
-    //root->op = malloc(sizeof(operand));
+    if(root->op==NULL){
+        root->op = make_op(OP_VAR,NULL);
+    }
     root->op->kind = OP_ADDR;
-    root->op->var_str = get_var_no();
     ic->icn_arith.result = root->op;
     ic->icn_arith.op_left = malloc(sizeof(operand));
     ic->icn_arith.op_left->kind = OP_INT;
@@ -560,19 +594,22 @@ static void Func_Exp15(MTnode* root){ //!!!!!!!!!!!!!!!!!!1
 static void Func_Exp16(MTnode* root){
     Log2("Func_Exp16");
     if(!is_left_val){
-        root->op->kind = OP_VAR;
-        root->op->var_str = get_var_no();
+        if(root->op==NULL){
+            root->op = make_op(OP_VAR,NULL);
+        }
         char* id = get_var_id(root)->str;
         symbol* s = find_sym(&var_tab,id);
         assert(s);
         gen_assign(root->op,s->op,0,NULL);
     }
     else{
-        root->op->kind = OP_VAR;
         char* id = get_var_id(root)->str;
         symbol* s = find_sym(&var_tab,id);
         assert(s);
         root->op = s->op;
+        if(root->op->kind!=OP_ADDR){
+            root->op->kind = OP_VAR;
+        }
     }
 }
 static void Func_Exp17(MTnode* root){
@@ -589,7 +626,6 @@ static void Func_Exp18(MTnode* root){
 }
 static void Func_Args1(MTnode* root){
     Log2("Func_Args1 : Exp , Args");
-    ch(0)->op = malloc(sizeof(operand));
     gen(ch(0));
     root->al->op = ch(0)->op;
     if(ch(0)->syn_type != type_int && ch(0)->syn_type != type_float){
@@ -605,7 +641,6 @@ static void Func_Args1(MTnode* root){
 }
 static void Func_Args2(MTnode* root){
     Log2("Func_Args2 : Exp");
-    ch(0)->op = malloc(sizeof(operand));
     gen(ch(0));
     if(ch(0)->syn_type != type_int && ch(0)->syn_type != type_float){
         root->al->is_basic = 0;

@@ -8,10 +8,12 @@ static void print_operand(operand* op){
     else if(op->kind == OP_FLOAT){
         printf("#%f",op->val_float);
     }
-    else{
+    else {
         printf("%s",op->var_str);
     }
 }
+
+
 /*
 intercode* pp;
 */

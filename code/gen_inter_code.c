@@ -600,23 +600,12 @@ static void Func_Exp15(MTnode* root){ //!!!!!!!!!!!!!!!!!!1
 }
 static void Func_Exp16(MTnode* root){
     Log2("Func_Exp16");
-    if(!is_left_val){
-        if(root->op==NULL){
-            root->op = make_op(OP_VAR,NULL);
-        }
-        char* id = get_var_id(root)->str;
-        symbol* s = find_sym(&var_tab,id);
-        assert(s);
-        gen_assign(root->op,s->op,0,NULL);
-    }
-    else{
-        char* id = get_var_id(root)->str;
-        symbol* s = find_sym(&var_tab,id);
-        assert(s);
-        root->op = s->op;
-        if(root->op->kind!=OP_ADDR){
-            root->op->kind = OP_VAR;
-        }
+    char* id = get_var_id(root)->str;
+    symbol* s = find_sym(&var_tab,id);
+    assert(s);
+    root->op = s->op;
+    if(root->op->kind!=OP_ADDR){
+        root->op->kind = OP_VAR;
     }
 }
 static void Func_Exp17(MTnode* root){

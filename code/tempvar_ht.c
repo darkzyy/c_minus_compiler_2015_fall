@@ -8,6 +8,7 @@ void add_tmpvar(char* varstr){
     if(nd==NULL){
         nd = (tmpvar_ht_node*)malloc(sizeof(tmpvar_ht_node));
         nd->varstr = varstr;
+        nd->dag_node_no = 0;
         HASH_ADD_KEYPTR(hh,tmpvar_ht,nd->varstr,strlen(nd->varstr),nd);
     }
 }
@@ -17,5 +18,3 @@ tmpvar_ht_node* find_tmpvar(char* varstr){
     HASH_FIND_STR(tmpvar_ht,varstr,nd);
     return nd;
 }
-
-

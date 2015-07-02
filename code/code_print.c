@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include"intercode.h"
 
-static void print_operand(operand* op){
+void print_operand(operand* op){
     if(op->kind == OP_INT){
         printf("#%d",op->val_int);
     }
@@ -28,6 +28,7 @@ intercode* pp;
 }
 
 void print_intercode(intercode* ic){
+    assert(ic);
     if(ic->kind == ICN_ASSIGN){
         print_operand(ic->res);
         printf(" := ");

@@ -17,6 +17,7 @@ struct tmpvar_ht_node{
     code_block_node* used_block;
     UT_hash_handle hh;
     int dag_node_no;
+    int update_no;
 };
 typedef struct tmpvar_ht_node tmpvar_ht_node;
 

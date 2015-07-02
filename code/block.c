@@ -52,14 +52,21 @@ void find_leader(){
 #undef next_ic
 #undef pp
 
+extern void handle_ic(intercode* ic);
+extern void print_dag();
 #define pp list_entry(p,code_block,list)
 
 void print_block(){
     ListHead* p = NULL;
     list_foreach(p,&block_head){
         printf("------------+++++++++++------------\n");
-        print_intercode(pp->start);
-        print_intercode(pp->end);
+        intercode* ic = pp->start;
+        while(ic!=pp->end){
+            handle_ic(ic);
+            ic=list_entry(ic->list.next,intercode,list);
+        }
+        handle_ic(ic);
+        print_dag();
         printf("------------+++++++++++------------\n");
     }
 }

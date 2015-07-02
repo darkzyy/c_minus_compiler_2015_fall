@@ -6,6 +6,8 @@
 #include"multi_tree.h"
 #include"tempvar_ht.h"
 
+static int in_deflist;
+
 void op01_init(){
     zero = malloc(sizeof(operand));
     zero->kind = OP_INT;
@@ -52,7 +54,12 @@ static float get_float_val(MTnode* root){
 }
 static char* get_var_no(){
     char* v = malloc(6);
-    v[0] = 'v';
+    if(in_deflist){
+        v[0] = 'v';
+    }
+    else{
+        v[0] = 't';
+    }
     sprintf(v+1,"%04d",current_var_no);
     add_tmpvar(v);
     current_var_no += 1;

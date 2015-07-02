@@ -249,12 +249,16 @@ static void Func_DecList2(MTnode* root){
 }
 static void Func_Dec1(MTnode* root){
     Log2("Func_Dec1");
+    in_deflist = 1;
     gen(ch(0));
+    in_deflist = 0;
 }
 static void Func_Dec2(MTnode* root){  
     //  VarDec ASSIGNOP  Exp
     Log2("Func_Dec2");
+    in_deflist = 1;
     gen(ch(0));
+    in_deflist = 0;
     ch(2)->op = malloc(sizeof(operand));
     gen(ch(2));
 

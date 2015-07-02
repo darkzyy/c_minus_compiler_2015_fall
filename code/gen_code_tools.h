@@ -4,6 +4,7 @@
 #include"list.h"
 #include"intercode.h"
 #include"multi_tree.h"
+#include"tempvar_ht.h"
 
 void op01_init(){
     zero = malloc(sizeof(operand));
@@ -49,11 +50,11 @@ static float get_float_val(MTnode* root){
         return get_float_val(ch(0));
     }
 }
-static inline char* get_var_no(){
+static char* get_var_no(){
     char* v = malloc(6);
     v[0] = 'v';
     sprintf(v+1,"%04d",current_var_no);
-    Log2("------var no: %s used",v);
+    add_tmpvar(v);
     current_var_no += 1;
     return v;
 }

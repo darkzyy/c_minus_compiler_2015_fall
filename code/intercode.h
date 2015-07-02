@@ -43,6 +43,8 @@ struct Argl{
 };
 typedef struct Argl Argl;
 
+struct code_block;
+
 struct intercode{
     int kind;
     struct{ char* label; }                                  icn_label;
@@ -60,12 +62,21 @@ struct intercode{
     struct{ operand* var ; int size;/*size % 4 = 0*/}          icn_dec;
     struct{ operand* result ; char* func; }                            icn_call;
     ListHead list;
+    struct code_block* cb;
 };
 typedef struct intercode intercode ;
+
+struct code_block{
+    intercode* start;
+    intercode* end;
+    ListHead list;
+};
+typedef struct code_block code_block;
 
 operand* zero;
 operand* one;
 ListHead code_head;
+ListHead block_head;
 int current_label_no;
 int current_var_no;
 

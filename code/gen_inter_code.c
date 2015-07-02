@@ -22,6 +22,7 @@ extern void gen(MTnode* root);
 static void Func_Program(MTnode* root){
     Log2("Func_Program");
     list_init(&code_head);
+    list_init(&block_head);
     gen(ch(0));
 }
 static void Func_ExtDefList1(MTnode* root){

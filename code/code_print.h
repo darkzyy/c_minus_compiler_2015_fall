@@ -12,6 +12,9 @@ static void print_operand(operand* op){
         printf("%s",op->var_str);
     }
 }
+/*
+intercode* pp;
+*/
 
 #define code_type (list_entry(p,intercode,list)->kind)
 #define pp list_entry(p,intercode,list)

@@ -31,11 +31,23 @@ static float* get_float_addr(MTnode* root){
         return get_float_addr(ch(0));
     }
 }
-static inline int get_int_val(MTnode* root){
-    return ch(0)->valt;
+static int get_int_val(MTnode* root){
+    assert(root);
+    if(root->type == INT){
+        return root->valt;
+    }
+    else{
+        return get_int_val(ch(0));
+    }
 }
-static inline float get_float_val(MTnode* root){
-    return ch(0)->valf;
+static float get_float_val(MTnode* root){
+    assert(root);
+    if(root->type == FLOAT){
+        return root->valf;
+    }
+    else{
+        return get_float_val(ch(0));
+    }
 }
 static inline char* get_var_no(){
     char* v = malloc(6);

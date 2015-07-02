@@ -300,45 +300,104 @@ static void Func_Exp4(MTnode* root){
     bool_translate;
 }
 
-#define handle_op(x,oplr) {\
-    if(ch(x)->type == Exp17){\
-        oplr = make_op(OP_INT,(void*)(get_int_addr(ch(x))));\
-    }\
-    else if(ch(x)->type == Exp18){\
-        oplr = make_op(OP_FLOAT,(void*)(get_float_addr(ch(x))));\
-    }\
-    else{\
-        ch(x)->op = malloc(sizeof(operand));\
-        gen(ch(x));\
-        oplr = ch(x)->op;\
-    }\
-}
 
-#define arith(arith_op)\
+#define arith(arith_op){\
+    operand* op_left,*op_right;\
+    handle_op(0,op_left);\
+    handle_op(2,op_right);\
     intercode* ic = malloc(sizeof(intercode));\
     ic->kind = ICN_##arith_op;\
     root->op = make_op(OP_VAR,NULL);\
     ic->icn_arith.result = root->op;\
-    operand* op_left,*op_right;\
-    handle_op(0,op_left);\
-    handle_op(2,op_right);\
     ic->icn_arith.op_left = op_left;\
     ic->icn_arith.op_right = op_right;\
-    list_add_before(&code_head,&(ic->list));
+    list_add_before(&code_head,&(ic->list));\
+}
+
+#define handle_double_const {\
+    if((ch(0)->is_const == 0)&&(ch(2)->is_const == 0)){\
+        if(ch(0)->op->kind == OP_INT){\
+            int tmp = ch(0)->op->val_int + ch(2)->op->val_int;\
+            root->op = make_op(OP_INT,&tmp);\
+            root->is_const = 1;\
+            root->valt = tmp;\
+            return;\
+        }\
+        else{\
+            float tmp = ch(0)->op->val_float + ch(2)->op->val_float;\
+            root->op = make_op(OP_FLOAT,&tmp);\
+            root->is_const = 1;\
+            root->valf = tmp;\
+            return;\
+        }\
+    }\
+}
 
 static void Func_Exp5(MTnode* root){
+    handle_double_const;
+    operand* op_const = NULL;
+    operand* op_var;
+    if(ch(0)->op->kind == OP_INT){
+        op_const = ch(0)->op;
+        op_var = ch(2)->op;
+    }
+    if(ch(2)->op->kind == OP_INT){
+        op_const = ch(2)->op;
+        op_var = ch(0)->op;
+    }
+    if(op_const && op_const->val_int == 0){
+        root->op = op_var;
+        return;
+    }
     arith(PLUS);
 }
 static void Func_Exp6(MTnode* root){
+    handle_double_const;
+    operand* op_const = NULL;
+    operand* op_var;
+    if(ch(2)->op->kind == OP_INT){
+        op_const = ch(2)->op;
+        op_var = ch(0)->op;
+    }
+    if(op_const && op_const->val_int == 0){
+        root->op = op_var;
+        return;
+    }
     arith(MINUS);
 }
 static void Func_Exp7(MTnode* root){
+    handle_double_const;
+    operand* op_const = NULL;
+    operand* op_var;
+    if(ch(0)->op->kind == OP_INT){
+        op_const = ch(0)->op;
+        op_var = ch(2)->op;
+    }
+    if(ch(2)->op->kind == OP_INT){
+        op_const = ch(2)->op;
+        op_var = ch(0)->op;
+    }
+    if(op_const && op_const->val_int == 1){
+        root->op = op_var;
+        return;
+    }
     arith(MUL);
 }
 static void Func_Exp8(MTnode* root){
+    handle_double_const;
+    operand* op_const = NULL;
+    operand* op_var;
+    if(ch(2)->op->kind == OP_INT){
+        op_const = ch(2)->op;
+        op_var = ch(0)->op;
+    }
+    if(op_const && op_const->val_int == 1){
+        root->op = op_var;
+        return;
+    }
     arith(DIV);
 }
-#undef handle_op
+#undef handle_double_const
 #undef arith
 static void Func_Exp9(MTnode* root){
     Log2("Func_Exp9");
@@ -518,11 +577,15 @@ static void Func_Exp16(MTnode* root){
 }
 static void Func_Exp17(MTnode* root){
     Log2("Func_Exp17");
+    root->valt = get_int_val(ch(0));
     root->op = make_op(OP_INT,get_int_addr(ch(0)));
+    root->is_const = 1;
 }
 static void Func_Exp18(MTnode* root){
     Log2("Func_Exp18");
+    root->valf = get_float_val(ch(0));
     root->op = make_op(OP_FLOAT,get_float_addr(ch(0)));
+    root->is_const = 1;
 }
 static void Func_Args1(MTnode* root){
     Log2("Func_Args1 : Exp , Args");

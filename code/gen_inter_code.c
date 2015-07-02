@@ -196,7 +196,9 @@ static void Func_Stmt4(MTnode* root){//if
     char* label1 = get_new_label();
     char* label2 = get_new_label();
     translate_cond(ch(2),label1,label2);
+    gen_label(label1,LABEL);
     gen(ch(4));
+    gen_label(label2,LABEL);
 }
 static void Func_Stmt5(MTnode* root){//if else
     Log2("Func_Stmt5");

@@ -204,7 +204,7 @@ static void translate_cond(MTnode* root,char* label_true,char* label_false){
         default:{
                     gen(root);
                     gen_if(root->op,zero,"!=",label_true);
-                    gen_label(label_false,LABEL);
+                    gen_label(label_false,GOTO);
                     break;
                 }
     }

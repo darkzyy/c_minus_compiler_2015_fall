@@ -18,7 +18,9 @@ v0001 := v0006
 v0007 := v0001 
 v0008 := v0001 
 IF v0008 != #0 GOTO label0003
-LABEL label0004 :
+GOTO label0004
+LABEL label0003 :
 WRITE #1
+LABEL label0004 :
 v0010 := v0001 
 RETURN v0010

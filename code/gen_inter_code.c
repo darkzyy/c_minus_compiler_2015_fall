@@ -89,7 +89,7 @@ static void Func_VarDec1(MTnode* root){
     char* id = get_var_id(root)->str;
     symbol* s = find_sym(&var_tab,id);
     assert(s);
-    s->op = make_op(OP_VAR,NULL);
+    s->op = make_new_op_var(get_var_no());
     if(inside_func){
         if(root->syn_type != type_int && root->syn_type != type_float){
             //example DEC v2 8
@@ -118,7 +118,7 @@ static void Func_VarDec2(MTnode* root){
         char* id = get_var_id(root)->str;
         symbol* s = find_sym(&var_tab,id);
         assert(s);
-        s->op = make_op(OP_VAR,NULL);
+        s->op = make_new_op_var(get_var_no());
         intercode* ic = malloc(sizeof(intercode));
         ic->kind = ICN_DEC;
         ic->res = s->op;
@@ -264,7 +264,7 @@ static void Func_Dec2(MTnode* root){
     //gen code2.1
     char* id = get_var_id(root)->str;
     symbol* s = find_sym(&var_tab,id);
-    gen_assign(s->op,ch(2)->op,0,NULL);
+    gen_assign_var(s->op,ch(2)->op);
 }
 static void Func_Exp1(MTnode* root){
     Log2("Func_Exp1 : ASSIGN");
@@ -273,22 +273,12 @@ static void Func_Exp1(MTnode* root){
     //gen code2.1
     is_left_val += 1;
     gen(ch(0));
-    if(ch(0)->op->kind == OP_VAR){
-        gen_assign(ch(0)->op,ch(2)->op,0,NULL);
-    }
-    else if(ch(0)->op->kind == OP_ADDR){
-        gen_refer_assign(ch(0)->op,ch(2)->op);
-    }
-    else{
-        assert(0);
-    }
     if(is_left_val != 0){
         is_left_val -= 1;
     }
 
     //gen code2.2
-    root->op = make_op(OP_VAR,NULL);
-    gen_assign(root->op,ch(0)->op,0,NULL);
+    root->op = gen_assign_var(ch(0)->op,ch(2)->op);
 }
 static void Func_Exp2(MTnode* root){
     Log2("Func_Exp2");
@@ -416,21 +406,14 @@ static void Func_Exp14(MTnode* root){
         is_left_val -= 1;
     }
     //get base addr
-    operand* ch0_addr;
-    if(ch(0)->op->kind == OP_VAR){
-        ch0_addr = make_new_op_addr(get_var_no());
-        gen_addr(ch0_addr,ch(0)->op);
-    }
-    else{
-        ch0_addr = ch(0)->op;
-    }
+    operand* ch0_addr = ch(0)->op;
 
     //get offset
     gen(ch(2));
 
     //MUL:
     operand* op2 = make_int(chst(0)->array.elem->size);
-    operand* tmp = gen_mul(ch(2)->op,op2,1,get_var_no());
+    operand* tmp = gen_mul(ch(2)->op,op2,0,get_var_no());
 
     //ADD:
     if(root->op==NULL){
@@ -441,7 +424,8 @@ static void Func_Exp14(MTnode* root){
     //prepare val for upper level
     if(!is_left_val){
         operand* val = make_new_op_var(get_var_no());
-        gen_refer(val,root->op);
+        //gen_refer(val,root->op);
+        gen_assign_var(val,root->op);
         root->op = val;
     }
 }
@@ -455,14 +439,7 @@ static void Func_Exp15(MTnode* root){
         is_left_val -= 1;
     }
     //get base addr
-    operand* ch0_addr;
-    if(ch(0)->op->kind == OP_VAR){
-        ch0_addr = make_new_op_addr(get_var_no());
-        gen_addr(ch0_addr,ch(0)->op);
-    }
-    else{
-        ch0_addr = ch(0)->op;
-    }
+    operand* ch0_addr = ch(0)->op;
     //get offset
     char* id = ch(2)->str;
     int offset = get_field_offset(chst(0)->fl,id);
@@ -473,7 +450,8 @@ static void Func_Exp15(MTnode* root){
     //prepare val for upper level
     if(!is_left_val){
         operand* val = make_new_op_var(get_var_no());
-        gen_refer(val,root->op);
+        //gen_refer(val,root->op);
+        gen_assign_var(val,root->op);
         root->op = val;
     }
 }

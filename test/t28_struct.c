@@ -1,6 +1,5 @@
 struct A{
-    int a;
-    float b;
+    int a,b;
 };
 struct B{
     int c;
@@ -10,8 +9,8 @@ struct B{
 int main(){
     struct A aa;
     struct B bb;
-    aa.a = 1;
-    write(aa.a);
+    aa.b = 1;
+    write(aa.b);
     bb.k = 2;
     write(bb.k);
     bb.s.a=3;

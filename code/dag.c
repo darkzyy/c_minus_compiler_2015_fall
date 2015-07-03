@@ -210,8 +210,7 @@ void handle_ic(intercode* ic){
 }
 
 extern void print_intercode(intercode* ic);
-extern void print_operand(operand* op);
-
+extern void print_operand_var(operand* op);
 void print_dag(){
     int i ;
     for(i=1;i<current_nodeno;i++){
@@ -236,9 +235,9 @@ void print_dag(){
                     operand* op1 = pool[nd->lch].varlist[0];
                     operand* op2 = pool[nd->rch].varlist[0];
                     printf("%s := ",res);
-                    print_operand(op1);
+                    print_operand_var(op1);
                     printf(" + ");
-                    print_operand(op2);
+                    print_operand_var(op2);
                     printf("\n");
                     Log3();
                     break;
@@ -274,7 +273,6 @@ void print_dag(){
         }
     }
 }
-
 
 
 

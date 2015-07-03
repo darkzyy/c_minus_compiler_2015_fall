@@ -1,0 +1,8 @@
+FUNCTION main :
+v0000 := #1 
+IF v0000 == #1 GOTO label0000
+GOTO label0001
+LABEL label0000 :
+WRITE #1
+LABEL label0001 :
+RETURN #0

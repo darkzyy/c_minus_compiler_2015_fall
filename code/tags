@@ -28,7 +28,7 @@ CFLAGS	Makefile	/^CFLAGS = -std=gnu99 -Wall -Wno-unused-function -g$/;"	m
 COMMA	syntax.tab.c	/^    COMMA = 262,$/;"	e	enum:yytokentype	file:
 COMMA	syntax.tab.h	/^    COMMA = 262,$/;"	e	enum:yytokentype
 COMMENTS	lex.yy.c	632;"	d	file:
-COMMON_ACTION	dag.c	120;"	d	file:
+COMMON_ACTION	dag.c	129;"	d	file:
 CompSt	multi_tree.h	/^    CompSt,$/;"	e	enum:__anon4
 CompSt	syntax.y	/^CompSt : LC DefList StmtList RC {$/;"	l
 DECLTYPE	uthash.h	37;"	d
@@ -57,7 +57,7 @@ ELMT_FROM_HH	uthash.h	101;"	d
 ELSE	syntax.tab.c	/^    ELSE = 283,$/;"	e	enum:yytokentype	file:
 ELSE	syntax.tab.h	/^    ELSE = 283,$/;"	e	enum:yytokentype
 EMPTY	multi_tree.h	/^    EMPTY$/;"	e	enum:__anon4
-ENVIRONMENT64	list.h	5;"	d
+ENVIRONMENT64	list.h	7;"	d
 EOB_ACT_CONTINUE_SCAN	lex.yy.c	174;"	d	file:
 EOB_ACT_END_OF_FILE	lex.yy.c	175;"	d	file:
 EOB_ACT_LAST_MATCH	lex.yy.c	176;"	d	file:
@@ -696,6 +696,7 @@ __INTERCODE_H__	intercode.h	2;"	d
 __LIST_H__	list.h	2;"	d
 __MULTI_TREE_H__	multi_tree.h	2;"	d
 __MY_YYERROR__	syntax.tab.c	2415;"	d	file:
+__NEW_TOOLS_H__	new_tools.h	2;"	d
 __PARSER_DEBUG__	main.c	7;"	d	file:
 __SEMANTIC_H__	semantic.h	2;"	d
 __STDC_LIMIT_MACROS	lex.yy.c	40;"	d	file:
@@ -716,8 +717,8 @@ alloca	syntax.tab.c	309;"	d	file:
 arg_cmp	semantic.c	/^int arg_cmp(ArgList* alx,ArgList* aly){$/;"	f	signature:(ArgList* alx,ArgList* aly)
 argamt	symtab.h	/^    int argamt;\/\/arguement amount$/;"	m	struct:symbol_	access:public
 argamt_count	semantic.c	/^int argamt_count(ArgList* al){$/;"	f	signature:(ArgList* al)
-arith	gen_inter_code.c	310;"	d	file:
-arith	gen_inter_code.c	424;"	d	file:
+arith	gen_inter_code.c	308;"	d	file:
+arith	gen_inter_code.c	422;"	d	file:
 array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon5
 array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon7
 array	cmmtypes.h	/^        }array;$/;"	m	union:Type_::__anon8	typeref:struct:Type_::__anon8::__anon9	access:public
@@ -840,12 +841,13 @@ get_float_val	gen_code_tools.h	/^static float get_float_val(MTnode* root){$/;"	f
 get_int_addr	gen_code_tools.h	/^static int* get_int_addr(MTnode* root){$/;"	f	signature:(MTnode* root)
 get_int_val	gen_code_tools.h	/^static int get_int_val(MTnode* root){$/;"	f	signature:(MTnode* root)
 get_new_label	gen_code_tools.h	/^static inline char* get_new_label(){$/;"	f	signature:()
+get_update_time	dag.c	/^int get_update_time(operand* op){$/;"	f	signature:(operand* op)
 get_var_id	multi_tree.c	/^MTnode* get_var_id(MTnode* dec){$/;"	f	signature:(MTnode* dec)
 get_var_id	multi_tree.h	/^MTnode* get_var_id(MTnode* dec);$/;"	p	signature:(MTnode* dec)
 get_var_no	gen_code_tools.h	/^static char* get_var_no(){$/;"	f	signature:()
 global	semantic.c	/^int global;$/;"	v
-handle_double_const	gen_inter_code.c	320;"	d	file:
-handle_double_const	gen_inter_code.c	423;"	d	file:
+handle_double_const	gen_inter_code.c	318;"	d	file:
+handle_double_const	gen_inter_code.c	421;"	d	file:
 handle_ic	block.c	/^extern void handle_ic(intercode* ic);$/;"	p	file:	signature:(intercode* ic)
 handle_ic	dag.c	/^void handle_ic(intercode* ic){$/;"	f	signature:(intercode* ic)
 hashv	uthash.h	/^   unsigned hashv;                   \/* result of hash-fcn(key)        *\/$/;"	m	struct:UT_hash_handle	access:public
@@ -889,6 +891,7 @@ intercode::op2	intercode.h	/^    operand* op2;$/;"	m	struct:intercode	access:pub
 intercode::relop	intercode.h	/^    char* relop;$/;"	m	struct:intercode	access:public
 intercode::res	intercode.h	/^    operand* res;$/;"	m	struct:intercode	access:public
 intercode::size	intercode.h	/^    int size;$/;"	m	struct:intercode	access:public
+intercode::use_addr	intercode.h	/^    int use_addr;$/;"	m	struct:intercode	access:public
 intercodeno	intercode.h	/^enum intercodeno{$/;"	g
 is_basic	intercode.h	/^    int is_basic;$/;"	m	struct:Argl	access:public
 is_const	multi_tree.h	/^    int is_const;$/;"	m	struct:MTnode	access:public
@@ -916,15 +919,23 @@ list_add_after	list.h	/^list_add_after(ListHead *list, ListHead *data) {$/;"	f	s
 list_add_before	list.h	/^list_add_before(ListHead *list, ListHead *data) {$/;"	f	signature:(ListHead *list, ListHead *data)
 list_del	list.h	/^list_del(ListHead *data) {$/;"	f	signature:(ListHead *data)
 list_empty	list.h	/^list_empty(ListHead *list) {$/;"	f	signature:(ListHead *list)
-list_entry	list.h	29;"	d
-list_entry	list.h	32;"	d
-list_foreach	list.h	75;"	d
+list_entry	list.h	31;"	d
+list_entry	list.h	34;"	d
+list_foreach	list.h	77;"	d
 list_init	list.h	/^list_init(ListHead *list) {$/;"	f	signature:(ListHead *list)
 location	multi_tree.h	/^    YYLTYPE location;$/;"	m	struct:MTnode	access:public
 locl	multi_tree.h	49;"	d
 log2_num_buckets	uthash.h	/^   unsigned num_buckets, log2_num_buckets;$/;"	m	struct:UT_hash_table	access:public
 main	main.c	/^int main(int argc,char** argv){$/;"	f	signature:(int argc,char** argv)
+make_float	new_tools.c	/^operand* make_float(float val){$/;"	f	signature:(float val)
+make_float	new_tools.h	/^operand* make_float(float val);$/;"	p	signature:(float val)
+make_int	new_tools.c	/^operand* make_int(int val){$/;"	f	signature:(int val)
+make_int	new_tools.h	/^operand* make_int(int val);$/;"	p	signature:(int val)
 make_leaf	dag.c	/^int make_leaf(operand* op){$/;"	f	signature:(operand* op)
+make_new_op_addr	new_tools.c	/^operand* make_new_op_addr(char* var_str){$/;"	f	signature:(char* var_str)
+make_new_op_addr	new_tools.h	/^operand* make_new_op_addr(char* var_str);$/;"	p	signature:(char* var_str)
+make_new_op_var	new_tools.c	/^operand* make_new_op_var(char* var_str){$/;"	f	signature:(char* var_str)
+make_new_op_var	new_tools.h	/^operand* make_new_op_var(char* var_str);$/;"	p	signature:(char* var_str)
 make_op	gen_code_tools.h	/^static operand* make_op(int kind,void* val){$/;"	f	signature:(int kind,void* val)
 malloc	syntax.tab.c	/^void *malloc (YYSIZE_T); \/* INFRINGES ON USER NAME SPACE *\/$/;"	p	file:
 max	dag.c	/^static int max(int x,int y){$/;"	f	file:	signature:(int x,int y)
@@ -1062,6 +1073,7 @@ uint32_t	uthash.h	/^typedef unsigned int uint32_t;$/;"	t
 uint8_t	uthash.h	/^typedef unsigned char uint8_t;$/;"	t
 unput	lex.yy.c	214;"	d	file:
 update_no	tempvar_ht.h	/^    int update_no;$/;"	m	struct:tmpvar_ht_node	access:public
+use_addr	intercode.h	/^    int use_addr;$/;"	m	struct:intercode	access:public
 used_block	tempvar_ht.h	/^    code_block_node* used_block;$/;"	m	struct:tmpvar_ht_node	access:public
 uthash_expand_fyi	uthash.h	92;"	d
 uthash_fatal	uthash.h	79;"	d

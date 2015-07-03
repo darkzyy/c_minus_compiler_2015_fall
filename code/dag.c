@@ -4,6 +4,7 @@
 #include"dag.h"
 #include"debug.h"
 #include"intercode.h"
+#include"new_tools.h"
 
 #define NODE_AMOUNT 256
 
@@ -170,6 +171,7 @@ dagnode* get_current_node(){
 extern void print_intercode(intercode* ic);
 
 void handle_ic(intercode* ic){
+    //print_intercode(ic);
     switch(ic->kind)
     {
         case ICN_CALL:
@@ -193,6 +195,7 @@ void handle_ic(intercode* ic){
                 dagnode* nd = get_current_node();//get node for current ic
                 nd->ic = ic;
                 nd->type = ic->kind;
+                nd->res = ic->res;
 
                 tmpvar_ht_node* res_ht_nd = find_tmpvar(ic->res->var_str);
                 res_ht_nd->dag_node_no = op1_no;
@@ -229,16 +232,91 @@ void handle_ic(intercode* ic){
                 int start = max(op1_upd_no,op2_upd_no);
                 int end = current_nodeno;
                 int match_no = ic_match(start,end,op1_no,op2_no,ic);
+                int ic_type = ic->kind;
                 if(match_no == 0){ //a new node
+                    ic->op1 = pool[op1_no].res;
+                    ic->op2 = pool[op2_no].res;
+                    if(ic->op1->kind == OP_INT && ic->op2->kind == OP_INT){
+                        operand* tmpres ;
+                        int tmpres_no;
+                        switch(ic->kind){
+                            case ICN_PLUS:
+                                {
+                                    Log3();
+                                    tmpres = make_int(ic->op1->val_int+ic->op2->val_int);
+                                    tmpres_no = find_make(tmpres);
+                                    break;
+                                }
+                            case ICN_MINUS:
+                                {
+                                    Log3();
+                                    tmpres = make_int(ic->op1->val_int-ic->op2->val_int);
+                                    tmpres_no = find_make(tmpres);
+                                    break;
+                                }
+                            case ICN_MUL:
+                                {
+                                    Log3();
+                                    tmpres = make_int(ic->op1->val_int*ic->op2->val_int);
+                                    tmpres_no = find_make(tmpres);
+                                    break;
+                                }
+                            case ICN_DIV:
+                                {
+                                    Log3();
+                                    tmpres = make_int(ic->op1->val_int/ic->op2->val_int);
+                                    tmpres_no = find_make(tmpres);
+                                    break;
+                                }
+                            default:
+                                {}
+                        }
+                        ic->kind = ICN_ASSIGN;
+                        ic->op1 = tmpres;
+                        tmpres_no = tmpres_no+1;//!!!!!!!!!!!!!
+                    }
+                    if(ic->op1->kind == OP_FLOAT && ic->op2->kind == OP_FLOAT){
+                        operand* tmpres ;
+                        float tmpres_no;
+                        switch(ic->kind){
+                            case ICN_PLUS:
+                                {
+                                    tmpres = make_float(ic->op1->val_float+ic->op2->val_float);
+                                    tmpres_no = find_make(tmpres);
+                                    break;
+                                }
+                            case ICN_MINUS:
+                                {
+                                    tmpres = make_float(ic->op1->val_float-ic->op2->val_float);
+                                    tmpres_no = find_make(tmpres);
+                                    break;
+                                }
+                            case ICN_MUL:
+                                {
+                                    tmpres = make_float(ic->op1->val_float*ic->op2->val_float);
+                                    tmpres_no = find_make(tmpres);
+                                    break;
+                                }
+                            case ICN_DIV:
+                                {
+                                    tmpres = make_float(ic->op1->val_float/ic->op2->val_float);
+                                    tmpres_no = find_make(tmpres);
+                                    break;
+                                }
+                            default:
+                                {}
+                        }
+                        ic->kind = ICN_ASSIGN;
+                        ic->op1 = tmpres;
+                        tmpres_no = tmpres_no+1;
+                    }
                     dagnode* nd = get_current_node();
                     res_ht_nd->dag_node_no = current_nodeno-1;
                     res_ht_nd->update_no = current_nodeno-1;
                     nd->ic = ic;
                     nd->lch = op1_no; //lch and rch record the src
                     nd->rch = op2_no;
-                    nd->type = ic->kind;
-                    ic->op1 = pool[op1_no].res;
-                    ic->op2 = pool[op2_no].res;
+                    nd->type = ic_type;
                     nd->res = ic->res;
                     Log3("stored res addr:%p",nd->res);
                     Log3("generated arith: No %d, lch:%d,rch%d",current_nodeno-1,nd->lch,nd->rch);

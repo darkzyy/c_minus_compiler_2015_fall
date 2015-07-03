@@ -4,8 +4,6 @@ DEC v0001 40
 t0004 := &v0001 + #36
 *t0004 := #4 
 IF v0000 == #1 GOTO label0000
-GOTO label0003
-LABEL label0003 :
 IF v0000 == #0 GOTO label0000
 GOTO label0001
 LABEL label0000 :
@@ -16,10 +14,8 @@ WRITE #0
 LABEL label0002 :
 t0009 := &v0001 + #36
 t0010 := *t0009 
-v0000 := t0010 
+v0000 := *t0009 
 IF v0000 == #3 GOTO label0004
-GOTO label0007
-LABEL label0007 :
 IF v0000 == #4 GOTO label0004
 GOTO label0005
 LABEL label0004 :

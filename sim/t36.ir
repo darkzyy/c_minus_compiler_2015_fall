@@ -1,12 +1,14 @@
 FUNCTION main :
 v0000 := #100 
 DEC v0001 40
-v0001 := #9 
+t0004 := &v0001 + #0
+*t0004 := #9 
 WRITE #0
-t0011 := #0 * v0000
+t0011 := #0 
 WRITE t0011
 WRITE #0
 WRITE #0
-t0018 := v0001 
+t0017 := t0004 
+t0018 := *t0004 
 WRITE t0018
 RETURN #0

@@ -27,7 +27,7 @@ enum intercodeno{
 };
 
 struct operand{
-    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR } kind;
+    enum{ OP_INT=1,OP_FLOAT,OP_VAR,OP_ADDR } kind;
     char* var_str;
     int val_int;
     float val_float;

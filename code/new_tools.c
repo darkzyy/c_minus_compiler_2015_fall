@@ -92,7 +92,7 @@ operand* gen_plus(operand* op1,operand* op2,int use_addr,char* res_tmp_str){
         op_const = op2;
         op_var = op1;
     }
-    if(op_const && op_const->val_int == 0){
+    if(op_const && op_const->val_int == 0 && use_addr == 0){
         return op_var;
     }
     /*no const operand*/

@@ -108,7 +108,7 @@ int ic_match(int start,int end,int op1_no,int op2_no,intercode* ic){
     int i;
     for(i=start+1;i<end;i++){
         dagnode* nd = &pool[i];
-        if(nd->type != ic->kind){
+        if(nd->status!=VALID || nd->type != ic->kind){
             continue;
         }
         if(nd->lch == op1_no && nd->rch == op2_no){

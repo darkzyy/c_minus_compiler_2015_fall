@@ -18,6 +18,7 @@ struct tmpvar_ht_node{
     UT_hash_handle hh;
     int dag_node_no;
     int update_no;
+    int is_alive;
 };
 typedef struct tmpvar_ht_node tmpvar_ht_node;
 

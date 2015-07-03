@@ -24,6 +24,12 @@ void tmpvar_node_no_init(){
     for(nd = tmpvar_ht;nd!=NULL;nd = nd->hh.next){
         nd->dag_node_no = 0;
         nd->update_no = 0;
+        if(nd->varstr[0]=='v'){
+            nd->is_alive = 1;
+        }
+        else{
+            nd->is_alive = 0;
+        }
     }
 }
 

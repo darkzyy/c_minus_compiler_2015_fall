@@ -362,6 +362,137 @@ void handle_ic(intercode* ic){
     }
 }
 
+void del_tmpvar(intercode* ic){
+    switch(ic->kind){
+        case ICN_ASSIGN:
+            {
+                tmpvar_ht_node* nd = find_tmpvar(ic->res->var_str);
+                assert(nd);
+                if(!(ic->use_addr == 0 && ic->res->kind == OP_ADDR)){
+                    if(nd->is_alive == 0){
+                        list_del(&(ic->list));
+                    }
+                    else{
+                        nd->is_alive = 0;
+                        if(ic->op1->kind == OP_VAR || ic->op1->kind == OP_ADDR){
+                            nd = find_tmpvar(ic->op1->var_str);
+                            assert(nd);
+                            nd->is_alive = 1;
+                        }
+                    }
+                }
+                else{
+                    nd->is_alive = 1;
+                    if(ic->op1->kind == OP_VAR || ic->op1->kind == OP_ADDR){
+                        nd = find_tmpvar(ic->op1->var_str);
+                        assert(nd);
+                        nd->is_alive = 1;
+                    }
+                }
+                break;
+            }
+        case ICN_PLUS:
+            {}
+        case ICN_MINUS:
+            {}
+        case ICN_MUL:
+            {}
+        case ICN_DIV:
+            {
+                tmpvar_ht_node* nd = find_tmpvar(ic->res->var_str);
+                assert(nd);
+                if(!(ic->use_addr == 0 && ic->res->kind == OP_ADDR)){
+                    if(nd->is_alive == 0){
+                        list_del(&(ic->list));
+                    }
+                    else{
+                        nd->is_alive = 0;
+                        if(ic->op1->kind == OP_VAR || ic->op1->kind == OP_ADDR){
+                            nd = find_tmpvar(ic->op1->var_str);
+                            assert(nd);
+                            nd->is_alive = 1;
+                        }
+                        if(ic->op2->kind == OP_VAR || ic->op2->kind == OP_ADDR){
+                            nd = find_tmpvar(ic->op2->var_str);
+                            assert(nd);
+                            nd->is_alive = 1;
+                        }
+                    }
+                }
+                else{
+                    nd->is_alive = 1;
+                    if(ic->op1->kind == OP_VAR || ic->op1->kind == OP_ADDR){
+                        nd = find_tmpvar(ic->op1->var_str);
+                        assert(nd);
+                        nd->is_alive = 1;
+                    }
+                    if(ic->op2->kind == OP_VAR || ic->op2->kind == OP_ADDR){
+                        nd = find_tmpvar(ic->op2->var_str);
+                        assert(nd);
+                        nd->is_alive = 1;
+                    }
+                }
+                break;
+            } 
+        case ICN_IF:
+            {
+                tmpvar_ht_node* nd;
+                if(ic->op1->kind == OP_VAR || ic->op1->kind == OP_ADDR){
+                    nd = find_tmpvar(ic->op1->var_str);
+                    assert(nd);
+                    nd->is_alive = 1;
+                }
+                if(ic->op2->kind == OP_VAR || ic->op2->kind == OP_ADDR){
+                    nd = find_tmpvar(ic->op2->var_str);
+                    assert(nd);
+                    nd->is_alive = 1;
+                }
+                break;
+            }
+        case ICN_READ:
+            {
+                tmpvar_ht_node* nd = find_tmpvar(ic->res->var_str);
+                assert(nd);
+                if(nd->is_alive == 0){
+                    list_del(&(ic->list));
+                }
+                else{
+                    nd->is_alive = 0;
+                }
+                break;
+            }
+        case ICN_CALL:
+            {
+                tmpvar_ht_node* nd = find_tmpvar(ic->res->var_str);
+                assert(nd);
+                if(nd->is_alive == 0){
+                    //list_del(&(ic->list)); //= =
+                }
+                else{
+                    nd->is_alive = 0;
+                }
+                break;
+            }
+        case ICN_ARG_ADDR:
+            {}
+        case ICN_WRITE:
+            {}
+        case ICN_RETURN:
+            {}
+        case ICN_ARG:
+            {
+                if(ic->res->kind == OP_VAR || ic->res->kind == OP_ADDR){
+                    tmpvar_ht_node* nd = find_tmpvar(ic->res->var_str);
+                    assert(nd);
+                    nd->is_alive = 1;
+                }
+                break;
+            }
+        default:
+            {}
+    }
+}
+
 void handle_cb(code_block* cb){
     intercode* ic = cb->start;
     init_nodepoll();
@@ -370,6 +501,9 @@ void handle_cb(code_block* cb){
     last_killno = 1;
     for(;ic!=cb->end;ic = list_entry(ic->list.next,intercode,list)){
         handle_ic(ic);
+    }
+    for(ic=cb->end;ic!=cb->start;ic = list_entry(ic->list.prev,intercode,list)){
+        del_tmpvar(ic);
     }
 }
 

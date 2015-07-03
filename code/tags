@@ -28,7 +28,7 @@ CFLAGS	Makefile	/^CFLAGS = -std=gnu99 -Wall -Wno-unused-function -g$/;"	m
 COMMA	syntax.tab.c	/^    COMMA = 262,$/;"	e	enum:yytokentype	file:
 COMMA	syntax.tab.h	/^    COMMA = 262,$/;"	e	enum:yytokentype
 COMMENTS	lex.yy.c	632;"	d	file:
-COMMON_ACTION	dag.c	152;"	d	file:
+COMMON_ACTION	dag.c	160;"	d	file:
 CompSt	multi_tree.h	/^    CompSt,$/;"	e	enum:__anon4
 CompSt	syntax.y	/^CompSt : LC DefList StmtList RC {$/;"	l
 DECLTYPE	uthash.h	37;"	d
@@ -384,16 +384,16 @@ MUR_THREE_ONE	uthash.h	545;"	d
 MUR_THREE_ONE	uthash.h	549;"	d
 MUR_TWO_TWO	uthash.h	546;"	d
 MUR_TWO_TWO	uthash.h	550;"	d
-NODE_AMOUNT	dag.c	8;"	d	file:
+NODE_AMOUNT	dag.c	9;"	d	file:
 NOT	syntax.tab.c	/^    NOT = 272,$/;"	e	enum:yytokentype	file:
 NOT	syntax.tab.h	/^    NOT = 272,$/;"	e	enum:yytokentype
 NO_DECLTYPE	uthash.h	39;"	d
 NO_DECLTYPE	uthash.h	43;"	d
 OBJS	Makefile	/^OBJS = $(CFILES:.c=.o)$/;"	m
-OP_ADDR	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	e	enum:operand::__anon2
-OP_FLOAT	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	e	enum:operand::__anon2
-OP_INT	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	e	enum:operand::__anon2
-OP_VAR	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	e	enum:operand::__anon2
+OP_ADDR	intercode.h	/^    enum{ OP_INT=1,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	e	enum:operand::__anon2
+OP_FLOAT	intercode.h	/^    enum{ OP_INT=1,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	e	enum:operand::__anon2
+OP_INT	intercode.h	/^    enum{ OP_INT=1,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	e	enum:operand::__anon2
+OP_VAR	intercode.h	/^    enum{ OP_INT=1,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	e	enum:operand::__anon2
 OR	syntax.tab.c	/^    OR = 270,$/;"	e	enum:yytokentype	file:
 OR	syntax.tab.h	/^    OR = 270,$/;"	e	enum:yytokentype
 OptTag	multi_tree.h	/^    OptTag,$/;"	e	enum:__anon4
@@ -913,6 +913,7 @@ intercode::res	intercode.h	/^    operand* res;$/;"	m	struct:intercode	access:pub
 intercode::size	intercode.h	/^    int size;$/;"	m	struct:intercode	access:public
 intercode::use_addr	intercode.h	/^    int use_addr;$/;"	m	struct:intercode	access:public
 intercodeno	intercode.h	/^enum intercodeno{$/;"	g
+is_alive	tempvar_ht.h	/^    int is_alive;$/;"	m	struct:tmpvar_ht_node	access:public
 is_basic	intercode.h	/^    int is_basic;$/;"	m	struct:Argl	access:public
 is_const	multi_tree.h	/^    int is_const;$/;"	m	struct:MTnode	access:public
 is_left_val	gen_inter_code.c	/^static int is_left_val = 0;$/;"	v	file:
@@ -921,7 +922,7 @@ keylen	uthash.h	/^   unsigned keylen;                  \/* enclosing struct's ke
 kill_refer	dag.c	/^void kill_refer(){$/;"	f
 kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon5	access:public
 kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon7	access:public
-kind	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon2	access:public
+kind	intercode.h	/^    enum{ OP_INT=1,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon2	access:public
 kind	intercode.h	/^    int kind;$/;"	m	struct:intercode	access:public
 label	intercode.h	/^    char* label;$/;"	m	struct:intercode	access:public
 label	tempvar_ht.h	/^    char* label;$/;"	m	struct:label_node	access:public
@@ -996,11 +997,11 @@ op2	intercode.h	/^    operand* op2;$/;"	m	struct:intercode	access:public
 opcmp	dag.c	/^int opcmp(operand* x,operand* y){$/;"	f	signature:(operand* x,operand* y)
 operand	intercode.h	/^struct operand{$/;"	s
 operand	intercode.h	/^typedef struct operand operand;$/;"	t	typeref:struct:operand
-operand::OP_ADDR	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	e	enum:operand::__anon2
-operand::OP_FLOAT	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	e	enum:operand::__anon2
-operand::OP_INT	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	e	enum:operand::__anon2
-operand::OP_VAR	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	e	enum:operand::__anon2
-operand::kind	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon2	access:public
+operand::OP_ADDR	intercode.h	/^    enum{ OP_INT=1,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	e	enum:operand::__anon2
+operand::OP_FLOAT	intercode.h	/^    enum{ OP_INT=1,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	e	enum:operand::__anon2
+operand::OP_INT	intercode.h	/^    enum{ OP_INT=1,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	e	enum:operand::__anon2
+operand::OP_VAR	intercode.h	/^    enum{ OP_INT=1,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	e	enum:operand::__anon2
+operand::kind	intercode.h	/^    enum{ OP_INT=1,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon2	access:public
 operand::val_float	intercode.h	/^    float val_float;$/;"	m	struct:operand	access:public
 operand::val_int	intercode.h	/^    int val_int;$/;"	m	struct:operand	access:public
 operand::var_str	intercode.h	/^    char* var_str;$/;"	m	struct:operand	access:public
@@ -1086,6 +1087,7 @@ tmpvar_ht_node	tempvar_ht.h	/^struct tmpvar_ht_node{$/;"	s
 tmpvar_ht_node	tempvar_ht.h	/^typedef struct tmpvar_ht_node tmpvar_ht_node;$/;"	t	typeref:struct:tmpvar_ht_node
 tmpvar_ht_node::dag_node_no	tempvar_ht.h	/^    int dag_node_no;$/;"	m	struct:tmpvar_ht_node	access:public
 tmpvar_ht_node::hh	tempvar_ht.h	/^    UT_hash_handle hh;$/;"	m	struct:tmpvar_ht_node	access:public
+tmpvar_ht_node::is_alive	tempvar_ht.h	/^    int is_alive;$/;"	m	struct:tmpvar_ht_node	access:public
 tmpvar_ht_node::modified_block	tempvar_ht.h	/^    code_block_node* modified_block;$/;"	m	struct:tmpvar_ht_node	access:public
 tmpvar_ht_node::update_no	tempvar_ht.h	/^    int update_no;$/;"	m	struct:tmpvar_ht_node	access:public
 tmpvar_ht_node::used_block	tempvar_ht.h	/^    code_block_node* used_block;$/;"	m	struct:tmpvar_ht_node	access:public

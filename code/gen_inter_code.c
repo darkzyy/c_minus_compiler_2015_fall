@@ -19,7 +19,6 @@ static int is_left_val = 0;
 typedef void (*ft)(MTnode*);
 extern void gen(MTnode* root);
 
-
 static void Func_Program(MTnode* root){
     Log2("Func_Program");
     list_init(&code_head);
@@ -293,14 +292,17 @@ static void Func_Exp1(MTnode* root){
 }
 static void Func_Exp2(MTnode* root){
     Log2("Func_Exp2");
+    root->op = make_new_op_var(get_var_no());
     bool_translate;
 }
 static void Func_Exp3(MTnode* root){
     Log2("Func_Exp3");
+    root->op = make_new_op_var(get_var_no());
     bool_translate;
 }
 static void Func_Exp4(MTnode* root){
     Log2("Func_Exp4");
+    root->op = make_new_op_var(get_var_no());
     bool_translate;
 }
 
@@ -328,8 +330,6 @@ static void Func_Exp8(MTnode* root){
     gen(ch(2));
     root->op = gen_div(ch(0)->op,ch(2)->op,0,get_var_no());
 }
-#undef handle_double_const
-#undef arith
 
 static void Func_Exp9(MTnode* root){
     Log2("Func_Exp9");
@@ -340,7 +340,6 @@ static void Func_Exp9(MTnode* root){
 }
 static void Func_Exp10(MTnode* root){
     Log2("Func_Exp10");
-    //prepare operand for ch(1)
     gen(ch(1));
 
     if(root->op == NULL){
@@ -357,6 +356,7 @@ static void Func_Exp10(MTnode* root){
 }
 static void Func_Exp11(MTnode* root){
     Log2("Func_Exp11");
+    root->op = make_new_op_var(get_var_no());
     bool_translate;
 }
 static void gen_args(Argl* al){

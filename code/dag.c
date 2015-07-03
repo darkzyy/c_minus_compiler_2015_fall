@@ -3,12 +3,14 @@
 #include<assert.h>
 #include"dag.h"
 #include"debug.h"
+#include"intercode.h"
 
 #define NODE_AMOUNT 256
 
 static dagnode pool[NODE_AMOUNT];
 
 int current_nodeno = 1;
+int last_killno = 1;
 ListHead opti_code_head;
 
 static int max(int x,int y){
@@ -36,7 +38,6 @@ void init_nodepoll(){
 };
 
 int make_leaf(operand* op){
-    Log3();
     dagnode* nd = &pool[current_nodeno++];
     if(op->kind == OP_INT){
         nd->type = -3;
@@ -50,7 +51,7 @@ int make_leaf(operand* op){
     nd->lch = 0;
     nd->rch = 0;
     nd->status = VALID;
-    nd->varlist[nd->varamt++] = op;
+    nd->res = op;
     nd->ic = NULL;
     Log3("leaf node line:%d ",current_nodeno-1);
     return current_nodeno-1;
@@ -68,21 +69,23 @@ int find_make(operand* op){
     else if(op->kind == OP_INT){
         int i;
         for(i=1;i<current_nodeno;i++){
-            if(pool[i].type == -3 && pool[i].varlist[0]->val_int == op->val_int){
+            if(pool[i].type == -3 && pool[i].res->val_int == op->val_int){
                 break;
             }
         }
         if(i==current_nodeno){
+            Log3();
             return make_leaf(op);
         }
         else{
+            Log3();
             return i;
         }
     }
     else{
         int i;
         for(i=1;i<current_nodeno;i++){
-            if(pool[i].type == -2 && pool[i].varlist[0]->val_float == op->val_float){
+            if(pool[i].type == -2 && pool[i].res->val_float == op->val_float){
                 break;
             }
         }
@@ -126,6 +129,18 @@ int ic_match(int start,int end,int op1_no,int op2_no,intercode* ic){
     }
 }
 
+void kill_refer(){
+    int i = last_killno;
+    for(;i<current_nodeno;i++){
+        dagnode* nd = &pool[i];
+        operand* op1 = pool[nd->lch].res;
+        operand* op2 = pool[nd->lch].res;
+        if(nd->ic->use_addr == 0 && (op1->kind == OP_ADDR || op2->kind == OP_ADDR)){
+            nd->status = KILLED;
+        }
+    }
+    last_killno = current_nodeno;
+}
 
 #define COMMON_ACTION {\
     nd->type = ic->kind;\
@@ -133,23 +148,46 @@ int ic_match(int start,int end,int op1_no,int op2_no,intercode* ic){
     nd->ic = ic;\
 }
 
+dagnode* get_current_node(){
+    pool[current_nodeno++].status = VALID;
+    return &pool[current_nodeno];
+}
+
 void handle_ic(intercode* ic){
     switch(ic->kind)
     {
         case ICN_CALL:
             {
-                make_leaf(ic->res);
+                tmpvar_ht_node* res_ht_nd = find_tmpvar(ic->res->var_str);
+                dagnode* nd = get_current_node();
+                nd->ic = ic;
+                nd->res = ic->res;
+                res_ht_nd->dag_node_no = current_nodeno-1;
+                res_ht_nd->update_no = current_nodeno-1; //record in the temp var table
+
+                if(ic->use_addr == 0 && ic->res->kind == OP_ADDR){
+                    kill_refer();
+                }
                 break;
             }
         case ICN_ASSIGN:
             {
-                int op1_no = find_make(ic->op1);
+                int op1_no = find_make(ic->op1);//get op1 no
+                dagnode* nd = get_current_node();//get node for current ic
+                nd->ic = ic;
+
                 tmpvar_ht_node* res_ht_nd = find_tmpvar(ic->res->var_str);
                 res_ht_nd->dag_node_no = op1_no;
-                res_ht_nd->update_no = current_nodeno-1;
-                dagnode* nd = &pool[op1_no];
-                nd->varlist[nd->varamt++] = ic->res;
-                Log3("line: %d node: %s = line:%d",current_nodeno,ic->res->var_str,op1_no);
+                res_ht_nd->update_no = current_nodeno-1; //record in the temp var table
+
+                dagnode* op_nd = &pool[op1_no];
+                Log3("ic->op1 kind:%d",ic->op1->kind);
+                Log3("op1_no = %d",op1_no);
+                ic->op1 = op_nd->res; //modify current ic
+                Log3("ic->op1 kind:%d",ic->op1->kind);
+                if(ic->use_addr == 0 && ic->res->kind == OP_ADDR){
+                    kill_refer();
+                }
                 break;
             }
         case ICN_PLUS:
@@ -171,99 +209,73 @@ void handle_ic(intercode* ic){
                 int start = max(op1_upd_no,op2_upd_no);
                 int end = current_nodeno;
                 int match_no = ic_match(start,end,op1_no,op2_no,ic);
-                if(match_no == 0){
-                    res_ht_nd->dag_node_no = current_nodeno;
-                    dagnode* nd = &pool[current_nodeno];
-                    COMMON_ACTION;
-                    nd->lch = op1_no;
+                if(match_no == 0){ //a new node
+                    dagnode* nd = get_current_node();
+                    res_ht_nd->dag_node_no = current_nodeno-1;
+                    res_ht_nd->update_no = current_nodeno-1;
+                    nd->ic = ic;
+                    nd->lch = op1_no; //lch and rch record the src
                     nd->rch = op2_no;
-                    nd->varlist[nd->varamt++] = ic->res;
-                    Log3("line %d: %s = line:%d op line:%d",
-                                current_nodeno,ic->res->var_str,op1_no,op2_no);
-                    current_nodeno++;
+                    ic->op1 = pool[op1_no].res;
+                    ic->op2 = pool[op2_no].res;
+                    nd->res = ic->res;
+                    Log3("generated arith");
                 }
                 else{
                     res_ht_nd->dag_node_no = match_no;
-                    dagnode* nd = &pool[match_no];
-                    nd->varlist[nd->varamt++] = ic->res;
+                    res_ht_nd->update_no = current_nodeno-1;
+                    dagnode* nd = get_current_node();
+                    ic->kind = ICN_ASSIGN;
+                    ic->op1 = pool[match_no].res;
+                    nd->res = ic->res;
+                    Log3("convert arith to assign");
                 }
                 res_ht_nd->update_no = current_nodeno-1;
+
+                if(ic->use_addr == 0 && ic->res->kind == OP_ADDR){
+                    kill_refer();
+                }
+                break;
+            }
+        case ICN_READ:
+            {
+                tmpvar_ht_node* res_ht_nd = find_tmpvar(ic->res->var_str);
+                dagnode* nd = get_current_node();
+                nd->ic = ic;
+                nd->res = ic->res;
+                res_ht_nd->dag_node_no = current_nodeno-1;
+                res_ht_nd->update_no = current_nodeno-1; //record in the temp var table
+
+                if(ic->use_addr == 0 && ic->res->kind == OP_ADDR){
+                    kill_refer();
+                }
                 break;
             }
         default:
             {
-                dagnode* nd = &pool[current_nodeno];
-                COMMON_ACTION;
-                current_nodeno++;
-                Log3();
+                dagnode* nd = get_current_node();
+                nd->ic = ic;
             }
     }
 }
 
-extern void print_intercode(intercode* ic);
-extern void print_operand_var(operand* op);
-void print_dag(){
-    int i ;
-    for(i=1;i<current_nodeno;i++){
-        dagnode* nd = &pool[i];
-        switch(nd->type)
-        {
-            case (-3):
-                {
-                    break;
-                }
-            case (-2):
-                {
-                    break;
-                }
-            case (-1):
-                {
-                    break;
-                }
-            case ICN_PLUS:
-                {
-                    char* res = nd->varlist[0]->var_str;
-                    operand* op1 = pool[nd->lch].varlist[0];
-                    operand* op2 = pool[nd->rch].varlist[0];
-                    printf("%s := ",res);
-                    print_operand_var(op1);
-                    printf(" + ");
-                    print_operand_var(op2);
-                    printf("\n");
-                    Log3();
-                    break;
-                }
-            case ICN_MINUS:
-                {
-                    char* res = nd->varlist[0]->var_str;
-                    char* op1 = pool[nd->lch].varlist[0]->var_str;
-                    char* op2 = pool[nd->rch].varlist[0]->var_str;
-                    printf("%s := %s - %s\n",res,op1,op2);
-                    break;
-                }
-            case ICN_MUL:
-                {
-                    char* res = nd->varlist[0]->var_str;
-                    char* op1 = pool[nd->lch].varlist[0]->var_str;
-                    char* op2 = pool[nd->rch].varlist[0]->var_str;
-                    printf("%s := %s * %s\n",res,op1,op2);
-                    break;
-                }
-            case ICN_DIV:
-                {
-                    char* res = nd->varlist[0]->var_str;
-                    char* op1 = pool[nd->lch].varlist[0]->var_str;
-                    char* op2 = pool[nd->rch].varlist[0]->var_str;
-                    printf("%s := %s / %s\n",res,op1,op2);
-                    break;
-                }
-            default:
-                {
-                    print_intercode(nd->ic);
-                }
-        }
+void handle_cb(code_block* cb){
+    intercode* ic = cb->start;
+    init_nodepoll();
+    for(;ic!=cb->end;ic = list_entry(ic->list.next,intercode,list)){
+        handle_ic(ic);
     }
 }
+
+void dag_opti(){
+    ListHead* p;
+    list_foreach(p,&block_head){
+        handle_cb(list_entry(p,code_block,list));
+    }
+}
+
+
+
 
 
 

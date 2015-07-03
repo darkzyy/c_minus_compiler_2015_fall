@@ -11,6 +11,8 @@ extern FILE* yyin;
 extern void error_report();
 extern void yyrestart(FILE* f);
 extern int lineno_init();
+extern void print_code();
+extern void dag_opti();
 
 int enable_debug = 0;
 int wall = 0;
@@ -50,10 +52,10 @@ int main(int argc,char** argv){
 	yydebug = 1;
 #endif
 	yyparse(); 
-    /*
     find_leader();
-    print_block();
-    */
+    print_code();
+    dag_opti();
+    print_code();
 	return 0; 
 }
 #endif

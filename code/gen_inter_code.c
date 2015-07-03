@@ -274,7 +274,7 @@ static void Func_Dec2(MTnode* root){
     //gen code2.1
     char* id = get_var_id(root)->str;
     symbol* s = find_sym(&var_tab,id);
-    gen_assign_var(s->op,ch(2)->op);
+    root->op = gen_assign_var(s->op,ch(2)->op);
 }
 static void Func_Exp1(MTnode* root){
     Log2("Func_Exp1 : ASSIGN");

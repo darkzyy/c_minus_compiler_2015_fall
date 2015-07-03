@@ -18,8 +18,7 @@ struct dagnode{
     int rch;
     int type; // -3: int, -2: float, -1:var
     intercode* ic;
-    operand* varlist[VAR_LIST_LEN];
-    int varamt;
+    operand* res;
 };
 
 typedef struct dagnode dagnode;

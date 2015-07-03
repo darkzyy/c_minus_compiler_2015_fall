@@ -89,7 +89,7 @@ Program : ExtDefList {
             gen($$);
             find_goto_next();
             del_useless_label();
-            print_code();
+            //print_code();
         }
         //print_symtab(var_tab);
         }

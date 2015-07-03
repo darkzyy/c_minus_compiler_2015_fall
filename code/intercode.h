@@ -2,6 +2,7 @@
 #define __INTERCODE_H__
 
 #include"list.h"
+#include<stdlib.h>
 
 //#define __USE_UNION__
 
@@ -55,6 +56,7 @@ struct intercode{
     int size;
     ListHead list;
     struct code_block* cb;
+    int use_addr;
 };
 typedef struct intercode intercode ;
 

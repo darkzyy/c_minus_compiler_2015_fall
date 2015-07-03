@@ -1,11 +1,12 @@
 #include<string.h>
 #include<stdio.h>
+#include<assert.h>
 #include"multi_tree.h"
 #include"symtab.h"
 #include"cmmtypes.h"
 #include"debug.h"
 #include"gen_code_tools.h"
-#include"assert.h"
+#include"new_tools.h"
 
 extern Type* type_int;
 extern Type* type_float;
@@ -178,12 +179,12 @@ static void Func_Stmt3(MTnode* root){//return
     Log2("Func_Stmt3");
     if(ch(1)->type == Exp17){
         int tmp = get_int_val(ch(1));
-        operand* const_val = make_op(OP_INT,(void*)&tmp);
+        operand* const_val = make_int(tmp);
         gen_single_var(const_val,RETURN);
     }
     else if(ch(1)->type == Exp18){
         float tmp = get_float_val(ch(1));
-        operand* const_val = make_op(OP_FLOAT,(void*)&tmp);
+        operand* const_val = make_float(tmp);
         gen_single_var(const_val,RETURN);
     }
     else{
@@ -259,7 +260,6 @@ static void Func_Dec2(MTnode* root){
     in_deflist = 1;
     gen(ch(0));
     in_deflist = 0;
-    ch(2)->op = malloc(sizeof(operand));
     gen(ch(2));
 
     //gen code2.1
@@ -288,9 +288,7 @@ static void Func_Exp1(MTnode* root){
     }
 
     //gen code2.2
-    if(root->op == NULL){
-        root->op = make_op(OP_VAR,NULL);
-    }
+    root->op = make_op(OP_VAR,NULL);
     gen_assign(root->op,ch(0)->op,0,NULL);
 }
 static void Func_Exp2(MTnode* root){

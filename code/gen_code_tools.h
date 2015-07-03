@@ -249,24 +249,4 @@ static operand* make_op(int kind,void* val){
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif

@@ -1,6 +1,8 @@
 #ifndef __LIST_H__
 #define __LIST_H__
 
+#include<stdlib.h>
+
 #if __x86_64__ || __ppc64__
 #define ENVIRONMENT64
 #endif

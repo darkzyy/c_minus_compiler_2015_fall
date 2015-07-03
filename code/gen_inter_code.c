@@ -270,14 +270,12 @@ static void Func_Exp1(MTnode* root){
     Log2("Func_Exp1 : ASSIGN");
     gen(ch(2));
 
-    //gen code2.1
     is_left_val += 1;
     gen(ch(0));
     if(is_left_val != 0){
         is_left_val -= 1;
     }
 
-    //gen code2.2
     root->op = gen_assign_var(ch(0)->op,ch(2)->op);
 }
 static void Func_Exp2(MTnode* root){
@@ -424,7 +422,6 @@ static void Func_Exp14(MTnode* root){
     //prepare val for upper level
     if(!is_left_val){
         operand* val = make_new_op_var(get_var_no());
-        //gen_refer(val,root->op);
         gen_assign_var(val,root->op);
         root->op = val;
     }
@@ -450,7 +447,6 @@ static void Func_Exp15(MTnode* root){
     //prepare val for upper level
     if(!is_left_val){
         operand* val = make_new_op_var(get_var_no());
-        //gen_refer(val,root->op);
         gen_assign_var(val,root->op);
         root->op = val;
     }
@@ -461,9 +457,6 @@ static void Func_Exp16(MTnode* root){
     symbol* s = find_sym(&var_tab,id);
     assert(s);
     root->op = s->op;
-    if(root->op->kind!=OP_ADDR){
-        root->op->kind = OP_VAR;
-    }
 }
 static void Func_Exp17(MTnode* root){
     Log2("Func_Exp17");

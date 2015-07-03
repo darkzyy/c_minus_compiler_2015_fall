@@ -139,7 +139,6 @@ void handle_ic(intercode* ic){
         case ICN_CALL:
             {
                 make_leaf(ic->res);
-                //record as a new var;
                 break;
             }
         case ICN_ASSIGN:

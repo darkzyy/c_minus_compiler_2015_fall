@@ -1,8 +1,6 @@
 FUNCTION fib :
 PARAM t0000
 IF t0000 == #0 GOTO label0000
-GOTO label0003
-LABEL label0003 :
 IF t0000 == #1 GOTO label0000
 GOTO label0001
 LABEL label0000 :

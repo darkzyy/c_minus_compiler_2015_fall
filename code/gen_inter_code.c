@@ -197,8 +197,10 @@ static void Func_Stmt4(MTnode* root){//if
     char* label2 = get_new_label();
     translate_cond(ch(2),label1,label2);
     gen_label(label1,LABEL);
+    add_label(label1);
     gen(ch(4));
     gen_label(label2,LABEL);
+    add_label(label2);
 }
 static void Func_Stmt5(MTnode* root){//if else
     Log2("Func_Stmt5");
@@ -207,12 +209,16 @@ static void Func_Stmt5(MTnode* root){//if else
     char* label3 = get_new_label();
     translate_cond(ch(2),label1,label2);
     gen_label(label1,LABEL);
+    add_label(label1);
     gen(ch(4));
     Log3("GOTO:");
     gen_label(label3,GOTO);
+    add_label_refer(label3);
     gen_label(label2,LABEL);
+    add_label(label2);
     gen(ch(6));
     gen_label(label3,LABEL);
+    add_label(label3);
 }
 static void Func_Stmt6(MTnode* root){//while
     Log2("Func_Stmt6");
@@ -220,11 +226,15 @@ static void Func_Stmt6(MTnode* root){//while
     char* label2 = get_new_label();
     char* label3 = get_new_label();
     gen_label(label1,LABEL);
+    add_label(label1);
     translate_cond(ch(2),label2,label3);
     gen_label(label2,LABEL);
+    add_label(label2);
     gen(ch(4));
     gen_label(label1,GOTO);
+    add_label_refer(label1);
     gen_label(label3,LABEL);
+    add_label(label3);
 }
 static void Func_DefList1(MTnode* root){
     Log2("Func_DefList1");

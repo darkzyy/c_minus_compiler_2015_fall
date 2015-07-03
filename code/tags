@@ -28,7 +28,7 @@ CFLAGS	Makefile	/^CFLAGS = -std=gnu99 -Wall -Wno-unused-function -g$/;"	m
 COMMA	syntax.tab.c	/^    COMMA = 262,$/;"	e	enum:yytokentype	file:
 COMMA	syntax.tab.h	/^    COMMA = 262,$/;"	e	enum:yytokentype
 COMMENTS	lex.yy.c	632;"	d	file:
-COMMON_ACTION	dag.c	129;"	d	file:
+COMMON_ACTION	dag.c	130;"	d	file:
 CompSt	multi_tree.h	/^    CompSt,$/;"	e	enum:__anon4
 CompSt	syntax.y	/^CompSt : LC DefList StmtList RC {$/;"	l
 DECLTYPE	uthash.h	37;"	d
@@ -295,7 +295,6 @@ HASH_SIGNATURE	uthash.h	916;"	d
 HASH_SORT	uthash.h	732;"	d
 HASH_SRT	uthash.h	733;"	d
 HASH_TO_BKT	uthash.h	207;"	d
-ICN_ADDR	intercode.h	/^    ICN_ADDR,           \/\/tmp_var$/;"	e	enum:intercodeno
 ICN_ARG	intercode.h	/^    ICN_ARG,            \/\/operand$/;"	e	enum:intercodeno
 ICN_ARG_ADDR	intercode.h	/^    ICN_ARG_ADDR,            \/\/operand addr$/;"	e	enum:intercodeno
 ICN_ASSIGN	intercode.h	/^    ICN_ASSIGN,         \/\/x<=tmp var; y<=operand$/;"	e	enum:intercodeno
@@ -311,8 +310,6 @@ ICN_MUL	intercode.h	/^    ICN_MUL,$/;"	e	enum:intercodeno
 ICN_PARAM	intercode.h	/^    ICN_PARAM,          \/\/tmp_var$/;"	e	enum:intercodeno
 ICN_PLUS	intercode.h	/^    ICN_PLUS,           \/\/x<=tmp_var; y z <= operand$/;"	e	enum:intercodeno
 ICN_READ	intercode.h	/^    ICN_READ,           \/\/tmp_var$/;"	e	enum:intercodeno
-ICN_REFER	intercode.h	/^    ICN_REFER,          \/\/tmp_var$/;"	e	enum:intercodeno
-ICN_REFER_ASSIGN	intercode.h	/^    ICN_REFER_ASSIGN,   \/\/tmp_var$/;"	e	enum:intercodeno
 ICN_RETURN	intercode.h	/^    ICN_RETURN,         \/\/operand$/;"	e	enum:intercodeno
 ICN_WRITE	intercode.h	/^    ICN_WRITE           \/\/operand$/;"	e	enum:intercodeno
 ID	syntax.tab.c	/^    ID = 260,$/;"	e	enum:yytokentype	file:
@@ -702,6 +699,10 @@ __SEMANTIC_H__	semantic.h	2;"	d
 __STDC_LIMIT_MACROS	lex.yy.c	40;"	d	file:
 __SYMTAB_H__	symtab.h	2;"	d
 __TEMPVAR_HT_H__	tempvar_ht.h	2;"	d
+add_label	tempvar_ht.c	/^void add_label(char* str){$/;"	f	signature:(char* str)
+add_label	tempvar_ht.h	/^void add_label(char* str);$/;"	p	signature:(char* str)
+add_label_refer	tempvar_ht.c	/^void add_label_refer(char* str){$/;"	f	signature:(char* str)
+add_label_refer	tempvar_ht.h	/^void add_label_refer(char* str);$/;"	p	signature:(char* str)
 add_node	multi_tree.c	/^void add_node(MTnode* par,MTnode* child){$/;"	f	signature:(MTnode* par,MTnode* child)
 add_node	multi_tree.h	/^void add_node(MTnode* par,MTnode* child);$/;"	p	signature:(MTnode* par,MTnode* child)
 add_sym_name	symtab.c	/^void add_sym_name(symbol** ht, char* id_name){$/;"	f	signature:(symbol** ht, char* id_name)
@@ -731,7 +732,7 @@ block_head	intercode.h	/^ListHead block_head;$/;"	v
 bloom_bv	uthash.h	/^   uint8_t *bloom_bv;$/;"	m	struct:UT_hash_table	access:public
 bloom_nbits	uthash.h	/^   uint8_t bloom_nbits;$/;"	m	struct:UT_hash_table	access:public
 bloom_sig	uthash.h	/^   uint32_t bloom_sig; \/* used only to test bloom exists in external analysis *\/$/;"	m	struct:UT_hash_table	access:public
-bool_translate	gen_code_tools.h	219;"	d
+bool_translate	gen_code_tools.h	181;"	d
 buckets	uthash.h	/^   UT_hash_bucket *buckets;$/;"	m	struct:UT_hash_table	access:public
 cb	intercode.h	/^    struct code_block* cb;$/;"	m	struct:intercode	typeref:struct:intercode::code_block	access:public
 cb	tempvar_ht.h	/^    code_block* cb;$/;"	m	struct:code_block_node	access:public
@@ -785,6 +786,9 @@ expand_mult	uthash.h	/^   unsigned expand_mult;$/;"	m	struct:UT_hash_bucket	acce
 false_label	multi_tree.h	/^    char* false_label;$/;"	m	struct:MTnode	access:public
 field_find	semantic.c	/^Type* field_find(FieldList* fl,char* id){$/;"	f	signature:(FieldList* fl,char* id)
 field_tab	symtab.c	/^symbol* field_tab = NULL;$/;"	v
+find_goto_next	peephole.c	/^void find_goto_next(){$/;"	f
+find_label	tempvar_ht.c	/^label_node* find_label(char* str){$/;"	f	signature:(char* str)
+find_label	tempvar_ht.h	/^label_node* find_label(char* str);$/;"	p	signature:(char* str)
 find_leader	block.c	/^void find_leader(){$/;"	f
 find_leader	block.h	/^void find_leader();$/;"	p	signature:()
 find_make	dag.c	/^int find_make(operand* op){$/;"	f	signature:(operand* op)
@@ -822,7 +826,6 @@ func_table	semantic.c	/^static ft func_table[60] = {$/;"	v	file:
 gen	gen_code_tools.h	/^extern void gen(MTnode* root);$/;"	p	signature:(MTnode* root)
 gen	gen_inter_code.c	/^extern void gen(MTnode* root);$/;"	p	file:	signature:(MTnode* root)
 gen	gen_inter_code.c	/^void gen(MTnode* root){$/;"	f	signature:(MTnode* root)
-gen_addr	gen_code_tools.h	/^static void gen_addr(operand* left,operand* right){$/;"	f	signature:(operand* left,operand* right)
 gen_args	gen_inter_code.c	/^static void gen_args(Argl* al){$/;"	f	file:	signature:(Argl* al)
 gen_assign	gen_code_tools.h	/^static void gen_assign(operand* left,operand* right,int right_kind,void* right_val){$/;"	f	signature:(operand* left,operand* right,int right_kind,void* right_val)
 gen_assign_addr	new_tools.c	/^operand* gen_assign_addr(operand* res,operand* op1){$/;"	f	signature:(operand* res,operand* op1)
@@ -833,16 +836,14 @@ gen_call	gen_code_tools.h	/^static void gen_call(operand* op,char* func){$/;"	f	
 gen_div	new_tools.c	/^operand* gen_div(operand* op1,operand* op2,int use_addr,char* res_tmp_str){$/;"	f	signature:(operand* op1,operand* op2,int use_addr,char* res_tmp_str)
 gen_div	new_tools.h	/^operand* gen_div(operand* op1,operand* op2,int use_addr,char* res_tmp_str);$/;"	p	signature:(operand* op1,operand* op2,int use_addr,char* res_tmp_str)
 gen_if	gen_code_tools.h	/^static void gen_if(operand* op1,operand* op2,char* relop,char* label){$/;"	f	signature:(operand* op1,operand* op2,char* relop,char* label)
-gen_label	gen_code_tools.h	146;"	d
+gen_label	gen_code_tools.h	106;"	d
 gen_minus	new_tools.c	/^operand* gen_minus(operand* op1,operand* op2,int use_addr,char* res_tmp_str){$/;"	f	signature:(operand* op1,operand* op2,int use_addr,char* res_tmp_str)
 gen_minus	new_tools.h	/^operand* gen_minus(operand* op1,operand* op2,int use_addr,char* res_tmp_str);$/;"	p	signature:(operand* op1,operand* op2,int use_addr,char* res_tmp_str)
 gen_mul	new_tools.c	/^operand* gen_mul(operand* op1,operand* op2,int use_addr,char* res_tmp_str){$/;"	f	signature:(operand* op1,operand* op2,int use_addr,char* res_tmp_str)
 gen_mul	new_tools.h	/^operand* gen_mul(operand* op1,operand* op2,int use_addr,char* res_tmp_str);$/;"	p	signature:(operand* op1,operand* op2,int use_addr,char* res_tmp_str)
 gen_plus	new_tools.c	/^operand* gen_plus(operand* op1,operand* op2,int use_addr,char* res_tmp_str){$/;"	f	signature:(operand* op1,operand* op2,int use_addr,char* res_tmp_str)
 gen_plus	new_tools.h	/^operand* gen_plus(operand* op1,operand* op2,int use_addr,char* res_tmp_str);$/;"	p	signature:(operand* op1,operand* op2,int use_addr,char* res_tmp_str)
-gen_refer	gen_code_tools.h	/^static void gen_refer(operand* left,operand* right){$/;"	f	signature:(operand* left,operand* right)
-gen_refer_assign	gen_code_tools.h	/^static void gen_refer_assign(operand* left,operand* right){$/;"	f	signature:(operand* left,operand* right)
-gen_single_var	gen_code_tools.h	154;"	d
+gen_single_var	gen_code_tools.h	114;"	d
 get16bits	uthash.h	472;"	d
 get16bits	uthash.h	475;"	d
 get16bits	uthash.h	479;"	d
@@ -864,6 +865,7 @@ handle_ic	block.c	/^extern void handle_ic(intercode* ic);$/;"	p	file:	signature:
 handle_ic	dag.c	/^void handle_ic(intercode* ic){$/;"	f	signature:(intercode* ic)
 hashv	uthash.h	/^   unsigned hashv;                   \/* result of hash-fcn(key)        *\/$/;"	m	struct:UT_hash_handle	access:public
 hh	symtab.h	/^    UT_hash_handle hh;$/;"	m	struct:symbol_	access:public
+hh	tempvar_ht.h	/^    UT_hash_handle hh;$/;"	m	struct:label_node	access:public
 hh	tempvar_ht.h	/^    UT_hash_handle hh;$/;"	m	struct:tmpvar_ht_node	access:public
 hh_head	uthash.h	/^   struct UT_hash_handle *hh_head;$/;"	m	struct:UT_hash_bucket	typeref:struct:UT_hash_bucket::UT_hash_handle	access:public
 hh_next	uthash.h	/^   struct UT_hash_handle *hh_next;   \/* next hh in bucket order        *\/$/;"	m	struct:UT_hash_handle	typeref:struct:UT_hash_handle::UT_hash_handle	access:public
@@ -915,6 +917,13 @@ kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon7	acce
 kind	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"	m	struct:operand	typeref:enum:operand::__anon2	access:public
 kind	intercode.h	/^    int kind;$/;"	m	struct:intercode	access:public
 label	intercode.h	/^    char* label;$/;"	m	struct:intercode	access:public
+label	tempvar_ht.h	/^    char* label;$/;"	m	struct:label_node	access:public
+label_ht	tempvar_ht.c	/^label_node* label_ht = NULL;$/;"	v
+label_node	tempvar_ht.h	/^struct label_node{$/;"	s
+label_node	tempvar_ht.h	/^typedef struct label_node label_node;$/;"	t	typeref:struct:label_node
+label_node::hh	tempvar_ht.h	/^    UT_hash_handle hh;$/;"	m	struct:label_node	access:public
+label_node::label	tempvar_ht.h	/^    char* label;$/;"	m	struct:label_node	access:public
+label_node::refer_times	tempvar_ht.h	/^    int refer_times;$/;"	m	struct:label_node	access:public
 last_cb	block.c	13;"	d	file:
 last_cb	block.c	50;"	d	file:
 last_column	syntax.tab.c	/^  int last_column;$/;"	m	struct:YYLTYPE	file:	access:public
@@ -987,7 +996,7 @@ operand::kind	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"
 operand::val_float	intercode.h	/^    float val_float;$/;"	m	struct:operand	access:public
 operand::val_int	intercode.h	/^    int val_int;$/;"	m	struct:operand	access:public
 operand::var_str	intercode.h	/^    char* var_str;$/;"	m	struct:operand	access:public
-opti_code_head	intercode.h	/^ListHead opti_code_head;$/;"	v
+opti_code_head	dag.c	/^ListHead opti_code_head;$/;"	v
 pool	dag.c	/^static dagnode pool[NODE_AMOUNT];$/;"	v	file:
 pp	block.c	12;"	d	file:
 pp	block.c	53;"	d	file:
@@ -995,6 +1004,8 @@ pp	block.c	57;"	d	file:
 pp	block.c	74;"	d	file:
 pp	code_print.c	165;"	d	file:
 pp	code_print.c	174;"	d	file:
+pp	peephole.c	/^intercode* pp;$/;"	v
+pp	peephole.c	6;"	d	file:
 pre_tranverse	multi_tree.c	/^void pre_tranverse(MTnode* root){$/;"	f	signature:(MTnode* root)
 pre_tranverse	multi_tree.h	/^void pre_tranverse(MTnode* root);$/;"	p	signature:(MTnode* root)
 pre_tranverse2	multi_tree.c	/^void pre_tranverse2(MTnode* root,int indent){$/;"	f	signature:(MTnode* root,int indent)
@@ -1022,6 +1033,7 @@ print_symtab	symtab.c	/^void print_symtab(symbol* ht){$/;"	f	signature:(symbol* 
 print_symtab	symtab.h	/^void print_symtab(symbol* ht);$/;"	p	signature:(symbol* ht)
 property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon10	access:public
 rch	dag.h	/^    int rch;$/;"	m	struct:dagnode	access:public
+refer_times	tempvar_ht.h	/^    int refer_times;$/;"	m	struct:label_node	access:public
 relop	intercode.h	/^    char* relop;$/;"	m	struct:intercode	access:public
 res	intercode.h	/^    operand* res;$/;"	m	struct:intercode	access:public
 sem	semantic.c	/^void sem(MTnode* root){$/;"	f	signature:(MTnode* root)

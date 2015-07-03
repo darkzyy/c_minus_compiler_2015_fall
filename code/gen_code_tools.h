@@ -146,6 +146,7 @@ static void translate_cond(MTnode* root,char* label_true,char* label_false){
                       char* label = get_new_label();
                       translate_cond(ch(0),label,label_false);
                       gen_label(label,LABEL);
+                      add_label(label);
                       translate_cond(ch(2),label_true,label_false);
                       break;
                   }
@@ -153,6 +154,7 @@ static void translate_cond(MTnode* root,char* label_true,char* label_false){
                       char* label = get_new_label();
                       translate_cond(ch(0),label_true,label);
                       gen_label(label,LABEL);
+                      add_label(label);
                       translate_cond(ch(2),label_true,label_false);
                       break;
                   }
@@ -160,8 +162,10 @@ static void translate_cond(MTnode* root,char* label_true,char* label_false){
                       gen(ch(0));
                       gen(ch(2));
                       gen_if(ch(0)->op,ch(2)->op,ch(1)->str,label_true);
+                      add_label_refer(label_true);
                       Log3("GOTO:");
                       gen_label(label_false,GOTO);
+                      add_label_refer(label_false);
                       break;
                   }
         case Exp11:{
@@ -171,7 +175,9 @@ static void translate_cond(MTnode* root,char* label_true,char* label_false){
         default:{
                     gen(root);
                     gen_if(root->op,zero,"!=",label_true);
+                    add_label_refer(label_true);
                     gen_label(label_false,GOTO);
+                    add_label_refer(label_false);
                     break;
                 }
     }
@@ -184,8 +190,10 @@ static void translate_cond(MTnode* root,char* label_true,char* label_false){
     gen_assign(root->op,zero,0,NULL);\
     translate_cond(root,label1,label2);\
     gen_label(label1,LABEL);\
+    add_label(label1);\
     gen_assign(root->op,one,0,NULL);\
     gen_label(label2,LABEL);\
+    add_label(label2);\
 }
 
 static operand* make_op(int kind,void* val){

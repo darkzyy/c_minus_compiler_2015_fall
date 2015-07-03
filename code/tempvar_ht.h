@@ -26,6 +26,19 @@ extern tmpvar_ht_node* tmpvar_ht;
 void add_tmpvar(char* varstr);
 tmpvar_ht_node* find_tmpvar(char* varstr);
 
+/********labels*************/
+struct label_node{
+    char* label;
+    UT_hash_handle hh;
+    int refer_times;
+};
 
+typedef struct label_node label_node;
+
+extern label_node* label_ht;
+
+void add_label_refer(char* str);
+void add_label(char* str);
+label_node* find_label(char* str);
 
 #endif

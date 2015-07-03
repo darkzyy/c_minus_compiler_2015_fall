@@ -103,46 +103,6 @@ static void gen_assign(operand* left,operand* right,int right_kind,void* right_v
     Log2("------intercode addr : %p",ic);
 }
 
-static void gen_addr(operand* left,operand* right){
-    /*if left is given , this func will not change its content*/
-    /*if right is OP_VAR , this func will generate a new operand for its ADDR*/
-    if(left==NULL){
-        left = malloc(sizeof(operand));
-        left->kind = OP_VAR;
-        left->var_str = get_var_no();
-    }
-    if(right->kind == OP_VAR){
-        operand* new_right = malloc(sizeof(operand));
-        new_right->kind = OP_ADDR;
-        new_right->var_str = right->var_str;
-        right = new_right;
-    }
-    intercode* ic = malloc(sizeof(intercode));
-    ic->kind = ICN_ADDR;
-    ic->res = left;
-    ic->op1 = right;
-    list_add_before(&code_head,&(ic->list));
-    Log2("------intercode addr : %p",ic);
-}
-static void gen_refer(operand* left,operand* right){
-    /*left and right are all expected to be given*/
-    intercode* ic = malloc(sizeof(intercode));
-    ic->kind = ICN_REFER;
-    ic->res = left;
-    ic->op1 = right;
-    list_add_before(&code_head,&(ic->list));
-    Log2("------intercode addr : %p",ic);
-}
-static void gen_refer_assign(operand* left,operand* right){
-    /*left and right are all expected to be given*/
-    intercode* ic = malloc(sizeof(intercode));
-    ic->kind = ICN_REFER_ASSIGN;
-    ic->res = left;
-    ic->op1 = right;
-    list_add_before(&code_head,&(ic->list));
-    Log2("------intercode addr : %p",ic);
-}
-
 #define gen_label(s,suffix) {\
     intercode* ic = malloc(sizeof(intercode));\
     ic->kind = ICN_##suffix;\

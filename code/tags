@@ -145,7 +145,7 @@ Func_Exp13	gen_inter_code.c	/^static void Func_Exp13(MTnode* root){$/;"	f	file:	
 Func_Exp13	semantic.c	/^static void Func_Exp13(MTnode* root)$/;"	f	file:	signature:(MTnode* root)
 Func_Exp14	gen_inter_code.c	/^static void Func_Exp14(MTnode* root){$/;"	f	file:	signature:(MTnode* root)
 Func_Exp14	semantic.c	/^static void Func_Exp14(MTnode* root)$/;"	f	file:	signature:(MTnode* root)
-Func_Exp15	gen_inter_code.c	/^static void Func_Exp15(MTnode* root){ \/\/!!!!!!!!!!!!!!!!!!1$/;"	f	file:	signature:(MTnode* root)
+Func_Exp15	gen_inter_code.c	/^static void Func_Exp15(MTnode* root){$/;"	f	file:	signature:(MTnode* root)
 Func_Exp15	semantic.c	/^static void Func_Exp15(MTnode* root)$/;"	f	file:	signature:(MTnode* root)
 Func_Exp16	gen_inter_code.c	/^static void Func_Exp16(MTnode* root){$/;"	f	file:	signature:(MTnode* root)
 Func_Exp16	semantic.c	/^static void Func_Exp16(MTnode* root)$/;"	f	file:	signature:(MTnode* root)
@@ -717,8 +717,8 @@ alloca	syntax.tab.c	309;"	d	file:
 arg_cmp	semantic.c	/^int arg_cmp(ArgList* alx,ArgList* aly){$/;"	f	signature:(ArgList* alx,ArgList* aly)
 argamt	symtab.h	/^    int argamt;\/\/arguement amount$/;"	m	struct:symbol_	access:public
 argamt_count	semantic.c	/^int argamt_count(ArgList* al){$/;"	f	signature:(ArgList* al)
-arith	gen_inter_code.c	308;"	d	file:
-arith	gen_inter_code.c	422;"	d	file:
+arith_common	new_tools.c	164;"	d	file:
+arith_common	new_tools.c	64;"	d	file:
 array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon5
 array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon7
 array	cmmtypes.h	/^        }array;$/;"	m	union:Type_::__anon8	typeref:struct:Type_::__anon8::__anon9	access:public
@@ -825,11 +825,21 @@ gen	gen_inter_code.c	/^void gen(MTnode* root){$/;"	f	signature:(MTnode* root)
 gen_addr	gen_code_tools.h	/^static void gen_addr(operand* left,operand* right){$/;"	f	signature:(operand* left,operand* right)
 gen_args	gen_inter_code.c	/^static void gen_args(Argl* al){$/;"	f	file:	signature:(Argl* al)
 gen_assign	gen_code_tools.h	/^static void gen_assign(operand* left,operand* right,int right_kind,void* right_val){$/;"	f	signature:(operand* left,operand* right,int right_kind,void* right_val)
-gen_assign_addr	new_tools.c	/^intercode* gen_assign_addr(operand* res,operand* op1){$/;"	f	signature:(operand* res,operand* op1)
-gen_assign_var	new_tools.c	/^intercode* gen_assign_var(operand* res,operand* op1){$/;"	f	signature:(operand* res,operand* op1)
+gen_assign_addr	new_tools.c	/^operand* gen_assign_addr(operand* res,operand* op1){$/;"	f	signature:(operand* res,operand* op1)
+gen_assign_addr	new_tools.h	/^operand* gen_assign_addr(operand* res,operand* op1);$/;"	p	signature:(operand* res,operand* op1)
+gen_assign_var	new_tools.c	/^operand* gen_assign_var(operand* res,operand* op1){$/;"	f	signature:(operand* res,operand* op1)
+gen_assign_var	new_tools.h	/^operand* gen_assign_var(operand* res,operand* op1);$/;"	p	signature:(operand* res,operand* op1)
 gen_call	gen_code_tools.h	/^static void gen_call(operand* op,char* func){$/;"	f	signature:(operand* op,char* func)
+gen_div	new_tools.c	/^operand* gen_div(operand* op1,operand* op2,int use_addr,char* res_tmp_str){$/;"	f	signature:(operand* op1,operand* op2,int use_addr,char* res_tmp_str)
+gen_div	new_tools.h	/^operand* gen_div(operand* op1,operand* op2,int use_addr,char* res_tmp_str);$/;"	p	signature:(operand* op1,operand* op2,int use_addr,char* res_tmp_str)
 gen_if	gen_code_tools.h	/^static void gen_if(operand* op1,operand* op2,char* relop,char* label){$/;"	f	signature:(operand* op1,operand* op2,char* relop,char* label)
 gen_label	gen_code_tools.h	146;"	d
+gen_minus	new_tools.c	/^operand* gen_minus(operand* op1,operand* op2,int use_addr,char* res_tmp_str){$/;"	f	signature:(operand* op1,operand* op2,int use_addr,char* res_tmp_str)
+gen_minus	new_tools.h	/^operand* gen_minus(operand* op1,operand* op2,int use_addr,char* res_tmp_str);$/;"	p	signature:(operand* op1,operand* op2,int use_addr,char* res_tmp_str)
+gen_mul	new_tools.c	/^operand* gen_mul(operand* op1,operand* op2,int use_addr,char* res_tmp_str){$/;"	f	signature:(operand* op1,operand* op2,int use_addr,char* res_tmp_str)
+gen_mul	new_tools.h	/^operand* gen_mul(operand* op1,operand* op2,int use_addr,char* res_tmp_str);$/;"	p	signature:(operand* op1,operand* op2,int use_addr,char* res_tmp_str)
+gen_plus	new_tools.c	/^operand* gen_plus(operand* op1,operand* op2,int use_addr,char* res_tmp_str){$/;"	f	signature:(operand* op1,operand* op2,int use_addr,char* res_tmp_str)
+gen_plus	new_tools.h	/^operand* gen_plus(operand* op1,operand* op2,int use_addr,char* res_tmp_str);$/;"	p	signature:(operand* op1,operand* op2,int use_addr,char* res_tmp_str)
 gen_refer	gen_code_tools.h	/^static void gen_refer(operand* left,operand* right){$/;"	f	signature:(operand* left,operand* right)
 gen_refer_assign	gen_code_tools.h	/^static void gen_refer_assign(operand* left,operand* right){$/;"	f	signature:(operand* left,operand* right)
 gen_single_var	gen_code_tools.h	154;"	d
@@ -848,9 +858,8 @@ get_var_id	multi_tree.c	/^MTnode* get_var_id(MTnode* dec){$/;"	f	signature:(MTno
 get_var_id	multi_tree.h	/^MTnode* get_var_id(MTnode* dec);$/;"	p	signature:(MTnode* dec)
 get_var_no	gen_code_tools.h	/^static char* get_var_no(){$/;"	f	signature:()
 global	semantic.c	/^int global;$/;"	v
-handle_double_const	gen_inter_code.c	318;"	d	file:
-handle_double_const	gen_inter_code.c	421;"	d	file:
-handle_double_const	new_tools.c	48;"	d	file:
+handle_double_const	new_tools.c	163;"	d	file:
+handle_double_const	new_tools.c	51;"	d	file:
 handle_ic	block.c	/^extern void handle_ic(intercode* ic);$/;"	p	file:	signature:(intercode* ic)
 handle_ic	dag.c	/^void handle_ic(intercode* ic){$/;"	f	signature:(intercode* ic)
 hashv	uthash.h	/^   unsigned hashv;                   \/* result of hash-fcn(key)        *\/$/;"	m	struct:UT_hash_handle	access:public
@@ -966,9 +975,7 @@ op	multi_tree.h	/^    operand* op;$/;"	m	struct:MTnode	access:public
 op	symtab.h	/^    operand* op;$/;"	m	struct:symbol_	access:public
 op01_init	gen_code_tools.h	/^void op01_init(){$/;"	f	signature:()
 op1	intercode.h	/^    operand* op1;$/;"	m	struct:intercode	access:public
-op1	new_tools.c	/^    operand* op1;$/;"	v
 op2	intercode.h	/^    operand* op2;$/;"	m	struct:intercode	access:public
-op2	new_tools.c	/^    operand* op2;$/;"	v
 opcmp	dag.c	/^int opcmp(operand* x,operand* y){$/;"	f	signature:(operand* x,operand* y)
 operand	intercode.h	/^struct operand{$/;"	s
 operand	intercode.h	/^typedef struct operand operand;$/;"	t	typeref:struct:operand
@@ -980,13 +987,14 @@ operand::kind	intercode.h	/^    enum{ OP_INT,OP_FLOAT,OP_VAR,OP_ADDR } kind;$/;"
 operand::val_float	intercode.h	/^    float val_float;$/;"	m	struct:operand	access:public
 operand::val_int	intercode.h	/^    int val_int;$/;"	m	struct:operand	access:public
 operand::var_str	intercode.h	/^    char* var_str;$/;"	m	struct:operand	access:public
+opti_code_head	intercode.h	/^ListHead opti_code_head;$/;"	v
 pool	dag.c	/^static dagnode pool[NODE_AMOUNT];$/;"	v	file:
 pp	block.c	12;"	d	file:
 pp	block.c	53;"	d	file:
 pp	block.c	57;"	d	file:
 pp	block.c	74;"	d	file:
-pp	code_print.c	130;"	d	file:
-pp	code_print.c	139;"	d	file:
+pp	code_print.c	165;"	d	file:
+pp	code_print.c	174;"	d	file:
 pre_tranverse	multi_tree.c	/^void pre_tranverse(MTnode* root){$/;"	f	signature:(MTnode* root)
 pre_tranverse	multi_tree.h	/^void pre_tranverse(MTnode* root);$/;"	p	signature:(MTnode* root)
 pre_tranverse2	multi_tree.c	/^void pre_tranverse2(MTnode* root,int indent){$/;"	f	signature:(MTnode* root,int indent)
@@ -994,8 +1002,9 @@ prev	list.h	/^	struct ListHead *prev, *next;$/;"	m	struct:ListHead	typeref:struc
 prev	uthash.h	/^   void *prev;                       \/* prev element in app order      *\/$/;"	m	struct:UT_hash_handle	access:public
 prev_ic	block.c	14;"	d	file:
 prev_ic	block.c	51;"	d	file:
-print_arith	code_print.c	128;"	d	file:
-print_arith	code_print.c	21;"	d	file:
+print_arith	code_print.c	163;"	d	file:
+print_arith_addr	code_print.c	50;"	d	file:
+print_arith_var	code_print.c	41;"	d	file:
 print_block	block.c	/^void print_block(){$/;"	f
 print_block	block.h	/^void print_block();$/;"	p	signature:()
 print_code	code_print.c	/^void print_code(){$/;"	f
@@ -1006,8 +1015,9 @@ print_field	semantic.c	/^void print_field(FieldList* fl){$/;"	f	signature:(Field
 print_intercode	code_print.c	/^void print_intercode(intercode* ic){$/;"	f	signature:(intercode* ic)
 print_intercode	code_print.h	/^void print_intercode(intercode* ic);$/;"	p	signature:(intercode* ic)
 print_intercode	dag.c	/^extern void print_intercode(intercode* ic);$/;"	p	file:	signature:(intercode* ic)
-print_operand	code_print.c	/^void print_operand(operand* op){$/;"	f	signature:(operand* op)
-print_operand	dag.c	/^extern void print_operand(operand* op);$/;"	p	file:	signature:(operand* op)
+print_operand_addr	code_print.c	/^void print_operand_addr(operand* op){$/;"	f	signature:(operand* op)
+print_operand_var	code_print.c	/^void print_operand_var(operand* op){$/;"	f	signature:(operand* op)
+print_operand_var	dag.c	/^extern void print_operand_var(operand* op);$/;"	p	file:	signature:(operand* op)
 print_symtab	symtab.c	/^void print_symtab(symbol* ht){$/;"	f	signature:(symbol* ht)
 print_symtab	symtab.h	/^void print_symtab(symbol* ht);$/;"	p	signature:(symbol* ht)
 property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon10	access:public

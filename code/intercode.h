@@ -14,9 +14,6 @@ enum intercodeno{
     ICN_MINUS,
     ICN_MUL,
     ICN_DIV,
-    ICN_ADDR,           //tmp_var
-    ICN_REFER,          //tmp_var
-    ICN_REFER_ASSIGN,   //tmp_var
     ICN_GOTO,           //LABEL <= char*
     ICN_IF,             //x y <= operand ; z <= char*
     ICN_RETURN,         //operand

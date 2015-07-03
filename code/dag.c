@@ -9,6 +9,7 @@
 static dagnode pool[NODE_AMOUNT];
 
 int current_nodeno = 1;
+ListHead opti_code_head;
 
 static int max(int x,int y){
     return x>y?x:y;
@@ -81,7 +82,7 @@ int find_make(operand* op){
     else{
         int i;
         for(i=1;i<current_nodeno;i++){
-            if(pool[i].type == -3 && pool[i].varlist[0]->val_int == op->val_int){
+            if(pool[i].type == -2 && pool[i].varlist[0]->val_float == op->val_float){
                 break;
             }
         }
@@ -188,15 +189,6 @@ void handle_ic(intercode* ic){
                     nd->varlist[nd->varamt++] = ic->res;
                 }
                 res_ht_nd->update_no = current_nodeno-1;
-                break;
-            }
-        case ICN_ADDR:
-            {
-                //int op1_no = find_make(ic->op1);
-                tmpvar_ht_node* res_ht_nd = find_tmpvar(ic->res->var_str);
-                res_ht_nd->dag_node_no = current_nodeno;
-                dagnode* nd = &pool[current_nodeno];
-                COMMON_ACTION;
                 break;
             }
         default:

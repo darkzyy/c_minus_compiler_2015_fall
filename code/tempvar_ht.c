@@ -19,6 +19,16 @@ tmpvar_ht_node* find_tmpvar(char* varstr){
     return nd;
 }
 
+void tmpvar_node_no_init(){
+    tmpvar_ht_node* nd;
+    for(nd = tmpvar_ht;nd!=NULL;nd = nd->hh.next){
+        nd->dag_node_no = 0;
+        nd->update_no = 0;
+    }
+}
+
+////////////////////////////////////////////////
+
 label_node* label_ht = NULL;
 
 label_node* find_label(char* str){

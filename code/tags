@@ -28,7 +28,7 @@ CFLAGS	Makefile	/^CFLAGS = -std=gnu99 -Wall -Wno-unused-function -g$/;"	m
 COMMA	syntax.tab.c	/^    COMMA = 262,$/;"	e	enum:yytokentype	file:
 COMMA	syntax.tab.h	/^    COMMA = 262,$/;"	e	enum:yytokentype
 COMMENTS	lex.yy.c	632;"	d	file:
-COMMON_ACTION	dag.c	142;"	d	file:
+COMMON_ACTION	dag.c	152;"	d	file:
 CompSt	multi_tree.h	/^    CompSt,$/;"	e	enum:__anon4
 CompSt	syntax.y	/^CompSt : LC DefList StmtList RC {$/;"	l
 DECLTYPE	uthash.h	37;"	d
@@ -384,7 +384,7 @@ MUR_THREE_ONE	uthash.h	545;"	d
 MUR_THREE_ONE	uthash.h	549;"	d
 MUR_TWO_TWO	uthash.h	546;"	d
 MUR_TWO_TWO	uthash.h	550;"	d
-NODE_AMOUNT	dag.c	7;"	d	file:
+NODE_AMOUNT	dag.c	8;"	d	file:
 NOT	syntax.tab.c	/^    NOT = 272,$/;"	e	enum:yytokentype	file:
 NOT	syntax.tab.h	/^    NOT = 272,$/;"	e	enum:yytokentype
 NO_DECLTYPE	uthash.h	39;"	d
@@ -763,11 +763,12 @@ current_line_err	syntax.tab.c	/^int current_line_err = 0;$/;"	v
 current_nodeno	dag.c	/^int current_nodeno = 1;$/;"	v
 current_var_no	intercode.h	/^int current_var_no;$/;"	v
 dag_node_no	tempvar_ht.h	/^    int dag_node_no;$/;"	m	struct:tmpvar_ht_node	access:public
+dag_opti	dag.c	/^void dag_opti(){$/;"	f
+dag_opti	main.c	/^extern void dag_opti();$/;"	p	file:
 dagnode	dag.h	/^struct dagnode{$/;"	s
 dagnode	dag.h	/^typedef struct dagnode dagnode;$/;"	t	typeref:struct:dagnode
 dagnode::ic	dag.h	/^    intercode* ic;$/;"	m	struct:dagnode	access:public
 dagnode::lch	dag.h	/^    int lch;$/;"	m	struct:dagnode	access:public
-dagnode::print_ic	dag.h	/^    int print_ic;$/;"	m	struct:dagnode	access:public
 dagnode::rch	dag.h	/^    int rch;$/;"	m	struct:dagnode	access:public
 dagnode::res	dag.h	/^    operand* res;$/;"	m	struct:dagnode	access:public
 dagnode::status	dag.h	/^    int status;$/;"	m	struct:dagnode	access:public
@@ -864,9 +865,9 @@ get_var_id	multi_tree.c	/^MTnode* get_var_id(MTnode* dec){$/;"	f	signature:(MTno
 get_var_id	multi_tree.h	/^MTnode* get_var_id(MTnode* dec);$/;"	p	signature:(MTnode* dec)
 get_var_no	gen_code_tools.h	/^static char* get_var_no(){$/;"	f	signature:()
 global	semantic.c	/^int global;$/;"	v
+handle_cb	dag.c	/^void handle_cb(code_block* cb){$/;"	f	signature:(code_block* cb)
 handle_double_const	new_tools.c	163;"	d	file:
 handle_double_const	new_tools.c	51;"	d	file:
-handle_ic	block.c	/^extern void handle_ic(intercode* ic);$/;"	p	file:	signature:(intercode* ic)
 handle_ic	dag.c	/^void handle_ic(intercode* ic){$/;"	f	signature:(intercode* ic)
 hashv	uthash.h	/^   unsigned hashv;                   \/* result of hash-fcn(key)        *\/$/;"	m	struct:UT_hash_handle	access:public
 hh	symtab.h	/^    UT_hash_handle hh;$/;"	m	struct:symbol_	access:public
@@ -912,7 +913,6 @@ intercode::res	intercode.h	/^    operand* res;$/;"	m	struct:intercode	access:pub
 intercode::size	intercode.h	/^    int size;$/;"	m	struct:intercode	access:public
 intercode::use_addr	intercode.h	/^    int use_addr;$/;"	m	struct:intercode	access:public
 intercodeno	intercode.h	/^enum intercodeno{$/;"	g
-is_assign2refer	block.c	/^int is_assign2refer(intercode* ic){$/;"	f	signature:(intercode* ic)
 is_basic	intercode.h	/^    int is_basic;$/;"	m	struct:Argl	access:public
 is_const	multi_tree.h	/^    int is_const;$/;"	m	struct:MTnode	access:public
 is_left_val	gen_inter_code.c	/^static int is_left_val = 0;$/;"	v	file:
@@ -1008,10 +1008,8 @@ opti_code_head	dag.c	/^ListHead opti_code_head;$/;"	v
 pool	dag.c	/^static dagnode pool[NODE_AMOUNT];$/;"	v	file:
 pp	block.c	12;"	d	file:
 pp	block.c	53;"	d	file:
-pp	block.c	57;"	d	file:
-pp	block.c	74;"	d	file:
-pp	code_print.c	165;"	d	file:
-pp	code_print.c	174;"	d	file:
+pp	code_print.c	163;"	d	file:
+pp	code_print.c	172;"	d	file:
 pp	peephole.c	/^intercode* pp;$/;"	v
 pp	peephole.c	39;"	d	file:
 pp	peephole.c	7;"	d	file:
@@ -1022,23 +1020,19 @@ prev	list.h	/^	struct ListHead *prev, *next;$/;"	m	struct:ListHead	typeref:struc
 prev	uthash.h	/^   void *prev;                       \/* prev element in app order      *\/$/;"	m	struct:UT_hash_handle	access:public
 prev_ic	block.c	14;"	d	file:
 prev_ic	block.c	51;"	d	file:
-print_arith	code_print.c	163;"	d	file:
-print_arith_addr	code_print.c	50;"	d	file:
-print_arith_var	code_print.c	41;"	d	file:
-print_block	block.c	/^void print_block(){$/;"	f
+print_arith	code_print.c	161;"	d	file:
+print_arith_addr	code_print.c	48;"	d	file:
+print_arith_var	code_print.c	39;"	d	file:
 print_block	block.h	/^void print_block();$/;"	p	signature:()
 print_code	code_print.c	/^void print_code(){$/;"	f
 print_code	code_print.h	/^void print_code();$/;"	p	signature:()
-print_dag	block.c	/^extern void print_dag();$/;"	p	file:
-print_dag	dag.c	/^void print_dag(){$/;"	f
+print_code	main.c	/^extern void print_code();$/;"	p	file:
 print_field	semantic.c	/^void print_field(FieldList* fl){$/;"	f	signature:(FieldList* fl)
-print_ic	dag.h	/^    int print_ic;$/;"	m	struct:dagnode	access:public
 print_intercode	code_print.c	/^void print_intercode(intercode* ic){$/;"	f	signature:(intercode* ic)
 print_intercode	code_print.h	/^void print_intercode(intercode* ic);$/;"	p	signature:(intercode* ic)
 print_intercode	dag.c	/^extern void print_intercode(intercode* ic);$/;"	p	file:	signature:(intercode* ic)
 print_operand_addr	code_print.c	/^void print_operand_addr(operand* op){$/;"	f	signature:(operand* op)
 print_operand_var	code_print.c	/^void print_operand_var(operand* op){$/;"	f	signature:(operand* op)
-print_operand_var	dag.c	/^extern void print_operand_var(operand* op);$/;"	p	file:	signature:(operand* op)
 print_symtab	symtab.c	/^void print_symtab(symbol* ht){$/;"	f	signature:(symbol* ht)
 print_symtab	symtab.h	/^void print_symtab(symbol* ht);$/;"	p	signature:(symbol* ht)
 property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon10	access:public
@@ -1096,6 +1090,8 @@ tmpvar_ht_node::modified_block	tempvar_ht.h	/^    code_block_node* modified_bloc
 tmpvar_ht_node::update_no	tempvar_ht.h	/^    int update_no;$/;"	m	struct:tmpvar_ht_node	access:public
 tmpvar_ht_node::used_block	tempvar_ht.h	/^    code_block_node* used_block;$/;"	m	struct:tmpvar_ht_node	access:public
 tmpvar_ht_node::varstr	tempvar_ht.h	/^    char* varstr;$/;"	m	struct:tmpvar_ht_node	access:public
+tmpvar_node_no_init	tempvar_ht.c	/^void tmpvar_node_no_init(){$/;"	f
+tmpvar_node_no_init	tempvar_ht.h	/^void tmpvar_node_no_init();$/;"	p	signature:()
 translate_cond	gen_code_tools.h	/^static void translate_cond(MTnode* root,char* label_true,char* label_false){$/;"	f	signature:(MTnode* root,char* label_true,char* label_false)
 true_label	multi_tree.h	/^    char* true_label;$/;"	m	struct:MTnode	access:public
 type	cmmtypes.h	/^    Type* type; \/\/field type$/;"	m	struct:FieldList_	access:public

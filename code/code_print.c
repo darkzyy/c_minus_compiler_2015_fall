@@ -3,7 +3,6 @@
 #include"debug.h"
 
 void print_operand_var(operand* op){
-    Log3();
     if(op->kind == OP_INT){
         printf("#%d",op->val_int);
     }
@@ -18,7 +17,6 @@ void print_operand_var(operand* op){
     }
 }
 void print_operand_addr(operand* op){
-    Log3();
     if(op->kind == OP_INT){
         printf("#%d",op->val_int);
     }

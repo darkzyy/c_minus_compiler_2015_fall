@@ -53,7 +53,7 @@ int main(int argc,char** argv){
 #endif
 	yyparse(); 
     find_leader();
-    print_code();
+    //print_code();
     dag_opti();
     print_code();
 	return 0; 

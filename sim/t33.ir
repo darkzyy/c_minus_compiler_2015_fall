@@ -2,9 +2,9 @@ FUNCTION main :
 v0000 := #2 
 DEC v0001 40
 t0002 := &v0001
-t0004 := #36 + t0002
-*t0004 := #4
-t0005 := t0004 
+t0003 := #36 + t0002
+*t0003 := #4
+t0004 := t0003 
 IF v0000 == #1 GOTO label0000
 GOTO label0003
 LABEL label0003 :
@@ -16,11 +16,11 @@ GOTO label0002
 LABEL label0001 :
 WRITE #0
 LABEL label0002 :
-t0008 := &v0001
-t0010 := #36 + t0008
-t0011 := *t0010
-v0000 := t0011 
-t0012 := v0000 
+t0007 := &v0001
+t0008 := #36 + t0007
+t0009 := *t0008
+v0000 := t0009 
+t0010 := v0000 
 IF v0000 == #3 GOTO label0004
 GOTO label0007
 LABEL label0007 :

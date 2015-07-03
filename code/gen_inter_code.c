@@ -304,122 +304,33 @@ static void Func_Exp4(MTnode* root){
     bool_translate;
 }
 
-
-#define arith(arith_op){\
-    intercode* ic = malloc(sizeof(intercode));\
-    ic->kind = ICN_##arith_op;\
-    root->op = make_op(OP_VAR,NULL);\
-    ic->res = root->op;\
-    ic->op1 = ch(0)->op;\
-    ic->op2 = ch(2)->op;\
-    list_add_before(&code_head,&(ic->list));\
-}
-
-#define handle_double_const(arith_op) {\
-    if((ch(0)->is_const == 1)&&(ch(2)->is_const == 1)){\
-        if(ch(0)->op->kind == OP_INT){\
-            int tmp = ch(0)->op->val_int arith_op ch(2)->op->val_int;\
-            root->op = make_op(OP_INT,&tmp);\
-            root->is_const = 1;\
-            root->valt = tmp;\
-            return;\
-        }\
-        else{\
-            float tmp = ch(0)->op->val_float arith_op ch(2)->op->val_float;\
-            root->op = make_op(OP_FLOAT,&tmp);\
-            root->is_const = 1;\
-            root->valf = tmp;\
-            return;\
-        }\
-    }\
-}
-
 static void Func_Exp5(MTnode* root){
-    Log3("Func_Exp5");
-    Log3("root addr : %p",root);
+    Log3("Func_Exp5 +");
     gen(ch(0));
     gen(ch(2));
-    handle_double_const(+);
-    operand* op_const = NULL;
-    operand* op_var;
-    if(ch(0)->op->kind == OP_INT){
-        op_const = ch(0)->op;
-        op_var = ch(2)->op;
-    }
-    if(ch(2)->op->kind == OP_INT){
-        op_const = ch(2)->op;
-        op_var = ch(0)->op;
-    }
-    if(op_const && op_const->val_int == 0){
-        root->op = op_var;
-        return;
-    }
-    arith(PLUS);
+    root->op = gen_plus(ch(0)->op,ch(2)->op,0,get_var_no());
 }
 static void Func_Exp6(MTnode* root){
-    Log3("Func_Exp6");
-    Log3("root addr : %p",root);
+    Log3("Func_Exp6 -");
     gen(ch(0));
     gen(ch(2));
-    handle_double_const(-);
-    operand* op_const = NULL;
-    operand* op_var;
-    if(ch(2)->op->kind == OP_INT){
-        op_const = ch(2)->op;
-        op_var = ch(0)->op;
-    }
-    if(op_const && op_const->val_int == 0){
-        root->op = op_var;
-        return;
-    }
-    arith(MINUS);
+    root->op = gen_minus(ch(0)->op,ch(2)->op,0,get_var_no());
 }
 static void Func_Exp7(MTnode* root){
-    Log3("Func_Exp7");
-    Log3("root addr : %p",root);
+    Log3("Func_Exp7 *");
     gen(ch(0));
     gen(ch(2));
-    handle_double_const(*);
-    Log3("ch0 addr : %p",ch(0));
-    operand* op_const = NULL;
-    operand* op_var;
-    if(ch(0)->op->kind == OP_INT){
-        op_const = ch(0)->op;
-        op_var = ch(2)->op;
-    }
-    if(ch(2)->op->kind == OP_INT){
-        op_const = ch(2)->op;
-        op_var = ch(0)->op;
-    }
-    if(op_const && op_const->val_int == 1){
-        root->op = op_var;
-        return;
-    }
-    if(op_const && op_const->val_int == 0){
-        root->op = op_const;
-        return;
-    }
-    arith(MUL);
+    root->op = gen_mul(ch(0)->op,ch(2)->op,0,get_var_no());
 }
 static void Func_Exp8(MTnode* root){
-    Log3("Func_Exp8");
+    Log3("Func_Exp8 /");
     gen(ch(0));
     gen(ch(2));
-    handle_double_const(/);
-    operand* op_const = NULL;
-    operand* op_var;
-    if(ch(2)->op->kind == OP_INT){
-        op_const = ch(2)->op;
-        op_var = ch(0)->op;
-    }
-    if(op_const && op_const->val_int == 1){
-        root->op = op_var;
-        return;
-    }
-    arith(DIV);
+    root->op = gen_div(ch(0)->op,ch(2)->op,0,get_var_no());
 }
 #undef handle_double_const
 #undef arith
+
 static void Func_Exp9(MTnode* root){
     Log2("Func_Exp9");
     gen(ch(1));
@@ -514,7 +425,9 @@ static void Func_Exp14(MTnode* root){
     }
     gen(ch(2));
     ////MUL:
-    operand* tmp;
+    operand* op2 = make_int(chst(0)->array.elem->size);
+    operand* tmp = gen_mul(ch(2)->op,op2,1,get_var_no());
+    /*
     if(!ch(2)->is_const){
         intercode* ic = malloc(sizeof(intercode));
         ic->kind = ICN_MUL;
@@ -528,6 +441,7 @@ static void Func_Exp14(MTnode* root){
     else{
         tmp = make_int(chst(0)->array.elem->size * ch(2)->op->val_int);
     }
+    */
     ////ADD:
     if(root->op==NULL){
         root->op = make_op(OP_VAR,NULL);

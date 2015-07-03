@@ -825,6 +825,8 @@ gen	gen_inter_code.c	/^void gen(MTnode* root){$/;"	f	signature:(MTnode* root)
 gen_addr	gen_code_tools.h	/^static void gen_addr(operand* left,operand* right){$/;"	f	signature:(operand* left,operand* right)
 gen_args	gen_inter_code.c	/^static void gen_args(Argl* al){$/;"	f	file:	signature:(Argl* al)
 gen_assign	gen_code_tools.h	/^static void gen_assign(operand* left,operand* right,int right_kind,void* right_val){$/;"	f	signature:(operand* left,operand* right,int right_kind,void* right_val)
+gen_assign_addr	new_tools.c	/^intercode* gen_assign_addr(operand* res,operand* op1){$/;"	f	signature:(operand* res,operand* op1)
+gen_assign_var	new_tools.c	/^intercode* gen_assign_var(operand* res,operand* op1){$/;"	f	signature:(operand* res,operand* op1)
 gen_call	gen_code_tools.h	/^static void gen_call(operand* op,char* func){$/;"	f	signature:(operand* op,char* func)
 gen_if	gen_code_tools.h	/^static void gen_if(operand* op1,operand* op2,char* relop,char* label){$/;"	f	signature:(operand* op1,operand* op2,char* relop,char* label)
 gen_label	gen_code_tools.h	146;"	d
@@ -848,6 +850,7 @@ get_var_no	gen_code_tools.h	/^static char* get_var_no(){$/;"	f	signature:()
 global	semantic.c	/^int global;$/;"	v
 handle_double_const	gen_inter_code.c	318;"	d	file:
 handle_double_const	gen_inter_code.c	421;"	d	file:
+handle_double_const	new_tools.c	48;"	d	file:
 handle_ic	block.c	/^extern void handle_ic(intercode* ic);$/;"	p	file:	signature:(intercode* ic)
 handle_ic	dag.c	/^void handle_ic(intercode* ic){$/;"	f	signature:(intercode* ic)
 hashv	uthash.h	/^   unsigned hashv;                   \/* result of hash-fcn(key)        *\/$/;"	m	struct:UT_hash_handle	access:public
@@ -963,7 +966,9 @@ op	multi_tree.h	/^    operand* op;$/;"	m	struct:MTnode	access:public
 op	symtab.h	/^    operand* op;$/;"	m	struct:symbol_	access:public
 op01_init	gen_code_tools.h	/^void op01_init(){$/;"	f	signature:()
 op1	intercode.h	/^    operand* op1;$/;"	m	struct:intercode	access:public
+op1	new_tools.c	/^    operand* op1;$/;"	v
 op2	intercode.h	/^    operand* op2;$/;"	m	struct:intercode	access:public
+op2	new_tools.c	/^    operand* op2;$/;"	v
 opcmp	dag.c	/^int opcmp(operand* x,operand* y){$/;"	f	signature:(operand* x,operand* y)
 operand	intercode.h	/^struct operand{$/;"	s
 operand	intercode.h	/^typedef struct operand operand;$/;"	t	typeref:struct:operand

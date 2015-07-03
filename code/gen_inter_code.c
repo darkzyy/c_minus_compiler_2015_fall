@@ -411,10 +411,11 @@ static void Func_Exp13(MTnode* root){
 static void Func_Exp14(MTnode* root){
     Log2("Func_Exp14 : Exp [ Exp ]");
     is_left_val += 1;
-    gen(ch(0)); // expect ch(0) to prepare addr
+    gen(ch(0)); 
     if(is_left_val>0){
         is_left_val -= 1;
     }
+    //get base addr
     operand* ch0_addr;
     if(ch(0)->op->kind == OP_VAR){
         ch0_addr = make_new_op_addr(get_var_no());
@@ -423,44 +424,28 @@ static void Func_Exp14(MTnode* root){
     else{
         ch0_addr = ch(0)->op;
     }
+
+    //get offset
     gen(ch(2));
-    ////MUL:
+
+    //MUL:
     operand* op2 = make_int(chst(0)->array.elem->size);
     operand* tmp = gen_mul(ch(2)->op,op2,1,get_var_no());
-    /*
-    if(!ch(2)->is_const){
-        intercode* ic = malloc(sizeof(intercode));
-        ic->kind = ICN_MUL;
-        tmp = make_new_op_var(get_var_no());
-        ic->res = tmp;
-        ic->op1 = make_int(chst(0)->array.elem->size);
-        ic->op2 = ch(2)->op;
-        list_add_before(&code_head,&(ic->list));
-        Log2("------intercode addr : %p",ic);
-    }
-    else{
-        tmp = make_int(chst(0)->array.elem->size * ch(2)->op->val_int);
-    }
-    */
-    ////ADD:
+
+    //ADD:
     if(root->op==NULL){
         root->op = make_op(OP_VAR,NULL);
     }
-    root->op->kind = OP_ADDR;
-    intercode* ic = malloc(sizeof(intercode));
-    ic->kind = ICN_PLUS;
-    ic->res = root->op;
-    ic->op1 = tmp;
-    ic->op2 = ch0_addr;
-    list_add_before(&code_head,&(ic->list));
-    Log2("------intercode addr : %p",ic);
+    root->op = gen_plus(ch0_addr,tmp,1,get_var_no());
+
+    //prepare val for upper level
     if(!is_left_val){
         operand* val = make_new_op_var(get_var_no());
         gen_refer(val,root->op);
         root->op = val;
     }
 }
-static void Func_Exp15(MTnode* root){ //!!!!!!!!!!!!!!!!!!1
+static void Func_Exp15(MTnode* root){
     Log3("Func_Exp15 : Exp1 . Exp2");
     /*Exp1 is always ID || Exp14 || Exp15*/
     //get Exp1 addr
@@ -469,6 +454,7 @@ static void Func_Exp15(MTnode* root){ //!!!!!!!!!!!!!!!!!!1
     if(is_left_val>0){
         is_left_val -= 1;
     }
+    //get base addr
     operand* ch0_addr;
     if(ch(0)->op->kind == OP_VAR){
         ch0_addr = make_new_op_addr(get_var_no());
@@ -477,20 +463,14 @@ static void Func_Exp15(MTnode* root){ //!!!!!!!!!!!!!!!!!!1
     else{
         ch0_addr = ch(0)->op;
     }
-    //get offset  ,and add to addr
+    //get offset
     char* id = ch(2)->str;
     int offset = get_field_offset(chst(0)->fl,id);
-    intercode* ic = malloc(sizeof(intercode));
-    ic->kind = ICN_PLUS;
-    if(root->op==NULL){
-        root->op = make_op(OP_VAR,NULL);
-    }
-    root->op->kind = OP_ADDR;
-    ic->res = root->op;
-    ic->op1 = make_int(offset);
-    ic->op2 = ch0_addr;
-    list_add_before(&code_head,&(ic->list));
-    Log2("------intercode addr : %p",ic);
+
+    //ADD
+    root->op = gen_plus(ch0_addr,make_int(offset),1,get_var_no());
+
+    //prepare val for upper level
     if(!is_left_val){
         operand* val = make_new_op_var(get_var_no());
         gen_refer(val,root->op);

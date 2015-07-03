@@ -192,7 +192,7 @@ void handle_ic(intercode* ic){
             }
         case ICN_ADDR:
             {
-                int op1_no = find_make(ic->op1);
+                //int op1_no = find_make(ic->op1);
                 tmpvar_ht_node* res_ht_nd = find_tmpvar(ic->res->var_str);
                 res_ht_nd->dag_node_no = current_nodeno;
                 dagnode* nd = &pool[current_nodeno];

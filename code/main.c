@@ -50,8 +50,10 @@ int main(int argc,char** argv){
 	yydebug = 1;
 #endif
 	yyparse(); 
+    /*
     find_leader();
     print_block();
+    */
 	return 0; 
 }
 #endif

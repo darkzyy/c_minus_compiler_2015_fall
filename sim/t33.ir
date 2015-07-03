@@ -13,7 +13,8 @@ LABEL label0001 :
 WRITE #0
 LABEL label0002 :
 t0009 := &v0001 + #36
-v0000 := *t0009 
+t0010 := *t0009 
+v0000 := t0010 
 IF v0000 == #3 GOTO label0004
 IF v0000 == #4 GOTO label0004
 GOTO label0005

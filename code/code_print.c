@@ -131,8 +131,14 @@ void print_intercode(intercode* ic){
         printf("\n");
     }
     else if(ic->kind == ICN_ARG_ADDR){
-        printf("ARG &");
-        print_operand_var(ic->res);
+        if(ic->res->kind==OP_VAR){
+            printf("ARG &");
+            print_operand_var(ic->res);
+        }
+        else{
+            printf("ARG ");
+            print_operand_addr(ic->res);
+        }
         printf("\n");
     }
     else if(ic->kind == ICN_CALL){

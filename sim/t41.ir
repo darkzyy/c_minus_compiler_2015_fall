@@ -1,0 +1,55 @@
+FUNCTION main :
+v0000 := #1 
+v0001 := #1 
+LABEL label0000 :
+IF v0000 < #15 GOTO label0003
+GOTO label0002
+LABEL label0003 :
+IF v0001 < #2 GOTO label0001
+GOTO label0002
+LABEL label0001 :
+t0002 := v0000 + #1
+v0000 := t0002 
+GOTO label0000
+LABEL label0002 :
+WRITE #1
+v0000 := #1 
+LABEL label0004 :
+IF v0000 < #15 GOTO label0007
+GOTO label0006
+LABEL label0007 :
+IF v0001 > #0 GOTO label0005
+GOTO label0006
+LABEL label0005 :
+t0004 := v0000 + #1
+v0000 := t0004 
+GOTO label0004
+LABEL label0006 :
+WRITE #1
+v0000 := #1 
+LABEL label0008 :
+IF v0001 < #2 GOTO label0011
+GOTO label0010
+LABEL label0011 :
+IF v0000 < #15 GOTO label0009
+GOTO label0010
+LABEL label0009 :
+t0006 := v0000 + #1
+v0000 := t0006 
+GOTO label0008
+LABEL label0010 :
+WRITE #1
+v0000 := #1 
+LABEL label0012 :
+IF v0001 > #0 GOTO label0015
+GOTO label0014
+LABEL label0015 :
+IF v0000 < #15 GOTO label0013
+GOTO label0014
+LABEL label0013 :
+t0008 := v0000 + #1
+v0000 := t0008 
+GOTO label0012
+LABEL label0014 :
+WRITE #1
+RETURN #0

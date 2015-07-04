@@ -1084,18 +1084,14 @@ IF t1573 != t1586 GOTO label0015
 b1572 := #1 
 LABEL label0015 :
 WRITE b1572
-t1587 := v0007 + #1
-v0007 := t1587 
-t1588 := v0006 + #1
-v0006 := t1588 
+v0007 := v0007 + #1
+v0006 := v0006 + #1
 GOTO label0011
 LABEL label0013 :
-t1589 := v0005 + #1
-v0005 := t1589 
+v0005 := v0005 + #1
 GOTO label0008
 LABEL label0010 :
-t1590 := v0004 + #1
-v0004 := t1590 
+v0004 := v0004 + #1
 GOTO label0005
 LABEL label0007 :
 RETURN #0

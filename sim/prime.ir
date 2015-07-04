@@ -52,53 +52,38 @@ t0072 := &v0009 + #80
 *t0072 := #199 
 v0005 := #101 
 LABEL label0000 :
-IF v0005 <= #200 GOTO label0001
-GOTO label0002
-LABEL label0001 :
+IF v0005 > #200 GOTO label0002
 v0008 := #1 
 v0006 := #2 
 LABEL label0003 :
-IF v0006 < v0005 GOTO label0004
-GOTO label0005
-LABEL label0004 :
+IF v0006 >= v0005 GOTO label0005
 ARG v0006
 ARG v0005
 t0073 := CALL mod
-IF t0073 == #0 GOTO label0006
-GOTO label0007
-LABEL label0006 :
+IF t0073 != #0 GOTO label0007
 v0008 := #0 
 v0006 := v0005 
 LABEL label0007 :
-t0074 := v0006 + #1
-v0006 := t0074 
+v0006 := v0006 + #1
 GOTO label0003
 LABEL label0005 :
-IF v0008 != #0 GOTO label0008
-GOTO label0009
-LABEL label0008 :
-v0076 := #0 
+IF v0008 == #0 GOTO label0009
+b0076 := #0 
 t0077 := v0007 * #4
 t0079 := &v0009 + t0077
 t0080 := *t0079 
-IF v0006 == t0080 GOTO label0010
-GOTO label0011
-LABEL label0010 :
-v0076 := #1 
+IF v0006 != t0080 GOTO label0011
+b0076 := #1 
 LABEL label0011 :
-WRITE v0076
-t0081 := v0007 + #1
-v0007 := t0081 
+WRITE b0076
+v0007 := v0007 + #1
 LABEL label0009 :
-t0082 := v0005 + #2
-v0005 := t0082 
+v0005 := v0005 + #2
 GOTO label0000
 LABEL label0002 :
-v0084 := #0 
-IF v0007 == #21 GOTO label0012
-GOTO label0013
-LABEL label0012 :
-v0084 := #1 
+b0084 := #0 
+IF v0007 != #21 GOTO label0013
+b0084 := #1 
 LABEL label0013 :
-WRITE v0084
+WRITE b0084
 RETURN #0

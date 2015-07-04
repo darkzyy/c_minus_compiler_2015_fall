@@ -21,6 +21,9 @@
 ./parser min3.c >../sim/min3.ir
 ./parser quick-sort.c >../sim/quicksort.ir
 ./parser gcd.c >../sim/gcd.ir
-./parser pascal.c >../sim/pascal.ir
 ./parser gotbaha.c >../sim/gotbaha.ir
 ./parser t44_bug.c >../sim/t44.ir
+./parser lab3_e2.c >../sim/e2.ir
+./parser testcase_3/max.c >../sim/max.ir
+./parser testcase_3/prime.c >../sim/prime.ir
+./parser t46_bug.c >../sim/t46.ir

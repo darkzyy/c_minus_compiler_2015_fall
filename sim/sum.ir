@@ -2,20 +2,14 @@ FUNCTION main :
 v0000 := #1 
 v0001 := #0 
 LABEL label0000 :
-IF v0000 <= #100 GOTO label0001
-GOTO label0002
-LABEL label0001 :
-t0002 := v0001 + v0000
-v0001 := t0002 
-t0003 := v0000 + #1
-v0000 := t0003 
+IF v0000 > #100 GOTO label0002
+v0001 := v0001 + v0000
+v0000 := v0000 + #1
 GOTO label0000
 LABEL label0002 :
-v0005 := #0 
-IF v0001 == #5050 GOTO label0003
-GOTO label0004
-LABEL label0003 :
-v0005 := #1 
+b0005 := #0 
+IF v0001 != #5050 GOTO label0004
+b0005 := #1 
 LABEL label0004 :
-WRITE v0005
+WRITE b0005
 RETURN #0

@@ -385,7 +385,7 @@ void handle_ic(intercode* ic){
     }
 }
 
-void del_tmpvar(intercode* ic){
+static int del_tmpvar(intercode* ic){
     switch(ic->kind){
         case ICN_ASSIGN:
             {
@@ -394,6 +394,7 @@ void del_tmpvar(intercode* ic){
                 if(!(ic->use_addr == 0 && ic->res->kind == OP_ADDR)){
                     if(nd->is_alive == 0){
                         list_del(&(ic->list));
+                        return 1;
                     }
                     else{
                         nd->is_alive = 0;
@@ -412,7 +413,7 @@ void del_tmpvar(intercode* ic){
                         nd->is_alive = 1;
                     }
                 }
-                break;
+                return 0;
             }
         case ICN_PLUS:
             {}
@@ -427,6 +428,7 @@ void del_tmpvar(intercode* ic){
                 if(!(ic->use_addr == 0 && ic->res->kind == OP_ADDR)){
                     if(nd->is_alive == 0){
                         list_del(&(ic->list));
+                        return 1;
                     }
                     else{
                         nd->is_alive = 0;
@@ -455,7 +457,7 @@ void del_tmpvar(intercode* ic){
                         nd->is_alive = 1;
                     }
                 }
-                break;
+                return 0;
             } 
         case ICN_IF:
             {
@@ -470,19 +472,14 @@ void del_tmpvar(intercode* ic){
                     assert(nd);
                     nd->is_alive = 1;
                 }
-                break;
+                return 0;
             }
         case ICN_READ:
             {
                 tmpvar_ht_node* nd = find_tmpvar(ic->res->var_str);
                 assert(nd);
-                if(nd->is_alive == 0){
-                    list_del(&(ic->list));
-                }
-                else{
-                    nd->is_alive = 0;
-                }
-                break;
+                nd->is_alive = 0;
+                return 0;
             }
         case ICN_CALL:
             {
@@ -494,7 +491,7 @@ void del_tmpvar(intercode* ic){
                 else{
                     nd->is_alive = 0;
                 }
-                break;
+                return 0;
             }
         case ICN_ARG_ADDR:
             {}
@@ -507,7 +504,7 @@ void del_tmpvar(intercode* ic){
                     assert(nd);
                     nd->is_alive = 1;
                 }
-                break;
+                return 0;
             }
         case ICN_RETURN:
             {
@@ -517,14 +514,16 @@ void del_tmpvar(intercode* ic){
                     assert(nd);
                     nd->is_alive = 1;
                 }
-                break;
+                return 0;
             }
         default:
-            {}
+            {
+                return 0;
+            }
     }
 }
 
-void deref_peep(intercode* ic){
+static void deref_peep(intercode* ic){
     if(ic->use_addr == 0 && (ic->res && ic->res->kind == OP_ADDR)){
         if(ic->kind == ICN_ASSIGN || ic->kind == ICN_PLUS || ic->kind == ICN_MINUS ||
                     ic->kind == ICN_MUL || ic->kind == ICN_DIV){
@@ -537,15 +536,22 @@ void deref_peep(intercode* ic){
     }
 }
 
-/*
-void arith_peep(intercode* ic){
-    if(ic->use_addr == 0 && (ic->relop && ic->res->kind == OP_VAR)){
+static void arith_peep(intercode* ic){
+    if(ic->use_addr == 0 && (ic->res && ic->res->kind == OP_VAR)){
         if(ic->kind == ICN_ASSIGN){
             intercode* ic_prev = list_entry(ic->list.prev,intercode,list);
+            if(ic_prev->kind == ICN_PLUS || ic_prev->kind == ICN_MINUS ||
+                        ic_prev->kind == ICN_MUL || ic_prev->kind == ICN_DIV){
+                if(ic_prev->use_addr==0 && 
+                            strcmp(ic_prev->res->var_str,ic->op1->var_str)==0){
+                    ic->kind = ic_prev->kind;
+                    ic->op1 = ic_prev->op1;
+                    ic->op2 = ic_prev->op2;
+                }
+            }
         }
     }
 }
-*/
 
 void handle_cb(code_block* cb){
     intercode* ic;
@@ -564,7 +570,30 @@ void handle_cb(code_block* cb){
     deref_peep(ic);
 
     for(ic=cb->end;ic!=cb->start;ic = list_entry(ic->list.prev,intercode,list)){
-        del_tmpvar(ic);
+        if(del_tmpvar(ic) && ic == cb->end){
+            cb->end = list_entry(ic->list.prev,intercode,list);
+        }
+    }
+    if(del_tmpvar(ic)){
+        cb->start = list_entry(ic->list.next,intercode,list);
+    }
+}
+
+void handle_cb2(code_block* cb){
+    intercode* ic;
+    tmpvar_node_no_init();
+    for(ic = cb->start;ic!=cb->end;ic = list_entry(ic->list.next,intercode,list)){
+        arith_peep(ic);
+    }
+    arith_peep(ic);
+
+    for(ic=cb->end;ic!=cb->start;ic = list_entry(ic->list.prev,intercode,list)){
+        if(del_tmpvar(ic) && ic == cb->end){
+            cb->end = list_entry(ic->list.prev,intercode,list);
+        }
+    }
+    if(del_tmpvar(ic)){
+        cb->start = list_entry(ic->list.next,intercode,list);
     }
 }
 
@@ -575,5 +604,8 @@ void dag_opti(){
         list_foreach(p,&block_head){
             handle_cb(list_entry(p,code_block,list));
         }
+    }
+    list_foreach(p,&block_head){
+        handle_cb2(list_entry(p,code_block,list));
     }
 }

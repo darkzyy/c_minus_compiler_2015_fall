@@ -129,7 +129,8 @@ static void Func_VarDec2(MTnode* root){
         list_add_before(&code_head,&(ic->list));
     }
     else if(inside_paradec){
-        assert(0); //array as Parameter
+        printf("Array as Parameter is NOT supported!\n");
+        exit(0); //array as Parameter
     }
 }
 static void Func_FunDec1(MTnode* root){

@@ -537,6 +537,16 @@ void deref_peep(intercode* ic){
     }
 }
 
+/*
+void arith_peep(intercode* ic){
+    if(ic->use_addr == 0 && (ic->relop && ic->res->kind == OP_VAR)){
+        if(ic->kind == ICN_ASSIGN){
+            intercode* ic_prev = list_entry(ic->list.prev,intercode,list);
+        }
+    }
+}
+*/
+
 void handle_cb(code_block* cb){
     intercode* ic;
     init_nodepool();

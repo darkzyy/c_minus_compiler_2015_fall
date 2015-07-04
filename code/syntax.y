@@ -5,7 +5,6 @@
 #include"symtab.h"
 #include"debug.h"
 #include"code_print.h"
-#include"peephole.h"
 int error_detected = 0;
 int current_line_err = 0;
 
@@ -87,8 +86,6 @@ Program : ExtDefList {
             check_func();
             op01_init();
             gen($$);
-            find_goto_next();
-            del_useless_label();
             //print_code();
         }
         //print_symtab(var_tab);

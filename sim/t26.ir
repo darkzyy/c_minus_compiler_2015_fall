@@ -1,9 +1,7 @@
 FUNCTION main :
 v0000 := #0 
 LABEL label0000 :
-IF v0000 < #10 GOTO label0001
-GOTO label0002
-LABEL label0001 :
+IF v0000 >= #10 GOTO label0002
 t0001 := v0000 + #1
 v0000 := t0001 
 GOTO label0000

@@ -516,16 +516,34 @@ void del_tmpvar(intercode* ic){
     }
 }
 
+void deref_peep(intercode* ic){
+    if(ic->use_addr == 0 && (ic->res && ic->res->kind == OP_ADDR)){
+        if(ic->kind == ICN_ASSIGN || ic->kind == ICN_PLUS || ic->kind == ICN_MINUS ||
+                    ic->kind == ICN_MUL || ic->kind == ICN_DIV){
+            intercode* ic_prev = list_entry(ic->list.prev,intercode,list);
+            if(ic_prev->kind == ICN_ASSIGN && 
+                        strcmp(ic_prev->res->var_str,ic->res->var_str)==0){
+                ic->res = ic_prev->op1;
+            }
+        }
+    }
+}
+
 void handle_cb(code_block* cb){
-    intercode* ic = cb->start;
+    intercode* ic;
     init_nodepoll();
     tmpvar_node_no_init();
     current_nodeno = 1;
     last_killno = 1;
-    for(;ic!=cb->end;ic = list_entry(ic->list.next,intercode,list)){
+    for(ic = cb->start;ic!=cb->end;ic = list_entry(ic->list.next,intercode,list)){
         handle_ic(ic);
     }
     handle_ic(ic);
+
+    for(ic = cb->start;ic!=cb->end;ic = list_entry(ic->list.next,intercode,list)){
+        deref_peep(ic);
+    }
+    deref_peep(ic);
 
     for(ic=cb->end;ic!=cb->start;ic = list_entry(ic->list.prev,intercode,list)){
         del_tmpvar(ic);
@@ -534,6 +552,24 @@ void handle_cb(code_block* cb){
 
 void dag_opti(){
     ListHead* p;
+    list_foreach(p,&block_head){
+        handle_cb(list_entry(p,code_block,list));
+    }
+    list_foreach(p,&block_head){
+        handle_cb(list_entry(p,code_block,list));
+    }
+    list_foreach(p,&block_head){
+        handle_cb(list_entry(p,code_block,list));
+    }
+    list_foreach(p,&block_head){
+        handle_cb(list_entry(p,code_block,list));
+    }
+    list_foreach(p,&block_head){
+        handle_cb(list_entry(p,code_block,list));
+    }
+    list_foreach(p,&block_head){
+        handle_cb(list_entry(p,code_block,list));
+    }
     list_foreach(p,&block_head){
         handle_cb(list_entry(p,code_block,list));
     }

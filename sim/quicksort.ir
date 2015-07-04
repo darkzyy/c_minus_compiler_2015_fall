@@ -9,20 +9,14 @@ v0003 := *t0007
 v0009 := v0001 
 v0010 := v0002 
 LABEL label0000 :
-IF v0009 < v0010 GOTO label0001
-GOTO label0002
-LABEL label0001 :
+IF v0009 >= v0010 GOTO label0002
 LABEL label0003 :
-IF v0009 < v0010 GOTO label0006
-GOTO label0005
-LABEL label0006 :
+IF v0009 >= v0010 GOTO label0005
 t0011 := v0000 + #0
 t0012 := v0010 * #4
 t0014 := t0011 + t0012
 t0015 := *t0014 
-IF t0015 > v0003 GOTO label0004
-GOTO label0005
-LABEL label0004 :
+IF t0015 <= v0003 GOTO label0005
 t0016 := v0010 - #1
 v0010 := t0016 
 GOTO label0003
@@ -34,16 +28,12 @@ t0023 := v0009 * #4
 t0025 := t0017 + t0023
 *t0025 := *t0020 
 LABEL label0007 :
-IF v0009 < v0010 GOTO label0010
-GOTO label0009
-LABEL label0010 :
+IF v0009 >= v0010 GOTO label0009
 t0026 := v0000 + #0
 t0027 := v0009 * #4
 t0029 := t0026 + t0027
 t0030 := *t0029 
-IF t0030 <= v0003 GOTO label0008
-GOTO label0009
-LABEL label0008 :
+IF t0030 > v0003 GOTO label0009
 t0031 := v0009 + #1
 v0009 := t0031 
 GOTO label0007
@@ -65,9 +55,7 @@ FUNCTION quick_sort :
 PARAM v0045
 PARAM v0046
 PARAM v0047
-IF v0046 >= v0047 GOTO label0011
-GOTO label0012
-LABEL label0011 :
+IF v0046 < v0047 GOTO label0012
 RETURN #0
 LABEL label0012 :
 ARG v0047
@@ -91,9 +79,7 @@ DEC v0054 400
 v0055 := #100 
 v0056 := #0 
 LABEL label0013 :
-IF v0056 < v0055 GOTO label0014
-GOTO label0015
-LABEL label0014 :
+IF v0056 >= v0055 GOTO label0015
 t0057 := v0055 - v0056
 t0058 := &v0054 + #0
 t0059 := v0056 * #4
@@ -110,9 +96,7 @@ ARG &v0054
 t0063 := CALL quick_sort
 v0056 := #0 
 LABEL label0016 :
-IF v0056 < v0055 GOTO label0017
-GOTO label0018
-LABEL label0017 :
+IF v0056 >= v0055 GOTO label0018
 t0066 := &v0054 + #0
 t0067 := v0056 * #4
 t0069 := t0066 + t0067

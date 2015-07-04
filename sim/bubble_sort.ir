@@ -4,9 +4,7 @@ v0001 := #0
 v0002 := #0 
 v0003 := #100 
 LABEL label0000 :
-IF v0001 < v0003 GOTO label0001
-GOTO label0002
-LABEL label0001 :
+IF v0001 >= v0003 GOTO label0003
 t0005 := v0003 - v0001
 t0006 := v0001 * #4
 t0008 := &v0000 + t0006
@@ -14,17 +12,12 @@ t0008 := &v0000 + t0006
 t0009 := v0001 + #1
 v0001 := t0009 
 GOTO label0000
-LABEL label0002 :
 LABEL label0003 :
-IF v0002 < v0003 GOTO label0004
-GOTO label0005
-LABEL label0004 :
+IF v0002 >= v0003 GOTO label0005
 v0001 := #0 
 LABEL label0006 :
 t0010 := v0003 - #1
-IF v0001 < t0010 GOTO label0007
-GOTO label0008
-LABEL label0007 :
+IF v0001 >= t0010 GOTO label0008
 t0011 := v0001 * #4
 t0013 := &v0000 + t0011
 t0014 := *t0013 
@@ -32,21 +25,15 @@ t0015 := v0001 + #1
 t0016 := t0015 * #4
 t0018 := &v0000 + t0016
 t0019 := *t0018 
-IF t0014 > t0019 GOTO label0009
-GOTO label0010
-LABEL label0009 :
+IF t0014 <= t0019 GOTO label0010
 t0020 := v0001 * #4
 t0022 := &v0000 + t0020
 v0004 := *t0022 
 t0024 := v0001 + #1
 t0025 := t0024 * #4
 t0027 := &v0000 + t0025
-t0031 := &v0000 + t0020
-*t0031 := *t0027 
-t0032 := t0024 
-t0033 := t0032 * #4
-t0035 := &v0000 + t0033
-*t0035 := v0004 
+*t0022 := *t0027 
+*t0027 := v0004 
 LABEL label0010 :
 t0036 := v0001 + #1
 v0001 := t0036 
@@ -58,9 +45,7 @@ GOTO label0003
 LABEL label0005 :
 v0001 := #0 
 LABEL label0011 :
-IF v0001 < v0003 GOTO label0012
-GOTO label0013
-LABEL label0012 :
+IF v0001 >= v0003 GOTO label0013
 t0039 := v0001 * #4
 t0041 := &v0000 + t0039
 t0042 := *t0041 

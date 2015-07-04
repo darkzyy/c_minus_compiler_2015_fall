@@ -2,6 +2,7 @@
 #include<string.h>
 #include"syntax.tab.h"
 #include"block.h"
+#include"peephole.h"
 
 //#define __LEXER_DEBUG__
 #define __PARSER_DEBUG__
@@ -52,12 +53,18 @@ int main(int argc,char** argv){
 	yydebug = 1;
 #endif
 	yyparse(); 
-    find_leader();
     if(enable_debug){
         print_code();
         printf("-------------------------------\n");
     }
+    peep_opti();
+    if(enable_debug){
+        print_code();
+        printf("-------------------------------\n");
+    }
+    find_leader();
     dag_opti();
+    peep_opti();
     print_code();
 	return 0; 
 }

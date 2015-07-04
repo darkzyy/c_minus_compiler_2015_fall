@@ -5,4 +5,5 @@ IF v0000 >= #10 GOTO label0002
 v0000 := v0000 + #1
 GOTO label0000
 LABEL label0002 :
+WRITE v0000
 RETURN #0

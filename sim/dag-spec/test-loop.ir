@@ -1,0 +1,23 @@
+FUNCTION main :
+DEC v0000 40
+v0001 := #0 
+LABEL label0000 :
+IF v0001 >= #10 GOTO label0002
+READ t0002
+t0003 := v0001 * #4
+t0005 := &v0000 + t0003
+*t0005 := t0002 
+v0001 := v0001 + #1
+GOTO label0000
+LABEL label0002 :
+v0001 := #0 
+LABEL label0003 :
+IF v0001 >= #10 GOTO label0005
+t0008 := v0001 * #4
+t0010 := &v0000 + t0008
+t0011 := *t0010 
+WRITE t0011
+v0001 := v0001 + #1
+GOTO label0003
+LABEL label0005 :
+RETURN #0

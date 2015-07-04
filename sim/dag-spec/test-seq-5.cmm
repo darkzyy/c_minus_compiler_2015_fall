@@ -1,0 +1,12 @@
+int x() {
+    return 1;
+}
+
+int main()
+{
+    int a, b, c;
+    a = b;
+    b = x();
+    c = a;
+    return c;
+}

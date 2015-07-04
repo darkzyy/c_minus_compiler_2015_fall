@@ -1,0 +1,5 @@
+int main()
+{
+    int a, b, x;
+    x = a + b - b;
+}

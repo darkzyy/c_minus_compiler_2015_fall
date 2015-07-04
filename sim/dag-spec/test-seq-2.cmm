@@ -1,0 +1,10 @@
+int main()
+{
+    int a, b, c, d;
+    b = read();
+    a = b;
+    b = read();
+    c = a;
+    write(c);
+    return d;
+}

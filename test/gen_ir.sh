@@ -2,7 +2,7 @@
 ./parser t26_while.c >../sim/t26.ir
 ./parser t27_func_para.c >../sim/t27.ir
 ./parser t28_struct.c >../sim/t28.ir
-./parser t29_rw.c >../sim/t29.c
+./parser t29_rw.c >../sim/t29.ir
 ./parser t30_struct2.c >../sim/t30.ir
 ./parser t31.c >../sim/t31.ir
 ./parser t32.c >../sim/t32.ir
@@ -23,8 +23,12 @@
 ./parser gcd.c >../sim/gcd.ir
 ./parser gotbaha.c >../sim/gotbaha.ir
 ./parser t44_bug.c >../sim/t44.ir
+./parser lab3_e1.c >../sim/e1.ir
 ./parser lab3_e2.c >../sim/e2.ir
+./parser lab3_e3.c >../sim/e3.ir
 ./parser testcase_3/max.c >../sim/max.ir
 ./parser testcase_3/prime.c >../sim/prime.ir
 ./parser t46_bug.c >../sim/t46.ir
 ./parser t47_bug.c > ../sim/t47.ir
+./parser t48_bug.c > ../sim/t48.ir
+./parser t49.c > ../sim/t49.ir

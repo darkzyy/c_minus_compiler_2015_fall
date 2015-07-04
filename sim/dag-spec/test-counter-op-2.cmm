@@ -1,0 +1,7 @@
+int main()
+{
+    int a, b, c, d, e, f;
+    d = a + b + c - b;
+    e = a / b * c * b;
+    f = a - b * c + b;
+}

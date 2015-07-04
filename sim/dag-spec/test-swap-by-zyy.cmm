@@ -1,0 +1,13 @@
+int main()
+{
+    int a[2], i = 0, t, m, n;
+    a[0] = read();
+    a[1] = read();
+    n = a[1];
+    t = a[i];
+    a[i] = a[i + 1];
+    a[i + 1] = t;
+    m = a[1];
+    write(m);
+    return 0;
+}

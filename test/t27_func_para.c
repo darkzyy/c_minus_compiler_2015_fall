@@ -5,5 +5,7 @@ int main(){
     int n = 2,m = 3;
     int x;
     x = add(n,m);
+    write(x);
+    write(add(n,m));
     return x;
 }

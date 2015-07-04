@@ -7,6 +7,7 @@
 #include"tempvar_ht.h"
 
 static int in_deflist;
+static int in_bool;
 
 void op01_init(){
     zero = malloc(sizeof(operand));
@@ -56,6 +57,9 @@ static char* get_var_no(){
     char* v = malloc(6);
     if(in_deflist){
         v[0] = 'v';
+    }
+    else if(in_bool){
+        v[0] = 'b';
     }
     else{
         v[0] = 't';

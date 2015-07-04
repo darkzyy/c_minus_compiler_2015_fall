@@ -27,6 +27,7 @@ extern tmpvar_ht_node* tmpvar_ht;
 void add_tmpvar(char* varstr);
 tmpvar_ht_node* find_tmpvar(char* varstr);
 void tmpvar_node_no_init();
+void tmpvar_kill_ret();
 
 /********labels*************/
 struct label_node{

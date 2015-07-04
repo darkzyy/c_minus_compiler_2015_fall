@@ -23,3 +23,4 @@
 ./parser gcd.c >../sim/gcd.ir
 ./parser pascal.c >../sim/pascal.ir
 ./parser gotbaha.c >../sim/gotbaha.ir
+./parser t44_bug.c >../sim/t44.ir

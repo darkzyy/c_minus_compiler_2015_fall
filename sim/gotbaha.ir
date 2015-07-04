@@ -47,13 +47,13 @@ FUNCTION main :
 v0015 := #4 
 LABEL label0013 :
 IF v0015 > #100 GOTO label0015
-v0017 := #0 
+b0017 := #0 
 ARG v0015
 t0018 := CALL gotbaha
 IF t0018 != #1 GOTO label0017
-v0017 := #1 
+b0017 := #1 
 LABEL label0017 :
-WRITE v0017
+WRITE b0017
 t0019 := v0015 + #2
 v0015 := t0019 
 GOTO label0013

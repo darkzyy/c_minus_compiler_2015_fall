@@ -62,7 +62,6 @@ ARG v0047
 ARG v0046
 ARG v0045
 t0049 := CALL partition
-v0048 := t0049 
 t0051 := t0049 - #1
 ARG t0051
 ARG v0046

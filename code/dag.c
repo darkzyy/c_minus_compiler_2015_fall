@@ -34,7 +34,7 @@ int opcmp(operand* x,operand* y){
     }
 }
 
-void init_nodepoll(){
+void init_nodepool(){
     memset(pool,0,NODE_AMOUNT*sizeof(dagnode));
 };
 
@@ -500,10 +500,18 @@ void del_tmpvar(intercode* ic){
             {}
         case ICN_WRITE:
             {}
-        case ICN_RETURN:
-            {}
         case ICN_ARG:
             {
+                if(ic->res->kind == OP_VAR || ic->res->kind == OP_ADDR){
+                    tmpvar_ht_node* nd = find_tmpvar(ic->res->var_str);
+                    assert(nd);
+                    nd->is_alive = 1;
+                }
+                break;
+            }
+        case ICN_RETURN:
+            {
+                tmpvar_kill_ret();
                 if(ic->res->kind == OP_VAR || ic->res->kind == OP_ADDR){
                     tmpvar_ht_node* nd = find_tmpvar(ic->res->var_str);
                     assert(nd);
@@ -531,7 +539,7 @@ void deref_peep(intercode* ic){
 
 void handle_cb(code_block* cb){
     intercode* ic;
-    init_nodepoll();
+    init_nodepool();
     tmpvar_node_no_init();
     current_nodeno = 1;
     last_killno = 1;

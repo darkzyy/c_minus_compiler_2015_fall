@@ -293,23 +293,23 @@ static void Func_Exp1(MTnode* root){
 }
 static void Func_Exp2(MTnode* root){
     Log2("Func_Exp2");
-    in_deflist = 1;
+    in_bool = 1;
     root->op = make_new_op_var(get_var_no());
-    in_deflist = 0;
+    in_bool = 0;
     bool_translate;
 }
 static void Func_Exp3(MTnode* root){
     Log2("Func_Exp3");
-    in_deflist = 1;
+    in_bool = 1;
     root->op = make_new_op_var(get_var_no());
-    in_deflist = 0;
+    in_bool = 0;
     bool_translate;
 }
 static void Func_Exp4(MTnode* root){
     Log2("Func_Exp4");
-    in_deflist = 1;
+    in_bool = 1;
     root->op = make_new_op_var(get_var_no());
-    in_deflist = 0;
+    in_bool = 0;
     bool_translate;
 }
 
@@ -375,9 +375,9 @@ static void Func_Exp10(MTnode* root){
 }
 static void Func_Exp11(MTnode* root){
     Log2("Func_Exp11");
-    in_deflist = 1;
+    in_bool = 1;
     root->op = make_new_op_var(get_var_no());
-    in_deflist = 0;
+    in_bool = 0;
     bool_translate;
 }
 static void gen_args(Argl* al){

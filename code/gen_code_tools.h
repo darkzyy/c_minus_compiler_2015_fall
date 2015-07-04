@@ -17,24 +17,6 @@ void op01_init(){
     one->kind = OP_INT;
     one->val_int = 1;
 }
-static int* get_int_addr(MTnode* root){
-    assert(root);
-    if(root->type==INT){
-        return &(root->valt);
-    }
-    else{
-        return get_int_addr(ch(0));
-    }
-}
-static float* get_float_addr(MTnode* root){
-    assert(root);
-    if(root->type==FLOAT){
-        return &(root->valf);
-    }
-    else{
-        return get_float_addr(ch(0));
-    }
-}
 static int get_int_val(MTnode* root){
     assert(root);
     if(root->type == INT){
@@ -76,35 +58,6 @@ static inline char* get_new_label(){
     current_label_no += 1;
     Log3("LABEL applied : %s",label);
     return label;
-}
-
-static void gen_assign(operand* left,operand* right,int right_kind,void* right_val){
-    /*if left and right are given , this func will not change its content*/
-    if(left==NULL){
-        left = malloc(sizeof(operand));
-        left->kind = OP_VAR;
-        left->var_str = get_var_no();
-    }
-    if(right==NULL){
-        assert(right_val);
-        right = malloc(sizeof(operand));
-        right->kind = right_kind;
-        if(right_kind == OP_INT){
-            right->val_int = *((int*) right_val);
-        }
-        else if(right_kind == OP_FLOAT){
-            right->val_float = *((float*) right_val);
-        }
-        else{
-            right->var_str = get_var_no();
-        }
-    }
-    intercode* ic = malloc(sizeof(intercode));
-    ic->kind = ICN_ASSIGN;
-    ic->res = left;
-    ic->op1 = right;
-    list_add_before(&code_head,&(ic->list));
-    Log2("------intercode addr : %p",ic);
 }
 
 #define gen_label(s,suffix) {\
@@ -189,11 +142,11 @@ static void translate_cond(MTnode* root,char* label_true,char* label_false){
 #define bool_translate {\
     char* label1 = get_new_label();\
     char* label2 = get_new_label();\
-    gen_assign(root->op,zero,0,NULL);\
+    gen_assign_var(root->op,zero);\
     translate_cond(root,label1,label2);\
     gen_label(label1,LABEL);\
     add_label(label1);\
-    gen_assign(root->op,one,0,NULL);\
+    gen_assign_var(root->op,one);\
     gen_label(label2,LABEL);\
     add_label(label2);\
 }

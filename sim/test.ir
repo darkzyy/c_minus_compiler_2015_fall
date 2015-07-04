@@ -1,0 +1,8 @@
+FUNCTION main :
+DEC v0 8
+t0 := &v0
+t1 := *t0
+WRITE t1
+t1 := #1 + #2
+WRITE t1
+RETURN #0

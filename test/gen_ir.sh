@@ -27,3 +27,4 @@
 ./parser testcase_3/max.c >../sim/max.ir
 ./parser testcase_3/prime.c >../sim/prime.ir
 ./parser t46_bug.c >../sim/t46.ir
+./parser t47_bug.c > ../sim/t47.ir

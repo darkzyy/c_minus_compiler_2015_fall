@@ -64,7 +64,8 @@ IF t0073 != #0 GOTO label0007
 v0008 := #0 
 v0006 := v0005 
 LABEL label0007 :
-v0006 := v0006 + #1
+t0074 := v0006 + #1
+v0006 := t0074 
 GOTO label0003
 LABEL label0005 :
 IF v0008 == #0 GOTO label0009
@@ -76,9 +77,11 @@ IF v0006 != t0080 GOTO label0011
 b0076 := #1 
 LABEL label0011 :
 WRITE b0076
-v0007 := v0007 + #1
+t0081 := v0007 + #1
+v0007 := t0081 
 LABEL label0009 :
-v0005 := v0005 + #2
+t0082 := v0005 + #2
+v0005 := t0082 
 GOTO label0000
 LABEL label0002 :
 b0084 := #0 

@@ -178,11 +178,14 @@ IF t0227 != t0237 GOTO label0010
 b0226 := #1 
 LABEL label0010 :
 WRITE b0226
-v0005 := v0005 + #1
-v0004 := v0004 + #1
+t0238 := v0005 + #1
+v0005 := t0238 
+t0239 := v0004 + #1
+v0004 := t0239 
 GOTO label0006
 LABEL label0008 :
-v0003 := v0003 + #1
+t0240 := v0003 + #1
+v0003 := t0240 
 GOTO label0003
 LABEL label0005 :
 RETURN #0

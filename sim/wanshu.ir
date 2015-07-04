@@ -27,7 +27,8 @@ t0019 := CALL mod
 IF t0019 != #0 GOTO label0007
 v0006 := v0006 + v0007
 LABEL label0007 :
-v0007 := v0007 + #1
+t0021 := v0007 + #1
+v0007 := t0021 
 GOTO label0003
 LABEL label0005 :
 IF v0006 != v0005 GOTO label0009
@@ -39,9 +40,11 @@ IF v0005 != t0027 GOTO label0011
 b0023 := #1 
 LABEL label0011 :
 WRITE b0023
-v0008 := v0008 + #1
+t0028 := v0008 + #1
+v0008 := t0028 
 LABEL label0009 :
-v0005 := v0005 + #1
+t0029 := v0005 + #1
+v0005 := t0029 
 GOTO label0000
 LABEL label0002 :
 b0031 := #0 

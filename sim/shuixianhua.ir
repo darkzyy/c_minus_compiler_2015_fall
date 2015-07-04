@@ -24,7 +24,8 @@ t0025 := &v0008 + #12
 v0009 := #100 
 LABEL label0000 :
 IF v0009 >= #1000 GOTO label0002
-v0010 := v0009 / #100
+t0026 := v0009 / #100
+v0010 := t0026 
 t0028 := v0009 / #10
 ARG #10
 ARG t0028
@@ -51,9 +52,11 @@ IF v0009 != t0040 GOTO label0006
 b0036 := #1 
 LABEL label0006 :
 WRITE b0036
-v0013 := v0013 + #1
+t0041 := v0013 + #1
+v0013 := t0041 
 LABEL label0004 :
-v0009 := v0009 + #1
+t0042 := v0009 + #1
+v0009 := t0042 
 GOTO label0000
 LABEL label0002 :
 IF v0013 != #4 GOTO label0008

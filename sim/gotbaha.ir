@@ -19,7 +19,8 @@ t0007 := CALL mod
 IF t0007 != #0 GOTO label0006
 RETURN #0
 LABEL label0006 :
-v0006 := v0006 + #1
+t0008 := v0006 + #1
+v0006 := t0008 
 GOTO label0002
 LABEL label0004 :
 RETURN #1
@@ -37,7 +38,8 @@ t0012 := CALL is_prime
 IF t0012 == #0 GOTO label0011
 RETURN #1
 LABEL label0011 :
-v0010 := v0010 + #1
+t0014 := v0010 + #1
+v0010 := t0014 
 GOTO label0007
 LABEL label0009 :
 RETURN #0
@@ -52,7 +54,8 @@ IF t0018 != #1 GOTO label0017
 b0017 := #1 
 LABEL label0017 :
 WRITE b0017
-v0015 := v0015 + #2
+t0019 := v0015 + #2
+v0015 := t0019 
 GOTO label0013
 LABEL label0015 :
 RETURN #0

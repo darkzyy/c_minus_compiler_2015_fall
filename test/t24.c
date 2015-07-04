@@ -1,3 +1,8 @@
+int k(int aa,int bb){
+    int cc = aa+aa+bb;
+    return 0;
+}
+
 int main(){
     int a,b,c,e,d,f,g,h;
     a = 1;
@@ -9,7 +14,9 @@ int main(){
     g = f+c;
     h = f+c;
     f = e+d;
+    a = k(f+c,g);
     h = f+c;
+
     return h;
 }
 

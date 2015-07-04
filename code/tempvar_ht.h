@@ -13,8 +13,6 @@ typedef struct code_block_node code_block_node;
 
 struct tmpvar_ht_node{
     char* varstr;
-    code_block_node* modified_block;
-    code_block_node* used_block;
     UT_hash_handle hh;
     int dag_node_no;
     int update_no;

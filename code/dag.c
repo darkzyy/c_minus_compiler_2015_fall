@@ -139,10 +139,6 @@ int ic_match(int start,int end,int op1_no,int op2_no,intercode* ic){
             Log3();
             break;
         }
-        if(nd->lch == op2_no && nd->rch == op1_no){
-            Log3();
-            break;
-        }
     }
     if(i>=end){
         Log3("not found");

@@ -151,25 +151,4 @@ static void translate_cond(MTnode* root,char* label_true,char* label_false){
     add_label(label2);\
 }
 
-static operand* make_op(int kind,void* val){
-    operand* op = malloc(sizeof(operand));
-    op->kind = kind;
-    if(kind == OP_INT){
-        op->val_int = *(int*)val;
-    }
-    else if(kind == OP_FLOAT){
-        op->val_float = *(float*)val;
-    }
-    else if(kind == OP_VAR){
-        if(val==NULL){
-            op->var_str = get_var_no();
-        }
-        else{
-            op->var_str = (char*)val;
-        }
-    }
-    return op;
-}
-
-
 #endif

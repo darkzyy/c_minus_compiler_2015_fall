@@ -396,7 +396,7 @@ static void gen_args(Argl* al){
 static void Func_Exp12(MTnode* root){
     Log3("Func_Exp12 : ID( Args )");
     if(root->op == NULL){
-        root->op = make_op(OP_VAR,NULL);
+        root->op = make_new_op_var(get_var_no());
     }
 
     ch(2)->al = malloc(sizeof(Argl));
@@ -421,7 +421,7 @@ static void Func_Exp12(MTnode* root){
 static void Func_Exp13(MTnode* root){
     Log2("Func_Exp13 : ID()");
     if(root->op == NULL){
-        root->op = make_op(OP_VAR,NULL);
+        root->op = make_new_op_var(get_var_no());
     }
     if(strcmp(ch(0)->str,"read")==0){
         gen_single_var(root->op,READ);
@@ -449,7 +449,7 @@ static void Func_Exp14(MTnode* root){
 
     //ADD:
     if(root->op==NULL){
-        root->op = make_op(OP_VAR,NULL);
+        root->op = make_new_op_var(get_var_no());
     }
     root->op = gen_plus(ch0_addr,tmp,1,get_var_no());
 

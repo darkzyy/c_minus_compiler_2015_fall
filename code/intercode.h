@@ -52,7 +52,6 @@ struct intercode{
     operand* op2;
     int size;
     ListHead list;
-    struct code_block* cb;
     int use_addr;
 };
 typedef struct intercode intercode ;

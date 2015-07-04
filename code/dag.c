@@ -161,7 +161,9 @@ void kill_refer(){
         if(nd->ic && nd->ic->use_addr == 0 ){
             operand* op1 = nd->ic->op1;
             operand* op2 = nd->ic->op2;
-            if((op1 && op1->kind == OP_ADDR) || (op2 && op2->kind == OP_ADDR)){
+            operand* res = nd->ic->res;
+            if((res && res->kind == OP_ADDR) ||
+                        (op1 && op1->kind == OP_ADDR) || (op2 && op2->kind == OP_ADDR)){
                 Log3("Killed = %d,i = %d",last_killno,i);
                 nd->status = KILLED;
             }
@@ -553,6 +555,19 @@ static void arith_peep(intercode* ic){
     }
 }
 
+static void write_peep(intercode* ic){
+    if(ic->kind == ICN_WRITE && (ic->res && ic->res->kind == OP_VAR)){
+        intercode* ic_prev = list_entry(ic->list.prev,intercode,list);
+        if(ic_prev->kind == ICN_ASSIGN){
+            if(ic_prev->res && strcmp(ic_prev->res->var_str,ic->res->var_str)==0){
+                if(ic_prev->op1->kind == OP_INT){
+                    ic->res = ic_prev->op1;
+                }
+            }
+        }
+    }
+}
+
 void handle_cb(code_block* cb){
     intercode* ic;
     init_nodepool();
@@ -586,6 +601,11 @@ void handle_cb2(code_block* cb){
         arith_peep(ic);
     }
     arith_peep(ic);
+
+    for(ic = cb->start;ic!=cb->end;ic = list_entry(ic->list.next,intercode,list)){
+        write_peep(ic);
+    }
+    write_peep(ic);
 
     for(ic=cb->end;ic!=cb->start;ic = list_entry(ic->list.prev,intercode,list)){
         if(del_tmpvar(ic) && ic == cb->end){

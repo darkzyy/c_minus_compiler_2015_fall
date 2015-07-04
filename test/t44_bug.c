@@ -10,8 +10,8 @@ int main(){
     a[6] = 66;
     a[7] = 65;
     x = read();
-    y = read();
-    write(a[y]+x);
-    write(a[y+x]);
+    a[x] = 3;
+    write(a[0]);
+    write(y);
     return 0;
 }

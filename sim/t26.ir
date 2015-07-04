@@ -2,8 +2,7 @@ FUNCTION main :
 v0000 := #0 
 LABEL label0000 :
 IF v0000 >= #10 GOTO label0002
-t0001 := v0000 + #1
-v0000 := t0001 
+v0000 := v0000 + #1
 GOTO label0000
 LABEL label0002 :
 WRITE v0000

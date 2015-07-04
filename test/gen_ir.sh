@@ -15,6 +15,7 @@
 ./parser t39_logic_val.c >../sim/t39.ir
 ./parser t40_swap.c >../sim/t40.ir
 ./parser t41_and.c >../sim/t41.ir
+./parser t42.c > ../sim/t42.ir
 ./parser shuixianhua.c >../sim/shuixianhua.ir
 ./parser wanshu.c >../sim/wanshu.ir
 ./parser bubble-sort.c >../sim/bubble_sort.ir

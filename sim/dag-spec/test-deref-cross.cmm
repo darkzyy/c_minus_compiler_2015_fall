@@ -1,11 +1,12 @@
 int main()
 {
-    int a[2], b, c, d;
-    int i, j;
-    b = a[i];
+    int a[2], b, c=1, d;
+    int i=0, j;
+    b = a[i]=3;
     i = read();
     a[i] = read();
     c = b;
     write(c);
+    write(a[i]);
     return c;
 }

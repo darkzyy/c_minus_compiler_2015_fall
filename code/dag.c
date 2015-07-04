@@ -542,10 +542,10 @@ static void arith_peep(intercode* ic){
                         ic_prev->kind == ICN_MUL || ic_prev->kind == ICN_DIV){
                 if(ic_prev->use_addr==0){
                     if(strcmp(ic_prev->res->var_str,ic->op1->var_str)==0 &&
-                                ic_prev->op1->kind == OP_VAR &&
-                                strcmp(ic_prev->res->var_str,ic_prev->op1->var_str)!=0&&
-                                ic_prev->op2->kind == OP_VAR &&
-                                strcmp(ic_prev->res->var_str,ic_prev->op2->var_str)){
+                                !(ic_prev->op1->kind == OP_VAR &&
+                                strcmp(ic_prev->res->var_str,ic_prev->op1->var_str)==0)&&
+                                !(ic_prev->op2->kind == OP_VAR &&
+                                strcmp(ic_prev->res->var_str,ic_prev->op2->var_str)==0)){
                         ic->kind = ic_prev->kind;
                         ic->op1 = ic_prev->op1;
                         ic->op2 = ic_prev->op2;

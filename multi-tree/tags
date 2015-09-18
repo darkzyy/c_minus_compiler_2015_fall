@@ -1,0 +1,16 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+MTnode	mutil_tree.c	/^typedef struct MTnode{$/;"	s	file:
+MTnode::children_amount	mutil_tree.c	/^	int children_amount;$/;"	m	struct:MTnode	file:	access:public
+MTnode::children_list	mutil_tree.c	/^	MTnode** children_list;$/;"	m	struct:MTnode	file:	access:public
+MTnode::content	mutil_tree.c	/^	int content;$/;"	m	struct:MTnode	file:	access:public
+MTnode::type	mutil_tree.c	/^	int type;$/;"	m	struct:MTnode	file:	access:public
+children_amount	mutil_tree.c	/^	int children_amount;$/;"	m	struct:MTnode	file:	access:public
+children_list	mutil_tree.c	/^	MTnode** children_list;$/;"	m	struct:MTnode	file:	access:public
+content	mutil_tree.c	/^	int content;$/;"	m	struct:MTnode	file:	access:public
+create_node	mutil_tree.c	/^MTnode* create_node(MTnode* node_list[],int list_len,int type){$/;"	f	signature:(MTnode* node_list[],int list_len,int type)
+type	mutil_tree.c	/^	int type;$/;"	m	struct:MTnode	file:	access:public

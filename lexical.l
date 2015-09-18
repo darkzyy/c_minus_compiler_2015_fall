@@ -1,5 +1,6 @@
 %{
   #include "syntax.tab.h"
+  #include "multi_tree.h"
   int yycolumn = 1;
   #define YY_USER_ACTION \
 	yylloc.first_line = yylloc.last_line = yylineno; \
@@ -158,7 +159,7 @@ alpha_	[a-zA-Z_]
 	}
 	else{
 		//printf("Int value: %d\n",atoi(yytext));
-		yylval.intval = atoi(yytext);
+		//yylval.intval = atoi(yytext);
 		return INT;
 	}
 }
@@ -175,9 +176,6 @@ alpha_	[a-zA-Z_]
 
 <INITIAL>{alpha_}({alpha_}|{digit})* {
 	//printf("identification : %s\n",yytext);
-	//struct symtab *sp = symlook(yytext);
-	//yylval.strval = sp;
-	//yylval.strval = strdup(yytext);
 	return ID;
 }
  /*

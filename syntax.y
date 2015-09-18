@@ -9,6 +9,7 @@
 int intval;
 float floatval;
 char* strval;
+MTnode* mtnode;
 }
 
  /*declare tokens

@@ -143,8 +143,9 @@ union YYSTYPE
 int intval;
 float floatval;
 char* strval;
+MTnode* mtnode;
 
-#line 148 "syntax.tab.c" /* yacc.c:355  */
+#line 149 "syntax.tab.c" /* yacc.c:355  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -173,7 +174,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 177 "syntax.tab.c" /* yacc.c:358  */
+#line 178 "syntax.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -475,12 +476,12 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    58,    58,    59,    60,    61,    62,    63,    64,    65,
-      67,    68,    69,    70,    71,    72,    73,    75,    76,    77,
-      78,    79,    80,    81,    83,    84,    85,    86,    87,    88,
-      89,    90,    91,    93,    94,    95,    96,    97,    98,    99,
-     102,   103,   104,   105,   106,   107,   108,   109,   110,   111,
-     112,   113,   114,   115,   116,   117,   118,   119,   121,   122
+       0,    59,    59,    60,    61,    62,    63,    64,    65,    66,
+      68,    69,    70,    71,    72,    73,    74,    76,    77,    78,
+      79,    80,    81,    82,    84,    85,    86,    87,    88,    89,
+      90,    91,    92,    94,    95,    96,    97,    98,    99,   100,
+     103,   104,   105,   106,   107,   108,   109,   110,   111,   112,
+     113,   114,   115,   116,   117,   118,   119,   120,   122,   123
 };
 #endif
 
@@ -1436,7 +1437,7 @@ yyreduce:
   switch (yyn)
     {
       
-#line 1440 "syntax.tab.c" /* yacc.c:1646  */
+#line 1441 "syntax.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1671,6 +1672,6 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 124 "syntax.y" /* yacc.c:1906  */
+#line 125 "syntax.y" /* yacc.c:1906  */
 
 

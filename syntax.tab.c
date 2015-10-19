@@ -1468,7 +1468,7 @@ yyreduce:
             pre_tranverse($$);
         }
         */
-        build_table((yyval.mtnode));
+        sem((yyval.mtnode));
         print_symtab(var_tab);
         }
 #line 1475 "./syntax.tab.c" /* yacc.c:1646  */

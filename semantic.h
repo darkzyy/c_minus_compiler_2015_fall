@@ -5,7 +5,6 @@
 Type* type_int;
 Type* type_float;
 
-void build_table(MTnode* root);
-Type* add_type(MTnode* root);
+void sem(MTnode* root);
 
 #endif

@@ -80,7 +80,7 @@ Program : ExtDefList {
             pre_tranverse($$);
         }
         */
-        build_table($$);
+        sem($$);
         print_symtab(var_tab);
         }
         ;

@@ -102,53 +102,53 @@ ExtDef : Specifier ExtDecList SEMI {
        list[0]=$1;
        list[1]=$2;
        list[2]=$3;
-       $$ = create_node(list,3,"ExtDef",&@1,ExtDef);
+       $$ = create_node(list,3,"ExtDef",&@1,ExtDef1);
        }
        | Specifier SEMI {
        MTnode** list=malloc(sizeof(void*)*2);
        list[0]=$1;
        list[1]=$2;
-       $$ = create_node(list,2,"ExtDef",&@1,ExtDef);
+       $$ = create_node(list,2,"ExtDef",&@1,ExtDef2);
        }
        | Specifier FunDec CompSt {
        MTnode** list=malloc(sizeof(void*)*3);
        list[0]=$1;
        list[1]=$2;
        list[2]=$3;
-       $$ = create_node(list,3,"ExtDef",&@1,ExtDef);
+       $$ = create_node(list,3,"ExtDef",&@1,ExtDef3);
        }
        | Specifier FunDec SEMI{
        MTnode** list=malloc(sizeof(void*)*3);
        list[0]=$1;
        list[1]=$2;
        list[2]=$3;
-       $$ = create_node(list,3,"ExtDef",&@1,ExtDef);
+       $$ = create_node(list,3,"ExtDef",&@1,ExtDef4);
        }
        |error SEMI {}
        ;
 ExtDecList : VarDec {
            MTnode** list=malloc(sizeof(void*)*1);
            list[0]=$1;
-           $$ = create_node(list,1,"ExtDecList",&@1,ExtDecList);
+           $$ = create_node(list,1,"ExtDecList",&@1,ExtDecList1);
            }
            | VarDec COMMA ExtDecList {
            MTnode** list=malloc(sizeof(void*)*3);
            list[0]=$1;
            list[1]=$2;
            list[2]=$3;
-           $$ = create_node(list,3,"ExtDecList",&@1,ExtDecList);
+           $$ = create_node(list,3,"ExtDecList",&@1,ExtDecList2);
            }
            ;
 
 Specifier : TYPE {
           MTnode** list=malloc(sizeof(void*)*1);
           list[0]=$1;
-          $$ = create_node(list,1,"Specifier",&@1,Specifier);
+          $$ = create_node(list,1,"Specifier",&@1,Specifier1);
           }
           | StructSpecifier {
           MTnode** list=malloc(sizeof(void*)*1);
           list[0]=$1;
-          $$ = create_node(list,1,"Specifier",&@1,Specifier);
+          $$ = create_node(list,1,"Specifier",&@1,Specifier2);
           }
           ;
 StructSpecifier : STRUCT OptTag LC DefList RC {
@@ -158,13 +158,13 @@ StructSpecifier : STRUCT OptTag LC DefList RC {
                 list[2]=$3;
                 list[3]=$4;
                 list[4]=$5;
-                $$ = create_node(list,5,"StructSpecifier",&@1,StructSpecifier);
+                $$ = create_node(list,5,"StructSpecifier",&@1,StructSpecifier1);
                 }
                 | STRUCT Tag {
                 MTnode** list=malloc(sizeof(void*)*2);
                 list[0]=$1;
                 list[1]=$2;
-                $$ = create_node(list,2,"StructSpecifier",&@1,StructSpecifier);
+                $$ = create_node(list,2,"StructSpecifier",&@1,StructSpecifier2);
                 }
                 ;
 
@@ -186,7 +186,7 @@ Tag : ID {
 VarDec : ID {
        MTnode** list=malloc(sizeof(void*)*1);
        list[0]=$1;
-       $$ = create_node(list,1,"VarDec",&@1,VarDec);
+       $$ = create_node(list,1,"VarDec",&@1,VarDec1);
        }
        | VarDec LB INT RB {
        MTnode** list=malloc(sizeof(void*)*4);
@@ -194,7 +194,7 @@ VarDec : ID {
        list[1]=$2;
        list[2]=$3;
        list[3]=$4;
-       $$ = create_node(list,4,"VarDec",&@1,VarDec);
+       $$ = create_node(list,4,"VarDec",&@1,VarDec2);
        }
        ;
 FunDec : ID LP VarList RP {
@@ -203,14 +203,14 @@ FunDec : ID LP VarList RP {
        list[1]=$2;
        list[2]=$3;
        list[3]=$4;
-       $$ = create_node(list,4,"FunDec",&@1,FunDec);
+       $$ = create_node(list,4,"FunDec",&@1,FunDec1);
        }
        | ID LP RP {
        MTnode** list=malloc(sizeof(void*)*3);
        list[0]=$1;
        list[1]=$2;
        list[2]=$3;
-       $$ = create_node(list,3,"FunDec",&@1,FunDec);
+       $$ = create_node(list,3,"FunDec",&@1,FunDec2);
        }
        ;
 VarList : ParamDec COMMA VarList {
@@ -218,12 +218,12 @@ VarList : ParamDec COMMA VarList {
         list[0]=$1;
         list[1]=$2;
         list[2]=$3;
-        $$ = create_node(list,3,"VarList",&@1,VarList);
+        $$ = create_node(list,3,"VarList",&@1,VarList1);
         }
         | ParamDec {
         MTnode** list=malloc(sizeof(void*)*1);
         list[0]=$1;
-        $$ = create_node(list,1,"VarList",&@1,VarList);
+        $$ = create_node(list,1,"VarList",&@1,VarList2);
         }
         ;
 ParamDec : Specifier VarDec {
@@ -258,19 +258,19 @@ Stmt : Exp SEMI {
      MTnode** list=malloc(sizeof(void*)*2);
      list[0]=$1;
      list[1]=$2;
-     $$ = create_node(list,2,"Stmt",&@1,Stmt);
+     $$ = create_node(list,2,"Stmt",&@1,Stmt1);
      }
      | CompSt {
      MTnode** list=malloc(sizeof(void*)*1);
      list[0]=$1;
-     $$ = create_node(list,1,"Stmt",&@1,Stmt);
+     $$ = create_node(list,1,"Stmt",&@1,Stmt2);
      }
      | RETURN Exp SEMI {
      MTnode** list=malloc(sizeof(void*)*3);
      list[0]=$1;
      list[1]=$2;
      list[2]=$3;
-     $$ = create_node(list,3,"Stmt",&@1,Stmt);
+     $$ = create_node(list,3,"Stmt",&@1,Stmt3);
      }
      | IF LP Exp RP Stmt %prec LOWER_THAN_ELSE {
      MTnode** list=malloc(sizeof(void*)*5);
@@ -279,7 +279,7 @@ Stmt : Exp SEMI {
      list[2]=$3;
      list[3]=$4;
      list[4]=$5;
-     $$ = create_node(list,5,"Stmt",&@1,Stmt);
+     $$ = create_node(list,5,"Stmt",&@1,Stmt4);
      }
      | IF LP Exp RP Stmt ELSE Stmt {
      MTnode** list=malloc(sizeof(void*)*7);
@@ -290,7 +290,7 @@ Stmt : Exp SEMI {
      list[4]=$5;
      list[5]=$6;
      list[6]=$7;
-     $$ = create_node(list,7,"Stmt",&@1,Stmt);
+     $$ = create_node(list,7,"Stmt",&@1,Stmt5);
      }
      | WHILE LP Exp RP Stmt {
      MTnode** list=malloc(sizeof(void*)*5);
@@ -299,7 +299,7 @@ Stmt : Exp SEMI {
      list[2]=$3;
      list[3]=$4;
      list[4]=$5;
-     $$ = create_node(list,5,"Stmt",&@1,Stmt);
+     $$ = create_node(list,5,"Stmt",&@1,Stmt6);
      }
      |error SEMI{}
      ;
@@ -310,10 +310,7 @@ DefList : Def DefList {
         $$ = create_node(list,2,"DefList",&@1,DefList);
         }
         | %empty                {$$ = create_node(NULL,0,"",&@$,EMPTY);}
-/*
-        | Specifier DecList {yyerror("';' is expected");}
-          solve missing ';'*/
-          ;
+        ;
 
 Def : Specifier DecList SEMI {
     MTnode** list=malloc(sizeof(void*)*3);
@@ -327,27 +324,27 @@ Def : Specifier DecList SEMI {
 DecList : Dec {
         MTnode** list=malloc(sizeof(void*)*1);
         list[0]=$1;
-        $$ = create_node(list,1,"DecList",&@1,DecList);
+        $$ = create_node(list,1,"DecList",&@1,DecList1);
         }
         | Dec COMMA DecList {
         MTnode** list=malloc(sizeof(void*)*3);
         list[0]=$1;
         list[1]=$2;
         list[2]=$3;
-        $$ = create_node(list,3,"DecList",&@1,DecList);
+        $$ = create_node(list,3,"DecList",&@1,DecList2);
         }
         ;
 Dec : VarDec {
     MTnode** list=malloc(sizeof(void*)*1);
     list[0]=$1;
-    $$ = create_node(list,1,"Dec",&@1,Dec);
+    $$ = create_node(list,1,"Dec",&@1,Dec1);
     }
     | VarDec ASSIGNOP Exp {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
-    $$ = create_node(list,3,"Dec",&@1,Dec);
+    $$ = create_node(list,3,"Dec",&@1,Dec2);
     }
     ;
 Exp : Exp ASSIGNOP Exp {
@@ -355,75 +352,75 @@ Exp : Exp ASSIGNOP Exp {
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
-    $$ = create_node(list,3,"Exp",&@1,Exp);
+    $$ = create_node(list,3,"Exp",&@1,Exp1);
     }
     | Exp AND Exp {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
-    $$ = create_node(list,3,"Exp",&@1,Exp);
+    $$ = create_node(list,3,"Exp",&@1,Exp2);
     }
     | Exp OR Exp {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
-    $$ = create_node(list,3,"Exp",&@1,Exp);
+    $$ = create_node(list,3,"Exp",&@1,Exp3);
     }
     | Exp RELOP Exp {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
-    $$ = create_node(list,3,"Exp",&@1,Exp);
+    $$ = create_node(list,3,"Exp",&@1,Exp4);
     }
     | Exp PLUS Exp {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
-    $$ = create_node(list,3,"Exp",&@1,Exp);
+    $$ = create_node(list,3,"Exp",&@1,Exp5);
     }
     | Exp MINUS Exp {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
-    $$ = create_node(list,3,"Exp",&@1,Exp);
+    $$ = create_node(list,3,"Exp",&@1,Exp6);
     }
     | Exp STAR Exp {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
-    $$ = create_node(list,3,"Exp",&@1,Exp);
+    $$ = create_node(list,3,"Exp",&@1,Exp7);
     }
     | Exp DIV Exp {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
-    $$ = create_node(list,3,"Exp",&@1,Exp);
+    $$ = create_node(list,3,"Exp",&@1,Exp8);
     }
     | LP Exp RP {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
-    $$ = create_node(list,3,"Exp",&@1,Exp);
+    $$ = create_node(list,3,"Exp",&@1,Exp9);
     }
     | MINUS Exp {
     MTnode** list=malloc(sizeof(void*)*2);
     list[0]=$1;
     list[1]=$2;
-    $$ = create_node(list,2,"Exp",&@1,Exp);
+    $$ = create_node(list,2,"Exp",&@1,Exp10);
     }
     | NOT Exp {
     MTnode** list=malloc(sizeof(void*)*2);
     list[0]=$1;
     list[1]=$2;
-    $$ = create_node(list,2,"Exp",&@1,Exp);
+    $$ = create_node(list,2,"Exp",&@1,Exp11);
     }
     | ID LP Args RP {
     MTnode** list=malloc(sizeof(void*)*4);
@@ -431,14 +428,14 @@ Exp : Exp ASSIGNOP Exp {
     list[1]=$2;
     list[2]=$3;
     list[3]=$4;
-    $$ = create_node(list,4,"Exp",&@1,Exp);
+    $$ = create_node(list,4,"Exp",&@1,Exp12);
     }
     | ID LP RP {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
-    $$ = create_node(list,3,"Exp",&@1,Exp);
+    $$ = create_node(list,3,"Exp",&@1,Exp13);
     }
     | Exp LB Exp RB {
     MTnode** list=malloc(sizeof(void*)*4);
@@ -446,29 +443,29 @@ Exp : Exp ASSIGNOP Exp {
     list[1]=$2;
     list[2]=$3;
     list[3]=$4;
-    $$ = create_node(list,4,"Exp",&@1,Exp);
+    $$ = create_node(list,4,"Exp",&@1,Exp14);
     }
     | Exp DOT ID {
     MTnode** list=malloc(sizeof(void*)*3);
     list[0]=$1;
     list[1]=$2;
     list[2]=$3;
-    $$ = create_node(list,3,"Exp",&@1,Exp);
+    $$ = create_node(list,3,"Exp",&@1,Exp15);
     }
     | ID{
     MTnode** list=malloc(sizeof(void*)*1);
     list[0]=$1;
-    $$ = create_node(list,1,"Exp",&@1,Exp);
+    $$ = create_node(list,1,"Exp",&@1,Exp16);
     }
     | INT     {
     MTnode** list=malloc(sizeof(void*)*1);
     list[0]=$1;
-    $$ = create_node(list,1,"Exp",&@1,Exp);
+    $$ = create_node(list,1,"Exp",&@1,Exp17);
     }
     | FLOAT {
     MTnode** list=malloc(sizeof(void*)*1);
     list[0]=$1;
-    $$ = create_node(list,1,"Exp",&@1,Exp);
+    $$ = create_node(list,1,"Exp",&@1,Exp18);
     }
     | LP error RP {}
     | LP Exp error RP {}
@@ -478,12 +475,12 @@ Args : Exp COMMA Args {
      list[0]=$1;
      list[1]=$2;
      list[2]=$3;
-     $$ = create_node(list,3,"Args",&@1,Args);
+     $$ = create_node(list,3,"Args",&@1,Args1);
      }
     | Exp     {
      MTnode** list=malloc(sizeof(void*)*1);
      list[0]=$1;
-     $$ = create_node(list,1,"Args",&@1,Args);
+     $$ = create_node(list,1,"Args",&@1,Args2);
      }
      ;
 %%

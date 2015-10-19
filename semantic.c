@@ -17,11 +17,11 @@ void init_basic_type(){
 }
 
 char* get_spec_name(MTnode* spec){  //not tested!!
-    if(spec->type!=Specifier){
+    if(spec->type!=Specifier1 && spec->type!=Specifier2){
         printf("error refer\n");
         return NULL;
     }
-    else if(spec->children_list[0]->type==TYPE){//int & float
+    else if(spec->type==Specifier1){//int & float
         return spec->children_list[0]->str;
     }
     else{
@@ -57,16 +57,12 @@ void sem(MTnode* root){
                 sem(root->children_list[0]);
                 sem(root->children_list[1]);
             }
-        case ExtDef:
+        case ExtDef1:
             {
-                if(root->children_list[1]->children_amount==2){
-                    sem(root->children_list[0]);
-                }
             }
-        case Specifier:
+        case Specifier1:
             {
                 if(root->type==TYPE){
-
                 }
             }
         default:{

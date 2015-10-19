@@ -14,6 +14,9 @@ typedef struct MTnode{
         int valt;
         double valf;
     };
+    Type* inh_type;
+    Type* syn_type;
+    FieldList* syn_fl;
 	YYLTYPE location;
 	struct MTnode** children_list;
     Type* tp;
@@ -28,28 +31,31 @@ void add_node(MTnode* par,MTnode* child);
 
 enum{
 	TERMINALS=300,
-	Program=301,
-    ExtDefList=302,
-    ExtDef=303,
-    ExtDecList=304,
-    Specifier=305,
-    StructSpecifier=306,
-    OptTag=307,
-    Tag=308,
-    VarDec=309,
-    FunDec=310,
-    VarList=311,
-    ParamDec=312,
-    CompSt=313,
-    StmtList=314,
-    Stmt=315,
-    DefList=316,
-    Def=317,
-    DecList=318,
-    Dec=319,
-    Exp=320,
-    Args=321,
-	EMPTY=322
+	Program,
+    ExtDefList,
+    ExtDef1,
+    ExtDef2,
+    ExtDef3,
+    ExtDef4,
+    ExtDecList,
+    Specifier,
+    StructSpecifier,
+    OptTag,
+    Tag,
+    VarDec,
+    FunDec,
+    VarList,
+    ParamDec,
+    CompSt,
+    StmtList,
+    Stmt,
+    DefList,
+    Def,
+    DecList,
+    Dec,
+    Exp,
+    Args,
+	EMPTY
 };
 
 #endif

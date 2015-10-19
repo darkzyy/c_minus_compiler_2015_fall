@@ -5,6 +5,8 @@
 #include"syntax.tab.h"
 #include"semantic.h"
 
+int inside_struct;
+
 void init_basic_type(){
     type_int = malloc(sizeof(Type));
     type_float = malloc(sizeof(Type));
@@ -39,94 +41,36 @@ char* get_spec_name(MTnode* spec){  //not tested!!
     }
 }
 
-FieldList* add_field(MTnode* root){
-    if(root->type!=DefList){
-        printf("error refer\n");
-        return NULL;
-    }
-    if(root->children_amount==0){
-        return NULL;
-    }
-    else{
-        FieldList* fl = malloc(sizeof(FieldList));
-        fl->name = get_spec_name( root->children_list[0]->children_list[0]);
-        //                                            Def         Specifier
-        fl->type = add_type(root->children_list[0]);
-        fl->next = add_field(root->children_list[1]);
-        return fl;
-    }
-}
-
-Type* add_type(MTnode* root){
-    switch(root->type){
-        case StructSpecifier:
-            {
-                if(root->children_amount==5){
-                    Type* tp = malloc(sizeof(Type));
-                    tp->kind=structure;
-                    tp->fl=add_field(root->children_list[3]);
-                    return tp;
-                }
-                else{
-                    char* struct_name = root->children_list[1]->children_list[0]->str;
-                    //              Tag                 ID  
-                    symbol* s;
-                    s = find_sym(&struct_tab,struct_name);
-                    return s->val_type;
-                }
-            }
-        case Def:
-            {
-                return add_type(root->children_list[0]);
-            }
-        case Specifier:
-            {
-                return add_type(root->children_list[0]);
-            }
-        case TYPE:
-            {
-                if(strcmp(root->str,"int")==0){
-                    return type_int;
-                }
-                else{
-                    return type_float;
-                }
-            }
-        default:
-            {
-                return NULL;
-            }
-    }
-}
-
 /*tranverse the tree 
  * and build the ID table
  * for hash table testing
  */
 
-void build_table(MTnode* root){
+void sem(MTnode* root){
     switch(root->type){
-        case OptTag:
+        case Program:
             {
-                if(root->children_amount!=0){ // OptTag is not empty
-                    MTnode* struct_id = root->children_list[0];
-                    symbol* s=find_sym(&struct_tab,struct_id->str);
-                    if(s!=NULL){
-                        printf("Error type 16 at Line %d: Duplicated name \"%s\".\n",
-                                    struct_id->location.first_line,struct_id->str);
-                    }
-                    else{
-                        add_sym_name(&struct_tab,struct_id->str);
-                    }
+                sem(root->children_list[0]);
+            }
+        case ExtDefList:
+            {
+                sem(root->children_list[0]);
+                sem(root->children_list[1]);
+            }
+        case ExtDef:
+            {
+                if(root->children_list[1]->children_amount==2){
+                    sem(root->children_list[0]);
                 }
-                break;
+            }
+        case Specifier:
+            {
+                if(root->type==TYPE){
+
+                }
             }
         default:{
                 }
-    }
-    int i;
-    for(i=0;i<root->children_amount;i++){
-        build_table(root->children_list[i]);
     }
 }
 

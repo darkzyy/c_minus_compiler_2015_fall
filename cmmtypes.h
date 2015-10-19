@@ -24,6 +24,7 @@ struct FieldList_{
     char* name; //field name
     Type* type; //field type
     FieldList* next; //next field
+    FieldList* tail; //
 };
 
 #endif

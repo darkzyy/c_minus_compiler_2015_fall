@@ -114,7 +114,9 @@ void sem(MTnode* root){
                 root->children_list[2]->inh_type = 
                     root->children_list[0]->syn_type;
 
+                func_def = 1;
                 sem(root->children_list[1]);
+                func_def = 0;
 
                 inside_func_compst = 1;
                 sem(root->children_list[2]);
@@ -125,7 +127,11 @@ void sem(MTnode* root){
             {
                 Log("ExtDef4");
                 sem(root->children_list[0]);
+                root->children_list[1]->inh_type = 
+                    root->children_list[0]->syn_type;
+                func_dec = 1;
                 sem(root->children_list[1]);
+                func_dec = 0;
                 break;
             }
         case ExtDecList1:
@@ -356,8 +362,13 @@ void sem(MTnode* root){
                 }
                 break;
             }
+        case FunDec1:
+            {
+                Log("FunDec1");
+            }
         case FunDec2:
             {
+                Log("FunDec2");
                 int err = 0;
                 MTnode* func_id = get_var_id(root);
                 if(inside_func_compst){
@@ -388,8 +399,10 @@ void sem(MTnode* root){
                     s->val_type = root->inh_type;
                     s->argamt=0;
                     s->property = 0;
-                    s->dec_ed = 1;
+                    s->dec_ed = func_dec;
+                    s->def_ed = func_def;
                     add_sym_node(&func_tab,s);
+                    Log("#======------added func %s------======#",func_id->str);
                 }
                 break;
             }

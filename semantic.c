@@ -109,6 +109,8 @@ void sem(MTnode* root){
             {
                 Log("ExtDef3: Func Def");
                 sem(root->children_list[0]);
+                root->children_list[1]->inh_type = 
+                    root->children_list[0]->syn_type;
                 root->children_list[2]->inh_type = 
                     root->children_list[0]->syn_type;
 
@@ -356,12 +358,39 @@ void sem(MTnode* root){
             }
         case FunDec2:
             {
-                /*
+                int err = 0;
+                MTnode* func_id = get_var_id(root);
                 if(inside_func_compst){
-                        printf("Error type 20 at Line %d: Func in Func \"%s\".\n",
-                                    var_id->location.first_line,var_id->str);
+                    err = 1;
+                    printf("Error type 20 at Line %d: Func in Func \"%s\".\n",
+                                func_id->location.first_line,func_id->str);
                 }
-                */
+                if(inside_struct){
+                    err = 1;
+                    printf("Error type 20 at Line %d: Func in Struct \"%s\".\n",
+                                func_id->location.first_line,func_id->str);
+                }
+                symbol* s = find_sym(&func_tab,func_id->str);
+                if(s!=NULL && func_def && s->def_ed==1){ //redefine
+                    err = 1;
+                    printf("Error type 4 at Line %d: Func Redefined \"%s\".\n",
+                                func_id->location.first_line,func_id->str);
+                }
+                if(s!=NULL && func_dec && (s->dec_ed==1||s->def_ed==1)){ //defined or declared,and redeclaring now
+                    if(s->argamt != 0 || s->val_type != root->inh_type){
+                        printf("Error type 19 at Line %d: Inconsistent declaration of function \"%s\".\n",
+                                    func_id->location.first_line,func_id->str);
+                    }
+                }
+                if((!err)&&s==NULL){ // not defined or declared  , func_id -> symtab
+                    s = malloc(sizeof(symbol));
+                    s->id_name = func_id->str;
+                    s->val_type = root->inh_type;
+                    s->argamt=0;
+                    s->property = 0;
+                    s->dec_ed = 1;
+                    add_sym_node(&func_tab,s);
+                }
                 break;
             }
         case DefList1:

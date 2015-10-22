@@ -846,6 +846,13 @@ void sem(MTnode* root){
         case Exp1:
             {
                 Log("Exp1");
+                if(ch(0)->type!=Exp16 &&
+                            ch(0)->type!=Exp14 &&
+                            ch(0)->type!=Exp15){
+                    printf("Error type 6 at Line %d: The left_hand side of an assignment must be a varia_ble.\n",
+                                locl);
+                    break;
+                }
                 sem(root->children_list[0]);
                 sem(root->children_list[2]);
                 if(type_cmp(chst(0),chst(2))!=0){

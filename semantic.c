@@ -21,7 +21,7 @@ void init_basic_type(){
     type_float->kind = basic;
     type_float->basic = FLOAT; 
     type_error = malloc(sizeof(Type));
-    type_float->kind = semantic_error;
+    type_error->kind = semantic_error;
     inside_struct = 0;
     inside_func_para = 0;
     inside_func_compst = 0;
@@ -73,12 +73,15 @@ int type_cmp(Type* tx,Type* ty){
         }
     }
     if(tx->kind != ty->kind){
+        Log("not one kind");
         return 1;
     }
     if(tx->kind == basic || tx->kind == structure){
+        Log("one kind");
         return tx != ty;
     }
     else if(tx->kind == semantic_error){
+        Log("error kind");
         return 1;
     }
     else{// array
@@ -329,7 +332,6 @@ void sem(MTnode* root){
                     }
                 }
                 else if(global||func_def){
-                    Log("____________________");
                     int err = 0;
                     MTnode* var_id = get_var_id(root);
                     symbol* s = find_sym(&field_tab,var_id->str);
@@ -352,6 +354,7 @@ void sem(MTnode* root){
                     }
                     root->syn_type = root->inh_type;
                     if(err){
+                        Log("___________errr_________");
                         break;
                     }
                     else{//new field -> var_tab
@@ -360,6 +363,9 @@ void sem(MTnode* root){
                         var_sym->id_name = var_id->str;
                         var_sym->val_type = root->syn_type;
                         add_sym_node(&var_tab,var_sym);
+                        if(root->syn_type == type_error){
+                            Log("Add errer var");
+                        }
                         Log("#======------added global var %s------======#",var_sym->id_name);
                         break;
                     }
@@ -402,6 +408,10 @@ void sem(MTnode* root){
                         root->syn_type->array.elem = main_part->syn_type;
                         root->syn_type->array.size = root->children_list[2]->valt;
                         Log("find array dim:%d",root->inh_dim);
+                        //find array's id, and change id's type 
+                        MTnode* var_id = get_var_id(root);
+                        symbol* s = find_sym(&var_tab,var_id->str);
+                        s->val_type = root->syn_type;
                     }
                 }
                 else if(global||func_def){
@@ -439,6 +449,10 @@ void sem(MTnode* root){
                         root->syn_type->array.elem = main_part->syn_type;
                         root->syn_type->array.size = root->children_list[2]->valt;
                         Log("find global array dim:%d",root->inh_dim);
+                        //find array's id, and change id's type 
+                        MTnode* var_id = get_var_id(root);
+                        symbol* s = find_sym(&var_tab,var_id->str);
+                        s->val_type = root->syn_type;
                     }
                 }
                 else if(func_dec){
@@ -820,9 +834,11 @@ void sem(MTnode* root){
             {
                 Log("TYPE");
                 if(strcmp(root->str,"int")==0){
+                    Log("TYPE : int");
                     root->syn_type=type_int;
                 }
                 else{
+                    Log("TYPE : float");
                     root->syn_type=type_float;
                 }
                 break;

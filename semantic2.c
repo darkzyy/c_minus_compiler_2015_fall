@@ -150,7 +150,10 @@ typedef void (*fk)(MTnode*);
 extern fk func_table[60];
 
 void sem(MTnode* root){
-    func_table[root->type - Program](root);
+    if(root->type == TYPE)
+        func_table[59](root);
+    else
+        func_table[root->type - Program](root);
 }
 
 void Func_Program(MTnode* root)
@@ -1040,21 +1043,64 @@ void Func_EMPTY(MTnode* root)
 }
 
 fk func_table[60] = {
-    Func_Program ,Func_ExtDefList1 ,Func_ExtDefList2 ,
+    Func_Program ,
+    Func_ExtDefList1 ,
+    Func_ExtDefList2 ,
     Func_ExtDef1 ,
-    Func_ExtDef2 ,Func_ExtDef3 ,Func_ExtDef4 ,Func_ExtDecList1 ,
-    Func_ExtDecList2 ,Func_Specifier1 ,Func_Specifier2 ,
+    Func_ExtDef2 ,
+    Func_ExtDef3 ,
+    Func_ExtDef4 ,
+    Func_ExtDecList1 ,
+    Func_ExtDecList2 ,
+    Func_Specifier1 ,
+    Func_Specifier2 ,
     Func_StructSpecifier1 ,
-    Func_StructSpecifier2 ,Func_OptTag ,Func_Tag ,Func_VarDec1 ,
-    Func_VarDec2 ,Func_FunDec1 ,Func_FunDec2 ,Func_VarList1 ,
-    Func_VarList2 ,Func_ParamDec ,Func_CompSt ,Func_StmtList1 ,
-    Func_StmtList2 ,Func_Stmt1 ,Func_Stmt2 ,Func_Stmt3 ,
-    Func_Stmt4 ,Func_Stmt5 ,Func_Stmt6 ,Func_DefList1 ,
-    Func_DefList2 ,Func_Def ,Func_DecList1 ,Func_DecList2 ,
-    Func_Dec1 ,Func_Dec2 ,Func_TYPE ,Func_Exp1 ,
-    Func_Exp2 ,Func_Exp3 ,Func_Exp4 ,Func_Exp5 ,
-    Func_Exp6 ,Func_Exp7 ,Func_Exp8 ,Func_Exp9 ,
-    Func_Exp10 ,Func_Exp11 ,Func_Exp12 ,Func_Exp13 ,
-    Func_Exp14 ,Func_Exp15 ,Func_Exp16 ,Func_Exp17 ,
-    Func_Exp18 ,Func_Args1 ,Func_Args2 ,Func_EMPTY
+    Func_StructSpecifier2 ,
+    Func_OptTag ,
+    Func_Tag ,
+    Func_VarDec1 ,
+    Func_VarDec2 ,
+    Func_FunDec1 ,
+    Func_FunDec2 ,
+    Func_VarList1 ,
+    Func_VarList2 ,
+    Func_ParamDec ,
+    Func_CompSt ,
+    Func_StmtList1 ,
+    Func_StmtList2 ,
+    Func_Stmt1 ,
+    Func_Stmt2 ,
+    Func_Stmt3 ,
+    Func_Stmt4 ,
+    Func_Stmt5 ,
+    Func_Stmt6 ,
+    Func_DefList1 ,
+    Func_DefList2 ,
+    Func_Def ,
+    Func_DecList1 ,
+    Func_DecList2 ,
+    Func_Dec1 ,
+    Func_Dec2 ,
+    Func_Exp1 ,
+    Func_Exp2 ,
+    Func_Exp3 ,
+    Func_Exp4 ,
+    Func_Exp5 ,
+    Func_Exp6 ,
+    Func_Exp7 ,
+    Func_Exp8 ,
+    Func_Exp9 ,
+    Func_Exp10 ,
+    Func_Exp11 ,
+    Func_Exp12 ,
+    Func_Exp13 ,
+    Func_Exp14 ,
+    Func_Exp15 ,
+    Func_Exp16 ,
+    Func_Exp17 ,
+    Func_Exp18 ,
+    Func_Args1 ,
+    Func_Args2 ,
+    Func_EMPTY ,
+    Func_TYPE
 };

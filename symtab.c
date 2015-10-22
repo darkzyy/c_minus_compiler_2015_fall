@@ -49,6 +49,15 @@ void print_symtab(symbol* ht){
     }
 }
 
+void check_func(){
+    symbol* s;
+    for(s=func_tab;s!=NULL;s=s->hh.next){
+        if(s->def_ed==0 && s->dec_ed==1){
+            printf("Error type 18 at Line %d: Undefined function \"%s\".\n",s->line,s->id_name);
+        }
+    }
+}
+
 /*
 int main(){
     add_sym("zyyyyy",1);

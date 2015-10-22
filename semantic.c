@@ -508,6 +508,9 @@ void sem(MTnode* root){
                     s->property = 0;
                     s->dec_ed = func_dec;
                     s->def_ed = func_def;
+                    if(func_dec){
+                        s->line = locl;
+                    }
                     add_sym_node(&func_tab,s);
                     Log("#======------added func %s------======#",func_id->str);
                 }
@@ -518,6 +521,8 @@ void sem(MTnode* root){
                         break;
                     }
                     al_free(varl->syn_al);
+                    s->dec_ed = func_dec;
+                    s->def_ed = func_def;
                 }
                 break;
             }
@@ -557,9 +562,16 @@ void sem(MTnode* root){
                     s->property = 0;
                     s->dec_ed = func_dec;
                     s->def_ed = func_def;
+                    if(func_dec){
+                        s->line = locl;
+                    }
                     s->func_arg = NULL;
                     add_sym_node(&func_tab,s);
                     Log("#======------added func %s------======#",func_id->str);
+                }
+                else{
+                    s->dec_ed = func_dec;
+                    s->def_ed = func_def;
                 }
                 break;
             }

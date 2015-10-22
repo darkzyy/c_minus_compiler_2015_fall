@@ -79,6 +79,7 @@ Program : ExtDefList {
             //pre_tranverse($$);
             init_basic_type();
             sem($$);
+            check_func();
         }
         //print_symtab(var_tab);
         }

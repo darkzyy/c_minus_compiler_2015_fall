@@ -151,14 +151,14 @@ void sem(MTnode* root){
         case Program:
             {
                 Log("Program");
-                sem(root->children_list[0]);
+                sem(ch(0));
                 break;
             }
         case ExtDefList1:
             {
                 Log("ExtDefList1");
-                sem(root->children_list[0]);
-                sem(root->children_list[1]);
+                sem(ch(0));
+                sem(ch(1));
                 break;
             }
         case ExtDefList2:
@@ -169,35 +169,35 @@ void sem(MTnode* root){
         case ExtDef1:
             {
                 Log("ExtDef1");
-                sem(root->children_list[0]);
-                root->children_list[1]->inh_type = 
-                    root->children_list[0]->syn_type;//ExtDecList
+                sem(ch(0));
+                ch(1)->inh_type = 
+                    chst(0);//ExtDecList
                 global = 1;
-                sem(root->children_list[1]);
+                sem(ch(1));
                 global = 0;
                 break;
             }
         case ExtDef2:
             {
                 Log("ExtDef2");
-                sem(root->children_list[0]);
+                sem(ch(0));
                 break;
             }
         case ExtDef3: // func definition
             {
                 Log("ExtDef3: Func Def");
-                sem(root->children_list[0]);
-                root->children_list[1]->inh_type = 
-                    root->children_list[0]->syn_type;
-                root->children_list[2]->inh_type = 
-                    root->children_list[0]->syn_type;
+                sem(ch(0));
+                ch(1)->inh_type = 
+                    chst(0);
+                ch(2)->inh_type = 
+                    chst(0);
                 ch(2)->inh_ctrl = 1;
 
                 func_def = 1;
-                sem(root->children_list[1]);
+                sem(ch(1));
 
                 inside_func_compst = 1;
-                sem(root->children_list[2]);
+                sem(ch(2));
                 inside_func_compst = 0;
                 func_def = 0;
                 break;
@@ -205,56 +205,56 @@ void sem(MTnode* root){
         case ExtDef4: // func delaration !!
             {
                 Log("ExtDef4");
-                sem(root->children_list[0]);
-                root->children_list[1]->inh_type = 
-                    root->children_list[0]->syn_type;
+                sem(ch(0));
+                ch(1)->inh_type = 
+                    chst(0);
                 func_dec = 1;
-                sem(root->children_list[1]);
+                sem(ch(1));
                 func_dec = 0;
                 break;
             }
         case ExtDecList1:
             {
                 Log("ExtDecList1");
-                root->children_list[0]->inh_type = root->inh_type;
-                sem(root->children_list[0]);
+                ch(0)->inh_type = root->inh_type;
+                sem(ch(0));
                 break;
             }
         case ExtDecList2:
             {
                 Log("ExtDecList2");
-                root->children_list[0]->inh_type = root->inh_type;
-                sem(root->children_list[0]);
-                root->children_list[2]->inh_type = root->inh_type;
-                sem(root->children_list[2]);
+                ch(0)->inh_type = root->inh_type;
+                sem(ch(0));
+                ch(2)->inh_type = root->inh_type;
+                sem(ch(2));
                 break;
             }
         case Specifier1:
             {
                 Log("Specifier1");
-                sem(root->children_list[0]);//basic
-                root->syn_type = root->children_list[0]->syn_type;
+                sem(ch(0));//basic
+                root->syn_type = chst(0);
                 break;
             }
         case Specifier2:
             {
                 Log("Specifier2");
-                sem(root->children_list[0]);//struct
-                root->syn_type = root->children_list[0]->syn_type;
+                sem(ch(0));//struct
+                root->syn_type = chst(0);
                 break;
             }
         case StructSpecifier1:
             {
                 Log("StructSpecifier1");
                 inside_struct += 1;
-                sem(root->children_list[1]);//OptTag
-                sem(root->children_list[3]);//DefList
+                sem(ch(1));//OptTag
+                sem(ch(3));//DefList
                 root->syn_type = malloc(sizeof(Type));
                 root->syn_type->kind = structure;
-                root->syn_type->fl = root->children_list[3]->syn_fl;
-                if(root->children_list[1]->type == OptTag){
+                root->syn_type->fl = ch(3)->syn_fl;
+                if(ch(1)->type == OptTag){
                     //add this struct to symtab
-                    char* struct_id = root->children_list[1]->str;
+                    char* struct_id = ch(1)->str;
                     symbol* struct_sym = malloc(sizeof(symbol));
                     struct_sym->dim = 0;
                     struct_sym->id_name = struct_id;
@@ -270,27 +270,27 @@ void sem(MTnode* root){
         case StructSpecifier2:
             {
                 Log("StructSpecifier2");
-                sem(root->children_list[1]);//Tag
-                root->syn_type = root->children_list[1]->syn_type;
+                sem(ch(1));//Tag
+                root->syn_type = chst(1);
                 break;
             }
         case OptTag:
             {
                 Log("OptTag");
-                MTnode* struct_id = root->children_list[0];
+                MTnode* struct_id = ch(0);
                 symbol* s=find_sym(&struct_tab,struct_id->str);
                 if(s!=NULL){
                     printf("Error type 16 at Line %d: Duplicated name \"%s\".\n",
                                 struct_id->location.first_line,struct_id->str);
                 }
-                root->str = root->children_list[0]->str;
+                root->str = ch(0)->str;
                 //trying: auto upload id
                 break;
             }
         case Tag:
             {
                 Log("Tag");
-                MTnode* struct_id = root->children_list[0];
+                MTnode* struct_id = ch(0);
                 symbol* s=find_sym(&struct_tab,struct_id->str);
                 if(s==NULL){
                     printf("Error type 17 at Line %d: Undefined structure \"%s\".\n",
@@ -311,7 +311,7 @@ void sem(MTnode* root){
                         printf("Error type 15 at Line %d: Redefined field \"%s\".\n",
                                     var_id->location.first_line,var_id->str);
                     }
-                    s = find_sym(&var_tab,root->children_list[0]->str);
+                    s = find_sym(&var_tab,ch(0)->str);
                     if(s!=NULL){
                         err=1;
                         printf("Error type 15 at Line %d: field's is same as a var \"%s\".\n",
@@ -340,13 +340,13 @@ void sem(MTnode* root){
                         printf("Error type 3 at Line %d: Redefined var \"%s\".\n",
                                     var_id->location.first_line,var_id->str);
                     }
-                    s = find_sym(&var_tab,root->children_list[0]->str);
+                    s = find_sym(&var_tab,ch(0)->str);
                     if(s!=NULL){
                         err=1;
                         printf("Error type 3 at Line %d: Redefined var \"%s\".\n",
                                     var_id->location.first_line,var_id->str);
                     }
-                    s = find_sym(&struct_tab,root->children_list[0]->str);
+                    s = find_sym(&struct_tab,ch(0)->str);
                     if(s!=NULL){
                         err=1;
                         printf("Error type 3 at Line %d: Redefined var \"%s\".\n",
@@ -388,7 +388,7 @@ void sem(MTnode* root){
                         printf("Error type 15 at Line %d: Redefined field \"%s\".\n",
                                     var_id->location.first_line,var_id->str);
                     }
-                    s = find_sym(&var_tab,root->children_list[0]->str);
+                    s = find_sym(&var_tab,ch(0)->str);
                     if(s!=NULL){
                         err=1;
                         printf("Error type 15 at Line %d: field's is same as a var \"%s\".\n",
@@ -399,14 +399,14 @@ void sem(MTnode* root){
                         break;
                     }
                     else{
-                        MTnode* main_part = root->children_list[0];
+                        MTnode* main_part = ch(0);
                         main_part->inh_type = root->inh_type;
                         main_part->inh_dim = root->inh_dim+1;
                         sem(main_part);
                         root->syn_type = malloc(sizeof(Type));
                         root->syn_type->kind = array;
                         root->syn_type->array.elem = main_part->syn_type;
-                        root->syn_type->array.size = root->children_list[2]->valt;
+                        root->syn_type->array.size = ch(2)->valt;
                         Log("find array dim:%d",root->inh_dim);
                         //find array's id, and change id's type 
                         MTnode* var_id = get_var_id(root);
@@ -423,13 +423,13 @@ void sem(MTnode* root){
                         printf("Error type 3 at Line %d: Redefined var \"%s\".\n",
                                     var_id->location.first_line,var_id->str);
                     }
-                    s = find_sym(&var_tab,root->children_list[0]->str);
+                    s = find_sym(&var_tab,ch(0)->str);
                     if(s!=NULL){
                         err=1;
                         printf("Error type 3 at Line %d: Redefined var \"%s\".\n",
                                     var_id->location.first_line,var_id->str);
                     }
-                    s = find_sym(&struct_tab,root->children_list[0]->str);
+                    s = find_sym(&struct_tab,ch(0)->str);
                     if(s!=NULL){
                         err=1;
                         printf("Error type 3 at Line %d: Redefined var \"%s\".\n",
@@ -440,14 +440,14 @@ void sem(MTnode* root){
                         break;
                     }
                     else{
-                        MTnode* main_part = root->children_list[0];
+                        MTnode* main_part = ch(0);
                         main_part->inh_type = root->inh_type;
                         main_part->inh_dim = root->inh_dim+1;
                         sem(main_part);
                         root->syn_type = malloc(sizeof(Type));
                         root->syn_type->kind = array;
                         root->syn_type->array.elem = main_part->syn_type;
-                        root->syn_type->array.size = root->children_list[2]->valt;
+                        root->syn_type->array.size = ch(2)->valt;
                         Log("find global array dim:%d",root->inh_dim);
                         //find array's id, and change id's type 
                         MTnode* var_id = get_var_id(root);
@@ -457,14 +457,14 @@ void sem(MTnode* root){
                 }
                 else if(func_dec){
                     root->syn_type = root->inh_type;
-                    MTnode* main_part = root->children_list[0];
+                    MTnode* main_part = ch(0);
                     main_part->inh_type = root->inh_type;
                     main_part->inh_dim = root->inh_dim+1;
                     sem(main_part);
                     root->syn_type = malloc(sizeof(Type));
                     root->syn_type->kind = array;
                     root->syn_type->array.elem = main_part->syn_type;
-                    root->syn_type->array.size = root->children_list[2]->valt;
+                    root->syn_type->array.size = ch(2)->valt;
                     break;
                 }
                 break;
@@ -497,7 +497,7 @@ void sem(MTnode* root){
                         break;
                     }
                 }
-                MTnode* varl = root->children_list[2];
+                MTnode* varl = ch(2);
                 sem(varl);
                 if(s==NULL){
                     s = malloc(sizeof(symbol));
@@ -578,29 +578,29 @@ void sem(MTnode* root){
         case VarList1:
             {
                 Log("VarList1");
-                sem(root->children_list[0]);
-                sem(root->children_list[2]);
+                sem(ch(0));
+                sem(ch(2));
                 root->syn_al = malloc(sizeof(ArgList));
-                root->syn_al->next = root->children_list[2]->syn_al;
-                root->syn_al->type = root->children_list[0]->syn_type;
+                root->syn_al->next = ch(2)->syn_al;
+                root->syn_al->type = chst(0);
                 break;
             }
         case VarList2:
             {
                 Log("VarList2");
-                sem(root->children_list[0]);
+                sem(ch(0));
                 root->syn_al = malloc(sizeof(ArgList));
                 root->syn_al->next = NULL;
-                root->syn_al->type = root->children_list[0]->syn_type;
+                root->syn_al->type = chst(0);
                 break;
             }
         case ParamDec:
             {
                 Log("ParamDec");
-                sem(root->children_list[0]);
-                root->children_list[1]->inh_type = root->children_list[0]->syn_type;
-                sem(root->children_list[1]);
-                root->syn_type = root->children_list[1]->syn_type;
+                sem(ch(0));
+                ch(1)->inh_type = chst(0);
+                sem(ch(1));
+                root->syn_type = chst(1);
                 break;
             }
         case CompSt:
@@ -659,7 +659,7 @@ void sem(MTnode* root){
             {
                 Log("Stmt3");
                 sem(ch(1));
-                if(type_cmp(root->inh_type,ch(1)->syn_type)!=0){
+                if(type_cmp(root->inh_type,chst(1))!=0){
                     printf("Error type 8 at Line %d: Type mismatched for return.\n",locl);
                 }
                 break;
@@ -673,7 +673,7 @@ void sem(MTnode* root){
                 ch(4)->inh_type = root->inh_type;
                 ch(4)->inh_ctrl = root->inh_ctrl;
                 sem(ch(2));
-                if(type_cmp(ch(2)->syn_type,type_int)!=0){
+                if(type_cmp(chst(2),type_int)!=0){
                     printf("Error type 7 at Line %d: condition val is not integer.\n",locl);
                 }
                 sem(ch(4));
@@ -687,7 +687,7 @@ void sem(MTnode* root){
                 ch(6)->inh_type = root->inh_type;
                 ch(6)->inh_ctrl = root->inh_ctrl;
                 sem(ch(2));
-                if(type_cmp(ch(2)->syn_type,type_int)!=0){
+                if(type_cmp(chst(2),type_int)!=0){
                     printf("Error type 7 at Line %d: condition val is not integer.\n",locl);
                 }
                 sem(ch(4));
@@ -703,7 +703,7 @@ void sem(MTnode* root){
                 ch(4)->inh_type = root->inh_type;
                 ch(4)->inh_ctrl = root->inh_ctrl;
                 sem(ch(2));
-                if(type_cmp(ch(2)->syn_type,type_int)!=0){
+                if(type_cmp(chst(2),type_int)!=0){
                     printf("Error type 7 at Line %d: condition val is not integer.\n",locl);
                 }
                 sem(ch(4));
@@ -739,16 +739,16 @@ void sem(MTnode* root){
             {
                 Log("Def");
                 if(inside_struct){
-                    MTnode* spec = root->children_list[0];
-                    MTnode* decl = root->children_list[1];
+                    MTnode* spec = ch(0);
+                    MTnode* decl = ch(1);
                     sem(spec);
                     decl->inh_type = spec->syn_type;
                     sem(decl);
                     root->syn_fl = decl->syn_fl;
                 }
                 else{
-                    MTnode* spec = root->children_list[0];
-                    MTnode* decl = root->children_list[1];
+                    MTnode* spec = ch(0);
+                    MTnode* decl = ch(1);
                     sem(spec);
                     decl->inh_type = spec->syn_type;
                     sem(decl);
@@ -759,7 +759,7 @@ void sem(MTnode* root){
             {
                 Log("DecList1");
                 if(inside_struct){
-                    MTnode* dec = root->children_list[0];
+                    MTnode* dec = ch(0);
                     dec->inh_type = root->inh_type;
                     sem(dec);
                     root->syn_fl = dec->syn_fl;
@@ -774,8 +774,8 @@ void sem(MTnode* root){
             {
                 Log("DecList2");
                 if(inside_struct){
-                    MTnode* dec = root->children_list[0];
-                    MTnode* decl = root->children_list[2];
+                    MTnode* dec = ch(0);
+                    MTnode* decl = ch(2);
                     dec->inh_type = root->inh_type;
                     decl->inh_type = root->inh_type;
                     sem(dec);
@@ -796,7 +796,7 @@ void sem(MTnode* root){
             {
                 Log("Dec1");
                 if(inside_struct){
-                    MTnode* vardec = root->children_list[0];
+                    MTnode* vardec = ch(0);
                     vardec->inh_type = root->inh_type;
                     vardec->inh_dim = 0;
                     sem(vardec);
@@ -809,7 +809,7 @@ void sem(MTnode* root){
                     root->syn_fl->tail = NULL;
                 }
                 else{
-                    MTnode* vardec = root->children_list[0];
+                    MTnode* vardec = ch(0);
                     vardec->inh_type = root->inh_type;
                     vardec->inh_dim = 0;
                     sem(vardec);
@@ -830,14 +830,13 @@ void sem(MTnode* root){
                     root->syn_fl->tail = NULL;
                 }
                 else{
-                    MTnode* vardec = root->children_list[0];
+                    MTnode* vardec = ch(0);
                     vardec->inh_type = root->inh_type;
                     vardec->inh_dim = 0;
                     sem(vardec);
                     sem(ch(2));
-                    if(type_cmp(vardec->syn_type,ch(2)->syn_type)!=0){
-                        printf("Error type 5 at Line %d: Type mismatched for assignment.\n",
-                                    locl);
+                    if(type_cmp(vardec->syn_type,chst(2))!=0){
+                        printf("Error type 5 at Line %d: Type mismatched for assignment.\n",locl);
                     }
                 }
                 break;
@@ -865,8 +864,8 @@ void sem(MTnode* root){
                                 locl);
                     break;
                 }
-                sem(root->children_list[0]);
-                sem(root->children_list[2]);
+                sem(ch(0));
+                sem(ch(2));
                 if(type_cmp(chst(0),chst(2))!=0){
                     printf("Error type 5 at Line %d: Type mismatched for assignment.\n",
                                 locl);
@@ -877,8 +876,8 @@ void sem(MTnode* root){
         case Exp2:
             {
                 Log("Exp2");
-                sem(root->children_list[0]);
-                sem(root->children_list[2]);
+                sem(ch(0));
+                sem(ch(2));
                 if(chst(0)!=type_int||chst(2)!=type_int){
                     printf("Error type 7 at Line %d: Type mismatched for AND.\n",locl);
                 }
@@ -888,8 +887,8 @@ void sem(MTnode* root){
         case Exp3:
             {
                 Log("Exp3");
-                sem(root->children_list[0]);
-                sem(root->children_list[2]);
+                sem(ch(0));
+                sem(ch(2));
                 if(chst(0)!=type_int||chst(2)!=type_int){
                     printf("Error type 7 at Line %d: Type mismatched for OR.\n",locl);
                 }
@@ -899,8 +898,8 @@ void sem(MTnode* root){
         case Exp4:
             {
                 Log("Exp4");
-                sem(root->children_list[0]);
-                sem(root->children_list[2]);
+                sem(ch(0));
+                sem(ch(2));
                 if(chst(0)!=chst(2)||(chst(0)!=type_int&&chst(0)!=type_float)){
                     printf("Error type 7 at Line %d: Type mismatched for RELOP.\n",locl);
                 }
@@ -910,8 +909,8 @@ void sem(MTnode* root){
         case Exp5:
             {
                 Log("Exp5");
-                sem(root->children_list[0]);
-                sem(root->children_list[2]);
+                sem(ch(0));
+                sem(ch(2));
                 if(chst(0)!=chst(2)||(chst(0)!=type_int&&chst(0)!=type_float)){
                     printf("Error type 7 at Line %d: Type mismatched for PLUS.\n",locl);
                 }
@@ -921,8 +920,8 @@ void sem(MTnode* root){
         case Exp6:
             {
                 Log("Exp6");
-                sem(root->children_list[0]);
-                sem(root->children_list[2]);
+                sem(ch(0));
+                sem(ch(2));
                 if(chst(0)!=chst(2)||(chst(0)!=type_int&&chst(0)!=type_float)){
                     printf("Error type 7 at Line %d: Type mismatched for MINUS.\n",locl);
                 }
@@ -932,8 +931,8 @@ void sem(MTnode* root){
         case Exp7:
             {
                 Log("Exp7");
-                sem(root->children_list[0]);
-                sem(root->children_list[2]);
+                sem(ch(0));
+                sem(ch(2));
                 if(chst(0)!=chst(2)||(chst(0)!=type_int&&chst(0)!=type_float)){
                     printf("Error type 7 at Line %d: Type mismatched for MUL.\n",locl);
                 }
@@ -943,8 +942,8 @@ void sem(MTnode* root){
         case Exp8:
             {
                 Log("Exp8");
-                sem(root->children_list[0]);
-                sem(root->children_list[2]);
+                sem(ch(0));
+                sem(ch(2));
                 if(chst(0)!=chst(2)||(chst(0)!=type_int&&chst(0)!=type_float)){
                     printf("Error type 7 at Line %d: Type mismatched for DIV.\n",locl);
                 }
@@ -954,14 +953,14 @@ void sem(MTnode* root){
         case Exp9:
             {
                 Log("Exp9");
-                sem(root->children_list[1]);
+                sem(ch(1));
                 root->syn_type = chst(1);
                 break;
             }
         case Exp10:
             {
                 Log("Exp10");
-                sem(root->children_list[1]);
+                sem(ch(1));
                 if(chst(1)!=type_int&&chst(1)!=type_float){
                     printf("Error type 7 at Line %d: Type mismatched for NEG.\n",locl);
                 }
@@ -971,7 +970,7 @@ void sem(MTnode* root){
         case Exp11:
             {
                 Log("Exp11");
-                sem(root->children_list[1]);
+                sem(ch(1));
                 if(chst(1)!=type_int){
                     printf("Error type 7 at Line %d: Type mismatched for NOT.\n",locl);
                 }
@@ -1024,16 +1023,16 @@ void sem(MTnode* root){
                 Log("Exp14");
                 sem(ch(0));
                 sem(ch(2));
-                if(ch(0)->syn_type->kind != array){
+                if(chst(0)->kind != array){
                     printf("Error type 10 at Line %d: use'[]'after non-array exp.\n",locl);
                     root->syn_type = type_error;
                 }
-                else if(ch(2)->syn_type != type_int){
+                else if(chst(2) != type_int){
                     printf("Error type 12 at Line %d: use'[]'around non-int exp.\n",locl);
                     root->syn_type = type_error;
                 }
                 else{
-                    root->syn_type = ch(0)->syn_type->array.elem;
+                    root->syn_type = chst(0)->array.elem;
                 }
                 break;
             }
@@ -1041,12 +1040,12 @@ void sem(MTnode* root){
             {
                 Log("Exp15");
                 sem(ch(0));
-                if(ch(0)->syn_type->kind != structure){
+                if(chst(0)->kind != structure){
                     printf("Error type 13 at Line %d: Illegal use of \".\".\n",locl);
                     root->syn_type = type_error;
                 }
                 else {
-                    Type* t = field_find(ch(0)->syn_type->fl,ch(2)->str);
+                    Type* t = field_find(chst(0)->fl,ch(2)->str);
                     if(t==NULL){
                         printf("Error type 14 at Line %d: Non_existent field \"%s\".\n",
                                     locl,ch(2)->str);

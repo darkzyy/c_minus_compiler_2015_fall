@@ -76,6 +76,66 @@ FieldList_::type	cmmtypes.h	/^    Type* type; \/\/field type$/;"	m	struct:FieldL
 FunDec	syntax.y	/^FunDec : ID LP VarList RP {$/;"	l
 FunDec1	multi_tree.h	/^    FunDec1,$/;"	e	enum:__anon2
 FunDec2	multi_tree.h	/^    FunDec2,$/;"	e	enum:__anon2
+Func_Args1	semantic2.c	/^void Func_Args1(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Args2	semantic2.c	/^void Func_Args2(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_CompSt	semantic2.c	/^void Func_CompSt(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Dec1	semantic2.c	/^void Func_Dec1(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Dec2	semantic2.c	/^void Func_Dec2(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_DecList1	semantic2.c	/^void Func_DecList1(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_DecList2	semantic2.c	/^void Func_DecList2(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Def	semantic2.c	/^void Func_Def(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_DefList1	semantic2.c	/^void Func_DefList1(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_DefList2	semantic2.c	/^void Func_DefList2(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_EMPTY	semantic2.c	/^void Func_EMPTY(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Exp1	semantic2.c	/^void Func_Exp1(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Exp10	semantic2.c	/^void Func_Exp10(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Exp11	semantic2.c	/^void Func_Exp11(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Exp12	semantic2.c	/^void Func_Exp12(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Exp13	semantic2.c	/^void Func_Exp13(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Exp14	semantic2.c	/^void Func_Exp14(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Exp15	semantic2.c	/^void Func_Exp15(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Exp16	semantic2.c	/^void Func_Exp16(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Exp17	semantic2.c	/^void Func_Exp17(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Exp18	semantic2.c	/^void Func_Exp18(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Exp2	semantic2.c	/^void Func_Exp2(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Exp3	semantic2.c	/^void Func_Exp3(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Exp4	semantic2.c	/^void Func_Exp4(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Exp5	semantic2.c	/^void Func_Exp5(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Exp6	semantic2.c	/^void Func_Exp6(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Exp7	semantic2.c	/^void Func_Exp7(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Exp8	semantic2.c	/^void Func_Exp8(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Exp9	semantic2.c	/^void Func_Exp9(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_ExtDecList1	semantic2.c	/^void Func_ExtDecList1(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_ExtDecList2	semantic2.c	/^void Func_ExtDecList2(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_ExtDef1	semantic2.c	/^void Func_ExtDef1(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_ExtDef2	semantic2.c	/^void Func_ExtDef2(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_ExtDef3	semantic2.c	/^void Func_ExtDef3(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_ExtDef4	semantic2.c	/^void Func_ExtDef4(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_ExtDefList1	semantic2.c	/^void Func_ExtDefList1(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_ExtDefList2	semantic2.c	/^void Func_ExtDefList2(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_FunDec1	semantic2.c	/^void Func_FunDec1(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_FunDec2	semantic2.c	/^void Func_FunDec2(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_OptTag	semantic2.c	/^void Func_OptTag(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_ParamDec	semantic2.c	/^void Func_ParamDec(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Program	semantic2.c	/^void Func_Program(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Specifier1	semantic2.c	/^void Func_Specifier1(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Specifier2	semantic2.c	/^void Func_Specifier2(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Stmt1	semantic2.c	/^void Func_Stmt1(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Stmt2	semantic2.c	/^void Func_Stmt2(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Stmt3	semantic2.c	/^void Func_Stmt3(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Stmt4	semantic2.c	/^void Func_Stmt4(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Stmt5	semantic2.c	/^void Func_Stmt5(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Stmt6	semantic2.c	/^void Func_Stmt6(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_StmtList1	semantic2.c	/^void Func_StmtList1(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_StmtList2	semantic2.c	/^void Func_StmtList2(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_StructSpecifier1	semantic2.c	/^void Func_StructSpecifier1(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_StructSpecifier2	semantic2.c	/^void Func_StructSpecifier2(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_TYPE	semantic2.c	/^void Func_TYPE(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_Tag	semantic2.c	/^void Func_Tag(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_VarDec1	semantic2.c	/^void Func_VarDec1(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_VarDec2	semantic2.c	/^void Func_VarDec2(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_VarList1	semantic2.c	/^void Func_VarList1(MTnode* root)$/;"	f	signature:(MTnode* root)
+Func_VarList2	semantic2.c	/^void Func_VarList2(MTnode* root)$/;"	f	signature:(MTnode* root)
 HASH_ADD	uthash.h	169;"	d
 HASH_ADD_INT	uthash.h	269;"	d
 HASH_ADD_KEYPTR	uthash.h	182;"	d
@@ -204,16 +264,16 @@ Tag	multi_tree.h	/^    Tag,$/;"	e	enum:__anon2
 Tag	syntax.y	/^Tag : ID {$/;"	l
 Type	cmmtypes.h	/^typedef struct Type_ Type;$/;"	t	typeref:struct:Type_
 Type_	cmmtypes.h	/^struct Type_{$/;"	s
-Type_::__anon4::__anon5::elem	cmmtypes.h	/^            Type* elem;$/;"	m	struct:Type_::__anon4::__anon5	access:public
-Type_::__anon4::__anon5::size	cmmtypes.h	/^            int size;$/;"	m	struct:Type_::__anon4::__anon5	access:public
-Type_::__anon4::array	cmmtypes.h	/^        }array;$/;"	m	union:Type_::__anon4	typeref:struct:Type_::__anon4::__anon5	access:public
-Type_::__anon4::basic	cmmtypes.h	/^        int basic;$/;"	m	union:Type_::__anon4	access:public
-Type_::__anon4::fl	cmmtypes.h	/^        FieldList* fl;$/;"	m	union:Type_::__anon4	access:public
-Type_::array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon3
-Type_::basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon3
-Type_::kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon3	access:public
-Type_::semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon3
-Type_::structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon3
+Type_::__anon7::__anon8::elem	cmmtypes.h	/^            Type* elem;$/;"	m	struct:Type_::__anon7::__anon8	access:public
+Type_::__anon7::__anon8::size	cmmtypes.h	/^            int size;$/;"	m	struct:Type_::__anon7::__anon8	access:public
+Type_::__anon7::array	cmmtypes.h	/^        }array;$/;"	m	union:Type_::__anon7	typeref:struct:Type_::__anon7::__anon8	access:public
+Type_::__anon7::basic	cmmtypes.h	/^        int basic;$/;"	m	union:Type_::__anon7	access:public
+Type_::__anon7::fl	cmmtypes.h	/^        FieldList* fl;$/;"	m	union:Type_::__anon7	access:public
+Type_::array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon6
+Type_::basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon6
+Type_::kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon6	access:public
+Type_::semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon6
+Type_::structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon6
 UTHASH_H	uthash.h	25;"	d
 UTHASH_VERSION	uthash.h	76;"	d
 UT_hash_bucket	uthash.h	/^typedef struct UT_hash_bucket {$/;"	s
@@ -270,52 +330,57 @@ add_sym_name	symtab.h	/^void add_sym_name(symbol** ht,char* id_name);$/;"	p	sign
 add_sym_node	symtab.c	/^void add_sym_node(symbol** ht,symbol* new_node){$/;"	f	signature:(symbol** ht,symbol* new_node)
 add_sym_node	symtab.h	/^void add_sym_node(symbol** ht,symbol* new_node);$/;"	p	signature:(symbol** ht,symbol* new_node)
 addr	symtab.h	/^    void* addr;$/;"	m	struct:symbol_	access:public
-al_free	semantic.c	/^void al_free(ArgList* al){$/;"	f	signature:(ArgList* al)
-arg_cmp	semantic.c	/^int arg_cmp(ArgList* alx,ArgList* aly){$/;"	f	signature:(ArgList* alx,ArgList* aly)
+al_free	semantic2.c	/^void al_free(ArgList* al){$/;"	f	signature:(ArgList* al)
+arg_cmp	semantic2.c	/^int arg_cmp(ArgList* alx,ArgList* aly){$/;"	f	signature:(ArgList* alx,ArgList* aly)
 argamt	symtab.h	/^    int argamt;\/\/arguement amount$/;"	m	struct:symbol_	access:public
-argamt_count	semantic.c	/^int argamt_count(ArgList* al){$/;"	f	signature:(ArgList* al)
-array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon3
-array	cmmtypes.h	/^        }array;$/;"	m	union:Type_::__anon4	typeref:struct:Type_::__anon4::__anon5	access:public
-basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon3
-basic	cmmtypes.h	/^        int basic;$/;"	m	union:Type_::__anon4	access:public
+argamt_count	semantic2.c	/^int argamt_count(ArgList* al){$/;"	f	signature:(ArgList* al)
+array	cmmtypes.h	/^        array,$/;"	e	enum:Type_::__anon6
+array	cmmtypes.h	/^        }array;$/;"	m	union:Type_::__anon7	typeref:struct:Type_::__anon7::__anon8	access:public
+basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon6
+basic	cmmtypes.h	/^        int basic;$/;"	m	union:Type_::__anon7	access:public
 bloom_bv	uthash.h	/^   uint8_t *bloom_bv;$/;"	m	struct:UT_hash_table	access:public
 bloom_nbits	uthash.h	/^   uint8_t bloom_nbits;$/;"	m	struct:UT_hash_table	access:public
 bloom_sig	uthash.h	/^   uint32_t bloom_sig; \/* used only to test bloom exists in external analysis *\/$/;"	m	struct:UT_hash_table	access:public
 buckets	uthash.h	/^   UT_hash_bucket *buckets;$/;"	m	struct:UT_hash_table	access:public
 ch	multi_tree.h	33;"	d
+check_func	symtab.c	/^void check_func(){$/;"	f
 children_amount	multi_tree.h	/^	int children_amount;$/;"	m	struct:MTnode	access:public
 children_list	multi_tree.h	/^	struct MTnode** children_list;$/;"	m	struct:MTnode	typeref:struct:MTnode::MTnode	access:public
 chit	multi_tree.h	35;"	d
 chst	multi_tree.h	34;"	d
-count	gen.py	/^            count = 1$/;"	v
-count	gen.py	/^count = 0$/;"	v
+count	gen_func.py	/^    count = 0$/;"	v
+count	gen_gram.py	/^            count = 1$/;"	v
+count	gen_gram.py	/^count = 0$/;"	v
 count	uthash.h	/^   unsigned count;$/;"	m	struct:UT_hash_bucket	access:public
 create_node	multi_tree.c	/^MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type){$/;"	f	signature:(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type)
 create_node	multi_tree.h	/^MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type);$/;"	p	signature:(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type)
-dec_ed	symtab.h	/^            unsigned int dec_ed : 1;$/;"	m	struct:symbol_::__anon6::__anon7	access:public
-def_ed	symtab.h	/^            unsigned int def_ed : 1;$/;"	m	struct:symbol_::__anon6::__anon7	access:public
+dec_ed	symtab.h	/^            unsigned int dec_ed : 1;$/;"	m	struct:symbol_::__anon3::__anon4	access:public
+def_ed	symtab.h	/^            unsigned int def_ed : 1;$/;"	m	struct:symbol_::__anon3::__anon4	access:public
 del_sym	symtab.c	/^symbol* del_sym(symbol** ht,char* id_name){$/;"	f	signature:(symbol** ht,char* id_name)
 del_sym	symtab.h	/^symbol* del_sym(symbol** ht,char* id_name);$/;"	p	signature:(symbol** ht,char* id_name)
 dim	symtab.h	/^    int dim;$/;"	m	struct:symbol_	access:public
-elem	cmmtypes.h	/^            Type* elem;$/;"	m	struct:Type_::__anon4::__anon5	access:public
+elem	cmmtypes.h	/^            Type* elem;$/;"	m	struct:Type_::__anon7::__anon8	access:public
 enable_debug	main.c	/^int enable_debug = 0;$/;"	v
 error_report	main.c	/^extern void error_report();$/;"	p	file:
 expand_mult	uthash.h	/^   unsigned expand_mult;$/;"	m	struct:UT_hash_bucket	access:public
-field_find	semantic.c	/^Type* field_find(FieldList* fl,char* id){$/;"	f	signature:(FieldList* fl,char* id)
+field_find	semantic2.c	/^Type* field_find(FieldList* fl,char* id){$/;"	f	signature:(FieldList* fl,char* id)
 field_tab	symtab.c	/^symbol* field_tab = NULL;$/;"	v
 find_sym	symtab.c	/^symbol* find_sym(symbol** ht,char* id_name){$/;"	f	signature:(symbol** ht,char* id_name)
 find_sym	symtab.h	/^symbol* find_sym(symbol** ht,char* id_name);$/;"	p	signature:(symbol** ht,char* id_name)
-fl	cmmtypes.h	/^        FieldList* fl;$/;"	m	union:Type_::__anon4	access:public
+fk	semantic2.c	/^typedef void (*fk)(MTnode*);$/;"	t	file:
+fl	cmmtypes.h	/^        FieldList* fl;$/;"	m	union:Type_::__anon7	access:public
 func_arg	symtab.h	/^    ArgList* func_arg;$/;"	m	struct:symbol_	access:public
-func_dec	semantic.c	/^int func_dec;$/;"	v
-func_def	semantic.c	/^int func_def;$/;"	v
+func_dec	semantic2.c	/^int func_dec;$/;"	v
+func_def	semantic2.c	/^int func_def;$/;"	v
+func_list	gen_func.py	/^func_list = []$/;"	v
 func_tab	symtab.c	/^symbol* func_tab = NULL;$/;"	v
+func_table	semantic2.c	/^fk func_table[60] = {$/;"	v
 get16bits	uthash.h	472;"	d
 get16bits	uthash.h	475;"	d
 get16bits	uthash.h	479;"	d
-get_spec_name	semantic.c	/^char* get_spec_name(MTnode* spec){  \/\/not tested!!$/;"	f	signature:(MTnode* spec)
-get_var_id	semantic.c	/^MTnode* get_var_id(MTnode* dec){$/;"	f	signature:(MTnode* dec)
-global	semantic.c	/^int global;$/;"	v
+get_spec_name	semantic2.c	/^char* get_spec_name(MTnode* spec){  \/\/not tested!!$/;"	f	signature:(MTnode* spec)
+get_var_id	semantic2.c	/^MTnode* get_var_id(MTnode* dec){$/;"	f	signature:(MTnode* dec)
+global	semantic2.c	/^int global;$/;"	v
 hashv	uthash.h	/^   unsigned hashv;                   \/* result of hash-fcn(key)        *\/$/;"	m	struct:UT_hash_handle	access:public
 hh	symtab.h	/^    UT_hash_handle hh;$/;"	m	struct:symbol_	access:public
 hh_head	uthash.h	/^   struct UT_hash_handle *hh_head;$/;"	m	struct:UT_hash_bucket	typeref:struct:UT_hash_bucket::UT_hash_handle	access:public
@@ -328,17 +393,33 @@ ineff_expands	uthash.h	/^   unsigned ineff_expands, noexpand;$/;"	m	struct:UT_ha
 inh_ctrl	multi_tree.h	/^    int inh_ctrl;$/;"	m	struct:MTnode	access:public
 inh_dim	multi_tree.h	/^    int inh_dim;$/;"	m	struct:MTnode	access:public
 inh_type	multi_tree.h	/^    Type* inh_type;$/;"	m	struct:MTnode	access:public
-init_basic_type	semantic.c	/^void init_basic_type(){$/;"	f
 init_basic_type	semantic.h	/^void init_basic_type();$/;"	p	signature:()
-init_ed	symtab.h	/^            unsigned int init_ed : 1;$/;"	m	struct:symbol_::__anon6::__anon7	access:public
-inside_func_compst	semantic.c	/^int inside_func_compst;$/;"	v
-inside_func_para	semantic.c	/^int inside_func_para;$/;"	v
-inside_struct	semantic.c	/^int inside_struct;$/;"	v
+init_basic_type	semantic2.c	/^void init_basic_type(){$/;"	f
+init_ed	symtab.h	/^            unsigned int init_ed : 1;$/;"	m	struct:symbol_::__anon3::__anon4	access:public
+inside_func	gen_func.py	/^                inside_func = 0$/;"	v
+inside_func	gen_func.py	/^            inside_func = 1$/;"	v
+inside_func	gen_func.py	/^inside_func = 0$/;"	v
+inside_func_compst	semantic2.c	/^int inside_func_compst;$/;"	v
+inside_func_para	semantic2.c	/^int inside_func_para;$/;"	v
+inside_struct	semantic2.c	/^int inside_struct;$/;"	v
 key	uthash.h	/^   void *key;                        \/* ptr to enclosing struct's key  *\/$/;"	m	struct:UT_hash_handle	access:public
 keylen	uthash.h	/^   unsigned keylen;                  \/* enclosing struct's key len     *\/$/;"	m	struct:UT_hash_handle	access:public
-kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon3	access:public
-line	gen.py	/^        line = line.rstrip(' ')$/;"	v
-line	gen.py	/^        line = line.rstrip('\\n')$/;"	v
+kind	cmmtypes.h	/^    }kind;$/;"	m	struct:Type_	typeref:enum:Type_::__anon6	access:public
+l	gen_func.py	/^                l = l.lstrip(' ')$/;"	v
+l	gen_func.py	/^                l = l.lstrip('break;')$/;"	v
+l	gen_func.py	/^                l = l.rstrip('\\n')$/;"	v
+l	gen_func.py	/^            l = l.lstrip(' ')$/;"	v
+l	gen_func.py	/^            l = l.lstrip('case')$/;"	v
+l	gen_func.py	/^            l = l.rstrip(' ')$/;"	v
+l	gen_func.py	/^            l = l.rstrip(':')$/;"	v
+l	gen_func.py	/^            l = l.rstrip('\\n')$/;"	v
+l	gen_func.py	/^        l = f.readline()$/;"	v
+l	gen_func.py	/^    l = f.readline()$/;"	v
+lcamt	gen_func.py	/^            lcamt = 0$/;"	v
+lcamt	gen_func.py	/^lcamt = 0$/;"	v
+line	gen_gram.py	/^        line = line.rstrip(' ')$/;"	v
+line	gen_gram.py	/^        line = line.rstrip('\\n')$/;"	v
+line	symtab.h	/^    int line;$/;"	m	struct:symbol_	access:public
 lineno_init	main.c	/^extern int lineno_init();$/;"	p	file:
 location	multi_tree.h	/^	YYLTYPE location;$/;"	m	struct:MTnode	access:public
 locl	multi_tree.h	36;"	d
@@ -358,31 +439,33 @@ pre_tranverse2	multi_tree.c	/^void pre_tranverse2(MTnode* root,int indent){$/;"	
 prev	uthash.h	/^   void *prev;                       \/* prev element in app order      *\/$/;"	m	struct:UT_hash_handle	access:public
 print_symtab	symtab.c	/^void print_symtab(symbol* ht){$/;"	f	signature:(symbol* ht)
 print_symtab	symtab.h	/^void print_symtab(symbol* ht);$/;"	p	signature:(symbol* ht)
-prod_name	gen.py	/^            prod_name = prod_name.rstrip(' ')$/;"	v
-prod_name	gen.py	/^prod_name = ''$/;"	v
-property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon6	access:public
-sem	semantic.c	/^void sem(MTnode* root){$/;"	f	signature:(MTnode* root)
+prod_name	gen_gram.py	/^            prod_name = prod_name.rstrip(' ')$/;"	v
+prod_name	gen_gram.py	/^prod_name = ''$/;"	v
+property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon3	access:public
+s	gen_func.py	/^            s = 'Func_'+l$/;"	v
 sem	semantic.h	/^void sem(MTnode* root);$/;"	p	signature:(MTnode* root)
-semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon3
+sem	semantic2.c	/^void sem(MTnode* root){$/;"	f	signature:(MTnode* root)
+semantic_error	cmmtypes.h	/^        semantic_error$/;"	e	enum:Type_::__anon6
 signature	uthash.h	/^   uint32_t signature; \/* used only to find hash tables in external analysis *\/$/;"	m	struct:UT_hash_table	access:public
-size	cmmtypes.h	/^            int size;$/;"	m	struct:Type_::__anon4::__anon5	access:public
+size	cmmtypes.h	/^            int size;$/;"	m	struct:Type_::__anon7::__anon8	access:public
 str	multi_tree.h	/^	char* str;$/;"	m	struct:MTnode	access:public
 struct_tab	symtab.c	/^symbol* struct_tab = NULL;$/;"	v
-structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon3
+structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon6
 symbol	symtab.h	/^typedef struct symbol_ symbol;$/;"	t	typeref:struct:symbol_
 symbol_	symtab.h	/^struct symbol_{$/;"	s
-symbol_::__anon6::__anon7::dec_ed	symtab.h	/^            unsigned int dec_ed : 1;$/;"	m	struct:symbol_::__anon6::__anon7	access:public
-symbol_::__anon6::__anon7::def_ed	symtab.h	/^            unsigned int def_ed : 1;$/;"	m	struct:symbol_::__anon6::__anon7	access:public
-symbol_::__anon6::__anon7::init_ed	symtab.h	/^            unsigned int init_ed : 1;$/;"	m	struct:symbol_::__anon6::__anon7	access:public
-symbol_::__anon6::property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon6	access:public
-symbol_::__anon8::val_float	symtab.h	/^        float val_float;$/;"	m	union:symbol_::__anon8	access:public
-symbol_::__anon8::val_int	symtab.h	/^        int val_int;$/;"	m	union:symbol_::__anon8	access:public
+symbol_::__anon3::__anon4::dec_ed	symtab.h	/^            unsigned int dec_ed : 1;$/;"	m	struct:symbol_::__anon3::__anon4	access:public
+symbol_::__anon3::__anon4::def_ed	symtab.h	/^            unsigned int def_ed : 1;$/;"	m	struct:symbol_::__anon3::__anon4	access:public
+symbol_::__anon3::__anon4::init_ed	symtab.h	/^            unsigned int init_ed : 1;$/;"	m	struct:symbol_::__anon3::__anon4	access:public
+symbol_::__anon3::property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon3	access:public
+symbol_::__anon5::val_float	symtab.h	/^        float val_float;$/;"	m	union:symbol_::__anon5	access:public
+symbol_::__anon5::val_int	symtab.h	/^        int val_int;$/;"	m	union:symbol_::__anon5	access:public
 symbol_::addr	symtab.h	/^    void* addr;$/;"	m	struct:symbol_	access:public
 symbol_::argamt	symtab.h	/^    int argamt;\/\/arguement amount$/;"	m	struct:symbol_	access:public
 symbol_::dim	symtab.h	/^    int dim;$/;"	m	struct:symbol_	access:public
 symbol_::func_arg	symtab.h	/^    ArgList* func_arg;$/;"	m	struct:symbol_	access:public
 symbol_::hh	symtab.h	/^    UT_hash_handle hh;$/;"	m	struct:symbol_	access:public
 symbol_::id_name	symtab.h	/^    char* id_name;$/;"	m	struct:symbol_	access:public
+symbol_::line	symtab.h	/^    int line;$/;"	m	struct:symbol_	access:public
 symbol_::val_type	symtab.h	/^    Type* val_type;\/\/int float user_struct$/;"	m	struct:symbol_	access:public
 syn_al	multi_tree.h	/^    ArgList* syn_al;$/;"	m	struct:MTnode	access:public
 syn_fl	multi_tree.h	/^    FieldList* syn_fl;$/;"	m	struct:MTnode	access:public
@@ -393,7 +476,7 @@ tbl	uthash.h	/^   struct UT_hash_table *tbl;$/;"	m	struct:UT_hash_handle	typeref
 type	cmmtypes.h	/^    Type* type; \/\/field type$/;"	m	struct:FieldList_	access:public
 type	cmmtypes.h	/^    Type* type;$/;"	m	struct:ArgList_	access:public
 type	multi_tree.h	/^	int type;$/;"	m	struct:MTnode	access:public
-type_cmp	semantic.c	/^int type_cmp(Type* tx,Type* ty){$/;"	f	signature:(Type* tx,Type* ty)
+type_cmp	semantic2.c	/^int type_cmp(Type* tx,Type* ty){$/;"	f	signature:(Type* tx,Type* ty)
 type_error	semantic.h	/^Type* type_error;$/;"	v
 type_float	semantic.h	/^Type* type_float;$/;"	v
 type_int	semantic.h	/^Type* type_int;$/;"	v
@@ -404,8 +487,8 @@ uthash_fatal	uthash.h	79;"	d
 uthash_free	uthash.h	85;"	d
 uthash_malloc	uthash.h	82;"	d
 uthash_noexpand_fyi	uthash.h	89;"	d
-val_float	symtab.h	/^        float val_float;$/;"	m	union:symbol_::__anon8	access:public
-val_int	symtab.h	/^        int val_int;$/;"	m	union:symbol_::__anon8	access:public
+val_float	symtab.h	/^        float val_float;$/;"	m	union:symbol_::__anon5	access:public
+val_int	symtab.h	/^        int val_int;$/;"	m	union:symbol_::__anon5	access:public
 val_type	symtab.h	/^    Type* val_type;\/\/int float user_struct$/;"	m	struct:symbol_	access:public
 valf	multi_tree.h	/^        double valf;$/;"	m	union:MTnode::__anon1	access:public
 valt	multi_tree.h	/^        int valt;$/;"	m	union:MTnode::__anon1	access:public

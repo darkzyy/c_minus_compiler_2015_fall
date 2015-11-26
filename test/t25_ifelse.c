@@ -8,5 +8,9 @@ int main(){
     else{
         b = 2;
     }
+    b = read();
+    if(b){
+        write(1);
+    }
     return b;
 }

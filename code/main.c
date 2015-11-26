@@ -51,7 +51,7 @@ int main(int argc,char** argv){
 #endif
 	yyparse(); 
     find_leader();
-    print_block();
+    //print_block();
 	return 0; 
 }
 #endif

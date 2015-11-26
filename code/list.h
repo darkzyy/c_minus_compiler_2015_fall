@@ -1,6 +1,10 @@
 #ifndef __LIST_H__
 #define __LIST_H__
 
+#if __x86_64__ || __ppc64__
+#define ENVIRONMENT64
+#endif
+
 ////////////////////////////////////////////////////////////////////////////
 //
 // example:
@@ -21,8 +25,14 @@ struct ListHead {
 };
 typedef struct ListHead ListHead;
 
+#ifdef ENVIRONMENT64
+#define list_entry(ptr, type, member) \
+	((type*)((char*)(ptr) - (long long)(&((type*)0)->member)))
+#else
 #define list_entry(ptr, type, member) \
 	((type*)((char*)(ptr) - (int)(&((type*)0)->member)))
+#endif
+
 
 static inline void
 list_add(ListHead *prev, ListHead *next, ListHead *data) {

@@ -1,16 +1,16 @@
 FUNCTION fib :
-PARAM t0000
-IF t0000 == #0 GOTO label0000
-IF t0000 == #1 GOTO label0000
+PARAM v0000
+IF v0000 == #0 GOTO label0000
+IF v0000 == #1 GOTO label0000
 GOTO label0001
 LABEL label0000 :
 RETURN #1
 GOTO label0002
 LABEL label0001 :
-t0002 := t0000 - #1
+t0002 := v0000 - #1
 ARG t0002
 t0001 := CALL fib
-t0004 := t0000 - #2
+t0004 := v0000 - #2
 ARG t0004
 t0003 := CALL fib
 t0005 := t0001 + t0003

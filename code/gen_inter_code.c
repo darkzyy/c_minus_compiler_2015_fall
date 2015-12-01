@@ -89,8 +89,8 @@ static void Func_VarDec1(MTnode* root){
     char* id = get_var_id(root)->str;
     symbol* s = find_sym(&var_tab,id);
     assert(s);
-    s->op = make_new_op_var(get_var_no());
     if(inside_func){
+        s->op = make_new_op_var(get_var_no());
         if(root->syn_type != type_int && root->syn_type != type_float){
             //example DEC v2 8
             intercode* ic = malloc(sizeof(intercode));
@@ -101,6 +101,9 @@ static void Func_VarDec1(MTnode* root){
         }
     }
     else if(inside_paradec){
+        in_deflist = 1;
+        s->op = make_new_op_var(get_var_no());
+        in_deflist = 0;
         if(s->val_type!=type_int && s->val_type!=type_float){
             Log3();
             s->op->kind = OP_ADDR;
@@ -290,17 +293,23 @@ static void Func_Exp1(MTnode* root){
 }
 static void Func_Exp2(MTnode* root){
     Log2("Func_Exp2");
+    in_deflist = 1;
     root->op = make_new_op_var(get_var_no());
+    in_deflist = 0;
     bool_translate;
 }
 static void Func_Exp3(MTnode* root){
     Log2("Func_Exp3");
+    in_deflist = 1;
     root->op = make_new_op_var(get_var_no());
+    in_deflist = 0;
     bool_translate;
 }
 static void Func_Exp4(MTnode* root){
     Log2("Func_Exp4");
+    in_deflist = 1;
     root->op = make_new_op_var(get_var_no());
+    in_deflist = 0;
     bool_translate;
 }
 
@@ -340,21 +349,35 @@ static void Func_Exp10(MTnode* root){
     Log2("Func_Exp10");
     gen(ch(1));
 
-    if(root->op == NULL){
-        root->op = make_op(OP_VAR,NULL);
-    }
     //gen code 
-    intercode* ic = malloc(sizeof(intercode));
-    ic->kind = ICN_MINUS;
-    ic->res = root->op;
-    ic->op1 = zero;
-    ic->op2 = ch(1)->op;
-    list_add_before(&code_head,&(ic->list));
-    Log2("------intercode addr:%p",ic);
+    if(ch(1)->op->kind==OP_VAR || ch(1)->op->kind==OP_ADDR){
+        root->op = make_new_op_var(get_var_no());
+        intercode* ic = malloc(sizeof(intercode));
+        ic->kind = ICN_MINUS;
+        ic->res = root->op;
+        ic->op1 = zero;
+        ic->op2 = ch(1)->op;
+        list_add_before(&code_head,&(ic->list));
+    }
+    else{
+        if(ch(1)->op->kind == OP_INT){
+            if(ch(1)->op->val_int!=0xffffffff){
+                root->op = make_int(-ch(1)->op->val_int);
+            }
+            else{
+                root->op = ch(1)->op;
+            }
+        }
+        else{
+            root->op = make_float(-ch(1)->op->val_float);
+        }
+    }
 }
 static void Func_Exp11(MTnode* root){
     Log2("Func_Exp11");
+    in_deflist = 1;
     root->op = make_new_op_var(get_var_no());
+    in_deflist = 0;
     bool_translate;
 }
 static void gen_args(Argl* al){

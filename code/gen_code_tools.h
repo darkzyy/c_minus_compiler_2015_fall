@@ -185,8 +185,6 @@ static void translate_cond(MTnode* root,char* label_true,char* label_false){
 #define bool_translate {\
     char* label1 = get_new_label();\
     char* label2 = get_new_label();\
-    root->op->kind = OP_VAR;\
-    root->op->var_str = get_var_no();\
     gen_assign(root->op,zero,0,NULL);\
     translate_cond(root,label1,label2);\
     gen_label(label1,LABEL);\

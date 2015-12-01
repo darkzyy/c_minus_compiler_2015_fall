@@ -6,7 +6,7 @@
 #include"intercode.h"
 #include"new_tools.h"
 
-#define NODE_AMOUNT 256
+#define NODE_AMOUNT 4096
 
 static dagnode pool[NODE_AMOUNT];
 
@@ -198,7 +198,7 @@ void handle_ic(intercode* ic){
                 nd->res = ic->res;
 
                 tmpvar_ht_node* res_ht_nd = find_tmpvar(ic->res->var_str);
-                res_ht_nd->dag_node_no = op1_no;
+                res_ht_nd->dag_node_no = current_nodeno-1;
                 res_ht_nd->update_no = current_nodeno-1; //record in the temp var table
 
                 dagnode* op_nd = &pool[op1_no];
@@ -502,6 +502,7 @@ void handle_cb(code_block* cb){
     for(;ic!=cb->end;ic = list_entry(ic->list.next,intercode,list)){
         handle_ic(ic);
     }
+    handle_ic(ic);
     for(ic=cb->end;ic!=cb->start;ic = list_entry(ic->list.prev,intercode,list)){
         del_tmpvar(ic);
     }

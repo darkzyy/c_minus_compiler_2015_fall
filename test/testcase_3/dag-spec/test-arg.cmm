@@ -1,0 +1,15 @@
+int foo(int a[2])
+{
+    a[0] = 1;
+    return a[0];
+}
+
+int main()
+{
+    int b[2];
+    int c;
+    b[0] = 2;
+    c = b[0];
+    foo(b);
+    return c;
+}

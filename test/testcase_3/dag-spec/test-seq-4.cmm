@@ -1,0 +1,9 @@
+int will_the_embody_remained_cause_fault()
+{
+    int embody, depA, depB, change;
+    embody = change + 233;
+    depA = embody;
+    embody = change;
+    depB = change + 233;
+    return depB;
+}

@@ -58,17 +58,29 @@ int make_leaf(operand* op){
     return current_nodeno-1;
 }
 
+
 int find_make(operand* op){
     if(op->kind == OP_VAR || op->kind == OP_ADDR){
+        Log3("finding %s",op->var_str);
         tmpvar_ht_node* nd = find_tmpvar(op->var_str);
         assert(nd);
-        if(nd->dag_node_no == 0){
+        if(nd->dag_node_no == 0 || pool[nd->update_no].status != VALID){
             nd->dag_node_no = make_leaf(op);
+            nd->update_no = current_nodeno-1;
+            return nd->dag_node_no;
+        }
+        dagnode* src_dnd = &pool[nd->dag_node_no];
+        if(src_dnd->type == -1){
+            tmpvar_ht_node* src_dnd_ht_nd = find_tmpvar(src_dnd->res->var_str);
+            if(src_dnd_ht_nd->update_no > nd->dag_node_no || src_dnd->status != VALID){
+                //src temp var's val changed
+                return nd->update_no;
+            }
+            return nd->dag_node_no;
         }
         else{
-            Log3("found : %d",nd->dag_node_no);
+            return nd->dag_node_no;
         }
-        return nd->dag_node_no;
     }
     else if(op->kind == OP_INT){
         int i;
@@ -146,13 +158,20 @@ void kill_refer(){
     int i = last_killno;
     for(;i<current_nodeno;i++){
         dagnode* nd = &pool[i];
-        operand* op1 = pool[nd->lch].res;
-        operand* op2 = pool[nd->lch].res;
-        if(nd->ic && nd->ic->use_addr == 0 && ((op1 && op1->kind == OP_ADDR) || 
-                        (op2 && op2->kind == OP_ADDR))){
-            Log3("Last kill = %d,i = %d",last_killno,i);
-            nd->status = KILLED;
+        if(nd->ic && nd->ic->use_addr == 0 ){
+            operand* op1 = nd->ic->op1;
+            operand* op2 = nd->ic->op2;
+            if((op1 && op1->kind == OP_ADDR) || (op2 && op2->kind == OP_ADDR)){
+                Log3("Killed = %d,i = %d",last_killno,i);
+                nd->status = KILLED;
+            }
+            else{
+                Log3("Not kill = %d,i = %d",last_killno,i);
+            }
         }
+        /*
+           nd->status = KILLED;
+           */
     }
     last_killno = current_nodeno;
 }
@@ -171,7 +190,9 @@ dagnode* get_current_node(){
 extern void print_intercode(intercode* ic);
 
 void handle_ic(intercode* ic){
-    //print_intercode(ic);
+    if(enable_debug){
+        print_intercode(ic);
+    }
     switch(ic->kind)
     {
         case ICN_CALL:
@@ -198,7 +219,7 @@ void handle_ic(intercode* ic){
                 nd->res = ic->res;
 
                 tmpvar_ht_node* res_ht_nd = find_tmpvar(ic->res->var_str);
-                res_ht_nd->dag_node_no = current_nodeno-1;
+                res_ht_nd->dag_node_no = op1_no;
                 res_ht_nd->update_no = current_nodeno-1; //record in the temp var table
 
                 dagnode* op_nd = &pool[op1_no];
@@ -225,8 +246,10 @@ void handle_ic(intercode* ic){
             {
                 int op1_no = find_make(ic->op1);
                 int op2_no = find_make(ic->op2);
+                Log3();
                 int op1_upd_no = get_update_time(ic->op1);
                 int op2_upd_no = get_update_time(ic->op2);
+                Log3();
                 Log3("update time, op1 : %d ,op2 : %d",op1_upd_no,op2_upd_no);
                 tmpvar_ht_node* res_ht_nd = find_tmpvar(ic->res->var_str);
                 int start = max(op1_upd_no,op2_upd_no);
@@ -324,7 +347,7 @@ void handle_ic(intercode* ic){
                 else{
                     Log3("matched No : %d",match_no);
                     res_ht_nd->dag_node_no = match_no;
-                    res_ht_nd->update_no = match_no;
+                    res_ht_nd->update_no = current_nodeno-1;
                     dagnode* nd = get_current_node();
                     nd->type = ic->kind;
                     ic->kind = ICN_ASSIGN;
@@ -503,6 +526,7 @@ void handle_cb(code_block* cb){
         handle_ic(ic);
     }
     handle_ic(ic);
+
     for(ic=cb->end;ic!=cb->start;ic = list_entry(ic->list.prev,intercode,list)){
         del_tmpvar(ic);
     }

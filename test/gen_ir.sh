@@ -13,3 +13,4 @@
 ./parser t37_struct_array.c >../sim/t37.ir
 ./parser t38.c >../sim/t38.ir
 ./parser t39_logic_val.c >../sim/t39.ir
+

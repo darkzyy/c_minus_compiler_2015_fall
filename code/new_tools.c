@@ -33,6 +33,7 @@ operand* gen_assign_addr(operand* res,operand* op1){
     ic->kind = ICN_ASSIGN;
     ic->res = res;
     ic->op1 = op1;
+    ic->op2 = NULL;
     ic->use_addr = 1;
     list_add_before(&code_head,&(ic->list));
     return res;
@@ -43,6 +44,7 @@ operand* gen_assign_var(operand* res,operand* op1){
     ic->kind = ICN_ASSIGN;
     ic->res = res;
     ic->op1 = op1;
+    ic->op2 = NULL;
     ic->use_addr = 0;
     list_add_before(&code_head,&(ic->list));
     return res;

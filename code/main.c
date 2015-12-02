@@ -53,8 +53,10 @@ int main(int argc,char** argv){
 #endif
 	yyparse(); 
     find_leader();
-    //print_code();
-    //printf("-------------------------------\n");
+    if(enable_debug){
+        print_code();
+        printf("-------------------------------\n");
+    }
     dag_opti();
     print_code();
 	return 0; 

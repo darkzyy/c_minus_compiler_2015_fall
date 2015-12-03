@@ -304,6 +304,10 @@ static void Func_VarDec1(MTnode* root)
 static void Func_VarDec2(MTnode* root)
 {
     Log("VarDec2");
+    if(root->inh_dim>0){
+        printf("Cannot translate: Code contains variables of multi-dimensional array type or parameters of array type.\n");
+        exit(0);
+    }
     if(inside_struct){
         int err = 0;
         MTnode* var_id = get_var_id(root);

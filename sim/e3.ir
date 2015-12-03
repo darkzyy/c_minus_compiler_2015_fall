@@ -1,0 +1,17 @@
+FUNCTION add :
+PARAM v0000
+t0001 := v0000 + #0
+t0003 := v0000 + #4
+t0005 := *t0001 + *t0003
+RETURN t0005
+FUNCTION main :
+DEC v0007 8
+t0008 := &v0007 + #0
+*t0008 := #1 
+t0009 := &v0007 + #4
+*t0009 := #2 
+ARG &v0007
+t0010 := CALL add
+v0006 := t0010 
+WRITE v0006
+RETURN #0

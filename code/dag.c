@@ -560,31 +560,10 @@ void handle_cb(code_block* cb){
 
 void dag_opti(){
     ListHead* p;
-    list_foreach(p,&block_head){
-        handle_cb(list_entry(p,code_block,list));
-    }
-    list_foreach(p,&block_head){
-        handle_cb(list_entry(p,code_block,list));
-    }
-    list_foreach(p,&block_head){
-        handle_cb(list_entry(p,code_block,list));
-    }
-    list_foreach(p,&block_head){
-        handle_cb(list_entry(p,code_block,list));
-    }
-    list_foreach(p,&block_head){
-        handle_cb(list_entry(p,code_block,list));
-    }
-    list_foreach(p,&block_head){
-        handle_cb(list_entry(p,code_block,list));
-    }
-    list_foreach(p,&block_head){
-        handle_cb(list_entry(p,code_block,list));
+    int i;
+    for(i=0;i<10;i++){
+        list_foreach(p,&block_head){
+            handle_cb(list_entry(p,code_block,list));
+        }
     }
 }
-
-
-
-
-
-

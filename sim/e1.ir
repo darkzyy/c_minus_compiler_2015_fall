@@ -1,0 +1,14 @@
+FUNCTION main :
+READ t0001
+v0000 := t0001 
+IF v0000 <= #0 GOTO label0001
+WRITE #1
+GOTO label0002
+LABEL label0001 :
+IF v0000 >= #0 GOTO label0004
+WRITE #-1
+GOTO label0002
+LABEL label0004 :
+WRITE #0
+LABEL label0002 :
+RETURN #0

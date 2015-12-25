@@ -1,0 +1,91 @@
+FUNCTION absolute :
+PARAM v0000
+IF v0000 < #0 GOTO label0001
+RETURN v0000
+GOTO label0002
+LABEL label0001 :
+t0001 := #0 - v0000
+RETURN t0001
+LABEL label0002 :
+FUNCTION main :
+DEC v0002 20
+v0003 := #0 
+v0004 := #0 
+v0005 := #0 
+v0006 := #0 
+LABEL label0003 :
+IF v0003 >= #5 GOTO label0006
+t0007 := v0003 * #4
+t0009 := &v0002 + t0007
+*t0009 := #0 
+v0003 := v0003 + #1
+GOTO label0003
+LABEL label0006 :
+t0013 := &v0002 + #16
+t0014 := *t0013 
+IF t0014 == #1 GOTO label0008
+t0017 := &v0002 + #0
+t0019 := *t0017 + #1
+*t0017 := t0019 
+v0003 := #0 
+LABEL label0009 :
+IF v0003 >= #4 GOTO label0011
+t0023 := v0003 * #4
+t0025 := &v0002 + t0023
+t0026 := *t0025 
+IF t0026 != #4 GOTO label0013
+t0027 := v0003 * #4
+t0029 := &v0002 + t0027
+*t0029 := #0 
+t0030 := v0003 + #1
+t0031 := t0030 * #4
+t0033 := &v0002 + t0031
+t0035 := *t0033 + #1
+*t0033 := t0035 
+LABEL label0013 :
+v0003 := v0003 + #1
+GOTO label0009
+LABEL label0011 :
+v0005 := #1 
+v0003 := #0 
+v0004 := #0 
+LABEL label0014 :
+IF v0003 >= #4 GOTO label0016
+LABEL label0017 :
+IF v0004 >= #4 GOTO label0019
+IF v0003 == v0004 GOTO label0021
+t0041 := v0003 * #4
+t0043 := &v0002 + t0041
+t0044 := *t0043 
+t0045 := v0004 * #4
+t0047 := &v0002 + t0045
+t0048 := *t0047 
+IF t0044 != t0048 GOTO label0023
+v0005 := #0 
+GOTO label0021
+LABEL label0023 :
+t0050 := v0003 * #4
+t0052 := &v0002 + t0050
+t0053 := v0004 * #4
+t0055 := &v0002 + t0053
+t0056 := *t0052 - *t0055
+ARG t0056
+t0049 := CALL absolute
+t0058 := v0003 - v0004
+ARG t0058
+t0057 := CALL absolute
+IF t0049 != t0057 GOTO label0021
+v0005 := #0 
+LABEL label0021 :
+v0004 := v0004 + #1
+GOTO label0017
+LABEL label0019 :
+v0004 := #0 
+v0003 := v0003 + #1
+GOTO label0014
+LABEL label0016 :
+v0006 := v0006 + v0005
+GOTO label0006
+LABEL label0008 :
+WRITE v0006
+RETURN #0

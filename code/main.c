@@ -33,9 +33,9 @@ int main(int argc,char** argv){
 
 #ifdef __PARSER_DEBUG__
 int main(int argc,char** argv){
-	if (argc <= 1) return 1; 
+	if (argc <= 2) return 1; 
     int i;
-    for(i = 2;i<argc;i++){
+    for(i = 3;i<argc;i++){
         if (strcmp(argv[i],"-d")==0){
             enable_debug = 1;
         }
@@ -69,9 +69,3 @@ int main(int argc,char** argv){
 	return 0; 
 }
 #endif
-
-/*
-yyerror(char* msg) {
-	fprintf(stderr, "error: %s\n", msg);
-}
-*/

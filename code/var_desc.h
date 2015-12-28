@@ -1,0 +1,22 @@
+#ifndef __VAR_DESC_H__
+#define __VAR_DESC_H__
+
+struct reg_desc;
+
+struct var_desc{
+    char* var_str;
+    UT_hash_handle hh;
+    int offset;
+    int in_reg[32];
+};
+typedef struct var_desc var_desc;
+
+extern var_desc* vd_head;
+
+void add_var(char* str);
+var_desc* find_var(char* str);
+void inc_reg_contain_var(char* str,int regno);
+void dec_reg_contain_var(char* str,int regno);
+
+
+#endif

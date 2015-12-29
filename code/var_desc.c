@@ -13,6 +13,7 @@ void add_var(char* str){
         vd->var_str = str;
         memset(vd->in_reg,0,32*sizeof(int));
         vd->offset = -1;
+        HASH_ADD_KEYPTR(hh,vd_head,vd->var_str,strlen(vd->var_str),vd);
     }
 }
 
@@ -29,6 +30,7 @@ void inc_reg_contain_var(char* str,int regno){
         vd->in_reg[regno] = 1;
     }
 }
+
 void dec_reg_contain_var(char* str,int regno){
     var_desc* vd;
     HASH_FIND_STR(vd_head,str,vd);

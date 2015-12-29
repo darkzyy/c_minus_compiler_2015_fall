@@ -10,6 +10,7 @@ void reg_desc_init(){
 
 void add_var_in_reg(int regno, var_desc* vd){
     registers[regno].vd[registers[regno].cur_vd_no] = vd;
+    registers[regno].cur_vd_no++;
 }
 
 void del_var_in_reg(int regno, var_desc* vd){

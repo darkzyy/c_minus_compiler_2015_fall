@@ -188,9 +188,11 @@ dagnode* get_current_node(){
 extern void print_intercode(intercode* ic);
 
 void handle_ic(intercode* ic){
+    /*
     if(enable_debug){
         print_intercode(ic);
     }
+    */
     switch(ic->kind)
     {
         case ICN_CALL:

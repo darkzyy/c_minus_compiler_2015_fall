@@ -723,6 +723,7 @@ add_var_in_reg	reg_desc.h	/^void add_var_in_reg(int regno, var_desc* vd);$/;"	p	
 addr	symtab.h	/^    void* addr;$/;"	m	struct:symbol_	access:public
 al	multi_tree.h	/^    Argl* al;$/;"	m	struct:MTnode	access:public
 al_free	semantic.c	/^void al_free(ArgList* al){$/;"	f	signature:(ArgList* al)
+alloc_reg	asmgen.c	/^int alloc_reg(char* var_str){$/;"	f	signature:(char* var_str)
 alloca	syntax.tab.c	309;"	d	file:
 arg_cmp	semantic.c	/^int arg_cmp(ArgList* alx,ArgList* aly){$/;"	f	signature:(ArgList* alx,ArgList* aly)
 argamt	symtab.h	/^    int argamt;\/\/arguement amount$/;"	m	struct:symbol_	access:public
@@ -743,7 +744,7 @@ asm_ble	asmgen.h	/^    asm_ble$/;"	e	enum:__anon13
 asm_blt	asmgen.h	/^    asm_blt,$/;"	e	enum:__anon13
 asm_bne	asmgen.h	/^    asm_bne,$/;"	e	enum:__anon13
 asm_div	asmgen.h	/^    asm_div,$/;"	e	enum:__anon13
-asm_head	asmgen.h	/^ListHead* asm_head;$/;"	v
+asm_head	asmgen.h	/^ListHead asm_head;$/;"	v
 asm_j	asmgen.h	/^    asm_j,$/;"	e	enum:__anon13
 asm_jal	asmgen.h	/^    asm_jal,$/;"	e	enum:__anon13
 asm_jr	asmgen.h	/^    asm_jr,$/;"	e	enum:__anon13
@@ -783,14 +784,16 @@ code_block_node	tempvar_ht.h	/^typedef struct code_block_node code_block_node;$/
 code_block_node::cb	tempvar_ht.h	/^    code_block* cb;$/;"	m	struct:code_block_node	access:public
 code_block_node::next	tempvar_ht.h	/^    struct code_block_node* next;$/;"	m	struct:code_block_node	typeref:struct:code_block_node::code_block_node	access:public
 code_head	intercode.h	/^ListHead code_head;$/;"	v
-code_type	asmgen.c	103;"	d	file:
-code_type	asmgen.c	5;"	d	file:
+code_type	asmgen.c	327;"	d	file:
+code_type	asmgen.c	8;"	d	file:
 code_type	block.c	11;"	d	file:
 code_type	block.c	49;"	d	file:
 cond_false	peephole.c	/^static void cond_false(intercode* ic){$/;"	f	file:	signature:(intercode* ic)
 count	uthash.h	/^   unsigned count;$/;"	m	struct:UT_hash_bucket	access:public
 create_node	multi_tree.c	/^MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type){$/;"	f	signature:(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type)
 create_node	multi_tree.h	/^MTnode* create_node(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type);$/;"	p	signature:(MTnode* node_list[],int list_len,char* str,YYLTYPE* loc,int type)
+cur_func_name	asmgen.c	/^char* cur_func_name;\/\/save return addr$/;"	v
+cur_offset	asmgen.c	/^int cur_offset = -0;\/\/ negative, always$/;"	v
 cur_vd_no	reg_desc.h	/^    int cur_vd_no;$/;"	m	struct:reg_desc	access:public
 current_label_no	intercode.h	/^int current_label_no;$/;"	v
 current_line_err	syntax.tab.c	/^int current_line_err = 0;$/;"	v
@@ -815,6 +818,7 @@ def_ed	symtab.h	/^            unsigned int def_ed : 1;$/;"	m	struct:symbol_::__a
 del_sym	symtab.c	/^symbol* del_sym(symbol** ht,char* id_name){$/;"	f	signature:(symbol** ht,char* id_name)
 del_sym	symtab.h	/^symbol* del_sym(symbol** ht,char* id_name);$/;"	p	signature:(symbol** ht,char* id_name)
 del_tmpvar	dag.c	/^static int del_tmpvar(intercode* ic){$/;"	f	file:	signature:(intercode* ic)
+del_tmpvar_from_reg	asmgen.c	/^void del_tmpvar_from_reg(){$/;"	f
 del_useless_label	peephole.c	/^void del_useless_label(){$/;"	f
 del_useless_label	peephole.h	/^void del_useless_label();$/;"	p	signature:()
 del_var_in_reg	reg_desc.c	/^void del_var_in_reg(int regno, var_desc* vd){$/;"	f	signature:(int regno, var_desc* vd)
@@ -865,6 +869,7 @@ flex_uint32_t	lex.yy.c	/^typedef uint32_t flex_uint32_t;$/;"	t	file:
 flex_uint32_t	lex.yy.c	/^typedef unsigned int flex_uint32_t;$/;"	t	file:
 flex_uint8_t	lex.yy.c	/^typedef uint8_t flex_uint8_t;$/;"	t	file:
 flex_uint8_t	lex.yy.c	/^typedef unsigned char flex_uint8_t; $/;"	t	file:
+flush_reg	asmgen.c	/^void flush_reg(int regno){$/;"	f	signature:(int regno)
 free	syntax.tab.c	/^void free (void *); \/* INFRINGES ON USER NAME SPACE *\/$/;"	p	file:	signature:(void *)
 ft	gen_inter_code.c	/^typedef void (*ft)(MTnode*);$/;"	t	file:
 ft	semantic.c	/^typedef void (*ft)(MTnode*);$/;"	t	file:
@@ -905,6 +910,7 @@ get_field_offset	cmmtypes.h	/^int get_field_offset(FieldList* fl,char* id);$/;"	
 get_float_val	gen_code_tools.h	/^static float get_float_val(MTnode* root){$/;"	f	signature:(MTnode* root)
 get_int_val	gen_code_tools.h	/^static int get_int_val(MTnode* root){$/;"	f	signature:(MTnode* root)
 get_new_label	gen_code_tools.h	/^static inline char* get_new_label(){$/;"	f	signature:()
+get_reg	asmgen.c	/^int get_reg(char* var_str){$/;"	f	signature:(char* var_str)
 get_update_time	dag.c	/^int get_update_time(operand* op){$/;"	f	signature:(operand* op)
 get_var_id	multi_tree.c	/^MTnode* get_var_id(MTnode* dec){$/;"	f	signature:(MTnode* dec)
 get_var_id	multi_tree.h	/^MTnode* get_var_id(MTnode* dec);$/;"	p	signature:(MTnode* dec)
@@ -929,6 +935,7 @@ ic	dag.h	/^    intercode* ic;$/;"	m	struct:dagnode	access:public
 ic_match	dag.c	/^int ic_match(int start,int end,int op1_no,int op2_no,intercode* ic){$/;"	f	signature:(int start,int end,int op1_no,int op2_no,intercode* ic)
 id_name	symtab.h	/^    char* id_name;$/;"	m	struct:symbol_	access:public
 ideal_chain_maxlen	uthash.h	/^   unsigned ideal_chain_maxlen;$/;"	m	struct:UT_hash_table	access:public
+imm	asmgen.h	/^    int imm;$/;"	m	struct:mips_inc	access:public
 in_bool	gen_code_tools.h	/^static int in_bool;$/;"	v
 in_deflist	gen_code_tools.h	/^static int in_deflist;$/;"	v
 in_reg	var_desc.h	/^    int in_reg[32];$/;"	m	struct:var_desc	access:public
@@ -968,6 +975,9 @@ intercodeno	intercode.h	/^enum intercodeno{$/;"	g
 is_alive	tempvar_ht.h	/^    int is_alive;$/;"	m	struct:tmpvar_ht_node	access:public
 is_basic	intercode.h	/^    int is_basic;$/;"	m	struct:Argl	access:public
 is_const	multi_tree.h	/^    int is_const;$/;"	m	struct:MTnode	access:public
+is_empty	asmgen.c	/^int is_empty(int regno){$/;"	f	signature:(int regno)
+is_in_mem	var_desc.h	/^    int is_in_mem;$/;"	m	struct:var_desc	access:public
+is_in_reg	asmgen.c	/^int is_in_reg(char* var_str){$/;"	f	signature:(char* var_str)
 is_left_val	gen_inter_code.c	/^static int is_left_val = 0;$/;"	v	file:
 key	uthash.h	/^   void *key;                        \/* ptr to enclosing struct's key  *\/$/;"	m	struct:UT_hash_handle	access:public
 keylen	uthash.h	/^   unsigned keylen;                  \/* enclosing struct's key len     *\/$/;"	m	struct:UT_hash_handle	access:public
@@ -1025,6 +1035,7 @@ max	dag.c	/^static int max(int x,int y){$/;"	f	file:	signature:(int x,int y)
 mips_inc	asmgen.h	/^struct mips_inc{$/;"	s
 mips_inc	asmgen.h	/^typedef struct mips_inc mips_inc;$/;"	t	typeref:struct:mips_inc
 mips_inc::dst	asmgen.h	/^    int dst;\/\/register$/;"	m	struct:mips_inc	access:public
+mips_inc::imm	asmgen.h	/^    int imm;$/;"	m	struct:mips_inc	access:public
 mips_inc::label	asmgen.h	/^    char* label;$/;"	m	struct:mips_inc	access:public
 mips_inc::list	asmgen.h	/^    ListHead list;$/;"	m	struct:mips_inc	access:public
 mips_inc::op1	asmgen.h	/^    int op1,op2;$/;"	m	struct:mips_inc	access:public
@@ -1072,17 +1083,19 @@ operand::var_str	intercode.h	/^    char* var_str;$/;"	m	struct:operand	access:pu
 opti_code_head	dag.c	/^ListHead opti_code_head;$/;"	v
 opti_if	peephole.c	/^void opti_if(){$/;"	f
 opti_if	peephole.h	/^void opti_if();$/;"	p	signature:()
+param_amt	asmgen.c	/^int param_amt;$/;"	v
 peep_opti	peephole.c	/^void peep_opti(){$/;"	f
 peep_opti	peephole.h	/^void peep_opti();$/;"	p	signature:()
 pool	dag.c	/^static dagnode pool[NODE_AMOUNT];$/;"	v	file:
-pp	asmgen.c	102;"	d	file:
-pp	asmgen.c	6;"	d	file:
+pp	asmgen.c	326;"	d	file:
+pp	asmgen.c	9;"	d	file:
 pp	block.c	12;"	d	file:
 pp	block.c	53;"	d	file:
 pp	code_print.c	169;"	d	file:
 pp	code_print.c	178;"	d	file:
 pp	peephole.c	116;"	d	file:
 pp	peephole.c	7;"	d	file:
+pre_process_ic	asmgen.c	/^void pre_process_ic(intercode* ic){$/;"	f	signature:(intercode* ic)
 pre_tranverse	multi_tree.c	/^void pre_tranverse(MTnode* root){$/;"	f	signature:(MTnode* root)
 pre_tranverse	multi_tree.h	/^void pre_tranverse(MTnode* root);$/;"	p	signature:(MTnode* root)
 pre_tranverse2	multi_tree.c	/^void pre_tranverse2(MTnode* root,int indent){$/;"	f	signature:(MTnode* root,int indent)
@@ -1105,7 +1118,6 @@ print_operand_addr	code_print.c	/^void print_operand_addr(operand* op){$/;"	f	si
 print_operand_var	code_print.c	/^void print_operand_var(operand* op){$/;"	f	signature:(operand* op)
 print_symtab	symtab.c	/^void print_symtab(symbol* ht){$/;"	f	signature:(symbol* ht)
 print_symtab	symtab.h	/^void print_symtab(symbol* ht);$/;"	p	signature:(symbol* ht)
-process_block	asmgen.c	/^void process_block(){$/;"	f
 property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon4	access:public
 rch	dag.h	/^    int rch;$/;"	m	struct:dagnode	access:public
 redirect_label	peephole.c	/^static void redirect_label(char* old_label,char* new_label){$/;"	f	file:	signature:(char* old_label,char* new_label)
@@ -1120,6 +1132,7 @@ registers	reg_desc.c	/^reg_desc registers[32];$/;"	v
 relop	intercode.h	/^    char* relop;$/;"	m	struct:intercode	access:public
 res	dag.h	/^    operand* res;$/;"	m	struct:dagnode	access:public
 res	intercode.h	/^    operand* res;$/;"	m	struct:intercode	access:public
+ret_addr	asmgen.c	/^char* ret_addr = "cur_ret_addr";$/;"	v
 save_all	asmgen.c	/^void save_all(){$/;"	f
 sem	semantic.c	/^void sem(MTnode* root){$/;"	f	signature:(MTnode* root)
 sem	semantic.h	/^void sem(MTnode* root);$/;"	p	signature:(MTnode* root)
@@ -1133,6 +1146,7 @@ size	cmmtypes.h	/^    int size;$/;"	m	struct:Type_	access:public
 size	intercode.h	/^    int size;$/;"	m	struct:intercode	access:public
 start	intercode.h	/^    intercode* start;$/;"	m	struct:code_block	access:public
 status	dag.h	/^    int status;$/;"	m	struct:dagnode	access:public
+store	asmgen.c	/^void store(var_desc* vd, int regno){$/;"	f	signature:(var_desc* vd, int regno)
 str	multi_tree.h	/^    char* str;$/;"	m	struct:MTnode	access:public
 struct_tab	symtab.c	/^symbol* struct_tab = NULL;$/;"	v
 structure	cmmtypes.h	/^        structure,$/;"	e	enum:Type_::__anon10
@@ -1162,6 +1176,9 @@ tail	cmmtypes.h	/^    FieldList* tail; \/\/$/;"	m	struct:FieldList_	access:publi
 tail	uthash.h	/^   struct UT_hash_handle *tail; \/* tail hh in app order, for fast append    *\/$/;"	m	struct:UT_hash_table	typeref:struct:UT_hash_table::UT_hash_handle	access:public
 tbl	uthash.h	/^   struct UT_hash_table *tbl;$/;"	m	struct:UT_hash_handle	typeref:struct:UT_hash_handle::UT_hash_table	access:public
 text_seg_start	api.h	/^char* text_seg_start = ".text\\n";$/;"	v
+tmp_op1	asmgen.c	/^char* tmp_op1 = "tmp_op1";$/;"	v
+tmp_op2	asmgen.c	/^char* tmp_op2 = "tmp_op2";$/;"	v
+tmp_res	asmgen.c	/^char* tmp_res = "tmp_res";$/;"	v
 tmpvar_ht	tempvar_ht.c	/^tmpvar_ht_node* tmpvar_ht = NULL;$/;"	v
 tmpvar_ht_node	tempvar_ht.h	/^struct tmpvar_ht_node{$/;"	s
 tmpvar_ht_node	tempvar_ht.h	/^typedef struct tmpvar_ht_node tmpvar_ht_node;$/;"	t	typeref:struct:tmpvar_ht_node
@@ -1208,6 +1225,7 @@ var_desc	var_desc.h	/^struct var_desc{$/;"	s
 var_desc	var_desc.h	/^typedef struct var_desc var_desc;$/;"	t	typeref:struct:var_desc
 var_desc::hh	var_desc.h	/^    UT_hash_handle hh;$/;"	m	struct:var_desc	access:public
 var_desc::in_reg	var_desc.h	/^    int in_reg[32];$/;"	m	struct:var_desc	access:public
+var_desc::is_in_mem	var_desc.h	/^    int is_in_mem;$/;"	m	struct:var_desc	access:public
 var_desc::offset	var_desc.h	/^    int offset;$/;"	m	struct:var_desc	access:public
 var_desc::var_str	var_desc.h	/^    char* var_str;$/;"	m	struct:var_desc	access:public
 var_str	intercode.h	/^    char* var_str;$/;"	m	struct:operand	access:public

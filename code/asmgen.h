@@ -32,10 +32,11 @@ struct mips_inc{
     int op1,op2;
     char* label;
     ListHead list;
+    int imm;
 };
 typedef struct mips_inc mips_inc;
 
-ListHead* asm_head;
+ListHead asm_head;
 
 
 

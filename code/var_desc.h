@@ -1,6 +1,8 @@
 #ifndef __VAR_DESC_H__
 #define __VAR_DESC_H__
 
+#include"uthash.h"
+
 struct reg_desc;
 
 struct var_desc{
@@ -8,6 +10,7 @@ struct var_desc{
     UT_hash_handle hh;
     int offset;
     int in_reg[32];
+    int is_in_mem;
 };
 typedef struct var_desc var_desc;
 

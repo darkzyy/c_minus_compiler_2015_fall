@@ -14,4 +14,6 @@ void reg_desc_init();
 void add_var_in_reg(int regno, var_desc* vd);
 void del_var_in_reg(int regno, var_desc* vd);
 
+extern reg_desc registers[32];
+
 #endif

@@ -20,6 +20,9 @@ void del_var_in_reg(int regno, var_desc* vd){
         }
         else if(registers[regno].vd[i] == vd){
             registers[regno].vd[i] = (void*)-1;
+            if(registers[regno].cur_vd_no == i){
+                registers[regno].cur_vd_no -= 1;
+            }
         }
     }
 }

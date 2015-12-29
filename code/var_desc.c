@@ -1,7 +1,10 @@
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 #include "uthash.h"
 #include "var_desc.h"
+#include "asmprint.h"
+#include "debug.h"
 
 var_desc* vd_head = NULL;
 
@@ -18,6 +21,7 @@ void add_var(char* str){
 }
 
 var_desc* find_var(char* str){
+    //Log4("str %s",str);
     var_desc* vd;
     HASH_FIND_STR(vd_head,str,vd);
     return vd;
@@ -36,5 +40,22 @@ void dec_reg_contain_var(char* str,int regno){
     HASH_FIND_STR(vd_head,str,vd);
     if(vd){
         vd->in_reg[regno] = 0;
+    }
+}
+
+void print_var(){
+    var_desc* vd;
+    for(vd = vd_head;vd!=NULL;vd = vd->hh.next){
+        printf("%s :",vd->var_str);
+        int i = 0;
+        for(i=3;i<=25;i++){
+            if(vd->in_reg[i]){
+                printf(" %s",reg_str[i]);
+            }
+        }
+        if(vd->is_in_mem){
+            printf(" mem");
+        }
+        printf("\n");
     }
 }

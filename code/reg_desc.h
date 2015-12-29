@@ -13,6 +13,7 @@ typedef struct reg_desc reg_desc;
 void reg_desc_init();
 void add_var_in_reg(int regno, var_desc* vd);
 void del_var_in_reg(int regno, var_desc* vd);
+void print_reg();
 
 extern reg_desc registers[32];
 

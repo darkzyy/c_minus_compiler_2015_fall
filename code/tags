@@ -345,6 +345,7 @@ ListHead::prev	list.h	/^	struct ListHead *prev, *next;$/;"	m	struct:ListHead	typ
 Log	debug.h	7;"	d
 Log2	debug.h	14;"	d
 Log3	debug.h	21;"	d
+Log4	debug.h	28;"	d
 MINUS	syntax.tab.c	/^    MINUS = 266,$/;"	e	enum:yytokentype	file:
 MINUS	syntax.tab.h	/^    MINUS = 266,$/;"	e	enum:yytokentype
 MTnode	multi_tree.h	/^typedef struct MTnode{$/;"	s
@@ -685,6 +686,7 @@ _Noreturn	syntax.tab.c	262;"	d	file:
 _Noreturn	syntax.tab.c	264;"	d	file:
 __API_H__	api.h	2;"	d
 __ASMGEN_H__	asmgen.h	2;"	d
+__ASMPRINT_H__	asmprint.h	2;"	d
 __BLOCK_H__	block.h	2;"	d
 __CMMTYPES_H__	cmmtypes.h	2;"	d
 __CODE_PRINT_H__	code_print.h	2;"	d
@@ -696,7 +698,7 @@ __LIST_H__	list.h	2;"	d
 __MULTI_TREE_H__	multi_tree.h	2;"	d
 __MY_YYERROR__	syntax.tab.c	2415;"	d	file:
 __NEW_TOOLS_H__	new_tools.h	2;"	d
-__PARSER_DEBUG__	main.c	8;"	d	file:
+__PARSER_DEBUG__	main.c	9;"	d	file:
 __PEEPHOLE_H__	peephole.h	2;"	d
 __REG_DESC_H__	reg_desc.h	2;"	d
 __SEMANTIC_H__	semantic.h	2;"	d
@@ -725,6 +727,7 @@ al	multi_tree.h	/^    Argl* al;$/;"	m	struct:MTnode	access:public
 al_free	semantic.c	/^void al_free(ArgList* al){$/;"	f	signature:(ArgList* al)
 alloc_reg	asmgen.c	/^int alloc_reg(char* var_str){$/;"	f	signature:(char* var_str)
 alloca	syntax.tab.c	309;"	d	file:
+arg_amt	asmgen.c	/^int arg_amt = 0;$/;"	v
 arg_cmp	semantic.c	/^int arg_cmp(ArgList* alx,ArgList* aly){$/;"	f	signature:(ArgList* alx,ArgList* aly)
 argamt	symtab.h	/^    int argamt;\/\/arguement amount$/;"	m	struct:symbol_	access:public
 argamt_count	semantic.c	/^int argamt_count(ArgList* al){$/;"	f	signature:(ArgList* al)
@@ -757,6 +760,7 @@ asm_mul	asmgen.h	/^    asm_mul,$/;"	e	enum:__anon13
 asm_sub	asmgen.h	/^    asm_sub,$/;"	e	enum:__anon13
 asm_sw	asmgen.h	/^    asm_sw,$/;"	e	enum:__anon13
 asmgen	asmgen.c	/^void asmgen(){$/;"	f
+asmgen	main.c	/^extern void asmgen();$/;"	p	file:
 basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon10
 basic	cmmtypes.h	/^        basic,$/;"	e	enum:Type_::__anon8
 basic	cmmtypes.h	/^        int basic;$/;"	m	union:Type_::__anon11	access:public
@@ -784,8 +788,8 @@ code_block_node	tempvar_ht.h	/^typedef struct code_block_node code_block_node;$/
 code_block_node::cb	tempvar_ht.h	/^    code_block* cb;$/;"	m	struct:code_block_node	access:public
 code_block_node::next	tempvar_ht.h	/^    struct code_block_node* next;$/;"	m	struct:code_block_node	typeref:struct:code_block_node::code_block_node	access:public
 code_head	intercode.h	/^ListHead code_head;$/;"	v
-code_type	asmgen.c	327;"	d	file:
-code_type	asmgen.c	8;"	d	file:
+code_type	asmgen.c	10;"	d	file:
+code_type	asmgen.c	867;"	d	file:
 code_type	block.c	11;"	d	file:
 code_type	block.c	49;"	d	file:
 cond_false	peephole.c	/^static void cond_false(intercode* ic){$/;"	f	file:	signature:(intercode* ic)
@@ -821,6 +825,8 @@ del_tmpvar	dag.c	/^static int del_tmpvar(intercode* ic){$/;"	f	file:	signature:(
 del_tmpvar_from_reg	asmgen.c	/^void del_tmpvar_from_reg(){$/;"	f
 del_useless_label	peephole.c	/^void del_useless_label(){$/;"	f
 del_useless_label	peephole.h	/^void del_useless_label();$/;"	p	signature:()
+del_var	var_desc.c	/^void del_var(char* var_str){$/;"	f	signature:(char* var_str)
+del_var	var_desc.h	/^void del_var();$/;"	p	signature:()
 del_var_in_reg	reg_desc.c	/^void del_var_in_reg(int regno, var_desc* vd){$/;"	f	signature:(int regno, var_desc* vd)
 del_var_in_reg	reg_desc.h	/^void del_var_in_reg(int regno, var_desc* vd);$/;"	p	signature:(int regno, var_desc* vd)
 deref_peep	dag.c	/^static void deref_peep(intercode* ic){$/;"	f	file:	signature:(intercode* ic)
@@ -972,6 +978,7 @@ intercode::res	intercode.h	/^    operand* res;$/;"	m	struct:intercode	access:pub
 intercode::size	intercode.h	/^    int size;$/;"	m	struct:intercode	access:public
 intercode::use_addr	intercode.h	/^    int use_addr;$/;"	m	struct:intercode	access:public
 intercodeno	intercode.h	/^enum intercodeno{$/;"	g
+invalidate_reg	asmgen.c	/^void invalidate_reg(){$/;"	f
 is_alive	tempvar_ht.h	/^    int is_alive;$/;"	m	struct:tmpvar_ht_node	access:public
 is_basic	intercode.h	/^    int is_basic;$/;"	m	struct:Argl	access:public
 is_const	multi_tree.h	/^    int is_const;$/;"	m	struct:MTnode	access:public
@@ -995,6 +1002,8 @@ label_node	tempvar_ht.h	/^typedef struct label_node label_node;$/;"	t	typeref:st
 label_node::hh	tempvar_ht.h	/^    UT_hash_handle hh;$/;"	m	struct:label_node	access:public
 label_node::label	tempvar_ht.h	/^    char* label;$/;"	m	struct:label_node	access:public
 label_node::refer_times	tempvar_ht.h	/^    int refer_times;$/;"	m	struct:label_node	access:public
+label_read	asmgen.c	/^char* label_read = "read";$/;"	v
+label_write	asmgen.c	/^char* label_write = "write";$/;"	v
 last_cb	block.c	13;"	d	file:
 last_cb	block.c	50;"	d	file:
 last_column	syntax.tab.c	/^  int last_column;$/;"	m	struct:YYLTYPE	file:	access:public
@@ -1083,12 +1092,15 @@ operand::var_str	intercode.h	/^    char* var_str;$/;"	m	struct:operand	access:pu
 opti_code_head	dag.c	/^ListHead opti_code_head;$/;"	v
 opti_if	peephole.c	/^void opti_if(){$/;"	f
 opti_if	peephole.h	/^void opti_if();$/;"	p	signature:()
+output_intercode	main.c	/^int output_intercode = 0;$/;"	v
 param_amt	asmgen.c	/^int param_amt;$/;"	v
 peep_opti	peephole.c	/^void peep_opti(){$/;"	f
 peep_opti	peephole.h	/^void peep_opti();$/;"	p	signature:()
 pool	dag.c	/^static dagnode pool[NODE_AMOUNT];$/;"	v	file:
-pp	asmgen.c	326;"	d	file:
-pp	asmgen.c	9;"	d	file:
+pp	asmgen.c	11;"	d	file:
+pp	asmgen.c	866;"	d	file:
+pp	asmprint.c	162;"	d	file:
+pp	asmprint.c	46;"	d	file:
 pp	block.c	12;"	d	file:
 pp	block.c	53;"	d	file:
 pp	code_print.c	169;"	d	file:
@@ -1096,6 +1108,7 @@ pp	code_print.c	178;"	d	file:
 pp	peephole.c	116;"	d	file:
 pp	peephole.c	7;"	d	file:
 pre_process_ic	asmgen.c	/^void pre_process_ic(intercode* ic){$/;"	f	signature:(intercode* ic)
+pre_process_op1	asmgen.c	/^void pre_process_op1(intercode* ic){$/;"	f	signature:(intercode* ic)
 pre_tranverse	multi_tree.c	/^void pre_tranverse(MTnode* root){$/;"	f	signature:(MTnode* root)
 pre_tranverse	multi_tree.h	/^void pre_tranverse(MTnode* root);$/;"	p	signature:(MTnode* root)
 pre_tranverse2	multi_tree.c	/^void pre_tranverse2(MTnode* root,int indent){$/;"	f	signature:(MTnode* root,int indent)
@@ -1103,9 +1116,12 @@ prev	list.h	/^	struct ListHead *prev, *next;$/;"	m	struct:ListHead	typeref:struc
 prev	uthash.h	/^   void *prev;                       \/* prev element in app order      *\/$/;"	m	struct:UT_hash_handle	access:public
 prev_ic	block.c	14;"	d	file:
 prev_ic	block.c	51;"	d	file:
+print_api	asmprint.c	/^void print_api(FILE* ff){$/;"	f	signature:(FILE* ff)
 print_arith	code_print.c	167;"	d	file:
 print_arith_addr	code_print.c	48;"	d	file:
 print_arith_var	code_print.c	39;"	d	file:
+print_asm	asmprint.c	/^void print_asm(){$/;"	f
+print_asm	main.c	/^extern void print_asm();$/;"	p	file:
 print_block	block.h	/^void print_block();$/;"	p	signature:()
 print_code	code_print.c	/^void print_code(){$/;"	f
 print_code	code_print.h	/^void print_code();$/;"	p	signature:()
@@ -1116,8 +1132,12 @@ print_intercode	code_print.h	/^void print_intercode(intercode* ic);$/;"	p	signat
 print_intercode	dag.c	/^extern void print_intercode(intercode* ic);$/;"	p	file:	signature:(intercode* ic)
 print_operand_addr	code_print.c	/^void print_operand_addr(operand* op){$/;"	f	signature:(operand* op)
 print_operand_var	code_print.c	/^void print_operand_var(operand* op){$/;"	f	signature:(operand* op)
+print_reg	reg_desc.c	/^void print_reg(){$/;"	f
+print_reg	reg_desc.h	/^void print_reg();$/;"	p	signature:()
 print_symtab	symtab.c	/^void print_symtab(symbol* ht){$/;"	f	signature:(symbol* ht)
 print_symtab	symtab.h	/^void print_symtab(symbol* ht);$/;"	p	signature:(symbol* ht)
+print_var	var_desc.c	/^void print_var(){$/;"	f
+print_var	var_desc.h	/^void print_var();$/;"	p	signature:()
 property	symtab.h	/^        unsigned int property;$/;"	m	union:symbol_::__anon4	access:public
 rch	dag.h	/^    int rch;$/;"	m	struct:dagnode	access:public
 redirect_label	peephole.c	/^static void redirect_label(char* old_label,char* new_label){$/;"	f	file:	signature:(char* old_label,char* new_label)
@@ -1128,6 +1148,7 @@ reg_desc::cur_vd_no	reg_desc.h	/^    int cur_vd_no;$/;"	m	struct:reg_desc	access
 reg_desc::vd	reg_desc.h	/^    var_desc* vd[100];$/;"	m	struct:reg_desc	access:public
 reg_desc_init	reg_desc.c	/^void reg_desc_init(){$/;"	f
 reg_desc_init	reg_desc.h	/^void reg_desc_init();$/;"	p	signature:()
+reg_str	asmprint.c	/^char* reg_str[32] = {$/;"	v
 registers	reg_desc.c	/^reg_desc registers[32];$/;"	v
 relop	intercode.h	/^    char* relop;$/;"	m	struct:intercode	access:public
 res	dag.h	/^    operand* res;$/;"	m	struct:dagnode	access:public
@@ -1178,6 +1199,8 @@ tbl	uthash.h	/^   struct UT_hash_table *tbl;$/;"	m	struct:UT_hash_handle	typeref
 text_seg_start	api.h	/^char* text_seg_start = ".text\\n";$/;"	v
 tmp_op1	asmgen.c	/^char* tmp_op1 = "tmp_op1";$/;"	v
 tmp_op2	asmgen.c	/^char* tmp_op2 = "tmp_op2";$/;"	v
+tmp_op3	asmgen.c	/^char* tmp_op3 = "tmp_op3";$/;"	v
+tmp_op4	asmgen.c	/^char* tmp_op4 = "tmp_op4";$/;"	v
 tmp_res	asmgen.c	/^char* tmp_res = "tmp_res";$/;"	v
 tmpvar_ht	tempvar_ht.c	/^tmpvar_ht_node* tmpvar_ht = NULL;$/;"	v
 tmpvar_ht_node	tempvar_ht.h	/^struct tmpvar_ht_node{$/;"	s

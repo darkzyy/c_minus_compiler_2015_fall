@@ -14,6 +14,8 @@ char* ret_addr = "cur_ret_addr";
 char* tmp_res = "tmp_res";
 char* tmp_op1 = "tmp_op1";
 char* tmp_op2 = "tmp_op2";
+char* tmp_op3 = "tmp_op3";
+char* tmp_op4 = "tmp_op4";
 char* label_read = "read";
 char* label_write = "write";
 
@@ -99,6 +101,7 @@ int alloc_reg(char* var_str){
             break;
         }
     }
+    Log4();
     if(victim == -1){
         for(i=3;i<=25;i++){
             if((!find_var(tmp_op1) || !find_var(tmp_op1)->in_reg[i]) &&
@@ -110,6 +113,7 @@ int alloc_reg(char* var_str){
             }
         }
     }
+    Log4();
     find_var(var_str)->in_reg[victim] = 1;
     add_var_in_reg(victim,find_var(var_str));
     /*
@@ -214,11 +218,26 @@ void pre_process_op1(intercode* ic){
             mi->imm = ic->op1->val_int;
         }
         else if(ic->op1->kind == OP_ADDR ){
-            mi = insert_new_inc();
-            mi->type = asm_lw;
-            mi->dst = alloc_reg(tmp_op1);
-            mi->op1 = 29; //$sp
-            mi->imm = find_var(ic->op1->var_str)->offset;
+            if(is_in_reg(ic->op1->var_str) == -1){
+                mi = insert_new_inc();
+                mi->type = asm_lw;
+                mi->dst = alloc_reg(tmp_op3);
+                mi->op1 = 29; //$sp
+                mi->imm = find_var(ic->op1->var_str)->offset;
+
+                mi = insert_new_inc();
+                mi->type = asm_lw;
+                mi->dst = alloc_reg(tmp_op1);
+                mi->op1 = get_reg(tmp_op3);
+                mi->imm = 0;
+            }
+            else{
+                mi = insert_new_inc();
+                mi->type = asm_lw;
+                mi->dst = alloc_reg(tmp_op1);
+                mi->op1 = get_reg(ic->op1->var_str);
+                mi->imm = 0;
+            }
         }
         else{
             if(is_in_reg(ic->op1->var_str) == -1){
@@ -367,6 +386,8 @@ void asmgen(){
     list_init(&asm_head);
     add_var(tmp_op1);
     add_var(tmp_op2);
+    add_var(tmp_op3);
+    add_var(tmp_op4);
     add_var(tmp_res);
     del_tmpvar_from_reg();
 

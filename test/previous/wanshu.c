@@ -25,6 +25,8 @@ int main() {
         
         if(sum == n) {
             write(n);
+            write(k);
+            write(ans[k]);
             write(n == ans[k]);
             k = k + 1;
         }

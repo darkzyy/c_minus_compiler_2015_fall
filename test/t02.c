@@ -12,5 +12,5 @@ int main(){
         write(b);
         i = i+1;
     }
-
+    return 0;
 }

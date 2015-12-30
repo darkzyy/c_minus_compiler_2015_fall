@@ -77,9 +77,9 @@ void flush_reg(int regno){
         }
         else if(registers[regno].vd[i] !=(void*) -1){
             store(registers[regno].vd[i],regno);
-            registers[regno].vd[i]->is_in_mem = 1;
-            registers[regno].vd[i] = 0;
+            registers[regno].vd[i]->in_reg[i] = 0;
         }
+        registers[regno].vd[i] = 0;
     }
     registers[regno].cur_vd_no = 0;
 }
@@ -106,6 +106,8 @@ int alloc_reg(char* var_str){
         for(i=3;i<=25;i++){
             if((!find_var(tmp_op1) || !find_var(tmp_op1)->in_reg[i]) &&
                         (!find_var(tmp_op2) || !find_var(tmp_op2)->in_reg[i]) &&
+                        (!find_var(tmp_op3) || !find_var(tmp_op3)->in_reg[i]) &&
+                        (!find_var(tmp_op4) || !find_var(tmp_op4)->in_reg[i]) &&
                         (!find_var(tmp_res) || !find_var(tmp_res)->in_reg[i]) ){
                 flush_reg(i);
                 victim = i;
@@ -172,6 +174,8 @@ void del_tmpvar_from_reg(){
     for(i=3;i<=25;i++){
         del_var_in_reg(i,find_var(tmp_op1));
         del_var_in_reg(i,find_var(tmp_op2));
+        del_var_in_reg(i,find_var(tmp_op3));
+        del_var_in_reg(i,find_var(tmp_op4));
         del_var_in_reg(i,find_var(tmp_res));
     }
     memset(find_var(tmp_op1)->in_reg,0,32*sizeof(int));
@@ -380,8 +384,8 @@ void pre_process_ic(intercode* ic){
             else{
                 mi = insert_new_inc();
                 mi->type = asm_lw;
-                mi->dst = alloc_reg(tmp_op1);
-                mi->op1 = get_reg(ic->op1->var_str);
+                mi->dst = alloc_reg(tmp_op2);
+                mi->op1 = get_reg(ic->op2->var_str);
                 mi->imm = 0;
             }
         }
@@ -463,10 +467,12 @@ void asmgen(){
             case ICN_ASSIGN:
                 {
                     Log4(" ICN_ASSIGN");
+                    /*
                     if(pp->res->var_str[0] == 'b'){
 
                         break;
                     }
+                    */
                     pre_process_op1(pp);
                     if(!pp->use_addr && pp->res->kind == OP_ADDR){
                         mips_inc* mi = insert_new_inc();
@@ -481,7 +487,7 @@ void asmgen(){
                             cur_offset -= 4;
                             find_var(pp->res->var_str)->offset = cur_offset;
                         }
-                        if(is_in_reg(pp->res->var_str)){
+                        if(is_in_reg(pp->res->var_str)!=-1){
                             dec_reg_contain_var(pp->res->var_str,get_reg(pp->res->var_str));
                         }
                         inc_reg_contain_var(pp->res->var_str,get_reg(tmp_op1));
@@ -515,7 +521,7 @@ void asmgen(){
                             cur_offset -= 4;
                             find_var(pp->res->var_str)->offset = cur_offset;
                         }
-                        if(is_in_reg(pp->res->var_str)){
+                        if(is_in_reg(pp->res->var_str)!=-1){
                             dec_reg_contain_var(pp->res->var_str,get_reg(pp->res->var_str));
                         }
                         inc_reg_contain_var(pp->res->var_str,get_reg(tmp_res));
@@ -553,7 +559,7 @@ void asmgen(){
                             cur_offset -= 4;
                             find_var(pp->res->var_str)->offset = cur_offset;
                         }
-                        if(is_in_reg(pp->res->var_str)){
+                        if(is_in_reg(pp->res->var_str)!=-1){
                             dec_reg_contain_var(pp->res->var_str,get_reg(pp->res->var_str));
                         }
                         inc_reg_contain_var(pp->res->var_str,get_reg(tmp_res));
@@ -570,6 +576,10 @@ void asmgen(){
             case ICN_MUL:
                 {
                     Log4(" ICN_MUL");
+                    if(enable_debug){
+                        print_reg();
+                        print_var();
+                    }
                     get_reg(tmp_res);
                     pre_process_ic(pp);
                     mips_inc* mi0 = insert_new_inc();
@@ -591,7 +601,7 @@ void asmgen(){
                             cur_offset -= 4;
                             find_var(pp->res->var_str)->offset = cur_offset;
                         }
-                        if(is_in_reg(pp->res->var_str)){
+                        if(is_in_reg(pp->res->var_str) != -1){
                             dec_reg_contain_var(pp->res->var_str,get_reg(pp->res->var_str));
                         }
                         inc_reg_contain_var(pp->res->var_str,get_reg(tmp_res));
@@ -630,7 +640,7 @@ void asmgen(){
                             cur_offset -= 4;
                             find_var(pp->res->var_str)->offset = cur_offset;
                         }
-                        if(is_in_reg(pp->res->var_str)){
+                        if(is_in_reg(pp->res->var_str)!=-1){
                             dec_reg_contain_var(pp->res->var_str,get_reg(pp->res->var_str));
                         }
                         inc_reg_contain_var(pp->res->var_str,get_reg(tmp_res));
@@ -717,6 +727,7 @@ void asmgen(){
                     mips_inc* mi3 = insert_new_inc();
                     mi3->type = asm_jr;
                     mi3->dst = 31;
+                    del_tmpvar_from_reg();
                     break;
                 }
             case ICN_DEC:
@@ -816,6 +827,7 @@ void asmgen(){
                     mi->type = asm_move;
                     mi->dst = res_reg;
                     mi->op1 = 2;
+                    del_tmpvar_from_reg();
                     break;
                 }
             case ICN_PARAM:
@@ -868,6 +880,7 @@ void asmgen(){
                     mi->type = asm_move;
                     mi->dst = res_reg;
                     mi->op1 = 2;
+                    del_tmpvar_from_reg();
                     break;
                 }
             case ICN_WRITE:
@@ -927,6 +940,8 @@ void asmgen(){
                     mi->dst = 29;
                     mi->op1 = 29;
                     mi->imm = -cur_offset + 4;
+
+                    del_tmpvar_from_reg();
 
                     break;
                 }

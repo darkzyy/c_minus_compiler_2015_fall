@@ -103,5 +103,12 @@ int main(){
         c3+
         c2+
         c1;
+    write(a);
+    write(b);
+    write(c);
+    write(d);
+    write(c30);
+    write(c31);
+    write(c31 - c30);
     return c32;
 }

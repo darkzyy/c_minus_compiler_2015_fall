@@ -176,9 +176,13 @@ void del_tmpvar_from_reg(){
     }
     memset(find_var(tmp_op1)->in_reg,0,32*sizeof(int));
     memset(find_var(tmp_op2)->in_reg,0,32*sizeof(int));
+    memset(find_var(tmp_op3)->in_reg,0,32*sizeof(int));
+    memset(find_var(tmp_op4)->in_reg,0,32*sizeof(int));
     memset(find_var(tmp_res)->in_reg,0,32*sizeof(int));
     find_var(tmp_op1)->is_in_mem = 1;
     find_var(tmp_op2)->is_in_mem = 1;
+    find_var(tmp_op3)->is_in_mem = 1;
+    find_var(tmp_op4)->is_in_mem = 1;
     find_var(tmp_res)->is_in_mem = 1;
 }
 
@@ -321,11 +325,26 @@ void pre_process_ic(intercode* ic){
             mi->imm = ic->op1->val_int;
         }
         else if(ic->op1->kind == OP_ADDR ){
-            mi = insert_new_inc();
-            mi->type = asm_lw;
-            mi->dst = alloc_reg(tmp_op1);
-            mi->op1 = 29; //$sp
-            mi->imm = find_var(ic->op1->var_str)->offset;
+            if(is_in_reg(ic->op1->var_str) == -1){
+                mi = insert_new_inc();
+                mi->type = asm_lw;
+                mi->dst = alloc_reg(tmp_op3);
+                mi->op1 = 29; //$sp
+                mi->imm = find_var(ic->op1->var_str)->offset;
+
+                mi = insert_new_inc();
+                mi->type = asm_lw;
+                mi->dst = alloc_reg(tmp_op1);
+                mi->op1 = get_reg(tmp_op3);
+                mi->imm = 0;
+            }
+            else{
+                mi = insert_new_inc();
+                mi->type = asm_lw;
+                mi->dst = alloc_reg(tmp_op1);
+                mi->op1 = get_reg(ic->op1->var_str);
+                mi->imm = 0;
+            }
         }
         else{
             if(is_in_reg(ic->op1->var_str) == -1){
@@ -345,11 +364,26 @@ void pre_process_ic(intercode* ic){
             mi->imm = ic->op2->val_int;
         }
         else if(ic->op2->kind == OP_ADDR ){
-            mi = insert_new_inc();
-            mi->type = asm_lw;
-            mi->dst = alloc_reg(tmp_op2);
-            mi->op1 = 29; //$sp
-            mi->imm = find_var(ic->op2->var_str)->offset;
+            if(is_in_reg(ic->op2->var_str) == -1){
+                mi = insert_new_inc();
+                mi->type = asm_lw;
+                mi->dst = alloc_reg(tmp_op4);
+                mi->op1 = 29; //$sp
+                mi->imm = find_var(ic->op2->var_str)->offset;
+
+                mi = insert_new_inc();
+                mi->type = asm_lw;
+                mi->dst = alloc_reg(tmp_op2);
+                mi->op1 = get_reg(tmp_op4);
+                mi->imm = 0;
+            }
+            else{
+                mi = insert_new_inc();
+                mi->type = asm_lw;
+                mi->dst = alloc_reg(tmp_op1);
+                mi->op1 = get_reg(ic->op1->var_str);
+                mi->imm = 0;
+            }
         }
         else{
             if(is_in_reg(ic->op2->var_str) == -1){
@@ -793,11 +827,25 @@ void asmgen(){
                 {
                     Log4(" ICN_READ");
                     save_all();
+                    /* new stack */
+                    mips_inc* mi = insert_new_inc();
+                    mi->type = asm_addi;
+                    mi->dst = 29;
+                    mi->op1 = 29;
+                    mi->imm = cur_offset - 4;
+
                     /* jal */
                     find_var(cur_func_name)->in_reg[31] = 0;
-                    mips_inc* mi = insert_new_inc();
+                    mi = insert_new_inc();
                     mi->type = asm_jal;
                     mi->label = label_read;
+
+                    /* stack previous */
+                    mi = insert_new_inc();
+                    mi->type = asm_addi;
+                    mi->dst = 29;
+                    mi->op1 = 29;
+                    mi->imm = -cur_offset + 4;
 
                     /* move */
                     if(!find_var(pp->res->var_str)){
@@ -823,21 +871,21 @@ void asmgen(){
                     Log4(" ICN_WRITE");
                     /*ARG can not be deref !*/
                     /* move */
+                    save_all();
                     if(pp->res->kind == OP_INT){
                         mips_inc* mi = insert_new_inc();
                         mi->dst = 4;
                         mi->imm = pp->res->val_int;
                         mi->type = asm_li;
-                        save_all();
                     }
                     else{
-                        mips_inc* mi = insert_new_inc();
+                        mips_inc* mi;
                         if(is_in_reg(pp->res->var_str) == -1){
+                            mi = insert_new_inc();
                             mi->type = asm_lw;
                             mi->dst = 4;
                             mi->op1 = 29; //$sp
                             mi->imm = find_var(pp->res->var_str)->offset;
-                            save_all();
                         }
                         else{
                             /*move*/
@@ -848,18 +896,34 @@ void asmgen(){
                                 mi->op1 = 29; //$sp
                                 mi->imm = find_var(pp->res->var_str)->offset;
                             }
-                            mi->type = asm_move;
-                            mi->dst = 4;
-                            mi->op1 = get_reg(pp->res->var_str);
-                            save_all();
+                            if(get_reg(pp->res->var_str) != 4){
+                                mi = insert_new_inc();
+                                mi->type = asm_move;
+                                mi->dst = 4;
+                                mi->op1 = get_reg(pp->res->var_str);
+                            }
                         }
                     }
+                    /* new stack */
+                    mips_inc* mi = insert_new_inc();
+                    mi->type = asm_addi;
+                    mi->dst = 29;
+                    mi->op1 = 29;
+                    mi->imm = cur_offset - 4;
 
                     /* jal */
                     find_var(cur_func_name)->in_reg[31] = 0;
-                    mips_inc* mi = insert_new_inc();
+                    mi = insert_new_inc();
                     mi->type = asm_jal;
                     mi->label = label_write;
+
+                    /* stack previous */
+                    mi = insert_new_inc();
+                    mi->type = asm_addi;
+                    mi->dst = 29;
+                    mi->op1 = 29;
+                    mi->imm = -cur_offset + 4;
+
                     break;
                 }
         }

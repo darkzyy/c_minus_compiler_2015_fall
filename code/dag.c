@@ -600,10 +600,12 @@ void handle_cb(code_block* cb){
 void handle_cb2(code_block* cb){
     intercode* ic;
     tmpvar_node_no_init();
+    /*
     for(ic = cb->start;ic!=cb->end;ic = list_entry(ic->list.next,intercode,list)){
         arith_peep(ic);
     }
     arith_peep(ic);
+    */
 
     for(ic = cb->start;ic!=cb->end;ic = list_entry(ic->list.next,intercode,list)){
         write_peep(ic);

@@ -22,6 +22,7 @@ var_desc* find_var(char* str);
 void inc_reg_contain_var(char* str,int regno);
 void dec_reg_contain_var(char* str,int regno);
 void print_var();
+void del_var();
 
 
 #endif

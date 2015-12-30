@@ -12,8 +12,10 @@
 
 char* ret_addr = "cur_ret_addr";
 char* tmp_res = "tmp_res";
-char* tmp_op1 = "tm1p_oasdp";
-char* tmp_op2 = "tmi2p_op";
+char* tmp_op1 = "tmp_op1";
+char* tmp_op2 = "tmp_op2";
+char* label_read = "read";
+char* label_write = "write";
 
 char* cur_func_name;//save return addr
 int cur_offset = -0;// negative, always
@@ -80,6 +82,13 @@ void flush_reg(int regno){
     registers[regno].cur_vd_no = 0;
 }
 
+void invalidate_reg(){
+    int i;
+    for(i=3;i<=25;i++){
+        flush_reg(i);
+    }
+}
+
 int alloc_reg(char* var_str){
     //find a register for var
     int i;
@@ -104,11 +113,11 @@ int alloc_reg(char* var_str){
     find_var(var_str)->in_reg[victim] = 1;
     add_var_in_reg(victim,find_var(var_str));
     /*
-    if(enable_debug){
-        print_reg();
-        print_var();
-    }
-    */
+       if(enable_debug){
+       print_reg();
+       print_var();
+       }
+       */
     Log4("allocated %s for %s",reg_str[victim],var_str);
     return victim;
 }
@@ -117,25 +126,21 @@ int get_reg(char* var_str){
     //if var is not in reg.alloc a register;
     //else return its register
     if(is_in_reg(var_str) == -1){
-        Log4();
         return alloc_reg(var_str);
     }
     else{//in reg
-        Log4();
         /*
-        if(enable_debug){
-            print_reg();
-            print_var();
-        }
-        */
-        if(strcmp(var_str,tmp_op2) == 0){
-            Log4("fking no : %d",is_in_reg(var_str));
-        }
+           if(enable_debug){
+           print_reg();
+           print_var();
+           }
+           */
         return is_in_reg(var_str);
     }
 }
 
 void save_all(){
+    Log4();
     var_desc* vd;
     for(vd=vd_head;vd!=NULL;vd=vd->hh.next){
         if(!vd->is_in_mem){
@@ -145,6 +150,10 @@ void save_all(){
             mi->imm = vd->offset;
             mi->op1 = get_reg(vd->var_str);
             dec_reg_contain_var(vd->var_str,mi->op1);
+            Log4("store %s in %s to %d($sp)",vd->var_str,reg_str[mi->op1],mi->imm);
+        }
+        while(is_in_reg(vd->var_str)!=-1){
+            dec_reg_contain_var(vd->var_str,get_reg(vd->var_str));
         }
         int i;
         for(i=3;i<=25;i++){
@@ -187,6 +196,13 @@ void pre_process_op1(intercode* ic){
             mi->imm = find_var(ic->op1->var_str)->offset;
         }
         else{
+            if(is_in_reg(ic->op1->var_str) == -1){
+                mi = insert_new_inc();
+                mi->type = asm_lw;
+                mi->dst = alloc_reg(ic->op1->var_str);
+                mi->op1 = 29; //$sp
+                mi->imm = find_var(ic->op1->var_str)->offset;
+            }
             find_var(tmp_op1)->in_reg[get_reg(ic->op1->var_str)] = 1;
         }
     }
@@ -205,22 +221,30 @@ void pre_process_op1(intercode* ic){
             mi->imm = find_var(ic->op1->var_str)->offset;
         }
         else{
+            if(is_in_reg(ic->op1->var_str) == -1){
+                mi = insert_new_inc();
+                mi->type = asm_lw;
+                mi->dst = alloc_reg(ic->op1->var_str);
+                mi->op1 = 29; //$sp
+                mi->imm = find_var(ic->op1->var_str)->offset;
+            }
             find_var(tmp_op1)->in_reg[get_reg(ic->op1->var_str)] = 1;
         }
     }
 }
 
 void pre_process_ic(intercode* ic){
-    Log4();
     mips_inc* mi;
     if(ic->use_addr){
         if(ic->op1->kind == OP_INT){
+            Log4();
             mi = insert_new_inc();
             mi->type = asm_li;
             mi->dst = alloc_reg(tmp_op1);
             mi->imm = ic->op1->val_int;
         }
         else if(ic->op1->kind == OP_VAR && ic->op1->var_str[0] == 'v'){
+            Log4();
             //get ic->op1's addr
             mi = insert_new_inc();
             mi->type = asm_addi;
@@ -229,16 +253,25 @@ void pre_process_ic(intercode* ic){
             mi->imm = find_var(ic->op1->var_str)->offset;
         }
         else{
+            Log4();
+            if(is_in_reg(ic->op1->var_str) == -1){
+                mi = insert_new_inc();
+                mi->type = asm_lw;
+                mi->dst = alloc_reg(ic->op1->var_str);
+                mi->op1 = 29; //$sp
+                mi->imm = find_var(ic->op1->var_str)->offset;
+            }
             find_var(tmp_op1)->in_reg[get_reg(ic->op1->var_str)] = 1;
         }
-
         if(ic->op2->kind == OP_INT){
+            Log4();
             mi = insert_new_inc();
             mi->type = asm_li;
             mi->dst = alloc_reg(tmp_op2);
             mi->imm = ic->op2->val_int;
         }
         else if(ic->op2->kind == OP_VAR && ic->op2->var_str[0] == 'v'){
+            Log4();
             //get ic->op2's addr
             mi = insert_new_inc();
             mi->type = asm_addi;
@@ -247,10 +280,19 @@ void pre_process_ic(intercode* ic){
             mi->imm = find_var(ic->op2->var_str)->offset;
         }
         else{
+            Log4();
+            if(is_in_reg(ic->op2->var_str) == -1){
+                mi = insert_new_inc();
+                mi->type = asm_lw;
+                mi->dst = alloc_reg(ic->op2->var_str);
+                mi->op1 = 29; //$sp
+                mi->imm = find_var(ic->op2->var_str)->offset;
+            }
             find_var(tmp_op2)->in_reg[get_reg(ic->op2->var_str)] = 1;
         }
 
-        find_var(tmp_res)->in_reg[get_reg(ic->res->var_str)] = 1;
+        //find_var(tmp_res)->in_reg[get_reg(ic->res->var_str)] = 1;
+        get_reg(tmp_res);
     }
     else{ // use_val
         if(ic->op1->kind == OP_INT){
@@ -267,6 +309,13 @@ void pre_process_ic(intercode* ic){
             mi->imm = find_var(ic->op1->var_str)->offset;
         }
         else{
+            if(is_in_reg(ic->op1->var_str) == -1){
+                mi = insert_new_inc();
+                mi->type = asm_lw;
+                mi->dst = alloc_reg(ic->op1->var_str);
+                mi->op1 = 29; //$sp
+                mi->imm = find_var(ic->op1->var_str)->offset;
+            }
             find_var(tmp_op1)->in_reg[get_reg(ic->op1->var_str)] = 1;
         }
 
@@ -284,6 +333,13 @@ void pre_process_ic(intercode* ic){
             mi->imm = find_var(ic->op2->var_str)->offset;
         }
         else{
+            if(is_in_reg(ic->op2->var_str) == -1){
+                mi = insert_new_inc();
+                mi->type = asm_lw;
+                mi->dst = alloc_reg(ic->op2->var_str);
+                mi->op1 = 29; //$sp
+                mi->imm = find_var(ic->op2->var_str)->offset;
+            }
             find_var(tmp_op2)->in_reg[get_reg(ic->op2->var_str)] = 1;
         }
 
@@ -291,17 +347,17 @@ void pre_process_ic(intercode* ic){
             get_reg(tmp_res);
         }
         /* sth wrong with my brain
-        if(ic->kind!=ICN_IF && ic->kind!=ICN_DIV && ic->res->kind == OP_VAR){
-            Log4();
-            get_reg(tmp_res);
-            Log4();
-            find_var(tmp_res)->in_reg[get_reg(ic->res->var_str)] = 1;
-        }
-        else{
-            Log4();
-            get_reg(tmp_res);
-        }
-        */
+           if(ic->kind!=ICN_IF && ic->kind!=ICN_DIV && ic->res->kind == OP_VAR){
+           Log4();
+           get_reg(tmp_res);
+           Log4();
+           find_var(tmp_res)->in_reg[get_reg(ic->res->var_str)] = 1;
+           }
+           else{
+           Log4();
+           get_reg(tmp_res);
+           }
+           */
     }
 }
 
@@ -312,10 +368,19 @@ void asmgen(){
     add_var(tmp_op1);
     add_var(tmp_op2);
     add_var(tmp_res);
+    del_tmpvar_from_reg();
 
     ListHead* p = NULL;
     Log4();
     list_foreach(p,(&code_head)){
+
+        intercode* pnext;
+        pnext = list_entry(p->next,intercode,list);
+        if(pp->kind == ICN_GOTO || pp->kind == ICN_IF ){
+            Log4("MEET GOTO or IF STATEMENT");
+            save_all();
+        }
+
         switch(code_type){
             case ICN_LABEL:
                 {
@@ -357,6 +422,9 @@ void asmgen(){
                             cur_offset -= 4;
                             find_var(pp->res->var_str)->offset = cur_offset;
                         }
+                        if(is_in_reg(pp->res->var_str)){
+                            dec_reg_contain_var(pp->res->var_str,get_reg(pp->res->var_str));
+                        }
                         inc_reg_contain_var(pp->res->var_str,get_reg(tmp_op1));
                         add_var_in_reg(get_reg(tmp_op1),find_var(pp->res->var_str));
                         find_var(pp->res->var_str)->is_in_mem = 0;
@@ -387,6 +455,9 @@ void asmgen(){
                             add_var(pp->res->var_str);
                             cur_offset -= 4;
                             find_var(pp->res->var_str)->offset = cur_offset;
+                        }
+                        if(is_in_reg(pp->res->var_str)){
+                            dec_reg_contain_var(pp->res->var_str,get_reg(pp->res->var_str));
                         }
                         inc_reg_contain_var(pp->res->var_str,get_reg(tmp_res));
                         add_var_in_reg(get_reg(tmp_res),find_var(pp->res->var_str));
@@ -423,6 +494,9 @@ void asmgen(){
                             cur_offset -= 4;
                             find_var(pp->res->var_str)->offset = cur_offset;
                         }
+                        if(is_in_reg(pp->res->var_str)){
+                            dec_reg_contain_var(pp->res->var_str,get_reg(pp->res->var_str));
+                        }
                         inc_reg_contain_var(pp->res->var_str,get_reg(tmp_res));
                         add_var_in_reg(get_reg(tmp_res),find_var(pp->res->var_str));
                         find_var(pp->res->var_str)->is_in_mem = 0;
@@ -457,6 +531,9 @@ void asmgen(){
                             add_var(pp->res->var_str);
                             cur_offset -= 4;
                             find_var(pp->res->var_str)->offset = cur_offset;
+                        }
+                        if(is_in_reg(pp->res->var_str)){
+                            dec_reg_contain_var(pp->res->var_str,get_reg(pp->res->var_str));
                         }
                         inc_reg_contain_var(pp->res->var_str,get_reg(tmp_res));
                         add_var_in_reg(get_reg(tmp_res),find_var(pp->res->var_str));
@@ -494,6 +571,9 @@ void asmgen(){
                             cur_offset -= 4;
                             find_var(pp->res->var_str)->offset = cur_offset;
                         }
+                        if(is_in_reg(pp->res->var_str)){
+                            dec_reg_contain_var(pp->res->var_str,get_reg(pp->res->var_str));
+                        }
                         inc_reg_contain_var(pp->res->var_str,get_reg(tmp_res));
                         add_var_in_reg(get_reg(tmp_res),find_var(pp->res->var_str));
                         find_var(pp->res->var_str)->is_in_mem = 0;
@@ -508,7 +588,6 @@ void asmgen(){
             case ICN_GOTO:
                 {
                     Log4(" ICN_GOTO");
-                    save_all();
                     mips_inc* mi = insert_new_inc();
                     mi->type = asm_j;
                     mi->label = pp->label;
@@ -517,7 +596,6 @@ void asmgen(){
             case ICN_IF:
                 {
                     Log4(" ICN_IF");
-                    save_all();
                     pp->use_addr = 0;
                     pre_process_ic(pp);
                     mips_inc* mi = insert_new_inc();
@@ -571,12 +649,12 @@ void asmgen(){
                     }
 
                     /*
-                    mips_inc* mi2 = insert_new_inc();
-                    mi2->op1 = 29;
-                    mi2->dst = 29;
-                    mi2->imm = -4*(param_amt); //put stack pointer back
-                    mi2->type = asm_addi;
-                    */
+                       mips_inc* mi2 = insert_new_inc();
+                       mi2->op1 = 29;
+                       mi2->dst = 29;
+                       mi2->imm = -4*(param_amt); //put stack pointer back
+                       mi2->type = asm_addi;
+                       */
                     mips_inc* mi3 = insert_new_inc();
                     mi3->type = asm_jr;
                     mi3->dst = 31;
@@ -642,14 +720,15 @@ void asmgen(){
             case ICN_CALL:
                 {
                     Log4(" ICN_CALL");
-                    save_all();
                     mips_inc* mi = insert_new_inc();
                     /* new stack */
                     mi->type = asm_addi;
                     mi->dst = 29;
                     mi->op1 = 29;
                     mi->imm = cur_offset;
+                    save_all();
                     /* jal */
+                    find_var(cur_func_name)->in_reg[31] = 0;
                     mi = insert_new_inc();
                     mi->type = asm_jal;
                     mi->label = pp->label;
@@ -669,7 +748,11 @@ void asmgen(){
                     }
                     int res_reg = get_reg(pp->res->var_str);
                     add_var_in_reg(res_reg,find_var(pp->res->var_str));
+                    if(is_in_reg(pp->res->var_str)){
+                        dec_reg_contain_var(pp->res->var_str,get_reg(pp->res->var_str));
+                    }
                     inc_reg_contain_var(pp->res->var_str,res_reg);
+                    find_var(pp->res->var_str)->is_in_mem = 0;
                     mi = insert_new_inc();
                     mi->type = asm_move;
                     mi->dst = res_reg;
@@ -690,10 +773,11 @@ void asmgen(){
                     Log4(" ICN_READ");
                     save_all();
                     /* jal */
+                    find_var(cur_func_name)->in_reg[31] = 0;
                     mips_inc* mi = insert_new_inc();
                     mi->type = asm_jal;
-                    mi->label = pp->label;
-                    
+                    mi->label = label_read;
+
                     /* move */
                     if(!find_var(pp->res->var_str)){
                         add_var(pp->res->var_str);
@@ -702,7 +786,11 @@ void asmgen(){
                     }
                     int res_reg = get_reg(pp->res->var_str);
                     add_var_in_reg(res_reg,find_var(pp->res->var_str));
+                    if(is_in_reg(pp->res->var_str)){
+                        dec_reg_contain_var(pp->res->var_str,get_reg(pp->res->var_str));
+                    }
                     inc_reg_contain_var(pp->res->var_str,res_reg);
+                    find_var(pp->res->var_str)->is_in_mem = 0;
                     mi = insert_new_inc();
                     mi->type = asm_move;
                     mi->dst = res_reg;
@@ -713,13 +801,13 @@ void asmgen(){
                 {
                     Log4(" ICN_WRITE");
                     /*ARG can not be deref !*/
-                    save_all();
                     /* move */
                     if(pp->res->kind == OP_INT){
                         mips_inc* mi = insert_new_inc();
                         mi->dst = 4;
                         mi->imm = pp->res->val_int;
                         mi->type = asm_li;
+                        save_all();
                     }
                     else{
                         mips_inc* mi = insert_new_inc();
@@ -728,21 +816,36 @@ void asmgen(){
                             mi->dst = 4;
                             mi->op1 = 29; //$sp
                             mi->imm = find_var(pp->res->var_str)->offset;
+                            save_all();
                         }
                         else{
                             /*move*/
+                            if(is_in_reg(pp->res->var_str) == -1){
+                                mi = insert_new_inc();
+                                mi->type = asm_lw;
+                                mi->dst = alloc_reg(pp->res->var_str);
+                                mi->op1 = 29; //$sp
+                                mi->imm = find_var(pp->res->var_str)->offset;
+                            }
                             mi->type = asm_move;
                             mi->dst = 4;
-                            mi->dst = get_reg(pp->res->var_str);
+                            mi->op1 = get_reg(pp->res->var_str);
+                            save_all();
                         }
                     }
 
                     /* jal */
+                    find_var(cur_func_name)->in_reg[31] = 0;
                     mips_inc* mi = insert_new_inc();
                     mi->type = asm_jal;
-                    mi->label = pp->label;
+                    mi->label = label_write;
                     break;
                 }
+        }
+
+        if(p->next != &code_head && pnext->kind == ICN_LABEL) {
+            Log4("LAST STATMENT IS LABEL");
+            save_all();
         }
     }
     Log4();

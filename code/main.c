@@ -20,6 +20,7 @@ extern void print_asm();
 
 int enable_debug = 0;
 int wall = 0;
+int output_intercode = 0;
 
 #ifdef __LEXER_DEBUG__
 int main(int argc,char** argv){
@@ -45,6 +46,9 @@ int main(int argc,char** argv){
         if (strcmp(argv[i],"-Wall")==0){
             wall = 1;
         }
+        if (strcmp(argv[i],"-ic")==0){
+            output_intercode = 1;
+        }
     }
 	FILE* f = fopen(argv[1], "r"); 
 	if (!f) { 
@@ -60,12 +64,16 @@ int main(int argc,char** argv){
     find_leader();
     dag_opti();
     peep_opti();
-    if(enable_debug){
+    if(output_intercode){
         print_code();
     }
-    Log4();
-    asmgen();
-    print_asm();
+    else{
+        if(enable_debug){
+            print_code();
+        }
+        asmgen();
+        print_asm();
+    }
 	return 0; 
 }
 #endif

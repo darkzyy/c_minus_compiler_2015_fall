@@ -2,6 +2,7 @@
 #include"debug.h"
 #include"asmgen.h"
 #include"asmprint.h"
+#include"api.h"
 
 char* reg_str[32] = {
     "$zero",
@@ -38,12 +39,16 @@ char* reg_str[32] = {
     "$ra"
 };
 
+void print_api(FILE* ff){
+    fprintf(ff,"%s%s%s%s%s",data_seg,global_seg,text_seg_start,func_read,func_write);
+}
+
 #define pp list_entry(p,mips_inc,list)
 
 void print_asm(){
     ListHead* p = NULL;
-    Log4();
     FILE* f = stdout;
+    print_api(f);
     list_foreach(p,&asm_head){
         switch(list_entry(p,mips_inc,list)->type){
             case asm_label:

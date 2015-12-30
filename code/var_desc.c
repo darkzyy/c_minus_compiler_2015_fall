@@ -59,3 +59,12 @@ void print_var(){
         printf("\n");
     }
 }
+
+void del_var(char* var_str){
+    var_desc* vd;
+    HASH_FIND_STR(vd_head,var_str,vd);
+    if(vd){
+        HASH_DEL(vd_head,vd);
+        free(vd);
+    }
+}

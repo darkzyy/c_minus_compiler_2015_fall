@@ -463,6 +463,10 @@ void asmgen(){
             case ICN_ASSIGN:
                 {
                     Log4(" ICN_ASSIGN");
+                    if(pp->res->var_str[0] == 'b'){
+
+                        break;
+                    }
                     pre_process_op1(pp);
                     if(!pp->use_addr && pp->res->kind == OP_ADDR){
                         mips_inc* mi = insert_new_inc();

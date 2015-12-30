@@ -24,6 +24,7 @@ int main() {
         }
         
         if(sum == n) {
+            write(n);
             write(n == ans[k]);
             k = k + 1;
         }

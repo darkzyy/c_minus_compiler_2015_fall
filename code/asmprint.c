@@ -91,7 +91,7 @@ void print_asm(){
                 }
             case asm_div:
                 {
-                    fprintf(f,"  div %s,%s,%s\n",reg_str[pp->dst],
+                    fprintf(f,"  div %s,%s\n",
                                 reg_str[pp->op1],reg_str[pp->op2]);
                     break;
                 }

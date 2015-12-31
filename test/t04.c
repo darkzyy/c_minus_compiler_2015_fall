@@ -1,5 +1,5 @@
 int main(){
-    int a[2],x;
+    int a[3],x;
     a[0] = 1;
     a[1] = 2;
     x = a[0]+a[1];

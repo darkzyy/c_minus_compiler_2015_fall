@@ -11,6 +11,10 @@ int main() {
     ans[1] = 28;
     ans[2] = 496;
 
+    write(ans[0]);
+    write(ans[1]);
+    write(ans[2]);
+
     n = 1;
     while (n < 500) {
         sum = 0;

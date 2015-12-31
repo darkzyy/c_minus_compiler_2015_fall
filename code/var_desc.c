@@ -68,3 +68,11 @@ void del_var(char* var_str){
         free(vd);
     }
 }
+
+void del_all(){
+    var_desc* vd,*tmp;
+    HASH_ITER(hh,vd_head,vd,tmp){
+        HASH_DEL(vd_head,vd);
+        free(vd);
+    }
+}
